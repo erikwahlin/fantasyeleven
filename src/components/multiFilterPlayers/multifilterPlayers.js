@@ -152,7 +152,7 @@ const groupByTeam = (playerList, team = 'aston villa') => {
 let team = 'aston villa'
 console.log(groupByTeam(players, team)) // team är alltså det laget användaren väljer. 
 console.log(sortPriceDesc(players)) //bygger ny array av objekt och ger tillbaka astonvilla-spelare.
-console.log(sortPriceAsc(players)) 
+console.log(sortPriceAsc(players))      
 
 //sort by name. // make a function which looks for string containing specific letters.
 
@@ -163,13 +163,11 @@ const INITIAL_STATE = {
   },
   searchTerm: '',
   team: '',
-
 }
 
 class App extends Component {
   constructor(props) {
     super(props)
-
     this.state = { ...INITIAL_STATE }
     this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
     this.handleSortAsc = this.handleSortAsc.bind(this);
@@ -184,7 +182,6 @@ class App extends Component {
     })
   }
   handleSortAsc(){
-
     this.setState(prevState => ({
       price: {                   // object that we want to update
           ...prevState.price,    // keep all other key-value pairs
@@ -192,8 +189,8 @@ class App extends Component {
       }
   }))
 }
+
   handleSortDesc() {
-    
     this.setState(prevState => ({
       price: {                   // object that we want to update
           ...prevState.price,    // keep all other key-value pairs
@@ -201,6 +198,7 @@ class App extends Component {
       }
   }))
 }
+
   handleTextFilterChange(event) {
     this.setState({ searchTerm: event.target.value });
   }
@@ -208,6 +206,9 @@ class App extends Component {
   handleTeamOptionChange(event) {
     event.preventDefault();
     this.setState({ team: event.target.value })
+  }
+  resetFilter(e) {
+    this.setState({ ...INITIAL_STATE })
   }
   render() {
     return (
@@ -221,13 +222,17 @@ class App extends Component {
           })}
         </select>
 
+
         <input name="name" onChange={this.handleTextFilterChange} placeholder="Spelarnamn ..."></input>
+
+        <button onClick={(e) => this.resetFilter(e)}>ta bort alla filter</button>
         <ul>
         {
         this.filterByName(players, this.state.searchTerm).map((elem, i) => {
           return (<li key={i}><strong>{elem.name}</strong> {' PRIS: '}{elem.price}{'Milj'}{' lag: '} {elem.team}</li>)
         }) 
         }
+        
         </ul>
       </div>
     );
