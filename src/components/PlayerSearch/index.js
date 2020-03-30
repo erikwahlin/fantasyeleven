@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
-//import '../App.css';
+import './index.css';
 
 const config = {
 	positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
@@ -15,7 +15,7 @@ const config = {
 const INITIAL_STATE = {
 	position: 'default',
 	team: 'default',
-	maxPrice: '',
+	maxPrice: '4',
 	searchTerm: '',
 
 	sortBy: 'default',
@@ -232,7 +232,7 @@ class PlayerSearch extends Component {
 				{/* Max Price filter */}
 				<input
 					type='number'
-					step='0.1'
+					step='0.5'
 					onChange={e => this.maxPriceHandler(e.target.value)}
 					placeholder='Maxpris (milj.)'
 					value={maxPrice}
