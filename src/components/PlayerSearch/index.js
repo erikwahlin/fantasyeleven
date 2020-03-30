@@ -38,9 +38,9 @@ class PlayerSearch extends Component {
 		this.state = { ...INITIAL_STATE };
 
 		this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
-		this.handleSortAsc = this.handleSortAsc.bind(this);
-		this.handleSortDesc = this.handleSortDesc.bind(this);
-		this.handleTeamOptionChange = this.handleTeamOptionChange.bind(this);
+		//this.handleSortAsc = this.handleSortAsc.bind(this);
+		//this.handleSortDesc = this.handleSortDesc.bind(this);
+		//this.handleTeamOptionChange = this.handleTeamOptionChange.bind(this);
 
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
@@ -163,10 +163,10 @@ class PlayerSearch extends Component {
 		this.setState({ searchTerm: event.target.value });
 	}
 
-	handleTeamOptionChange(event) {
+	/* handleTeamOptionChange(event) {
 		event.preventDefault();
 		this.setState({ team: event.target.value });
-	}
+	} */
 
 	render() {
 		const { players } = this.props;
