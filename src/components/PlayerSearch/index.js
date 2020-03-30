@@ -1,6 +1,95 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
-//import '../App.css';
+import styled from 'styled-components';
+
+// temp-style
+const Select = styled.select`
+	width: 202px;
+	height: 30px;
+	margin: 5px;
+	border: none;
+	outline: none;
+
+	background: #fff;
+	box-shadow: 0 0 5px #eee;
+
+	cursor: pointer;
+`;
+
+const Input = styled.input`
+	margin: 5px;
+	width: 200px;
+	height: 30px;
+	border: none;
+	border-radius: 4px;
+	outline: none;
+
+	background: #fff;
+	box-shadow: 0 0 5px #eee;
+
+	cursor: text;
+`;
+
+const Button = styled.button`
+	margin: 5px;
+	width: 200px;
+	height: 30px;
+	border: none;
+	border-radius: 4px;
+	outline: none;
+
+	background: #fff;
+	box-shadow: 0 0 5px #eee;
+
+	cursor: pointer;
+`;
+
+const ResultBox = styled.div`
+	width: 500px;
+	display: flex;
+	flex-direction: column;
+`;
+
+const Section = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+`;
+
+const LabelRow = styled.div`
+	width: 100%;
+	display: flex;
+	background: orange;
+	font-weight: 700;
+`;
+
+const PlayerRow = styled.div`
+	width: 100%;
+	display: flex;
+	font-size: 0.7em;
+	font-style: italic;
+	border: 2px solid #ddd;
+	padding: 5px;
+`;
+
+const PlayerInfoBtn = styled.button`
+	flex: 1;
+
+	border: none;
+	outline: none;
+	background: #ddd;
+	font-weight: 700;
+	cursor: pointer;
+`;
+
+const PlayerInfo = styled.div`
+	flex: 3;
+	padding: 5px;
+`;
+
+const PlayerPrice = styled.div`
+	flex: 1;
+	padding: 5px;
+`;
 
 const config = {
 	positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
@@ -18,7 +107,7 @@ const INITIAL_STATE = {
 	maxPrice: '',
 	searchTerm: '',
 
-	sortBy: 'default',
+	sortBy: 'position',
 	sortOrder: '<',
 
 	price: {
@@ -172,6 +261,15 @@ class PlayerSearch extends Component {
 		const { players } = this.props;
 		if (!players) return <p>Didn't find any players</p>;
 
+		const {
+			position,
+			team,
+			maxPrice,
+			searchTerm,
+			sortBy,
+			sortOrder
+		} = this.state;
+
 		//sorting functionality.
 		//sort array of obj by position.
 		//just sort position in alphabetic orders.
@@ -188,14 +286,56 @@ class PlayerSearch extends Component {
 		// Apply order-config
 		const sorted = this.applySortBy(filtered);
 
-		const { position, team, maxPrice, searchTerm } = this.state;
+		// array-split by position
+		if (sortBy === 'position') {
+			const positionSplit = [...config.positions.map(pos => [])];
+		}
+
+		// WIP-test. split into result-sections based on sort
+		const sectionFilter = items => {
+			const splitByPosition = () => {
+				const res = [];
+				config.positions.forEach(pos => res.push([]));
+
+				items.forEach(item => {
+					switch (item.position) {
+						case 'Goalkeeper':
+							res[0].push(item);
+							break;
+						case 'Defender':
+							res[1].push(item);
+							break;
+						case 'Midfielder':
+							res[2].push(item);
+							break;
+						case 'Forward':
+							res[3].push(item);
+							break;
+						default:
+							break;
+					}
+				});
+				return this.state.sortOrder === '<' ? res : res.reverse();
+			};
+
+			switch (sortBy) {
+				case 'position':
+					return splitByPosition();
+				default:
+					return [[...items]];
+			}
+		};
+
+		const result = sectionFilter(sorted);
+
+		console.log('RESULT', result);
 
 		return (
 			<div className='App'>
 				{/* FILTER */}
-
+				(FILTER) <br /> {/* temp */}
 				{/* Position filter */}
-				<select
+				<Select
 					onChange={e => this.updateState('position', e.target.value)}
 					value={position}
 				>
@@ -207,12 +347,10 @@ class PlayerSearch extends Component {
 							</option>
 						);
 					})}
-				</select>
-
+				</Select>
 				<br />
-
 				{/* Team filter */}
-				<select
+				<Select
 					onChange={e => this.updateState('team', e.target.value)}
 					id='teams'
 					value={team}
@@ -225,70 +363,81 @@ class PlayerSearch extends Component {
 							</option>
 						);
 					})}
-				</select>
-
+				</Select>
 				<br />
-
 				{/* Max Price filter */}
-				<input
+				<Input
 					type='number'
 					step='0.1'
 					onChange={e => this.maxPriceHandler(e.target.value)}
 					placeholder='Maxpris (milj.)'
 					value={maxPrice}
-				></input>
-
+				></Input>
 				<br />
-
 				{/* Player name filter */}
-				<input
+				<Input
 					type='text'
 					name='name'
 					onChange={this.handleTextFilterChange}
 					placeholder='Spelarnamn'
-				></input>
-
+				></Input>
+				<br />
+				<br />
 				{/* SORT */}
-
+				(SORTERING) <br /> {/* temp */}
 				{/* Sort By */}
-				<select
+				<Select
 					onChange={e => this.updateState('sortBy', e.target.value)}
-					defaultValue='default'
+					value={sortBy}
 				>
-					<option value='default'>- Sortera efter -</option>
 					{Object.entries(config.sortOptions).map(([key, val]) => {
 						return (
 							<option key={key} value={key}>
-								{val}
+								sortera efter {val}
 							</option>
 						);
 					})}
-				</select>
-
-				{/* Sort Order */}
-				<select
-					onChange={e => this.updateState('sortOrder', e.target.value)}
-					defaultValue='<'
-				>
-					<option value='<'>Stigande</option>
-					<option value='>'>Fallande</option>
-				</select>
-
-				<button onClick={this.resetSettings}>Återställ filter</button>
-
+				</Select>
 				<br />
-
+				{/* Sort Order */}
+				<Select
+					onChange={e => this.updateState('sortOrder', e.target.value)}
+					value={sortOrder}
+				>
+					<option value='<'>visa stigande {'<'}</option>
+					<option value='>'>visa fallande {'>'}</option>
+				</Select>
+				<br />
+				<br />
+				<Button onClick={this.resetSettings}>Återställ filter</Button>
+				<br />
+				<br />
 				{/* RESULT */}
-				<ul>
-					{sorted.map((elem, i) => {
+				<ResultBox>
+					{result.map((section, nth) => {
 						return (
-							<li key={i}>
-								<strong>{elem.name}</strong> Lag: {elem.team} |
-								Position: {elem.position} | Pris: {elem.price}milj.
-							</li>
+							<Section key={nth}>
+								<LabelRow>Section Label</LabelRow>
+								{section.map((player, i) => {
+									return (
+										<PlayerRow key={i}>
+											<PlayerInfoBtn>info</PlayerInfoBtn>
+											<PlayerInfo>
+												<p>{player.name}</p>
+												<p>
+													{player.team} - {player.position}
+												</p>
+											</PlayerInfo>
+											<PlayerPrice>
+												<p>{player.price} milj.</p>
+											</PlayerPrice>
+										</PlayerRow>
+									);
+								})}
+							</Section>
 						);
 					})}
-				</ul>
+				</ResultBox>
 			</div>
 		);
 	}
