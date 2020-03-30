@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
-import PlayerSearch from '../PlayerSearch';
+import MyTeam from '../MyTeam';
 
 class HomePage extends Component {
 	constructor(props) {
@@ -31,9 +31,8 @@ class HomePage extends Component {
 		return (
 			<div>
 				<h1>Home Page</h1>
-				<p>
-					<PlayerSearch />
-				</p>
+
+				<MyTeam />
 			</div>
 		);
 	}
