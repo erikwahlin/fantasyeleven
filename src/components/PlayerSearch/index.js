@@ -15,7 +15,7 @@ const config = {
 const INITIAL_STATE = {
 	position: 'default',
 	team: 'default',
-	maxPrice: '4',
+	maxPrice: 'default',
 	searchTerm: '',
 
 	sortBy: 'default',
@@ -142,7 +142,7 @@ class PlayerSearch extends Component {
 	/* handleSortAsc() {
 		this.setState(prevState => ({
 			price: {
-				// object that we want to update
+				//	 object that we want to update
 				...prevState.price, // keep all other key-value pairs
 				highLow: !this.state.highLow // update the value of specific key
 			}
@@ -234,7 +234,7 @@ class PlayerSearch extends Component {
 				
 				<select
 				onChange={e => this.maxPriceHandler(e.target.value)}
-				placeholder='Maxpris i Milj.'
+				placeholder='Maxpris'
 				>
 					<option value='default'>- Välj maxpris -</option>
 					{priceTags.sort((a,b) => b-a).map(price => {
@@ -242,8 +242,8 @@ class PlayerSearch extends Component {
 							<option key={price} value={price}>
 								{price} kr
 							</option>
-													);
-												})}
+						);
+					})}
 				</select> 
 				
 				<input
