@@ -4,7 +4,7 @@ export const players = [
 		name: 'Bernd Leno',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkDw8jrP415N0Ql'
 	},
 	{
@@ -12,7 +12,7 @@ export const players = [
 		name: 'Emiliano Martines',
 		position: 'Goalkeeper',
 		price: '4.3',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkFIXM8B24jL2LL'
 	},
 	{
@@ -20,7 +20,7 @@ export const players = [
 		name: 'Hector Bellerin',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkG2jxJNLwkCGHY'
 	},
 	{
@@ -28,7 +28,7 @@ export const players = [
 		name: 'Sokratis',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkHrJnOWiHZEasP'
 	},
 	{
@@ -36,7 +36,7 @@ export const players = [
 		name: 'Rob Holding',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkI7juTRgLH21_d'
 	},
 	{
@@ -44,7 +44,7 @@ export const players = [
 		name: 'Shkodran Mustafi',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkI7juTRgLH21_e'
 	},
 	{
@@ -52,7 +52,7 @@ export const players = [
 		name: 'Sead Kolasinac',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkK_V60NFUPfaU8'
 	},
 	{
@@ -60,7 +60,7 @@ export const players = [
 		name: 'Calum Chambers',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkK_V60NFUPfaU9'
 	},
 	{
@@ -68,7 +68,7 @@ export const players = [
 		name: 'Kieran Tierney',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkLz4lhk2lr6GnF'
 	},
 	{
@@ -76,7 +76,7 @@ export const players = [
 		name: 'Davis Luiz',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkMYh5D8wP2rfq5'
 	},
 	{
@@ -84,7 +84,7 @@ export const players = [
 		name: 'Ainsley Maitland-Niles',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkNEeDge1yZrKQZ'
 	},
 	{
@@ -92,7 +92,7 @@ export const players = [
 		name: 'Mezut Özil',
 		position: 'Midfielder',
 		price: '7.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkNEeDge1yZrKQ_'
 	},
 	{
@@ -100,7 +100,7 @@ export const players = [
 		name: 'Lucas Torreira',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkOth8pqvQ_rMWo'
 	},
 	{
@@ -108,7 +108,7 @@ export const players = [
 		name: 'Matteo Guendouzi',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkP9d_7VNxEq5uY'
 	},
 	{
@@ -116,7 +116,7 @@ export const players = [
 		name: 'Granit Xhaka',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkQ0yOrlVW-jfUJ'
 	},
 	{
@@ -124,7 +124,7 @@ export const players = [
 		name: 'Joseph Willock',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkQ0yOrlVW-jfUK'
 	},
 	{
@@ -132,7 +132,7 @@ export const players = [
 		name: 'Dani Ceballos',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkR7Et-rKXAyKhQ'
 	},
 	{
@@ -140,7 +140,7 @@ export const players = [
 		name: 'Nicolas Pépé',
 		position: 'Midfielder',
 		price: '9.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkSdzutgxPQlrD9'
 	},
 	{
@@ -148,7 +148,7 @@ export const players = [
 		name: 'Reiss Nelson',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkTFK355bHoLrVs'
 	},
 	{
@@ -156,7 +156,7 @@ export const players = [
 		name: 'Bukayo Saka',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkTFK355bHoLrVt'
 	},
 	{
@@ -164,7 +164,7 @@ export const players = [
 		name: 'Alexandre Lacazette',
 		position: 'Forward',
 		price: '9.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkVFZJ83rmljPt4'
 	},
 	{
@@ -172,7 +172,7 @@ export const players = [
 		name: 'Pierre-Emerick Aubameyang',
 		position: 'Forward',
 		price: '11.0',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkWjjgLB4j1Hcmu'
 	},
 	{
@@ -180,7 +180,7 @@ export const players = [
 		name: 'Gabriel Martinelli',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkXn0fyQT0NZw7H'
 	},
 	{
@@ -188,7 +188,7 @@ export const players = [
 		name: 'Eddie Nketiah',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Arsenal',
+		club: 'Arsenal',
 		uid: '-M3QcYkXn0fyQT0NZw7I'
 	},
 	{
@@ -196,7 +196,7 @@ export const players = [
 		name: 'Orjan Nyland',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkY7Jv8Bem2DxyL'
 	},
 	{
@@ -204,7 +204,7 @@ export const players = [
 		name: 'Jed Steer',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkZXtc7j9IgaMxN'
 	},
 	{
@@ -212,7 +212,7 @@ export const players = [
 		name: 'Tom Heaton',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYk_ikyJw9yuLALM'
 	},
 	{
@@ -220,7 +220,7 @@ export const players = [
 		name: 'Pepe Reina',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYk_ikyJw9yuLALN'
 	},
 	{
@@ -228,7 +228,7 @@ export const players = [
 		name: 'Neil Taylor',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkahXHzZH9q-CiU'
 	},
 	{
@@ -236,7 +236,7 @@ export const players = [
 		name: 'Ahmed El Mohamady',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkbOr8NxFZQi5W5'
 	},
 	{
@@ -244,7 +244,7 @@ export const players = [
 		name: 'Frederic Guilbert',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkc0q5JDsszeh1o'
 	},
 	{
@@ -252,7 +252,7 @@ export const players = [
 		name: 'Matt Targett',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkdtfv1vgWeBSQl'
 	},
 	{
@@ -260,7 +260,7 @@ export const players = [
 		name: 'Kortney Hause',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkeS61swKVWH3JV'
 	},
 	{
@@ -268,7 +268,7 @@ export const players = [
 		name: 'Tyrone Mings',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkeS61swKVWH3JW'
 	},
 	{
@@ -276,7 +276,7 @@ export const players = [
 		name: 'Bjorn Engels',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkfcDZZ_U_iESAV'
 	},
 	{
@@ -284,7 +284,7 @@ export const players = [
 		name: 'John McGinn',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkg41Xo6AIvLoqd'
 	},
 	{
@@ -292,7 +292,7 @@ export const players = [
 		name: 'Henri Lansbury',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkg41Xo6AIvLoqe'
 	},
 	{
@@ -300,7 +300,7 @@ export const players = [
 		name: 'Jack Grealish',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkhKvIpqKKn9gDa'
 	},
 	{
@@ -308,7 +308,7 @@ export const players = [
 		name: 'Conor Hourihane',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkiV70KlIm-60NI'
 	},
 	{
@@ -316,7 +316,7 @@ export const players = [
 		name: 'Keinan Davis',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkiV70KlIm-60NJ'
 	},
 	{
@@ -324,7 +324,7 @@ export const players = [
 		name: 'Jota',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkjfic2LzPXkBK4'
 	},
 	{
@@ -332,7 +332,7 @@ export const players = [
 		name: 'Anwar El Ghazi',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkksEgooLfnFXMp'
 	},
 	{
@@ -340,7 +340,7 @@ export const players = [
 		name: 'Trézéguet',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkksEgooLfnFXMq'
 	},
 	{
@@ -348,7 +348,7 @@ export const players = [
 		name: 'Douglas Luiz',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYklgqUuzB0jlL7P'
 	},
 	{
@@ -356,7 +356,7 @@ export const players = [
 		name: 'Marvelous Nakamba',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkmO7vUxBDhnf2e'
 	},
 	{
@@ -364,7 +364,7 @@ export const players = [
 		name: 'Daniel Drinkwater',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYknVfA8b8m9C31Q'
 	},
 	{
@@ -372,7 +372,7 @@ export const players = [
 		name: 'Indiana Vassilev',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYknVfA8b8m9C31R'
 	},
 	{
@@ -380,7 +380,7 @@ export const players = [
 		name: 'Wesley',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYko6i2HFVCgjdOS'
 	},
 	{
@@ -388,7 +388,7 @@ export const players = [
 		name: 'Mbwana Samatta',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkpYTf7ZJHWkAxG'
 	},
 	{
@@ -396,7 +396,7 @@ export const players = [
 		name: 'Borja Bastón',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Aston Villa',
+		club: 'Aston Villa',
 		uid: '-M3QcYkqujDI2EYDhqwK'
 	},
 	{
@@ -404,7 +404,7 @@ export const players = [
 		name: 'Artur Boruc',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkqujDI2EYDhqwL'
 	},
 	{
@@ -412,7 +412,7 @@ export const players = [
 		name: 'Mark Travers',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkrMaGidFbNFNCm'
 	},
 	{
@@ -420,7 +420,7 @@ export const players = [
 		name: 'Aaron Ramsdale',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYktxl9_q9TvLBq-'
 	},
 	{
@@ -428,7 +428,7 @@ export const players = [
 		name: 'Simon Francis',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYktxl9_q9TvLBq0'
 	},
 	{
@@ -436,7 +436,7 @@ export const players = [
 		name: 'Steve Cook',
 		position: 'Defender',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkuGwd5iaWYfMxm'
 	},
 	{
@@ -444,7 +444,7 @@ export const players = [
 		name: 'Nathan Aké',
 		position: 'Defender',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkvhDmTYt794YIu'
 	},
 	{
@@ -452,7 +452,7 @@ export const players = [
 		name: 'Charlie Daniels',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkvhDmTYt794YIv'
 	},
 	{
@@ -460,7 +460,7 @@ export const players = [
 		name: 'Adam Smith',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkwFAZyaXXhXAFV'
 	},
 	{
@@ -468,7 +468,7 @@ export const players = [
 		name: 'Diego Rico',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkxZhkCV9ywkYFh'
 	},
 	{
@@ -476,7 +476,7 @@ export const players = [
 		name: 'Jack Simpson',
 		position: 'Defender',
 		price: '4.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkxZhkCV9ywkYFi'
 	},
 	{
@@ -484,7 +484,7 @@ export const players = [
 		name: 'Chris Mepham',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkyHmGG83rub03m'
 	},
 	{
@@ -492,7 +492,7 @@ export const players = [
 		name: 'Lloyd Kelly',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkzLgh-GoF-JYOZ'
 	},
 	{
@@ -500,7 +500,7 @@ export const players = [
 		name: 'Jack Stacey',
 		position: 'Defender',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYkzLgh-GoF-JYO_'
 	},
 	{
@@ -508,7 +508,7 @@ export const players = [
 		name: 'Dan Gosling',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl-TlW7VOpYXeNo'
 	},
 	{
@@ -516,7 +516,7 @@ export const players = [
 		name: 'Andrew Surman',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl-TlW7VOpYXeNp'
 	},
 	{
@@ -524,7 +524,7 @@ export const players = [
 		name: 'Jefferson Lerma',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl0LALwcDzuBLei'
 	},
 	{
@@ -532,7 +532,7 @@ export const players = [
 		name: 'Jordon Ibe',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl1CvRggsZUTrED'
 	},
 	{
@@ -540,7 +540,7 @@ export const players = [
 		name: 'Lewis Cook',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl1CvRggsZUTrEE'
 	},
 	{
@@ -548,7 +548,7 @@ export const players = [
 		name: 'Junios Stanislas',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl2vOcMivdKCb74'
 	},
 	{
@@ -556,7 +556,7 @@ export const players = [
 		name: 'David Brooks',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl2vOcMivdKCb75'
 	},
 	{
@@ -564,7 +564,7 @@ export const players = [
 		name: 'Ryan Fraser',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl3zXkpcM7yOOlK'
 	},
 	{
@@ -572,7 +572,7 @@ export const players = [
 		name: 'Philip Billing',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl4K-FkvEwBuCfN'
 	},
 	{
@@ -580,7 +580,7 @@ export const players = [
 		name: 'Harry Wilson',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl4K-FkvEwBuCfO'
 	},
 	{
@@ -588,7 +588,7 @@ export const players = [
 		name: 'Callum Wilson',
 		position: 'Forward',
 		price: '7.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl5mvUXesReg2_x'
 	},
 	{
@@ -596,7 +596,7 @@ export const players = [
 		name: 'Joshua King',
 		position: 'Forward',
 		price: '6.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl6O8Zw_RZ8owaZ'
 	},
 	{
@@ -604,7 +604,7 @@ export const players = [
 		name: 'Dominic Solanke',
 		position: 'Forward',
 		price: '5.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl6O8Zw_RZ8owa_'
 	},
 	{
@@ -612,7 +612,7 @@ export const players = [
 		name: 'Sam Surridge',
 		position: 'Forward',
 		price: '4.5',
-		team: 'AFC Bournemouth',
+		club: 'AFC Bournemouth',
 		uid: '-M3QcYl7cLziMj2ozt30'
 	},
 	{
@@ -620,7 +620,7 @@ export const players = [
 		name: 'Mat Ryan',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYl8YgL_vpCQiC6T'
 	},
 	{
@@ -628,7 +628,7 @@ export const players = [
 		name: 'David Button',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYl8YgL_vpCQiC6U'
 	},
 	{
@@ -636,7 +636,7 @@ export const players = [
 		name: 'Shane Duffy',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYl9LkTyOCbLNYW_'
 	},
 	{
@@ -644,7 +644,7 @@ export const players = [
 		name: 'Lewis Dunk',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlAizT_2MoGSifo'
 	},
 	{
@@ -652,7 +652,7 @@ export const players = [
 		name: 'Martín Montoya',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlAizT_2MoGSifp'
 	},
 	{
@@ -660,7 +660,7 @@ export const players = [
 		name: 'Bernardo',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlBCml18IGO1SIW'
 	},
 	{
@@ -668,7 +668,7 @@ export const players = [
 		name: 'Dan Burn',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlBCml18IGO1SIX'
 	},
 	{
@@ -676,7 +676,7 @@ export const players = [
 		name: 'Ezequiel Schelotto',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlCxRqgF3d2yUgJ'
 	},
 	{
@@ -684,7 +684,7 @@ export const players = [
 		name: 'Adam Webster',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlDhfG2_RaoRNG3'
 	},
 	{
@@ -692,7 +692,7 @@ export const players = [
 		name: 'Tariq Lamptey',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlDhfG2_RaoRNG4'
 	},
 	{
@@ -700,7 +700,7 @@ export const players = [
 		name: 'Yves Bissouma',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlEKM2CSaadNBHk'
 	},
 	{
@@ -708,7 +708,7 @@ export const players = [
 		name: 'Pascal Gross',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlFddNKApdQIn91'
 	},
 	{
@@ -716,7 +716,7 @@ export const players = [
 		name: 'Solly March',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlFddNKApdQIn92'
 	},
 	{
@@ -724,7 +724,7 @@ export const players = [
 		name: 'Davy Propper',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlGjjiyN20q1VMz'
 	},
 	{
@@ -732,7 +732,7 @@ export const players = [
 		name: 'Leandra Trossard',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlH3RWUnyiQ-Wl2'
 	},
 	{
@@ -740,7 +740,7 @@ export const players = [
 		name: 'Aaron Mooy',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlIeYnSgkt3Npsc'
 	},
 	{
@@ -748,7 +748,7 @@ export const players = [
 		name: 'Alireza Jahanbakhsh',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlJ0xo024XTZdLZ'
 	},
 	{
@@ -756,7 +756,7 @@ export const players = [
 		name: 'Glenn Murray',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlKXUEzxxnBmbM6'
 	},
 	{
@@ -764,7 +764,7 @@ export const players = [
 		name: 'Neal Maupay',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlKXUEzxxnBmbM7'
 	},
 	{
@@ -772,7 +772,7 @@ export const players = [
 		name: 'Aaron Connolly',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Brighton',
+		club: 'Brighton',
 		uid: '-M3QcYlL_ECNBcCj0QnJ'
 	},
 	{
@@ -780,7 +780,7 @@ export const players = [
 		name: 'Joe Hart',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlL_ECNBcCj0QnK'
 	},
 	{
@@ -788,7 +788,7 @@ export const players = [
 		name: 'Nick Pope',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlMwWhTekOVJEIR'
 	},
 	{
@@ -796,7 +796,7 @@ export const players = [
 		name: 'Bailey Peacock-Farrell',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlMwWhTekOVJEIS'
 	},
 	{
@@ -804,7 +804,7 @@ export const players = [
 		name: 'Matthew Lowton',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlNbTYUSWHmAnV0'
 	},
 	{
@@ -812,7 +812,7 @@ export const players = [
 		name: 'Charlie Taylor',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlNbTYUSWHmAnV1'
 	},
 	{
@@ -820,7 +820,7 @@ export const players = [
 		name: 'James Tarkowski',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlOKXj4YD4CJX6o'
 	},
 	{
@@ -828,7 +828,7 @@ export const players = [
 		name: 'Ben Mee',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlPWL4xztLv_cAU'
 	},
 	{
@@ -836,7 +836,7 @@ export const players = [
 		name: 'Ben Gibson',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlPWL4xztLv_cAV'
 	},
 	{
@@ -844,7 +844,7 @@ export const players = [
 		name: 'Phil Bardsley',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlQ6rX0MLcoBGgP'
 	},
 	{
@@ -852,7 +852,7 @@ export const players = [
 		name: 'Kevin Long',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlQ6rX0MLcoBGgQ'
 	},
 	{
@@ -860,7 +860,7 @@ export const players = [
 		name: 'Erik Pieters',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlRU_QqLHmq--Er'
 	},
 	{
@@ -868,7 +868,7 @@ export const players = [
 		name: 'Jack Cork',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlRU_QqLHmq--Es'
 	},
 	{
@@ -876,7 +876,7 @@ export const players = [
 		name: 'Jóhann Gudmundsson',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlSypXBHdTiwaNe'
 	},
 	{
@@ -884,7 +884,7 @@ export const players = [
 		name: 'Robbie Brady',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlSypXBHdTiwaNf'
 	},
 	{
@@ -892,7 +892,7 @@ export const players = [
 		name: 'Jeff Hendrick',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlTAQOKos9PpUr1'
 	},
 	{
@@ -900,7 +900,7 @@ export const players = [
 		name: 'Ashley Westwood',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlTAQOKos9PpUr2'
 	},
 	{
@@ -908,7 +908,7 @@ export const players = [
 		name: 'Aaron Lennon',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlUNCDGaz4bnkfL'
 	},
 	{
@@ -916,7 +916,7 @@ export const players = [
 		name: 'Matej Vydra',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlUNCDGaz4bnkfM'
 	},
 	{
@@ -924,7 +924,7 @@ export const players = [
 		name: 'Dwight McNeil',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlVjLrIS9MLr-w3'
 	},
 	{
@@ -932,7 +932,7 @@ export const players = [
 		name: 'Mace Goodridge',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlVjLrIS9MLr-w4'
 	},
 	{
@@ -940,7 +940,7 @@ export const players = [
 		name: 'Josh Brownhill',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlWEjm04K6c-pfc'
 	},
 	{
@@ -948,7 +948,7 @@ export const players = [
 		name: 'Ashley Barnes',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlWEjm04K6c-pfd'
 	},
 	{
@@ -956,7 +956,7 @@ export const players = [
 		name: 'Chris Wood',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlXxhd0Z-dNCwBe'
 	},
 	{
@@ -964,7 +964,7 @@ export const players = [
 		name: 'Jay Rodriguez ',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Burnley',
+		club: 'Burnley',
 		uid: '-M3QcYlYUhthNRZzYCCC'
 	},
 	{
@@ -972,7 +972,7 @@ export const players = [
 		name: 'Kepa Arrizabalaga',
 		position: 'Goalkeeper',
 		price: '6.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlYUhthNRZzYCCD'
 	},
 	{
@@ -980,7 +980,7 @@ export const players = [
 		name: 'Willy Caballero',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlZ2j67dBQ2QJyo'
 	},
 	{
@@ -988,7 +988,7 @@ export const players = [
 		name: 'Antonio Rüdiger',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlZ2j67dBQ2QJyp'
 	},
 	{
@@ -996,7 +996,7 @@ export const players = [
 		name: 'Marcos Alonso',
 		position: 'Defender',
 		price: '6.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYl_7ta9qgbNDk6O'
 	},
 	{
@@ -1004,7 +1004,7 @@ export const players = [
 		name: 'Andreas Christensen',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYl_7ta9qgbNDk6P'
 	},
 	{
@@ -1012,7 +1012,7 @@ export const players = [
 		name: 'César Azpilicueta',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlaKx1uBbfNap-1'
 	},
 	{
@@ -1020,7 +1020,7 @@ export const players = [
 		name: 'Emerson',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlbLj-AN2Ds_zBs'
 	},
 	{
@@ -1028,7 +1028,7 @@ export const players = [
 		name: 'Reece James',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlbLj-AN2Ds_zBt'
 	},
 	{
@@ -1036,7 +1036,7 @@ export const players = [
 		name: 'Kurt Zouma',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlcz2-1G_u-YF88'
 	},
 	{
@@ -1044,7 +1044,7 @@ export const players = [
 		name: 'Fikayo Tomori',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlcz2-1G_u-YF89'
 	},
 	{
@@ -1052,7 +1052,7 @@ export const players = [
 		name: 'Jorginho',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYldAQyqLDHhhwz9'
 	},
 	{
@@ -1060,7 +1060,7 @@ export const players = [
 		name: "N'Golo Kanté",
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYldAQyqLDHhhwzA'
 	},
 	{
@@ -1068,7 +1068,7 @@ export const players = [
 		name: 'Ross Barkley',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYle7QT9dlZoSYxO'
 	},
 	{
@@ -1076,7 +1076,7 @@ export const players = [
 		name: 'Ruben Loftus-Cheek',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYle7QT9dlZoSYxP'
 	},
 	{
@@ -1084,7 +1084,7 @@ export const players = [
 		name: 'Christian Pulisic',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlfEUj6fA5tfTeM'
 	},
 	{
@@ -1092,7 +1092,7 @@ export const players = [
 		name: 'Mateo Kovacic',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlfEUj6fA5tfTeN'
 	},
 	{
@@ -1100,7 +1100,7 @@ export const players = [
 		name: 'Mason Mount',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlgBoLqJcxsRJ6y'
 	},
 	{
@@ -1108,7 +1108,7 @@ export const players = [
 		name: 'Billy Gilmour',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlhG2k6wy0mNDM8'
 	},
 	{
@@ -1116,7 +1116,7 @@ export const players = [
 		name: 'Pedro',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYliAacf6rU8qk91'
 	},
 	{
@@ -1124,7 +1124,7 @@ export const players = [
 		name: 'Willian',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYljrpPRDEPFNzJP'
 	},
 	{
@@ -1132,7 +1132,7 @@ export const players = [
 		name: 'Callum Hudson-Odoi',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYljrpPRDEPFNzJQ'
 	},
 	{
@@ -1140,7 +1140,7 @@ export const players = [
 		name: 'Olivier Giroud',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlk0oWAgAAWvz6U'
 	},
 	{
@@ -1148,7 +1148,7 @@ export const players = [
 		name: 'Tammy Abraham',
 		position: 'Forward',
 		price: '7.5',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYlk0oWAgAAWvz6V'
 	},
 	{
@@ -1156,7 +1156,7 @@ export const players = [
 		name: 'Michy Batshuayi',
 		position: 'Forward',
 		price: '7.0',
-		team: 'Chelsea',
+		club: 'Chelsea',
 		uid: '-M3QcYll4sZR_BbVsX4l'
 	},
 	{
@@ -1164,7 +1164,7 @@ export const players = [
 		name: 'Wayne Hennessey',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYll4sZR_BbVsX4m'
 	},
 	{
@@ -1172,7 +1172,7 @@ export const players = [
 		name: 'Vicente Guaita',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlmpx_ZI_9uSuGj'
 	},
 	{
@@ -1180,7 +1180,7 @@ export const players = [
 		name: 'Stephen Henderson',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlmpx_ZI_9uSuGk'
 	},
 	{
@@ -1188,7 +1188,7 @@ export const players = [
 		name: 'Joel Ward',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlnnnwLWya1GIsI'
 	},
 	{
@@ -1196,7 +1196,7 @@ export const players = [
 		name: 'Patrick van Aanholt',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlnnnwLWya1GIsJ'
 	},
 	{
@@ -1204,7 +1204,7 @@ export const players = [
 		name: 'James Tomkins',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYloI5I_N3IgjjB4'
 	},
 	{
@@ -1212,7 +1212,7 @@ export const players = [
 		name: 'Mamadou Sakho',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYloI5I_N3IgjjB5'
 	},
 	{
@@ -1220,7 +1220,7 @@ export const players = [
 		name: 'Jeffrey Schlupp',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlprhO_zDT8exzp'
 	},
 	{
@@ -1228,7 +1228,7 @@ export const players = [
 		name: 'Martin Kelly',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlprhO_zDT8exzq'
 	},
 	{
@@ -1236,7 +1236,7 @@ export const players = [
 		name: 'Jairo Riedewald',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlqyOhrdiJaaaf-'
 	},
 	{
@@ -1244,7 +1244,7 @@ export const players = [
 		name: 'Scott Dann',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlrm3pIxU4OD9Ci'
 	},
 	{
@@ -1252,7 +1252,7 @@ export const players = [
 		name: 'Gary Cahill',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlrm3pIxU4OD9Cj'
 	},
 	{
@@ -1260,7 +1260,7 @@ export const players = [
 		name: 'Tyrick Mitchell',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlsQfxdDqaC-wlW'
 	},
 	{
@@ -1268,7 +1268,7 @@ export const players = [
 		name: 'Luka Milivojevic',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlt9f-INxrVpBHA'
 	},
 	{
@@ -1276,7 +1276,7 @@ export const players = [
 		name: 'Max Meyer',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlud2BYunamA6VH'
 	},
 	{
@@ -1284,7 +1284,7 @@ export const players = [
 		name: 'Cheikhou Kouyaté',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlud2BYunamA6VI'
 	},
 	{
@@ -1292,7 +1292,7 @@ export const players = [
 		name: 'Andros Townsend',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlv1-RFoAuvY6EN'
 	},
 	{
@@ -1300,7 +1300,7 @@ export const players = [
 		name: 'James McArthur',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlv1-RFoAuvY6EO'
 	},
 	{
@@ -1308,7 +1308,7 @@ export const players = [
 		name: 'James McCarthy',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlwLZKZqz9GFhLA'
 	},
 	{
@@ -1316,7 +1316,7 @@ export const players = [
 		name: 'Nya Kirby',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlwLZKZqz9GFhLB'
 	},
 	{
@@ -1324,7 +1324,7 @@ export const players = [
 		name: 'Brandon Pierrick Keutcha',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlx-NQ-niFbRRyu'
 	},
 	{
@@ -1332,7 +1332,7 @@ export const players = [
 		name: 'Wilfred Zaha',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlyxSU_s7kSE2a1'
 	},
 	{
@@ -1340,7 +1340,7 @@ export const players = [
 		name: 'Christian Benteke',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlyxSU_s7kSE2a2'
 	},
 	{
@@ -1348,7 +1348,7 @@ export const players = [
 		name: 'Jordan Ayew',
 		position: 'Forward',
 		price: '5.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlzQpS2qTA5f4mx'
 	},
 	{
@@ -1356,7 +1356,7 @@ export const players = [
 		name: 'Cenk Tosun',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Crystal Palace',
+		club: 'Crystal Palace',
 		uid: '-M3QcYlzQpS2qTA5f4my'
 	},
 	{
@@ -1364,7 +1364,7 @@ export const players = [
 		name: 'Jordan Pickford',
 		position: 'Goalkeeper',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm-Ww2BUQ4FA9Iq'
 	},
 	{
@@ -1372,7 +1372,7 @@ export const players = [
 		name: 'Maarten Stekelenburg',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm-Ww2BUQ4FA9Ir'
 	},
 	{
@@ -1380,7 +1380,7 @@ export const players = [
 		name: 'Leighton Baines',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm08DsM9YnoUeAX'
 	},
 	{
@@ -1388,7 +1388,7 @@ export const players = [
 		name: 'Michael Keane',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm08DsM9YnoUeAY'
 	},
 	{
@@ -1396,7 +1396,7 @@ export const players = [
 		name: 'Lucas Digne',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm13rypF1-iC04z'
 	},
 	{
@@ -1404,7 +1404,7 @@ export const players = [
 		name: 'Yerrt Mina',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm13rypF1-iC05-'
 	},
 	{
@@ -1412,7 +1412,7 @@ export const players = [
 		name: 'Séamus Coleman',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm26dtDEeUZntOa'
 	},
 	{
@@ -1420,7 +1420,7 @@ export const players = [
 		name: 'Mason Holgate',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm26dtDEeUZntOb'
 	},
 	{
@@ -1428,7 +1428,7 @@ export const players = [
 		name: 'Cuco Martina',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm38e7bqJO7ekZr'
 	},
 	{
@@ -1436,7 +1436,7 @@ export const players = [
 		name: 'Djibril Sidibé',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm46hs7_BwWDiww'
 	},
 	{
@@ -1444,7 +1444,7 @@ export const players = [
 		name: 'Morgan Schneiderlin',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm46hs7_BwWDiwx'
 	},
 	{
@@ -1452,7 +1452,7 @@ export const players = [
 		name: 'Tom Davies',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm5VNkE4ZM6WtlN'
 	},
 	{
@@ -1460,7 +1460,7 @@ export const players = [
 		name: 'André Gomes',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm5VNkE4ZM6WtlO'
 	},
 	{
@@ -1468,7 +1468,7 @@ export const players = [
 		name: 'Fabian Delph',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm66xFM3lv5-PoW'
 	},
 	{
@@ -1476,7 +1476,7 @@ export const players = [
 		name: 'Jean-Philippe Gbamin',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm7WL2D1qxAIx53'
 	},
 	{
@@ -1484,7 +1484,7 @@ export const players = [
 		name: 'Beni Baningime',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm8Wxky9UNn6nQe'
 	},
 	{
@@ -1492,7 +1492,7 @@ export const players = [
 		name: 'Gylfi Sigurdsson',
 		position: 'Midfielder',
 		price: '7.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm8Wxky9UNn6nQf'
 	},
 	{
@@ -1500,7 +1500,7 @@ export const players = [
 		name: 'Bernard',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYm9xKrFRz-9Waoe'
 	},
 	{
@@ -1508,7 +1508,7 @@ export const players = [
 		name: 'Richarlison',
 		position: 'Midfielder',
 		price: '8.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmA7lah1iKdBecN'
 	},
 	{
@@ -1516,7 +1516,7 @@ export const players = [
 		name: 'Theo Walcott',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmA7lah1iKdBecO'
 	},
 	{
@@ -1524,7 +1524,7 @@ export const players = [
 		name: 'Alex Iwobi',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmByBekL8GxIYWQ'
 	},
 	{
@@ -1532,7 +1532,7 @@ export const players = [
 		name: 'Oumar Niasse',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmByBekL8GxIYWR'
 	},
 	{
@@ -1540,7 +1540,7 @@ export const players = [
 		name: 'Dominic Calvert-Lewin',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmClID4KOQi03dc'
 	},
 	{
@@ -1548,7 +1548,7 @@ export const players = [
 		name: 'Moise Kean',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmClID4KOQi03dd'
 	},
 	{
@@ -1556,7 +1556,7 @@ export const players = [
 		name: 'Anthony Gordon',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Everton',
+		club: 'Everton',
 		uid: '-M3QcYmDGxQqUYIjvHwV'
 	},
 	{
@@ -1564,7 +1564,7 @@ export const players = [
 		name: 'Kasper Schmeichel',
 		position: 'Goalkeeper',
 		price: '5.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmDGxQqUYIjvHwW'
 	},
 	{
@@ -1572,7 +1572,7 @@ export const players = [
 		name: 'Danny Ward',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmEq-0D1XGyEFpY'
 	},
 	{
@@ -1580,7 +1580,7 @@ export const players = [
 		name: 'Eldin Jakupovic',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmEq-0D1XGyEFpZ'
 	},
 	{
@@ -1588,7 +1588,7 @@ export const players = [
 		name: 'Ben Chilwell',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmFYCutG9VoiYPA'
 	},
 	{
@@ -1596,7 +1596,7 @@ export const players = [
 		name: 'Caglar Söyüncü',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmFYCutG9VoiYPB'
 	},
 	{
@@ -1604,7 +1604,7 @@ export const players = [
 		name: 'Wes Morgan',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmGZnqahS03CrHf'
 	},
 	{
@@ -1612,7 +1612,7 @@ export const players = [
 		name: 'Jonny Evans',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmGZnqahS03CrHg'
 	},
 	{
@@ -1620,7 +1620,7 @@ export const players = [
 		name: 'Ricardo Pereira',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmHX7r9B3vn2Qbz'
 	},
 	{
@@ -1628,7 +1628,7 @@ export const players = [
 		name: 'Christian Fuchs',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmHX7r9B3vn2Qc-'
 	},
 	{
@@ -1636,7 +1636,7 @@ export const players = [
 		name: 'James Justin',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmI7vuRCSA1QNyq'
 	},
 	{
@@ -1644,7 +1644,7 @@ export const players = [
 		name: 'Ryan Bennett',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmI7vuRCSA1QNyr'
 	},
 	{
@@ -1652,7 +1652,7 @@ export const players = [
 		name: 'Daniel Amartey',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmJQ2v4zUbS2nr9'
 	},
 	{
@@ -1660,7 +1660,7 @@ export const players = [
 		name: 'Demarai Gray',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmJQ2v4zUbS2nrA'
 	},
 	{
@@ -1668,7 +1668,7 @@ export const players = [
 		name: 'James Maddison',
 		position: 'Midfielder',
 		price: '7.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmKYuxjqzaCpqoy'
 	},
 	{
@@ -1676,7 +1676,7 @@ export const players = [
 		name: 'Marc Albrighton',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmKYuxjqzaCpqoz'
 	},
 	{
@@ -1684,7 +1684,7 @@ export const players = [
 		name: 'Harvey Barnes',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmLvB_OfmhXehHr'
 	},
 	{
@@ -1692,7 +1692,7 @@ export const players = [
 		name: 'Matty James',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmLvB_OfmhXehHs'
 	},
 	{
@@ -1700,7 +1700,7 @@ export const players = [
 		name: 'Nampalys Mendy',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmMhonXB3xsTmxK'
 	},
 	{
@@ -1708,7 +1708,7 @@ export const players = [
 		name: 'Wilfred Ndidi',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmMhonXB3xsTmxL'
 	},
 	{
@@ -1716,7 +1716,7 @@ export const players = [
 		name: 'Hamza Choudhury',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmNfJUECwRTwmTb'
 	},
 	{
@@ -1724,7 +1724,7 @@ export const players = [
 		name: 'Youri Tielemans',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmNfJUECwRTwmTc'
 	},
 	{
@@ -1732,7 +1732,7 @@ export const players = [
 		name: 'Dennis Praet',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmOFGcEN8XYD1H0'
 	},
 	{
@@ -1740,7 +1740,7 @@ export const players = [
 		name: 'Ayoze Pérez',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmOFGcEN8XYD1H1'
 	},
 	{
@@ -1748,7 +1748,7 @@ export const players = [
 		name: 'Kelechi Iheanacho',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmPgr-Ttu4FjW3I'
 	},
 	{
@@ -1756,7 +1756,7 @@ export const players = [
 		name: 'Jamie Vardy',
 		position: 'Forward',
 		price: '9.5',
-		team: 'Leicester City',
+		club: 'Leicester City',
 		uid: '-M3QcYmPgr-Ttu4FjW3J'
 	},
 	{
@@ -1764,7 +1764,7 @@ export const players = [
 		name: 'Alisson',
 		position: 'Goalkeeper',
 		price: '6.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmQd5vuwEF66uw-'
 	},
 	{
@@ -1772,7 +1772,7 @@ export const players = [
 		name: 'Caoimhin Kelleher',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmQd5vuwEF66uw0'
 	},
 	{
@@ -1780,7 +1780,7 @@ export const players = [
 		name: 'Adrián',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmR6SVFSGc2mAuW'
 	},
 	{
@@ -1788,7 +1788,7 @@ export const players = [
 		name: 'Andy Lonergan',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmR6SVFSGc2mAuX'
 	},
 	{
@@ -1796,7 +1796,7 @@ export const players = [
 		name: 'Dejan Lovren',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmStK1N-ZPQQz67'
 	},
 	{
@@ -1804,7 +1804,7 @@ export const players = [
 		name: 'Trent Alexander-Arnold',
 		position: 'Defender',
 		price: '7.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmStK1N-ZPQQz68'
 	},
 	{
@@ -1812,7 +1812,7 @@ export const players = [
 		name: 'Virgil van Dijk',
 		position: 'Defender',
 		price: '6.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmTOCN7ibZjZkmR'
 	},
 	{
@@ -1820,7 +1820,7 @@ export const players = [
 		name: 'Andrew Robertson',
 		position: 'Defender',
 		price: '7.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmTOCN7ibZjZkmS'
 	},
 	{
@@ -1828,7 +1828,7 @@ export const players = [
 		name: 'Joseph Gomez',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmUh_GIH_gZ32KH'
 	},
 	{
@@ -1836,7 +1836,7 @@ export const players = [
 		name: 'Joel Matip',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmUh_GIH_gZ32KI'
 	},
 	{
@@ -1844,7 +1844,7 @@ export const players = [
 		name: 'Neco Williams',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmVcQv_AokdFXFS'
 	},
 	{
@@ -1852,7 +1852,7 @@ export const players = [
 		name: 'Mohamed Salah',
 		position: 'Midfielder',
 		price: '13.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmVcQv_AokdFXFT'
 	},
 	{
@@ -1860,7 +1860,7 @@ export const players = [
 		name: 'Sadio Mané',
 		position: 'Midfielder',
 		price: '12.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmVcQv_AokdFXFU'
 	},
 	{
@@ -1868,7 +1868,7 @@ export const players = [
 		name: 'Jordan Henderson',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmWm0AQ3_DAYyye'
 	},
 	{
@@ -1876,7 +1876,7 @@ export const players = [
 		name: 'Georginio Wijnaldum',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmWm0AQ3_DAYyyf'
 	},
 	{
@@ -1884,7 +1884,7 @@ export const players = [
 		name: 'Alex Oxlade-Chamberlain',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmX0vsDUIqDuXre'
 	},
 	{
@@ -1892,7 +1892,7 @@ export const players = [
 		name: 'James Milner',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmX0vsDUIqDuXrf'
 	},
 	{
@@ -1900,7 +1900,7 @@ export const players = [
 		name: 'Fabinho',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmYYUPBseL3NeHL'
 	},
 	{
@@ -1908,7 +1908,7 @@ export const players = [
 		name: 'Adam Lallana',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmZiVOJV1zTie0D'
 	},
 	{
@@ -1916,7 +1916,7 @@ export const players = [
 		name: 'Naby Keita',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmZiVOJV1zTie0E'
 	},
 	{
@@ -1924,7 +1924,7 @@ export const players = [
 		name: 'Xherdan Shaqiri',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYm_2OjO9WHPvrul'
 	},
 	{
@@ -1932,7 +1932,7 @@ export const players = [
 		name: 'Curtis Jones',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYm_2OjO9WHPvrum'
 	},
 	{
@@ -1940,7 +1940,7 @@ export const players = [
 		name: 'Takumi Minamino',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmanM6tiDgkBs_e'
 	},
 	{
@@ -1948,7 +1948,7 @@ export const players = [
 		name: 'Harvey Elliott',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmanM6tiDgkBs_f'
 	},
 	{
@@ -1956,7 +1956,7 @@ export const players = [
 		name: 'Roberto Firmino',
 		position: 'Forward',
 		price: '9.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmbZZlnR9qxdPAz'
 	},
 	{
@@ -1964,7 +1964,7 @@ export const players = [
 		name: 'Divock Origi',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Liverpool',
+		club: 'Liverpool',
 		uid: '-M3QcYmbZZlnR9qxdPB-'
 	},
 	{
@@ -1972,7 +1972,7 @@ export const players = [
 		name: 'Ederson',
 		position: 'Goalkeeper',
 		price: '6.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmbZZlnR9qxdPB0'
 	},
 	{
@@ -1980,7 +1980,7 @@ export const players = [
 		name: 'Claudio Bravo',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmcIZhyjoY1fNY0'
 	},
 	{
@@ -1988,7 +1988,7 @@ export const players = [
 		name: 'Scott Carson',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmeaWbqml9MVmD0'
 	},
 	{
@@ -1996,7 +1996,7 @@ export const players = [
 		name: 'Kyle Walker',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmeaWbqml9MVmD1'
 	},
 	{
@@ -2004,7 +2004,7 @@ export const players = [
 		name: 'Nicolas Otamendi',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmfJ18PV806QJCb'
 	},
 	{
@@ -2012,7 +2012,7 @@ export const players = [
 		name: 'Benjamin Mendy',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmfJ18PV806QJCc'
 	},
 	{
@@ -2020,7 +2020,7 @@ export const players = [
 		name: 'Oleksandr Zinchenko',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmfJ18PV806QJCd'
 	},
 	{
@@ -2028,7 +2028,7 @@ export const players = [
 		name: 'Joao Cancelo',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmg-w0M2xstjcPo'
 	},
 	{
@@ -2036,7 +2036,7 @@ export const players = [
 		name: 'John Stones',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmg-w0M2xstjcPp'
 	},
 	{
@@ -2044,7 +2044,7 @@ export const players = [
 		name: 'Aymeric Laporte',
 		position: 'Defender',
 		price: '6.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmhx0belq8lK_D6'
 	},
 	{
@@ -2052,7 +2052,7 @@ export const players = [
 		name: 'Eric Garcia',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmhx0belq8lK_D7'
 	},
 	{
@@ -2060,7 +2060,7 @@ export const players = [
 		name: 'Kevin De Bruyne',
 		position: 'Midfielder',
 		price: '10.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmi9h_BdZsT8gDw'
 	},
 	{
@@ -2068,7 +2068,7 @@ export const players = [
 		name: 'Raheem Sterling',
 		position: 'Midfielder',
 		price: '12.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmi9h_BdZsT8gDx'
 	},
 	{
@@ -2076,7 +2076,7 @@ export const players = [
 		name: 'Riyad Mahrez',
 		position: 'Midfielder',
 		price: '9.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmj3dUGEPcTpVx8'
 	},
 	{
@@ -2084,7 +2084,7 @@ export const players = [
 		name: 'David Silva',
 		position: 'Midfielder',
 		price: '8.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmj3dUGEPcTpVx9'
 	},
 	{
@@ -2092,7 +2092,7 @@ export const players = [
 		name: 'Bernardo Silva',
 		position: 'Midfielder',
 		price: '8.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmk1O1h209YVUXi'
 	},
 	{
@@ -2100,7 +2100,7 @@ export const players = [
 		name: 'Fernandinho',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmk1O1h209YVUXj'
 	},
 	{
@@ -2108,7 +2108,7 @@ export const players = [
 		name: 'Ilkay Gündogan',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmk1O1h209YVUXk'
 	},
 	{
@@ -2116,7 +2116,7 @@ export const players = [
 		name: 'Phil Foden',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYml-sgNnBmM3ans'
 	},
 	{
@@ -2124,7 +2124,7 @@ export const players = [
 		name: 'Leroy Sané',
 		position: 'Midfielder',
 		price: '9.5',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYml-sgNnBmM3ant'
 	},
 	{
@@ -2132,7 +2132,7 @@ export const players = [
 		name: 'Sergio Agüero',
 		position: 'Forward',
 		price: '12.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmmYqI4qfrAEQjc'
 	},
 	{
@@ -2140,7 +2140,7 @@ export const players = [
 		name: 'Gabriel Jesus',
 		position: 'Forward',
 		price: '10.0',
-		team: 'Manchester City',
+		club: 'Manchester City',
 		uid: '-M3QcYmmYqI4qfrAEQjd'
 	},
 	{
@@ -2148,7 +2148,7 @@ export const players = [
 		name: 'David De Gea',
 		position: 'Goalkeeper',
 		price: '6.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmnqwpv0D_skuQ7'
 	},
 	{
@@ -2156,7 +2156,7 @@ export const players = [
 		name: 'Sergio Romero',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmnqwpv0D_skuQ8'
 	},
 	{
@@ -2164,7 +2164,7 @@ export const players = [
 		name: 'Lee Grant',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmnqwpv0D_skuQ9'
 	},
 	{
@@ -2172,7 +2172,7 @@ export const players = [
 		name: 'Harry Maguire',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmo7pPQ2T67iifs'
 	},
 	{
@@ -2180,7 +2180,7 @@ export const players = [
 		name: 'Aaron Wan-Bissaka',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmo7pPQ2T67iift'
 	},
 	{
@@ -2188,7 +2188,7 @@ export const players = [
 		name: 'Victor Lindelöf',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmpRW2IWwGOuEf7'
 	},
 	{
@@ -2196,7 +2196,7 @@ export const players = [
 		name: 'Luke Shaw',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmpRW2IWwGOuEf8'
 	},
 	{
@@ -2204,7 +2204,7 @@ export const players = [
 		name: 'Brandon Williams',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmqPnFLELP-XdR3'
 	},
 	{
@@ -2212,7 +2212,7 @@ export const players = [
 		name: 'Axel Tuanzebe',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmqPnFLELP-XdR4'
 	},
 	{
@@ -2220,7 +2220,7 @@ export const players = [
 		name: 'Eric Baily',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmqPnFLELP-XdR5'
 	},
 	{
@@ -2228,7 +2228,7 @@ export const players = [
 		name: 'Diogo Dalot',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmrrnbRT6f2-g74'
 	},
 	{
@@ -2236,7 +2236,7 @@ export const players = [
 		name: 'Phil Jones',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmsleq6B_yUGyxh'
 	},
 	{
@@ -2244,7 +2244,7 @@ export const players = [
 		name: 'Anthony Martial',
 		position: 'Midfielder',
 		price: '8.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmsleq6B_yUGyxi'
 	},
 	{
@@ -2252,7 +2252,7 @@ export const players = [
 		name: 'Daniel James',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmtjEPDn7h8Bjlg'
 	},
 	{
@@ -2260,7 +2260,7 @@ export const players = [
 		name: 'Andreas Pereira',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmu4_L84wiC3s1S'
 	},
 	{
@@ -2268,7 +2268,7 @@ export const players = [
 		name: 'Scott McTominay',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmu4_L84wiC3s1T'
 	},
 	{
@@ -2276,7 +2276,7 @@ export const players = [
 		name: 'Fred',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmvPcaiwu73GhpA'
 	},
 	{
@@ -2284,7 +2284,7 @@ export const players = [
 		name: 'Juan Mata',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmvPcaiwu73GhpB'
 	},
 	{
@@ -2292,7 +2292,7 @@ export const players = [
 		name: 'Jesse Lingard',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmwAfgT7OmuCZnG'
 	},
 	{
@@ -2300,7 +2300,7 @@ export const players = [
 		name: 'Nemanja Matic',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmxx5To6R7HkLPQ'
 	},
 	{
@@ -2308,7 +2308,7 @@ export const players = [
 		name: 'Paul Pogba',
 		position: 'Midfielder',
 		price: '8.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmxx5To6R7HkLPR'
 	},
 	{
@@ -2316,7 +2316,7 @@ export const players = [
 		name: 'Bruno Fernandes',
 		position: 'Midfielder',
 		price: '8.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYmza48C9MKwKh_z'
 	},
 	{
@@ -2324,7 +2324,7 @@ export const players = [
 		name: 'Tahith Chong',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn-kFlD9HBrJxzg'
 	},
 	{
@@ -2332,7 +2332,7 @@ export const players = [
 		name: 'Angel Gomes',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn0LZMxHD_OddFm'
 	},
 	{
@@ -2340,7 +2340,7 @@ export const players = [
 		name: 'James Garner',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn0LZMxHD_OddFn'
 	},
 	{
@@ -2348,7 +2348,7 @@ export const players = [
 		name: 'Marcus Rashford',
 		position: 'Forward',
 		price: '9.0',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn2vZudNtGM6xHW'
 	},
 	{
@@ -2356,7 +2356,7 @@ export const players = [
 		name: 'Mason Greenwood',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn2vZudNtGM6xHX'
 	},
 	{
@@ -2364,7 +2364,7 @@ export const players = [
 		name: 'Odion Ighalo',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Manchester United',
+		club: 'Manchester United',
 		uid: '-M3QcYn3CrKCWfIiE9tg'
 	},
 	{
@@ -2372,7 +2372,7 @@ export const players = [
 		name: 'Martin Dubravka',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn4f7wxggpQuQTc'
 	},
 	{
@@ -2380,7 +2380,7 @@ export const players = [
 		name: 'Karl Darlow',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn4f7wxggpQuQTd'
 	},
 	{
@@ -2388,7 +2388,7 @@ export const players = [
 		name: 'Robert Elliot',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn5A07p3r174BOd'
 	},
 	{
@@ -2396,7 +2396,7 @@ export const players = [
 		name: 'Federico Fernández',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn6nyuCOi_MtvuA'
 	},
 	{
@@ -2404,7 +2404,7 @@ export const players = [
 		name: 'Jetro Willems',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn6nyuCOi_MtvuB'
 	},
 	{
@@ -2412,7 +2412,7 @@ export const players = [
 		name: 'Fabian Schär',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn7r-Mu2zeIUEx0'
 	},
 	{
@@ -2420,7 +2420,7 @@ export const players = [
 		name: 'Jamaal Lascelles',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn8sFG2cDVr2DuN'
 	},
 	{
@@ -2428,7 +2428,7 @@ export const players = [
 		name: 'Ciaran Clark',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn8sFG2cDVr2DuO'
 	},
 	{
@@ -2436,7 +2436,7 @@ export const players = [
 		name: 'Paul Dummett',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn9FhZNTcgxBhup'
 	},
 	{
@@ -2444,7 +2444,7 @@ export const players = [
 		name: 'Javier Manquillo',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYn9FhZNTcgxBhuq'
 	},
 	{
@@ -2452,7 +2452,7 @@ export const players = [
 		name: 'DeAndre Yedlin',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnAZHu9xFJTyGd4'
 	},
 	{
@@ -2460,7 +2460,7 @@ export const players = [
 		name: 'Matt Ritchie',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnAZHu9xFJTyGd5'
 	},
 	{
@@ -2468,7 +2468,7 @@ export const players = [
 		name: 'Emil Krafth',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnBkxD2X-vyukjW'
 	},
 	{
@@ -2476,7 +2476,7 @@ export const players = [
 		name: 'Danny Rose',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnBkxD2X-vyukjX'
 	},
 	{
@@ -2484,7 +2484,7 @@ export const players = [
 		name: 'Miguel Almirón ',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnCI6xeinxSvfwN'
 	},
 	{
@@ -2492,7 +2492,7 @@ export const players = [
 		name: 'Jonjo Shelvey',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnCI6xeinxSvfwO'
 	},
 	{
@@ -2500,7 +2500,7 @@ export const players = [
 		name: 'Isaac Hayden',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnEMKapLPOzDjJG'
 	},
 	{
@@ -2508,7 +2508,7 @@ export const players = [
 		name: 'Allan Saint-Maximin',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnEMKapLPOzDjJH'
 	},
 	{
@@ -2516,7 +2516,7 @@ export const players = [
 		name: 'Christian Atsu',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnFp6D56zv6LHZ3'
 	},
 	{
@@ -2524,7 +2524,7 @@ export const players = [
 		name: 'Matthew Longstaff',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnGm33EIP0vFjUG'
 	},
 	{
@@ -2532,7 +2532,7 @@ export const players = [
 		name: 'Nabil Bentaleb',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnH28Hy26NoyvDd'
 	},
 	{
@@ -2540,7 +2540,7 @@ export const players = [
 		name: 'Joelinton',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnH28Hy26NoyvDe'
 	},
 	{
@@ -2548,7 +2548,7 @@ export const players = [
 		name: 'Andy Carroll',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnI-Jcjj4Diaa8L'
 	},
 	{
@@ -2556,7 +2556,7 @@ export const players = [
 		name: 'Dwight Gayle',
 		position: 'Forward',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnI-Jcjj4Diaa8M'
 	},
 	{
@@ -2564,7 +2564,7 @@ export const players = [
 		name: 'Yoshinori Muto',
 		position: 'Forward',
 		price: '5.0',
-		team: 'Newcastle United',
+		club: 'Newcastle United',
 		uid: '-M3QcYnJyElQ3OPqLbZg'
 	},
 	{
@@ -2572,7 +2572,7 @@ export const players = [
 		name: 'Tim Krul',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnJyElQ3OPqLbZh'
 	},
 	{
@@ -2580,7 +2580,7 @@ export const players = [
 		name: 'Michael McGovern',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnLHOK2MpgTSmjr'
 	},
 	{
@@ -2588,7 +2588,7 @@ export const players = [
 		name: 'Ralf Fährmann',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnML0oee1__dzPa'
 	},
 	{
@@ -2596,7 +2596,7 @@ export const players = [
 		name: 'Max Aarons',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnML0oee1__dzPb'
 	},
 	{
@@ -2604,7 +2604,7 @@ export const players = [
 		name: 'Christoph Zimmermann',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnNeK3thLuK2QLG'
 	},
 	{
@@ -2612,7 +2612,7 @@ export const players = [
 		name: 'Sam Byram',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnNeK3thLuK2QLH'
 	},
 	{
@@ -2620,7 +2620,7 @@ export const players = [
 		name: 'Ben Godfrey',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnOF54yD9JWCWwR'
 	},
 	{
@@ -2628,7 +2628,7 @@ export const players = [
 		name: 'Jamal Lewis',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnPW_YcIYacevEq'
 	},
 	{
@@ -2636,7 +2636,7 @@ export const players = [
 		name: 'Grant Hanley',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnPW_YcIYacevEr'
 	},
 	{
@@ -2644,7 +2644,7 @@ export const players = [
 		name: 'Timm Klose',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnQFkiYnLRwIdOf'
 	},
 	{
@@ -2652,7 +2652,7 @@ export const players = [
 		name: 'Todd Cantwell',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnQFkiYnLRwIdOg'
 	},
 	{
@@ -2660,7 +2660,7 @@ export const players = [
 		name: 'Emiliano Buendia',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnRD_iOZGO-a-bS'
 	},
 	{
@@ -2668,7 +2668,7 @@ export const players = [
 		name: 'Kenny McLean',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnRD_iOZGO-a-bT'
 	},
 	{
@@ -2676,7 +2676,7 @@ export const players = [
 		name: 'Alexander Tettey',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnSni_zCKNKc2Vh'
 	},
 	{
@@ -2684,7 +2684,7 @@ export const players = [
 		name: 'Onel Hernández',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnSni_zCKNKc2Vi'
 	},
 	{
@@ -2692,7 +2692,7 @@ export const players = [
 		name: 'Tom Trybull',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnT5ZulgAkxflFh'
 	},
 	{
@@ -2700,7 +2700,7 @@ export const players = [
 		name: 'Marco Stiepermann',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnUmFy0pDPX-PJ2'
 	},
 	{
@@ -2708,7 +2708,7 @@ export const players = [
 		name: 'Mario Vrancic',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnVsOAZWJg4ILIt'
 	},
 	{
@@ -2716,7 +2716,7 @@ export const players = [
 		name: 'Ondrej Duda',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnXbpGroK-5lLXG'
 	},
 	{
@@ -2724,7 +2724,7 @@ export const players = [
 		name: 'Lukas Rupp',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnY0-pTXX_-ZzyH'
 	},
 	{
@@ -2732,7 +2732,7 @@ export const players = [
 		name: 'Moritz Leitner',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnZPKQYCf_KGxU-'
 	},
 	{
@@ -2740,7 +2740,7 @@ export const players = [
 		name: 'Teemu Pukki',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYn_LvJvY15OURZ6'
 	},
 	{
@@ -2748,7 +2748,7 @@ export const players = [
 		name: 'Josip Drmic',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYn_LvJvY15OURZ7'
 	},
 	{
@@ -2756,7 +2756,7 @@ export const players = [
 		name: 'Adam Idah',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Norwich City',
+		club: 'Norwich City',
 		uid: '-M3QcYnat6xXSjHCbwNF'
 	},
 	{
@@ -2764,7 +2764,7 @@ export const players = [
 		name: 'Dean Henderson',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnbv7S5F99Ld9_M'
 	},
 	{
@@ -2772,7 +2772,7 @@ export const players = [
 		name: 'Jake Eastwood',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYncpN63KFTSIT-5'
 	},
 	{
@@ -2780,7 +2780,7 @@ export const players = [
 		name: 'Simon Moore',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYncpN63KFTSIT-6'
 	},
 	{
@@ -2788,7 +2788,7 @@ export const players = [
 		name: 'John Lundstram',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYndXXBREQvKYM2q'
 	},
 	{
@@ -2796,7 +2796,7 @@ export const players = [
 		name: 'George Baldock',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYneF-M-a7Ws98-f'
 	},
 	{
@@ -2804,7 +2804,7 @@ export const players = [
 		name: 'Enda Stevens',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYneF-M-a7Ws98-g'
 	},
 	{
@@ -2812,7 +2812,7 @@ export const players = [
 		name: "Jack O'Connell",
 		position: 'Defender',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnffZ__vABVUuOn'
 	},
 	{
@@ -2820,7 +2820,7 @@ export const players = [
 		name: 'John Egan',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnffZ__vABVUuOo'
 	},
 	{
@@ -2828,7 +2828,7 @@ export const players = [
 		name: 'Chris Basham',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYng7K6k3U68h5Az'
 	},
 	{
@@ -2836,7 +2836,7 @@ export const players = [
 		name: 'Kieron Freeman',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYng7K6k3U68h5B-'
 	},
 	{
@@ -2844,7 +2844,7 @@ export const players = [
 		name: 'John Fleck',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnhK9UYMJnqHTGL'
 	},
 	{
@@ -2852,7 +2852,7 @@ export const players = [
 		name: 'Oliver Norwood',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnhK9UYMJnqHTGM'
 	},
 	{
@@ -2860,7 +2860,7 @@ export const players = [
 		name: 'Luke Freeman',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYniQ4KaeTykwOh7'
 	},
 	{
@@ -2868,7 +2868,7 @@ export const players = [
 		name: 'Muhamed Besic',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYniQ4KaeTykwOh8'
 	},
 	{
@@ -2876,7 +2876,7 @@ export const players = [
 		name: 'Ben Osborn',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnjlt1lJpPQTRIg'
 	},
 	{
@@ -2884,7 +2884,7 @@ export const players = [
 		name: 'Sander Berge',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnjlt1lJpPQTRIh'
 	},
 	{
@@ -2892,7 +2892,7 @@ export const players = [
 		name: 'Lys Mousset',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnkMYVwnAYVtH3S'
 	},
 	{
@@ -2900,7 +2900,7 @@ export const players = [
 		name: 'Oliver McBurnie',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnkMYVwnAYVtH3T'
 	},
 	{
@@ -2908,7 +2908,7 @@ export const players = [
 		name: 'David McGoldrick',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnkMYVwnAYVtH3U'
 	},
 	{
@@ -2916,7 +2916,7 @@ export const players = [
 		name: 'Billy Sharp',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Sheffield United',
+		club: 'Sheffield United',
 		uid: '-M3QcYnlIw1tCgMF4vJT'
 	},
 	{
@@ -2924,7 +2924,7 @@ export const players = [
 		name: 'Alex McCarthy',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnlIw1tCgMF4vJU'
 	},
 	{
@@ -2932,7 +2932,7 @@ export const players = [
 		name: 'Angus Gunn',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnnmk8v2sIgfEFJ'
 	},
 	{
@@ -2940,7 +2940,7 @@ export const players = [
 		name: 'Harry Lewis',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYno_CqFr2_PAaP-'
 	},
 	{
@@ -2948,7 +2948,7 @@ export const players = [
 		name: 'Jack Stephens',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYno_CqFr2_PAaP0'
 	},
 	{
@@ -2956,7 +2956,7 @@ export const players = [
 		name: 'Jan Bednarek',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnpMJaIRG0GaDYG'
 	},
 	{
@@ -2964,7 +2964,7 @@ export const players = [
 		name: 'Ryan Bertrand',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnpMJaIRG0GaDYH'
 	},
 	{
@@ -2972,7 +2972,7 @@ export const players = [
 		name: 'Jannik Vestergaard',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnpMJaIRG0GaDYI'
 	},
 	{
@@ -2980,7 +2980,7 @@ export const players = [
 		name: 'Yan Valery',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnq29w3qi35x3mi'
 	},
 	{
@@ -2988,7 +2988,7 @@ export const players = [
 		name: 'Kevin Danso',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnrlH-y4a52323k'
 	},
 	{
@@ -2996,7 +2996,7 @@ export const players = [
 		name: 'James Ward-Prowse',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnrlH-y4a52323l'
 	},
 	{
@@ -3004,7 +3004,7 @@ export const players = [
 		name: 'Nathan Redmond',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnrlH-y4a52323m'
 	},
 	{
@@ -3012,7 +3012,7 @@ export const players = [
 		name: 'Pierre-Emile Hojbjerg',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnsF26Um1oYKLm7'
 	},
 	{
@@ -3020,7 +3020,7 @@ export const players = [
 		name: 'Stuart Armstrong',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnsF26Um1oYKLm8'
 	},
 	{
@@ -3028,7 +3028,7 @@ export const players = [
 		name: 'Moussa Djenepo',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnttyIAuVE1_1rA'
 	},
 	{
@@ -3036,7 +3036,7 @@ export const players = [
 		name: 'Oriol Romeu',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnvbaxOl6QplC1n'
 	},
 	{
@@ -3044,7 +3044,7 @@ export const players = [
 		name: 'Sofiane Boufal',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnvbaxOl6QplC1o'
 	},
 	{
@@ -3052,7 +3052,7 @@ export const players = [
 		name: 'Danny Ings',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnvbaxOl6QplC1p'
 	},
 	{
@@ -3060,7 +3060,7 @@ export const players = [
 		name: 'Shane Long',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnwBx8SoYNsPEr8'
 	},
 	{
@@ -3068,7 +3068,7 @@ export const players = [
 		name: 'Che Adams',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnwBx8SoYNsPEr9'
 	},
 	{
@@ -3076,7 +3076,7 @@ export const players = [
 		name: 'Michael Obafemi',
 		position: 'Forward',
 		price: '5.0',
-		team: 'Southampton',
+		club: 'Southampton',
 		uid: '-M3QcYnx2PDz504lEfIE'
 	},
 	{
@@ -3084,7 +3084,7 @@ export const players = [
 		name: 'Hugo Lloris',
 		position: 'Goalkeeper',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYnx2PDz504lEfIF'
 	},
 	{
@@ -3092,7 +3092,7 @@ export const players = [
 		name: 'Paulo Gazzaniga',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYnyEgkUWb_Nr3Yy'
 	},
 	{
@@ -3100,7 +3100,7 @@ export const players = [
 		name: 'Serge Aurier',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYnzLN8ArgkaNvtP'
 	},
 	{
@@ -3108,7 +3108,7 @@ export const players = [
 		name: 'Toby Alderweireld',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYnzLN8ArgkaNvtQ'
 	},
 	{
@@ -3116,7 +3116,7 @@ export const players = [
 		name: 'Jan Vertonghen',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo-yy0mbgmRRVxC'
 	},
 	{
@@ -3124,7 +3124,7 @@ export const players = [
 		name: 'Davinson Sánchez',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo-yy0mbgmRRVxD'
 	},
 	{
@@ -3132,7 +3132,7 @@ export const players = [
 		name: 'Japhet Tanganga',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo0v_xKZ_a5FOCa'
 	},
 	{
@@ -3140,7 +3140,7 @@ export const players = [
 		name: 'Ben Davies',
 		position: 'Defender',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo0v_xKZ_a5FOCb'
 	},
 	{
@@ -3148,7 +3148,7 @@ export const players = [
 		name: 'Juan Foyth',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo17Ebc0nytT9bv'
 	},
 	{
@@ -3156,7 +3156,7 @@ export const players = [
 		name: 'Heung-Min Son',
 		position: 'Midfielder',
 		price: '9.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo17Ebc0nytT9bw'
 	},
 	{
@@ -3164,7 +3164,7 @@ export const players = [
 		name: 'Dele Alli',
 		position: 'Midfielder',
 		price: '8.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo17Ebc0nytT9bx'
 	},
 	{
@@ -3172,7 +3172,7 @@ export const players = [
 		name: 'Lucas Moura',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo2YapHCqDNaC8p'
 	},
 	{
@@ -3180,7 +3180,7 @@ export const players = [
 		name: 'Moussa Sissoko',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo2YapHCqDNaC8q'
 	},
 	{
@@ -3188,7 +3188,7 @@ export const players = [
 		name: 'Erik Lamela',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo3E--i4tiOg93J'
 	},
 	{
@@ -3196,7 +3196,7 @@ export const players = [
 		name: 'Tanguy Ndombele',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo3E--i4tiOg93K'
 	},
 	{
@@ -3204,7 +3204,7 @@ export const players = [
 		name: 'Harry Winks',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo3E--i4tiOg93L'
 	},
 	{
@@ -3212,7 +3212,7 @@ export const players = [
 		name: 'Giovani Lo Celso',
 		position: 'Midfielder',
 		price: '7.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo4lTvtZBQTkevq'
 	},
 	{
@@ -3220,7 +3220,7 @@ export const players = [
 		name: 'Eric Dier',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo5bjpOkCftiI9i'
 	},
 	{
@@ -3228,7 +3228,7 @@ export const players = [
 		name: 'Steven Bergwijn',
 		position: 'Midfielder',
 		price: '7.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo5bjpOkCftiI9j'
 	},
 	{
@@ -3236,7 +3236,7 @@ export const players = [
 		name: 'Ryan Sessegnon',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo5bjpOkCftiI9k'
 	},
 	{
@@ -3244,7 +3244,7 @@ export const players = [
 		name: 'Harry Kane',
 		position: 'Forward',
 		price: '11.0',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo6qsu-Wnp_KdFR'
 	},
 	{
@@ -3252,7 +3252,7 @@ export const players = [
 		name: 'Troy Parrott',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Tottenham',
+		club: 'Tottenham',
 		uid: '-M3QcYo6qsu-Wnp_KdFS'
 	},
 	{
@@ -3260,7 +3260,7 @@ export const players = [
 		name: 'Ben Foster',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo7fIemzOCVxXbz'
 	},
 	{
@@ -3268,7 +3268,7 @@ export const players = [
 		name: 'Heurelho Gomes',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo7fIemzOCVxXc-'
 	},
 	{
@@ -3276,7 +3276,7 @@ export const players = [
 		name: 'Craig Cathcart',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo7fIemzOCVxXc0'
 	},
 	{
@@ -3284,7 +3284,7 @@ export const players = [
 		name: 'Christian Kabasele',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo8dSnzEBL5EGLC'
 	},
 	{
@@ -3292,7 +3292,7 @@ export const players = [
 		name: 'Adam Masina',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo8dSnzEBL5EGLD'
 	},
 	{
@@ -3300,7 +3300,7 @@ export const players = [
 		name: 'Daryl Janmaat',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo968SGxJk4IUx6'
 	},
 	{
@@ -3308,7 +3308,7 @@ export const players = [
 		name: 'Craig Dawson',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYo968SGxJk4IUx7'
 	},
 	{
@@ -3316,7 +3316,7 @@ export const players = [
 		name: 'Kiko Fermenia',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoAnUcYGlc7q_gy'
 	},
 	{
@@ -3324,7 +3324,7 @@ export const players = [
 		name: 'Adrian Mariappa',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoAnUcYGlc7q_gz'
 	},
 	{
@@ -3332,7 +3332,7 @@ export const players = [
 		name: 'José Holebas',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoAnUcYGlc7q_h-'
 	},
 	{
@@ -3340,7 +3340,7 @@ export const players = [
 		name: 'Abdoulaye Doucouré',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoBNt-TjsMHD-5y'
 	},
 	{
@@ -3348,7 +3348,7 @@ export const players = [
 		name: 'Etienne Capoue',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoBNt-TjsMHD-5z'
 	},
 	{
@@ -3356,7 +3356,7 @@ export const players = [
 		name: 'Ismaila Sarr',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoCUqzcvMm01_af'
 	},
 	{
@@ -3364,7 +3364,7 @@ export const players = [
 		name: 'Roberto Pereyra',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoCUqzcvMm01_ag'
 	},
 	{
@@ -3372,7 +3372,7 @@ export const players = [
 		name: 'Will Hughes',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoEcXrBZwaPQscp'
 	},
 	{
@@ -3380,7 +3380,7 @@ export const players = [
 		name: 'Nathaniel Chalobah',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoFWCCCmKmPbYKL'
 	},
 	{
@@ -3388,7 +3388,7 @@ export const players = [
 		name: 'Tom Cleverley',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoFWCCCmKmPbYKM'
 	},
 	{
@@ -3396,7 +3396,7 @@ export const players = [
 		name: 'Domingos Quina',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoGxmS8s6Xy1UUs'
 	},
 	{
@@ -3404,7 +3404,7 @@ export const players = [
 		name: 'Gerard Deulofeu',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoGxmS8s6Xy1UUt'
 	},
 	{
@@ -3412,7 +3412,7 @@ export const players = [
 		name: 'Troy Deeney',
 		position: 'Forward',
 		price: '6.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoHPUfb_GUHpvAD'
 	},
 	{
@@ -3420,7 +3420,7 @@ export const players = [
 		name: 'Andre Gray',
 		position: 'Forward',
 		price: '5.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoIsnCoPX-4Q_Gw'
 	},
 	{
@@ -3428,7 +3428,7 @@ export const players = [
 		name: 'Danny Welbeck',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoJzHfdTY-nb3bQ'
 	},
 	{
@@ -3436,7 +3436,7 @@ export const players = [
 		name: 'Isaac Success',
 		position: 'Forward',
 		price: '4.5',
-		team: 'Watford',
+		club: 'Watford',
 		uid: '-M3QcYoJzHfdTY-nb3bR'
 	},
 	{
@@ -3444,7 +3444,7 @@ export const players = [
 		name: 'Lukasz Fabianski',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoKFDIiiGBHl5cx'
 	},
 	{
@@ -3452,7 +3452,7 @@ export const players = [
 		name: 'David Martin',
 		position: 'Goalkeeper',
 		price: '4.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoKFDIiiGBHl5cy'
 	},
 	{
@@ -3460,7 +3460,7 @@ export const players = [
 		name: 'Darren Randolph',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoL0AH4eBxlFcdf'
 	},
 	{
@@ -3468,7 +3468,7 @@ export const players = [
 		name: 'Angelo Ogbonna',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoMnWzdygGKa36x'
 	},
 	{
@@ -3476,7 +3476,7 @@ export const players = [
 		name: 'Aaron Cresswell',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoMnWzdygGKa36y'
 	},
 	{
@@ -3484,7 +3484,7 @@ export const players = [
 		name: 'Ryan Fredericks',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoNlEwzqy5X9rTv'
 	},
 	{
@@ -3492,7 +3492,7 @@ export const players = [
 		name: 'Issa Diop',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoNlEwzqy5X9rTw'
 	},
 	{
@@ -3500,7 +3500,7 @@ export const players = [
 		name: 'Fabián Balbuena',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoOXLy5HJFeEnl8'
 	},
 	{
@@ -3508,7 +3508,7 @@ export const players = [
 		name: 'Arthur Masuaku',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoOXLy5HJFeEnl9'
 	},
 	{
@@ -3516,7 +3516,7 @@ export const players = [
 		name: 'Pablo Zabaleta',
 		position: 'Defender',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoPQIx_6X7JaMtx'
 	},
 	{
@@ -3524,7 +3524,7 @@ export const players = [
 		name: 'Robert Snodgrass',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoPQIx_6X7JaMty'
 	},
 	{
@@ -3532,7 +3532,7 @@ export const players = [
 		name: 'Mark Noble',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoQJSXMvG8eauqr'
 	},
 	{
@@ -3540,7 +3540,7 @@ export const players = [
 		name: 'Declan Rice',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoQJSXMvG8eauqs'
 	},
 	{
@@ -3548,7 +3548,7 @@ export const players = [
 		name: 'Felipe Anderson',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoR0QP7c8R5miiS'
 	},
 	{
@@ -3557,7 +3557,7 @@ export const players = [
 		name: 'Pablo Fornals',
 		position: 'Midfielder',
 		price: '6.2',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoR0QP7c8R5miiT'
 	},
 	{
@@ -3565,7 +3565,7 @@ export const players = [
 		name: 'Andriy Yarmolennko',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoR0QP7c8R5miiU'
 	},
 	{
@@ -3573,7 +3573,7 @@ export const players = [
 		name: 'Manuel Lanzini',
 		position: 'Midfielder',
 		price: '6.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoSNl1nVQTE5466'
 	},
 	{
@@ -3581,7 +3581,7 @@ export const players = [
 		name: 'Michail Antonio',
 		position: 'Midfielder',
 		price: '7.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoSNl1nVQTE5467'
 	},
 	{
@@ -3589,7 +3589,7 @@ export const players = [
 		name: 'Carlos Sánchez',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoTJIeyLW2IKlIq'
 	},
 	{
@@ -3597,7 +3597,7 @@ export const players = [
 		name: 'Sébastien Haller',
 		position: 'Forward',
 		price: '7.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoTJIeyLW2IKlIr'
 	},
 	{
@@ -3605,7 +3605,7 @@ export const players = [
 		name: 'Albian Ajeti',
 		position: 'Forward',
 		price: '6.0',
-		team: 'West Ham',
+		club: 'West Ham',
 		uid: '-M3QcYoUO5e3v9L1bsHs'
 	},
 	{
@@ -3613,7 +3613,7 @@ export const players = [
 		name: 'Rui Patrício',
 		position: 'Goalkeeper',
 		price: '5.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoUO5e3v9L1bsHt'
 	},
 	{
@@ -3621,7 +3621,7 @@ export const players = [
 		name: 'John Ruddy',
 		position: 'Goalkeeper',
 		price: '4.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoUO5e3v9L1bsHu'
 	},
 	{
@@ -3629,7 +3629,7 @@ export const players = [
 		name: 'Matt Doherty',
 		position: 'Defender',
 		price: '6.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoVQOEwjqLRSv6F'
 	},
 	{
@@ -3637,7 +3637,7 @@ export const players = [
 		name: 'Conor Coady',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoVQOEwjqLRSv6G'
 	},
 	{
@@ -3646,7 +3646,7 @@ export const players = [
 		name: 'Jonny',
 		position: 'Defender',
 		price: '6.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoWOlCBCzpEkwN7'
 	},
 	{
@@ -3654,7 +3654,7 @@ export const players = [
 		name: 'Romain Saiss',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoWOlCBCzpEkwN8'
 	},
 	{
@@ -3662,7 +3662,7 @@ export const players = [
 		name: 'Willy Boly',
 		position: 'Defender',
 		price: '5.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoXTwbUtp4Rybub'
 	},
 	{
@@ -3670,7 +3670,7 @@ export const players = [
 		name: 'Rúben Vinagre',
 		position: 'Defender',
 		price: '4.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoXTwbUtp4Rybuc'
 	},
 	{
@@ -3678,7 +3678,7 @@ export const players = [
 		name: 'Maximilian Kilman',
 		position: 'Defender',
 		price: '4.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoYI-5yZq9m48w-'
 	},
 	{
@@ -3686,7 +3686,7 @@ export const players = [
 		name: 'Adama Traoré',
 		position: 'Midfielder',
 		price: '6.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYo_nwP-n2nBvNIN'
 	},
 	{
@@ -3694,7 +3694,7 @@ export const players = [
 		name: 'Joao Moutinho',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYo_nwP-n2nBvNIO'
 	},
 	{
@@ -3702,7 +3702,7 @@ export const players = [
 		name: 'Leander Dendocker',
 		position: 'Midfielder',
 		price: '4.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYobggvjMmoE5QNe'
 	},
 	{
@@ -3710,7 +3710,7 @@ export const players = [
 		name: 'Rúben Neves',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYobggvjMmoE5QNf'
 	},
 	{
@@ -3718,7 +3718,7 @@ export const players = [
 		name: 'Pedro Neto',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYocIY7s43ximwte'
 	},
 	{
@@ -3726,7 +3726,7 @@ export const players = [
 		name: 'Morgan Gibbs-White',
 		position: 'Midfielder',
 		price: '5.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYocIY7s43ximwtf'
 	},
 	{
@@ -3734,7 +3734,7 @@ export const players = [
 		name: 'Daniel Podence',
 		position: 'Midfielder',
 		price: '5.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYodAhA_jAysSg_6'
 	},
 	{
@@ -3742,7 +3742,7 @@ export const players = [
 		name: 'Raúl Jimenez',
 		position: 'Forward',
 		price: '7.5',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYodAhA_jAysSg_7'
 	},
 	{
@@ -3750,7 +3750,7 @@ export const players = [
 		name: 'Diogo Jota',
 		position: 'Forward',
 		price: '6.0',
-		team: 'Wolverhampton',
+		club: 'Wolverhampton',
 		uid: '-M3QcYoeZEoOkQBoF56B'
 	}
 ];

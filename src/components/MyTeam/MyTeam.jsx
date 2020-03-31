@@ -44,18 +44,27 @@ export default class MyTeam extends Component {
 		this.addPlayer = this.addPlayer.bind(this);
 	}
 
+	playerCount = () => {
+		const { team } = this.state;
+		return Object.values(team).reduce((tot, next) => {
+			return tot + next.length;
+		}, 0);
+	};
+
 	addPlayer = player => {
+		// RULES FOR PICKING TEAM:
+		// 1. max 11 players on field
+		// 1 Goalkeeper, 4 Defenders, 4 Midfielders, 2 Forwards
+
+		// 2. max 15 players inc bench
 		// conditions... (max 3 of same team, bench?)
+
+		// 3. max 3 players from same club
 
 		const { team } = this.state;
 
-		// count picked players
-		const total = Object.values(team).reduce((tot, next) => {
-			return tot + next.length;
-		}, 0);
-
-		// already 15 picked
-		if (total >= 15) {
+		// already 15 picked?
+		if (this.playerCount() >= 15) {
 			console.log('Already picked 15 players. (Add func to swap players)');
 			return;
 		}

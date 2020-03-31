@@ -96,7 +96,7 @@ const config = {
 	positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
 	sortOptions: {
 		name: 'namn',
-		team: 'lag',
+		club: 'lag',
 		price: 'pris',
 		position: 'position'
 	}
@@ -104,7 +104,7 @@ const config = {
 
 const INITIAL_STATE = {
 	position: 'default',
-	team: 'default',
+	club: 'default',
 	maxPrice: '',
 	searchTerm: '',
 
@@ -138,7 +138,7 @@ class PlayerSearch extends Component {
 		this.maxPriceHandler = this.maxPriceHandler.bind(this);
 
 		this.filterByPosition = this.filterByPosition.bind(this);
-		this.filterByTeam = this.filterByTeam.bind(this);
+		this.filterByClub = this.filterByClub.bind(this);
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
 	}
@@ -172,11 +172,11 @@ class PlayerSearch extends Component {
 		return playerList.filter(player => player.position === pos);
 	};
 
-	filterByTeam = playerList => {
-		const team = this.state.team;
-		if (!team || team === 'default') return playerList;
+	filterByClub = playerList => {
+		const club = this.state.club;
+		if (!club || club === 'default') return playerList;
 
-		return playerList.filter(player => player.team === team);
+		return playerList.filter(player => player.club === club);
 	};
 
 	filterByMaxPrice = playerList => {
@@ -239,18 +239,18 @@ class PlayerSearch extends Component {
 
 		const {
 			position,
-			team,
+			club,
 			maxPrice,
 			//searchTerm,
 			sortBy,
 			sortOrder
 		} = this.state;
 
-		const teams = [...new Set(players.map(item => item.team))];
+		const clubs = [...new Set(players.map(item => item.club))];
 
 		// Apply filters
 		const filtered = this.filterByPosition(
-			this.filterByTeam(this.filterByMaxPrice(this.filterByName(players)))
+			this.filterByClub(this.filterByMaxPrice(this.filterByName(players)))
 		);
 
 		// Apply order-config
@@ -317,17 +317,17 @@ class PlayerSearch extends Component {
 					})}
 				</Select>
 				<br />
-				{/* Team filter */}
+				{/* club filter */}
 				<Select
-					onChange={e => this.updateState('team', e.target.value)}
-					id='teams'
-					value={team}
+					onChange={e => this.updateState('club', e.target.value)}
+					id='clubs'
+					value={club}
 				>
-					<option value='default'>- Alla lag -</option>
-					{teams.map(team => {
+					<option value='default'>- Alla klubbar -</option>
+					{clubs.map(club => {
 						return (
-							<option key={team} value={team}>
-								{team}
+							<option key={club} value={club}>
+								{club}
 							</option>
 						);
 					})}
@@ -385,7 +385,7 @@ class PlayerSearch extends Component {
 					{result.map((section, nth) => {
 						return (
 							<Section key={nth}>
-								<LabelRow>Section Label</LabelRow>
+								<LabelRow>*Section Label*</LabelRow>
 								{section.map((player, i) => {
 									return (
 										<PlayerRow key={i}>
@@ -395,7 +395,7 @@ class PlayerSearch extends Component {
 											>
 												<p>{player.name}</p>
 												<p>
-													{player.team} - {player.position}
+													{player.club} - {player.position}
 												</p>
 											</PlayerInfo>
 											<PlayerPrice>
