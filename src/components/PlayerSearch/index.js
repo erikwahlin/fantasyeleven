@@ -51,8 +51,8 @@ class PlayerSearch extends Component {
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		this.maxPriceHandler = this.maxPriceHandler.bind(this);
-		this._onSelectPosOrClub = this._onSelectPosOrClub.bind(this)
-		this._onSelectPrice = this._onSelectPrice.bind(this)
+		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this)
+		this.onSelectPrice = this.onSelectPrice.bind(this)
 
 		this.filterByPosition = this.filterByPosition.bind(this);
 		this.filterByClub = this.filterByClub.bind(this);
@@ -82,13 +82,13 @@ class PlayerSearch extends Component {
 	};
 
 	// filter-funcs
-	_onSelectPosOrClub = option =>  {
+	onSelectPosOrClub = option =>  {
 		const selected = this.state.posOrClubSelected;
 		console.log('You selected ', selected)
 		this.setState({posOrClubSelected: option})
 	  }
 
-	_onSelectPrice = option =>  {
+	onSelectPrice = option =>  {
 		const selected = this.state.maxPriceSelected;
 		console.log('You selected ', selected)
 		this.setState({maxPriceSelected: option})
@@ -269,12 +269,12 @@ class PlayerSearch extends Component {
 				(FILTER) <br /> {/* temp */}
 				<Dropdown 
 				 options={filterOptions} 
-				 onChange={this._onSelectPosOrClub} 
+				 onChange={this.onSelectPosOrClub} 
 				 value={posOrClubdefaultOption} 
 				 placeholder="Select an option" 
 				 />
 				 <Dropdown
-				 onChange={this._onSelectPrice}
+				 onChange={this.onSelectPrice}
 				 value={maxPriceDefaultOption}
 				 options={priceOptions}
 				 placeholder='Maxpris/spelare'
@@ -313,18 +313,6 @@ class PlayerSearch extends Component {
 
 				<br />
 				{/* Max Price filter */}
-				<Select
-					onChange={e => this.maxPriceHandler(e.target.value)}
-					>
-					<option value='default'>- Högsta prisklass -</option>
-					{priceTags.sort((a,b) => b-a).map(price => {
-						return (
-							<option key={price} value={price}>
-								{price} kr
-							</option>
-						);
-					})}
-				</Select>
 
 {/* 				<Input
 					type='number'
