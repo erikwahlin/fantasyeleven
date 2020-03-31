@@ -171,9 +171,9 @@ class PlayerSearch extends Component {
 
 	sortedPlayerList = (playerList) => {
 		if(this.state.priceSort === 'falling') {
-			return playerList.sort((a,b) => a.price - b.price) 
+			return playerList.sort((a,b) => b.price - a.price) 
 		} else { 
-			return playerList.sort((a,b) => b.price-a.price)
+			return playerList.sort((a,b) => a.price - b.price)
 		}
 	}
 
@@ -229,8 +229,8 @@ class PlayerSearch extends Component {
 		//const maxPriced = this.filterByMaxPrice(this.filterByName(filtered);
 
 		// Apply order-config
-		const sorted = this.applySortBy(filtered);
-
+		//const sorted = this.applySortBy(filtered);
+		const sorted = this.sortedPlayerList(filtered)
 		// WIP-test. split into result-sections based on sort
 		const sectionFilter = items => {
 			const splitByPosition = () => {
@@ -369,8 +369,8 @@ class PlayerSearch extends Component {
 				</Select>
 				<br />
 				Sortera efter pris:
-				<Button value='falling' onClick={this.handleSort}>Fallande</Button>
-				<Button value='rising' onClick={this.handleSort}>Stigande</Button>
+				<Button style={this.state.priceSort === 'falling' ? { color:'red'} : {color: 'black'}} value='falling' onClick={this.handleSort}>Fallande</Button>
+				<Button style={this.state.priceSort === 'rising' ? { color:'red'} : {color: 'black'}} value='rising' onClick={this.handleSort}>Stigande</Button>
 				<br />
 				<Button onClick={this.resetSettings}>Återställ filter</Button>
 				<br />
