@@ -3,8 +3,10 @@ import { compose } from 'recompose';
 
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
-
+import Styled from 'styled-components'
 import MyTeam from '../MyTeam';
+
+
 
 class HomePage extends Component {
 	constructor(props) {
@@ -31,7 +33,6 @@ class HomePage extends Component {
 		return (
 			<div>
 				<h1>Home Page</h1>
-
 				<MyTeam />
 			</div>
 		);

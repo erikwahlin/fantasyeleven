@@ -177,7 +177,8 @@ class PlayerSearch extends Component {
 		//just sort position in alphabetic orders.
 
 		const teams = [...new Set(players.map(item => item.team))];
-
+		const priceTags = [...new Set(players.map(item => item.price))]
+		console.log('all pricetags', priceTags)
 		console.log('all teams', teams); // ['arsenal', 'aston villa'] -- ger alltså tillbaka en array med alla team i PL.
 
 		// Apply filters
@@ -230,6 +231,21 @@ class PlayerSearch extends Component {
 				<br />
 
 				{/* Max Price filter */}
+				
+				<select
+				onChange={e => this.maxPriceHandler(e.target.value)}
+				placeholder='Maxpris i Milj.'
+				>
+					<option value='default'>- Välj maxpris -</option>
+					{priceTags.sort((a,b) => b-a).map(price => {
+						return (
+							<option key={price} value={price}>
+								{price} kr
+							</option>
+													);
+												})}
+				</select> 
+				
 				<input
 					type='number'
 					step='0.5'
