@@ -19,28 +19,31 @@ export const Input = styled.input`
 	margin: 5px;
 	height: 30px;
 	border: none;
-	font-weight: bold;
-	border-radius: 4px;
+	border-bottom: 2px solid white;
+	border-radius: 1px;
+	font-size: 1.1em;
+	letter-spacing:1.5px;
 	outline: none;
 	color: white;
 	background: rgba(2,31,61,1);
-	box-shadow: 0 0 5px #eee;
 	cursor: text;
 		::placeholder {
 			color:white;
+		}
+		::focus {
+			border: 2px solid white;
 		}
 `;
 
 export const Button = styled.button`
 	margin: 5px;
-	width: 200px;
+	width: 10%;
 	height: 30px;
-	border: none;
+	border: 1px solid white;
 	border-radius: 1px;
 	outline: none;
-
-	background: #fff;
-	box-shadow: 0 0 5px #eee;
+	color: white;
+	background: rgba(2,31,61,1);
 
 	cursor: pointer;
 `;

@@ -339,7 +339,7 @@ class PlayerSearch extends Component {
 					type='text'
 					name='name'
 					onChange={this.handleTextFilterChange}
-					placeholder='Spelarnamn'
+					placeholder='SÖK SPELARE'
 				></Input>
 				<br />
 				<br />
@@ -368,9 +368,9 @@ class PlayerSearch extends Component {
 					<option value='>'>visa fallande {'>'}</option>
 				</Select>
 				<br />
-				Sortera efter pris:
-				<Button style={this.state.priceSort === 'falling' ? { color:'red'} : {color: 'black'}} value='falling' onClick={this.handleSort}>Fallande</Button>
-				<Button style={this.state.priceSort === 'rising' ? { color:'red'} : {color: 'black'}} value='rising' onClick={this.handleSort}>Stigande</Button>
+				Sortera efter pris: <br/>
+				<Button style={this.state.priceSort === 'falling' ? { color:'red'} : {color: 'white'}} value='falling' onClick={this.handleSort}>Fallande</Button>
+				<Button style={this.state.priceSort === 'rising' ? { color:'red'} : {color: 'white'}} value='rising' onClick={this.handleSort}>Stigande</Button>
 				<br />
 				<Button onClick={this.resetSettings}>Återställ filter</Button>
 				<br />
