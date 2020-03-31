@@ -1,14 +1,4 @@
 import React, { Component } from 'react';
-import { players } from './players';
-import PlayerSearch from '../PlayerSearch';
+import MyTeam from './MyTeam';
 
-export default class MyTeam extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-
-	render() {
-		return <PlayerSearch players={players} />;
-	}
-}
+export default MyTeam;

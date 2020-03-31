@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { withMyTeam } from '../MyTeam/ctx';
 
 // temp-style
 const Select = styled.select`
@@ -228,34 +229,9 @@ class PlayerSearch extends Component {
 		return sortBy === 'default' ? playerList : playerList.sort(sortIt);
 	};
 
-	/* handleSortAsc() {
-		this.setState(prevState => ({
-			price: {
-				// object that we want to update
-				...prevState.price, // keep all other key-value pairs
-				highLow: !this.state.highLow // update the value of specific key
-			}
-		}));
-	}
-
-	handleSortDesc() {
-		this.setState(prevState => ({
-			price: {
-				// object that we want to update
-				...prevState.price, // keep all other key-value pairs
-				lowHigh: !this.state.lowHigh // update the value of specific key
-			}
-		}));
-	} */
-
 	handleTextFilterChange(event) {
 		this.setState({ searchTerm: event.target.value });
 	}
-
-	/* handleTeamOptionChange(event) {
-		event.preventDefault();
-		this.setState({ team: event.target.value });
-	} */
 
 	render() {
 		const { players } = this.props;
@@ -265,18 +241,12 @@ class PlayerSearch extends Component {
 			position,
 			team,
 			maxPrice,
-			searchTerm,
+			//searchTerm,
 			sortBy,
 			sortOrder
 		} = this.state;
 
-		//sorting functionality.
-		//sort array of obj by position.
-		//just sort position in alphabetic orders.
-
 		const teams = [...new Set(players.map(item => item.team))];
-
-		console.log('all teams', teams); // ['arsenal', 'aston villa'] -- ger alltså tillbaka en array med alla team i PL.
 
 		// Apply filters
 		const filtered = this.filterByPosition(
@@ -285,11 +255,6 @@ class PlayerSearch extends Component {
 
 		// Apply order-config
 		const sorted = this.applySortBy(filtered);
-
-		// array-split by position
-		if (sortBy === 'position') {
-			const positionSplit = [...config.positions.map(pos => [])];
-		}
 
 		// WIP-test. split into result-sections based on sort
 		const sectionFilter = items => {
@@ -328,7 +293,10 @@ class PlayerSearch extends Component {
 
 		const result = sectionFilter(sorted);
 
-		console.log('RESULT', result);
+		//console.log('search output', result);
+
+		// MyTeam context
+		const { state, setters } = this.props.myTeam;
 
 		return (
 			<div className='App'>
@@ -370,7 +338,7 @@ class PlayerSearch extends Component {
 					type='number'
 					step='0.1'
 					onChange={e => this.maxPriceHandler(e.target.value)}
-					placeholder='Maxpris (milj.)'
+					placeholder='Maxpris (kr)'
 					value={maxPrice}
 				></Input>
 				<br />
@@ -422,14 +390,16 @@ class PlayerSearch extends Component {
 									return (
 										<PlayerRow key={i}>
 											<PlayerInfoBtn>info</PlayerInfoBtn>
-											<PlayerInfo>
+											<PlayerInfo
+												onClick={e => setters.addPlayer(player)}
+											>
 												<p>{player.name}</p>
 												<p>
 													{player.team} - {player.position}
 												</p>
 											</PlayerInfo>
 											<PlayerPrice>
-												<p>{player.price} milj.</p>
+												<p>{player.price} kr</p>
 											</PlayerPrice>
 										</PlayerRow>
 									);
@@ -443,4 +413,4 @@ class PlayerSearch extends Component {
 	}
 }
 
-export default PlayerSearch;
+export default withMyTeam(PlayerSearch);
