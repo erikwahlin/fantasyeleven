@@ -23,14 +23,9 @@ const INITIAL_STATE = {
 	club: 'default',
 	maxPriceSelected: { value: 'none', label: '- Högsta pris -'},
 	searchTerm: '',
-
 	sortBy: 'position',
 	sortOrder: '<',
-
-	price: {
-		lowHigh: false,
-		highLow: false
-	}
+	priceSort: 'falling'
 };
 
 //orderby
@@ -51,9 +46,9 @@ class PlayerSearch extends Component {
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		this.maxPriceHandler = this.maxPriceHandler.bind(this);
-		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this)
-		this.onSelectPrice = this.onSelectPrice.bind(this)
-
+		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
+		this.onSelectPrice = this.onSelectPrice.bind(this);
+		this.handleSort = this.handleSort.bind(this);
 		this.filterByPosition = this.filterByPosition.bind(this);
 		this.filterByClub = this.filterByClub.bind(this);
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
@@ -66,7 +61,14 @@ class PlayerSearch extends Component {
 			[key]: val
 		});
 	};
-
+	handleSort = (e) => {
+		console.log(this.sortedPlayerList(this.props.players) )
+		if(e.target.value === 'falling') {
+			this.setState({priceSort: 'falling'})
+		} else  {
+			this.setState({priceSort: 'rising'})
+		}
+	}
 	// reset filter & order
 	resetSettings = () => {
 		this.setState({
@@ -167,6 +169,14 @@ class PlayerSearch extends Component {
 		this.setState({ searchTerm: event.target.value });
 	}
 
+	sortedPlayerList = (playerList) => {
+		if(this.state.priceSort === 'falling') {
+			return playerList.sort((a,b) => a.price - b.price) 
+		} else { 
+			return playerList.sort((a,b) => b.price-a.price)
+		}
+	}
+
 	render() {
 		const { players } = this.props;
 		if (!players) return <p>Didn't find any players</p>;
@@ -213,8 +223,9 @@ class PlayerSearch extends Component {
 			this.filterByClub(this.filterByMaxPrice(this.filterByName(players)))
 		); */
 
-		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)))
 
+		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)))
+		
 		//const maxPriced = this.filterByMaxPrice(this.filterByName(filtered);
 
 		// Apply order-config
@@ -313,7 +324,6 @@ class PlayerSearch extends Component {
 
 				<br />
 				{/* Max Price filter */}
-
 {/* 				<Input
 					type='number'
 					step='0.1'
@@ -358,6 +368,9 @@ class PlayerSearch extends Component {
 					<option value='>'>visa fallande {'>'}</option>
 				</Select>
 				<br />
+				Sortera efter pris:
+				<Button value='falling' onClick={this.handleSort}>Fallande</Button>
+				<Button value='rising' onClick={this.handleSort}>Stigande</Button>
 				<br />
 				<Button onClick={this.resetSettings}>Återställ filter</Button>
 				<br />

@@ -14,17 +14,21 @@ export const Select = styled.select`
 `;
 
 export const Input = styled.input`
+	width:20%;
+	position: relative;
 	margin: 5px;
-	width: 200px;
 	height: 30px;
 	border: none;
+	font-weight: bold;
 	border-radius: 4px;
 	outline: none;
-
-	background: #fff;
+	color: white;
+	background: rgba(2,31,61,1);
 	box-shadow: 0 0 5px #eee;
-
 	cursor: text;
+		::placeholder {
+			color:white;
+		}
 `;
 
 export const Button = styled.button`
