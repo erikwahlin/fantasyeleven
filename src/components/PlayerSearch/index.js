@@ -1,96 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import './dropdown.css'
+import { PlayerPrice , PlayerInfo, PlayerInfoBtn, Select, Input, Button, ResultBox, Section, LabelRow, PlayerRow,} from './index.styled'
 
-// temp-style
-const Select = styled.select`
-	width: 202px;
-	height: 30px;
-	margin: 5px;
-	border: none;
-	outline: none;
-
-	background: #fff;
-	box-shadow: 0 0 5px #eee;
-
-	cursor: pointer;
-`;
-
-const Input = styled.input`
-	margin: 5px;
-	width: 200px;
-	height: 30px;
-	border: none;
-	border-radius: 4px;
-	outline: none;
-
-	background: #fff;
-	box-shadow: 0 0 5px #eee;
-
-	cursor: text;
-`;
-
-const Button = styled.button`
-	margin: 5px;
-	width: 200px;
-	height: 30px;
-	border: none;
-	border-radius: 4px;
-	outline: none;
-
-	background: #fff;
-	box-shadow: 0 0 5px #eee;
-
-	cursor: pointer;
-`;
-
-const ResultBox = styled.div`
-	width: 500px;
-	display: flex;
-	flex-direction: column;
-`;
-
-const Section = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-const LabelRow = styled.div`
-	width: 100%;
-	display: flex;
-	background: orange;
-	font-weight: 700;
-`;
-
-const PlayerRow = styled.div`
-	width: 100%;
-	display: flex;
-	font-size: 0.7em;
-	font-style: italic;
-	border: 2px solid #ddd;
-	padding: 5px;
-`;
-
-const PlayerInfoBtn = styled.button`
-	flex: 1;
-
-	border: none;
-	outline: none;
-	background: #ddd;
-	font-weight: 700;
-	cursor: pointer;
-`;
-
-const PlayerInfo = styled.div`
-	flex: 3;
-	padding: 5px;
-`;
-
-const PlayerPrice = styled.div`
-	flex: 1;
-	padding: 5px;
-`;
 
 const config = {
 	positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
@@ -103,9 +18,10 @@ const config = {
 };
 
 const INITIAL_STATE = {
+	posOrClubSelected: { value: 'none', label: '- Alla spelare -'},
 	position: 'default',
 	club: 'default',
-	maxPrice: '',
+	maxPriceSelected: { value: 'none', label: '- Högsta pris -'},
 	searchTerm: '',
 
 	sortBy: 'position',
@@ -134,8 +50,9 @@ class PlayerSearch extends Component {
 
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
-
 		this.maxPriceHandler = this.maxPriceHandler.bind(this);
+		this._onSelectPosOrClub = this._onSelectPosOrClub.bind(this)
+		this._onSelectPrice = this._onSelectPrice.bind(this)
 
 		this.filterByPosition = this.filterByPosition.bind(this);
 		this.filterByClub = this.filterByClub.bind(this);
@@ -165,6 +82,23 @@ class PlayerSearch extends Component {
 	};
 
 	// filter-funcs
+	_onSelectPosOrClub = option =>  {
+		const selected = this.state.posOrClubSelected;
+		console.log('You selected ', selected)
+		this.setState({posOrClubSelected: option})
+	  }
+
+	_onSelectPrice = option =>  {
+		const selected = this.state.maxPriceSelected;
+		console.log('You selected ', selected)
+		this.setState({maxPriceSelected: option})
+	  }
+
+	filterPlayers = playerList => {
+		if(this.state.posOrClubSelected.value === 'none') return playerList;
+		return playerList.filter(player => player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.label)
+	}
+	
 	filterByPosition = playerList => {
 		const pos = this.state.position;
 		if (!pos || pos === 'default') return playerList;
@@ -180,7 +114,7 @@ class PlayerSearch extends Component {
 	};
 
 	filterByMaxPrice = playerList => {
-		const maxPrice = this.state.maxPrice;
+		const maxPrice = this.state.maxPriceSelected.label;
 		if (isNaN(maxPrice) || !maxPrice || maxPrice === '' || maxPrice <= 0)
 			return playerList;
 
@@ -247,11 +181,41 @@ class PlayerSearch extends Component {
 		} = this.state;
 
 		const clubs = [...new Set(players.map(item => item.club))];
+		const priceTags = [...new Set(players.map(item => item.price))];
 
+		const filterOptions = [
+			{ value: 'none', label: '- Alla spelare -'},
+			{
+			 type: 'group', name: '- Positioner - ', items: [
+			   ...config.positions.map( position => {
+				return {'value': 'position','label': position}
+			  })
+			 ]
+			},
+			{
+			 type: 'group', name: '- Klubbar -', items: [
+				...clubs.map( club => {
+					return {'value': 'club','label': club}
+				  })
+			 ]
+			}
+		  ];
+		  //options for dropdown.
+		const maxPriceDefaultOption = this.state.maxPriceSelected;
+		const priceOptions = priceTags.map(price => {
+			return {'value': 'maxPrice', 'label': price}
+		}) //append kr to price.
+		//default option for dropdown - All players are shown.
+  		const posOrClubdefaultOption = this.state.posOrClubSelected;
+ 
 		// Apply filters
-		const filtered = this.filterByPosition(
+		/* const filtered = this.filterByPosition(
 			this.filterByClub(this.filterByMaxPrice(this.filterByName(players)))
-		);
+		); */
+
+		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)))
+
+		//const maxPriced = this.filterByMaxPrice(this.filterByName(filtered);
 
 		// Apply order-config
 		const sorted = this.applySortBy(filtered);
@@ -300,10 +264,23 @@ class PlayerSearch extends Component {
 
 		return (
 			<div className='App'>
+
 				{/* FILTER */}
 				(FILTER) <br /> {/* temp */}
+				<Dropdown 
+				 options={filterOptions} 
+				 onChange={this._onSelectPosOrClub} 
+				 value={posOrClubdefaultOption} 
+				 placeholder="Select an option" 
+				 />
+				 <Dropdown
+				 onChange={this._onSelectPrice}
+				 value={maxPriceDefaultOption}
+				 options={priceOptions}
+				 placeholder='Maxpris/spelare'
+				 />
 				{/* Position filter */}
-				<Select
+{/* 				<Select
 					onChange={e => this.updateState('position', e.target.value)}
 					value={position}
 				>
@@ -318,7 +295,7 @@ class PlayerSearch extends Component {
 				</Select>
 				<br />
 				{/* club filter */}
-				<Select
+				{/* <Select
 					onChange={e => this.updateState('club', e.target.value)}
 					id='clubs'
 					value={club}
@@ -331,16 +308,33 @@ class PlayerSearch extends Component {
 							</option>
 						);
 					})}
-				</Select>
+				</Select> */}
+
+
 				<br />
 				{/* Max Price filter */}
-				<Input
+				<Select
+					onChange={e => this.maxPriceHandler(e.target.value)}
+					>
+					<option value='default'>- Högsta prisklass -</option>
+					{priceTags.sort((a,b) => b-a).map(price => {
+						return (
+							<option key={price} value={price}>
+								{price} kr
+							</option>
+						);
+					})}
+				</Select>
+
+{/* 				<Input
 					type='number'
 					step='0.1'
 					onChange={e => this.maxPriceHandler(e.target.value)}
 					placeholder='Maxpris (kr)'
 					value={maxPrice}
-				></Input>
+				></Input> */}
+
+
 				<br />
 				{/* Player name filter */}
 				<Input
