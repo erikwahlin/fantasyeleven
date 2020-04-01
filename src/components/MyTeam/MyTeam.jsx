@@ -18,7 +18,8 @@ const initial_state = {
 		keys: {
 			uid: [],
 			position: [],
-			club: []
+			club: [],
+			captain: false
 		}
 	},
 
@@ -230,7 +231,7 @@ export default class MyTeam extends Component {
 		player.field = !toBench;
 		player.bench = toBench;
 		const fieldOrBench = toBench ? 'bench' : 'field';
-
+		//player.captain = filter.keys.captain //do i do this here?
 		// add player to list
 		team.list.push(player);
 
@@ -345,8 +346,19 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
+				<div>Total kostnad för ditt lag: 
+					{
+					team.list[0] !== undefined ?
+					<div style={team.list.length == 15 ? {color: 'green', fontWeight: 'bold'}: {color: 'black'}}>{team.list.map((elem) => elem.price).reduce((acc,cur) => acc + cur) + 'kr'}</div>
+						: 
+						<div>0kr</div>
+				}
+				</div>
 				<div>
 					<p>PÅ PLAN</p>
+			<div style={team.list.length == 15 ? {color: 'green', fontWeight: 'bold'} : {color: 'red'} }>{team.list.length > 0 ? team.list.length + '/15' : 0 + '/15'}</div>
+			<div>{/*remaining players to pick*/}</div>
+
 					<div>
 						{config.positions.map(pos => (
 							<div key={`field-${pos}`}>
