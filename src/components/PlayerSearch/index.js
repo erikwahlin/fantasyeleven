@@ -4,6 +4,11 @@ import { withMyTeam } from '../MyTeam/ctx';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import './dropdown.css';
+import './styles.css';
+import { FaInfoCircle } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
+import '../fonts/MrEavesXLModNarOT-Reg.ttf'
+
 import {
 	PlayerPrice,
 	PlayerInfo,
@@ -14,7 +19,8 @@ import {
 	ResultBox,
 	Section,
 	LabelRow,
-	PlayerRow
+	PlayerRow,
+	ButtonReset
 } from './index.styled';
 
 const config = {
@@ -28,8 +34,8 @@ const config = {
 };
 
 const INITIAL_STATE = {
-	posOrClubSelected: { value: 'none', label: '- Alla spelare -' },
-	maxPriceSelected: { value: 'none', label: '- Högsta pris -' },
+	posOrClubSelected: { value: 'none', label: 'Alla spelare' },
+	maxPriceSelected: { value: 'none', label: 'Högsta pris' },
 	searchTerm: '',
 	priceSort: 'falling'
 };
@@ -222,7 +228,7 @@ class PlayerSearch extends Component {
 		return (
 			<div className="App">
 				{/* FILTER */}
-				(FILTER) <br /> {/* temp */}
+				{/* (FILTER) <br />  */}{/* temp */}
 				<Dropdown
 					options={filterOptions}
 					onChange={this.onSelectPosOrClub}
@@ -235,31 +241,35 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
-				<br />
-				<Input
+				
+				<Input 
 					type="text"
 					name="name"
 					onChange={this.handleTextFilterChange}
-					placeholder="SÖK SPELARE"
-				></Input>
-				<br />
-				Sortera efter pris: <br />
+					placeholder="Sök spelare"
+				>
+				</Input>
+				
+				
+
+				<h2>Sortera efter pris</h2>
+
 				<Button
-					style={this.state.priceSort === 'falling' ? { color: 'red' } : { color: 'white' }}
+					style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 					value="falling"
 					onClick={this.handleSort}
 				>
 					Fallande
 				</Button>
 				<Button
-					style={this.state.priceSort === 'rising' ? { color: 'red' } : { color: 'white' }}
+					style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 					value="rising"
 					onClick={this.handleSort}
 				>
 					Stigande
 				</Button>
 				<br />
-				<Button onClick={this.resetSettings}>Återställ filter</Button>
+				<ButtonReset onClick={this.resetSettings}><strong>Återställ filter</strong></ButtonReset>
 				<br />
 				<br />
 				{/* RESULT */}
@@ -269,21 +279,21 @@ class PlayerSearch extends Component {
 							<Section key={nth}>
 								{section.length ? (
 									<LabelRow>
-										<p> - {`${section[0].position}s`} - </p>
+											<div className="labelPosition"><p> {`${section[0].position}s`}</p></div> <div className="labelPrice"><p>SEK</p></div>
 									</LabelRow>
 								) : null}
 								{section.map((player, i) => {
 									return (
 										<PlayerRow key={i}>
-											<PlayerInfoBtn>info</PlayerInfoBtn>
+											<PlayerInfoBtn><FaInfoCircle className="info" /></PlayerInfoBtn>
 											<PlayerInfo onClick={e => setters.addHandler(player)}>
-												<p>{player.name}</p>
-												<p>
-													{player.club} - {player.position}
+												<p className="player">{player.name}</p>
+												<p className="sum">
+													<strong>{player.club.toUpperCase().slice(0, 3)}</strong> &nbsp; {player.position}
 												</p>
 											</PlayerInfo>
 											<PlayerPrice>
-												<p>{player.price} kr</p>
+												<p className="player_price">{player.price}</p>
 											</PlayerPrice>
 										</PlayerRow>
 									);

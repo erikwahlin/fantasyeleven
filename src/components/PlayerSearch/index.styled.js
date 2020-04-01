@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import '../fonts/MrEavesXLModNarOT-Reg.ttf'
+
 
 export const Select = styled.select`
 	width: 202px;
@@ -6,25 +8,22 @@ export const Select = styled.select`
 	margin: 5px;
 	border: none;
 	outline: none;
-
 	background: #fff;
 	box-shadow: 0 0 5px #eee;
-
 	cursor: pointer;
 `;
 
 export const Input = styled.input`
-	width: 20%;
-	position: relative;
-	margin: 5px;
-	height: 30px;
-	border: none;
-	border-bottom: 2px solid white;
-	border-radius: 1px;
-	font-size: 1.1em;
-	letter-spacing: 1.5px;
+	width:15%;
+	/* position: relative; */
+	font-family:'Avenir';
+	font-size:0.9em;
+	font-weight:bold;
+	color:white;
+	padding:8px 52px 8px 10px;
+	border:1px solid white;
+	 box-sizing: border-box;
 	outline: none;
-	color: white;
 	background: rgba(2, 31, 61, 1);
 	cursor: text;
 	::placeholder {
@@ -37,19 +36,36 @@ export const Input = styled.input`
 
 export const Button = styled.button`
 	margin: 5px;
-	width: 10%;
+	width: 7%;
 	height: 30px;
+	font-family:'Avenir';
+	font-size:0.8em;
 	border: 1px solid white;
 	border-radius: 1px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
+	cursor: pointer;
+`;
 
+export const ButtonReset = styled.button`
+	margin: 5px;
+	width: 7%;
+	height: 30px;
+	font-family:'Avenir';
+	font-size:0.8em;
+	border: 1px solid white;
+	border-radius: 1px;
+	outline: none;
+	color: white;
+	background: rgba(2, 31, 61, 1);
+	margin-top:1rem;
 	cursor: pointer;
 `;
 
 export const ResultBox = styled.div`
-	width: 500px;
+	background: #F5F5F5;
+	width: 15%;
 	display: flex;
 	flex-direction: column;
 `;
@@ -62,39 +78,33 @@ export const Section = styled.div`
 
 export const LabelRow = styled.div`
 	width: 100%;
+	height:30px !important;
 	display: flex;
-	background: #021f3d;
-	color: #fff;
+	justify-content:space-around;
+	align-items:center;
+	background: #00FFF5;
+	color: black;
 	font-weight: 700;
-	text-align: center;
-
-	& > p {
-		width: 100%;
-		text.align: center;
-		display: block;
-		margin: 0;
-	}
+	font-size:0.8em;
 `;
 
 export const PlayerRow = styled.div`
 	width: 100%;
 	display: flex;
-	font-size: 0.7em;
-	font-style: italic;
-	border: 2px solid #ddd;
-	padding: 0;
+	background: #F5F5F5;
+	color:black;
+	border: 5px solid #ddd;
 	border: none;
-	border-bottom: 2px solid #021f3d;
+	border-bottom: 4px solid #021f3d;
 `;
 
 export const PlayerInfoBtn = styled.button`
-	flex: 1;
-
+	background: #F5F5F5;
 	border: none;
 	outline: none;
-	background: #ddd;
-	font-weight: 700;
+	font-size:1.7em;
 	cursor: pointer;
+	
 `;
 
 export const PlayerInfo = styled.div`
