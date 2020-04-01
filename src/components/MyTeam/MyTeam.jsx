@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { players } from './players';
 import MyTeamCtx from './ctx';
 import PlayerSearch from '../PlayerSearch';
+import tempField from '../../media/temp_field.jpg';
+
+const Output = styled.div`
+	background: green;
+	position: fixed;
+	right: 100px;
+	background: url(${props => props.bg});
+	background-position: contain;
+	max-width: 500px;
+`;
 
 // convert millions to less
 const allPlayers = players.map(player => ({
@@ -127,8 +138,6 @@ export default class MyTeam extends Component {
 	applyFilter = players => {
 		const { team, filter } = this.state;
 		const { keys: filterKeys } = filter;
-
-		console.log('filter keys', filterKeys);
 
 		// 15 players already picked? - bail
 		if (team.list.length >= 15) {
@@ -345,7 +354,7 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<div>
+				<Output bg={tempField}>
 					<p>PÅ PLAN</p>
 					<div>
 						{config.positions.map(pos => (
@@ -381,7 +390,7 @@ export default class MyTeam extends Component {
 					</div>
 					<br />
 					<hr />
-				</div>
+				</Output>
 				<PlayerSearch players={filteredPlayers} />
 			</MyTeamCtx.Provider>
 		);

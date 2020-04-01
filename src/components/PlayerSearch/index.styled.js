@@ -14,7 +14,7 @@ export const Select = styled.select`
 `;
 
 export const Input = styled.input`
-	width:20%;
+	width: 20%;
 	position: relative;
 	margin: 5px;
 	height: 30px;
@@ -22,17 +22,17 @@ export const Input = styled.input`
 	border-bottom: 2px solid white;
 	border-radius: 1px;
 	font-size: 1.1em;
-	letter-spacing:1.5px;
+	letter-spacing: 1.5px;
 	outline: none;
 	color: white;
-	background: rgba(2,31,61,1);
+	background: rgba(2, 31, 61, 1);
 	cursor: text;
-		::placeholder {
-			color:white;
-		}
-		::focus {
-			border: 2px solid white;
-		}
+	::placeholder {
+		color: white;
+	}
+	::focus {
+		border: 2px solid white;
+	}
 `;
 
 export const Button = styled.button`
@@ -43,7 +43,7 @@ export const Button = styled.button`
 	border-radius: 1px;
 	outline: none;
 	color: white;
-	background: rgba(2,31,61,1);
+	background: rgba(2, 31, 61, 1);
 
 	cursor: pointer;
 `;
@@ -63,8 +63,17 @@ export const Section = styled.div`
 export const LabelRow = styled.div`
 	width: 100%;
 	display: flex;
-	background: orange;
+	background: #021f3d;
+	color: #fff;
 	font-weight: 700;
+	text-align: center;
+
+	& > p {
+		width: 100%;
+		text.align: center;
+		display: block;
+		margin: 0;
+	}
 `;
 
 export const PlayerRow = styled.div`
@@ -73,7 +82,9 @@ export const PlayerRow = styled.div`
 	font-size: 0.7em;
 	font-style: italic;
 	border: 2px solid #ddd;
-	padding: 5px;
+	padding: 0;
+	border: none;
+	border-bottom: 2px solid #021f3d;
 `;
 
 export const PlayerInfoBtn = styled.button`
@@ -85,7 +96,7 @@ export const PlayerInfoBtn = styled.button`
 	font-weight: 700;
 	cursor: pointer;
 `;
- 
+
 export const PlayerInfo = styled.div`
 	flex: 3;
 	padding: 5px;
