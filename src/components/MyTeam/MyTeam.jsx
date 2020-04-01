@@ -128,6 +128,8 @@ export default class MyTeam extends Component {
 		const { team, filter } = this.state;
 		const { keys: filterKeys } = filter;
 
+		console.log('filter keys', filterKeys);
+
 		// 15 players already picked? - bail
 		if (team.list.length >= 15) {
 			return [];
@@ -296,9 +298,10 @@ export default class MyTeam extends Component {
 				team.bench[pos] = [];
 
 				// let lucky benchwarmer play!
-				luckyBenchWarmer.field = true;
+				/* luckyBenchWarmer.field = true;
 				luckyBenchWarmer.bench = false;
-				team.field[pos].push(luckyBenchWarmer);
+				team.field[pos].push(luckyBenchWarmer); */
+				this.addPlayer(luckyBenchWarmer);
 			}
 		}
 
