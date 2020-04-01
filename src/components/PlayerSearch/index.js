@@ -19,12 +19,8 @@ const config = {
 
 const INITIAL_STATE = {
 	posOrClubSelected: { value: 'none', label: '- Alla spelare -'},
-	position: 'default',
-	club: 'default',
 	maxPriceSelected: { value: 'none', label: '- Högsta pris -'},
 	searchTerm: '',
-	sortBy: 'position',
-	sortOrder: '<',
 	priceSort: 'falling'
 };
 
@@ -39,20 +35,17 @@ class PlayerSearch extends Component {
 		this.state = { ...INITIAL_STATE };
 
 		this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
-		//this.handleSortAsc = this.handleSortAsc.bind(this);
-		//this.handleSortDesc = this.handleSortDesc.bind(this);
-		//this.handleTeamOptionChange = this.handleTeamOptionChange.bind(this);
 
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
-		this.maxPriceHandler = this.maxPriceHandler.bind(this);
+
 		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
 		this.onSelectPrice = this.onSelectPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
-		this.filterByPosition = this.filterByPosition.bind(this);
-		this.filterByClub = this.filterByClub.bind(this);
+
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
+	
 	}
 
 	// update settings in state
@@ -76,12 +69,6 @@ class PlayerSearch extends Component {
 		});
 	};
 
-	// parse price-input before state update
-	maxPriceHandler = maxPrice => {
-		this.setState({
-			maxPrice: parseFloat(maxPrice)
-		});
-	};
 
 	// filter-funcs
 	onSelectPosOrClub = option =>  {
@@ -100,20 +87,6 @@ class PlayerSearch extends Component {
 		if(this.state.posOrClubSelected.value === 'none') return playerList;
 		return playerList.filter(player => player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.label)
 	}
-	
-	filterByPosition = playerList => {
-		const pos = this.state.position;
-		if (!pos || pos === 'default') return playerList;
-
-		return playerList.filter(player => player.position === pos);
-	};
-
-	filterByClub = playerList => {
-		const club = this.state.club;
-		if (!club || club === 'default') return playerList;
-
-		return playerList.filter(player => player.club === club);
-	};
 
 	filterByMaxPrice = playerList => {
 		const maxPrice = this.state.maxPriceSelected.label;
@@ -128,41 +101,6 @@ class PlayerSearch extends Component {
 		return playersList.filter(player => {
 			return player.name.toLowerCase().includes(searchTerm);
 		});
-	};
-
-	// sort by (WIP, needs cleaner structure)
-	applySortBy = playerList => {
-		const { sortBy, sortOrder } = this.state;
-
-		const sortIt = (a, b) => {
-			if (sortBy === 'position') {
-				const sortValA = config.positions.indexOf(a[sortBy]);
-				const sortValB = config.positions.indexOf(b[sortBy]);
-
-				if (sortValA < sortValB) {
-					return sortOrder === '<' ? -1 : 1;
-				} else {
-					return sortOrder === '<' ? 1 : -1;
-				}
-			} else if (sortBy === 'price') {
-				const sortValA = parseFloat(a[sortBy]);
-				const sortValB = parseFloat(b[sortBy]);
-
-				if (sortValA < sortValB) {
-					return sortOrder === '<' ? -1 : 1;
-				} else {
-					return sortOrder === '<' ? 1 : -1;
-				}
-			}
-
-			if (a[sortBy] < b[sortBy] && sortBy !== 'price') {
-				return sortOrder === '<' ? -1 : 1;
-			} else {
-				return sortOrder === '<' ? 1 : -1;
-			}
-		};
-
-		return sortBy === 'default' ? playerList : playerList.sort(sortIt);
 	};
 
 	handleTextFilterChange(event) {
@@ -193,7 +131,7 @@ class PlayerSearch extends Component {
 		const clubs = [...new Set(players.map(item => item.club))];
 		const priceTags = [...new Set(players.map(item => item.price))];
 
-		const filterOptions = [
+		const filterOptions = [ //options for dropDown
 			{ value: 'none', label: '- Alla spelare -'},
 			{
 			 type: 'group', name: '- Positioner - ', items: [
@@ -212,21 +150,15 @@ class PlayerSearch extends Component {
 		  ];
 		  //options for dropdown.
 		const maxPriceDefaultOption = this.state.maxPriceSelected;
-		const priceOptions = priceTags.map(price => {
+		const priceOptions = priceTags.sort((a,b) => b-a).map(price => {
 			return {'value': 'maxPrice', 'label': price}
 		}) //append kr to price.
 		//default option for dropdown - All players are shown.
   		const posOrClubdefaultOption = this.state.posOrClubSelected;
- 
-		// Apply filters
-		/* const filtered = this.filterByPosition(
-			this.filterByClub(this.filterByMaxPrice(this.filterByName(players)))
-		); */
 
 
 		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)))
 		
-		//const maxPriced = this.filterByMaxPrice(this.filterByName(filtered);
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
@@ -290,84 +222,14 @@ class PlayerSearch extends Component {
 				 options={priceOptions}
 				 placeholder='Maxpris/spelare'
 				 />
-				{/* Position filter */}
-{/* 				<Select
-					onChange={e => this.updateState('position', e.target.value)}
-					value={position}
-				>
-					<option value='default'>- Alla positioner -</option>
-					{config.positions.map(pos => {
-						return (
-							<option key={pos} value={pos}>
-								{pos}
-							</option>
-						);
-					})}
-				</Select>
 				<br />
-				{/* club filter */}
-				{/* <Select
-					onChange={e => this.updateState('club', e.target.value)}
-					id='clubs'
-					value={club}
-				>
-					<option value='default'>- Alla klubbar -</option>
-					{clubs.map(club => {
-						return (
-							<option key={club} value={club}>
-								{club}
-							</option>
-						);
-					})}
-				</Select> */}
-
-
-				<br />
-				{/* Max Price filter */}
-{/* 				<Input
-					type='number'
-					step='0.1'
-					onChange={e => this.maxPriceHandler(e.target.value)}
-					placeholder='Maxpris (kr)'
-					value={maxPrice}
-				></Input> */}
-
-
-				<br />
-				{/* Player name filter */}
 				<Input
 					type='text'
 					name='name'
 					onChange={this.handleTextFilterChange}
 					placeholder='SÖK SPELARE'
 				></Input>
-				<br />
-				<br />
-				{/* SORT */}
-				(SORTERING) <br /> {/* temp */}
-				{/* Sort By */}
-				<Select
-					onChange={e => this.updateState('sortBy', e.target.value)}
-					value={sortBy}
-				>
-					{Object.entries(config.sortOptions).map(([key, val]) => {
-						return (
-							<option key={key} value={key}>
-								sortera efter {val}
-							</option>
-						);
-					})}
-				</Select>
-				<br />
-				{/* Sort Order */}
-				<Select
-					onChange={e => this.updateState('sortOrder', e.target.value)}
-					value={sortOrder}
-				>
-					<option value='<'>visa stigande {'<'}</option>
-					<option value='>'>visa fallande {'>'}</option>
-				</Select>
-				<br />
+				<br /> 
 				Sortera efter pris: <br/>
 				<Button style={this.state.priceSort === 'falling' ? { color:'red'} : {color: 'white'}} value='falling' onClick={this.handleSort}>Fallande</Button>
 				<Button style={this.state.priceSort === 'rising' ? { color:'red'} : {color: 'white'}} value='rising' onClick={this.handleSort}>Stigande</Button>
