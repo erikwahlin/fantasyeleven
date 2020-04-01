@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+	& > div {
+		height: 50px;
+	}
+`;
+
 export const Select = styled.select`
 	width: 202px;
 	height: 30px;
@@ -14,7 +20,7 @@ export const Select = styled.select`
 `;
 
 export const Input = styled.input`
-	width: 20%;
+	width: 100%;
 	position: relative;
 	margin: 5px;
 	height: 30px;
@@ -37,7 +43,7 @@ export const Input = styled.input`
 
 export const Button = styled.button`
 	margin: 5px;
-	width: 10%;
+	width: auto;
 	height: 30px;
 	border: 1px solid white;
 	border-radius: 1px;
@@ -49,7 +55,6 @@ export const Button = styled.button`
 `;
 
 export const ResultBox = styled.div`
-	width: 500px;
 	display: flex;
 	flex-direction: column;
 `;

@@ -5,6 +5,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import {
+	Wrapper,
 	PlayerPrice,
 	PlayerInfo,
 	PlayerInfoBtn,
@@ -220,7 +221,7 @@ class PlayerSearch extends Component {
 		const { state, setters } = this.props.myTeam;
 
 		return (
-			<div className="App">
+			<Wrapper className="PlayerSearch">
 				{/* FILTER */}
 				(FILTER) <br /> {/* temp */}
 				<Dropdown
@@ -292,7 +293,7 @@ class PlayerSearch extends Component {
 						);
 					})}
 				</ResultBox>
-			</div>
+			</Wrapper>
 		);
 	}
 }

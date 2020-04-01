@@ -3,16 +3,27 @@ import styled from 'styled-components';
 import { players } from './players';
 import MyTeamCtx from './ctx';
 import PlayerSearch from '../PlayerSearch';
+import Pitch from '../Pitch';
+
 import tempField from '../../media/temp_field.jpg';
 
-const Output = styled.div`
-	background: green;
-	position: fixed;
-	right: 100px;
-	background: url(${props => props.bg});
-	background-position: contain;
-	max-width: 500px;
+const Content = styled.div`
+	width: 100vw;
+	max-width: 800px;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+
+	& > div.Pitch {
+		flex: 3;
+	}
+
+	& > div.Sidebar {
+		flex: 1;
+	}
 `;
+
+const Sidebar = styled.div``;
 
 // convert millions to less
 const allPlayers = players.map(player => ({
@@ -339,7 +350,8 @@ export default class MyTeam extends Component {
 	render() {
 		// MyTeam-funcs in ctx
 		const setters = {
-			addHandler: this.addHandler
+			addHandler: this.addHandler,
+			delHandler: this.delHandler
 		};
 
 		const { config, team } = this.state;
@@ -354,44 +366,13 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<Output bg={tempField}>
-					<p>PÅ PLAN</p>
-					<div>
-						{config.positions.map(pos => (
-							<div key={`field-${pos}`}>
-								<p>
-									<b>{pos}</b>
-								</p>
-								{team.field[pos].map(player => (
-									<p key={player.uid} onClick={e => this.delHandler(player)}>
-										<i>{player.name}</i>
-									</p>
-								))}
-							</div>
-						))}
-					</div>
+				<Content>
+					<Pitch />
 
-					<br />
-
-					<p>PÅ BÄNKEN</p>
-					<div>
-						{config.positions.map(pos => (
-							<div key={`bench-${pos}`}>
-								<p>
-									<b>{pos}</b>
-								</p>
-								{team.bench[pos].map(player => (
-									<p key={player.uid} onClick={e => this.delHandler(player)}>
-										<i>{player.name}</i>
-									</p>
-								))}
-							</div>
-						))}
-					</div>
-					<br />
-					<hr />
-				</Output>
-				<PlayerSearch players={filteredPlayers} />
+					<Sidebar className="Sidebar">
+						<PlayerSearch players={filteredPlayers} />
+					</Sidebar>
+				</Content>
 			</MyTeamCtx.Provider>
 		);
 	}
