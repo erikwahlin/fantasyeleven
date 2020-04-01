@@ -181,8 +181,7 @@ class PlayerSearch extends Component {
 
 	filterByMaxPrice = playerList => {
 		const maxPrice = this.state.maxPrice;
-		if (isNaN(maxPrice) || !maxPrice || maxPrice === '' || maxPrice <= 0)
-			return playerList;
+		if (isNaN(maxPrice) || !maxPrice || maxPrice === '' || maxPrice <= 0) return playerList;
 
 		return playerList.filter(player => parseFloat(player.price) <= maxPrice);
 	};
@@ -299,15 +298,12 @@ class PlayerSearch extends Component {
 		const { state, setters } = this.props.myTeam;
 
 		return (
-			<div className='App'>
+			<div className="App">
 				{/* FILTER */}
 				(FILTER) <br /> {/* temp */}
 				{/* Position filter */}
-				<Select
-					onChange={e => this.updateState('position', e.target.value)}
-					value={position}
-				>
-					<option value='default'>- Alla positioner -</option>
+				<Select onChange={e => this.updateState('position', e.target.value)} value={position}>
+					<option value="default">- Alla positioner -</option>
 					{config.positions.map(pos => {
 						return (
 							<option key={pos} value={pos}>
@@ -318,12 +314,8 @@ class PlayerSearch extends Component {
 				</Select>
 				<br />
 				{/* club filter */}
-				<Select
-					onChange={e => this.updateState('club', e.target.value)}
-					id='clubs'
-					value={club}
-				>
-					<option value='default'>- Alla klubbar -</option>
+				<Select onChange={e => this.updateState('club', e.target.value)} id="clubs" value={club}>
+					<option value="default">- Alla klubbar -</option>
 					{clubs.map(club => {
 						return (
 							<option key={club} value={club}>
@@ -335,29 +327,26 @@ class PlayerSearch extends Component {
 				<br />
 				{/* Max Price filter */}
 				<Input
-					type='number'
-					step='0.1'
+					type="number"
+					step="0.1"
 					onChange={e => this.maxPriceHandler(e.target.value)}
-					placeholder='Maxpris (kr)'
+					placeholder="Maxpris (kr)"
 					value={maxPrice}
 				></Input>
 				<br />
 				{/* Player name filter */}
 				<Input
-					type='text'
-					name='name'
+					type="text"
+					name="name"
 					onChange={this.handleTextFilterChange}
-					placeholder='Spelarnamn'
+					placeholder="Spelarnamn"
 				></Input>
 				<br />
 				<br />
 				{/* SORT */}
 				(SORTERING) <br /> {/* temp */}
 				{/* Sort By */}
-				<Select
-					onChange={e => this.updateState('sortBy', e.target.value)}
-					value={sortBy}
-				>
+				<Select onChange={e => this.updateState('sortBy', e.target.value)} value={sortBy}>
 					{Object.entries(config.sortOptions).map(([key, val]) => {
 						return (
 							<option key={key} value={key}>
@@ -368,12 +357,9 @@ class PlayerSearch extends Component {
 				</Select>
 				<br />
 				{/* Sort Order */}
-				<Select
-					onChange={e => this.updateState('sortOrder', e.target.value)}
-					value={sortOrder}
-				>
-					<option value='<'>visa stigande {'<'}</option>
-					<option value='>'>visa fallande {'>'}</option>
+				<Select onChange={e => this.updateState('sortOrder', e.target.value)} value={sortOrder}>
+					<option value="<">visa stigande {'<'}</option>
+					<option value=">">visa fallande {'>'}</option>
 				</Select>
 				<br />
 				<br />
@@ -390,9 +376,7 @@ class PlayerSearch extends Component {
 									return (
 										<PlayerRow key={i}>
 											<PlayerInfoBtn>info</PlayerInfoBtn>
-											<PlayerInfo
-												onClick={e => setters.addPlayer(player)}
-											>
+											<PlayerInfo onClick={e => setters.addHandler(player)}>
 												<p>{player.name}</p>
 												<p>
 													{player.club} - {player.position}
