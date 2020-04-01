@@ -51,13 +51,21 @@ const NavigationAuth = ({ authUser }) => (
 );
 
 const NavigationNonAuth = () => (
-	<ul>
-		<li>
-			<Link to={ROUTES.LANDING}>*Logga*</Link>
+	<ul className="landing-nav">
+
+		<li className="logo-container">
+			<Link className="logo" to={ROUTES.LANDING}></Link>
 		</li>
+
+
 		<li>
-			<Link to={ROUTES.SIGN_IN}>Logga in</Link>
+			<Link className="landing-btn" to={ROUTES.SIGN_IN}>LOGGA IN</Link>
 		</li>
+
+		<li>
+			<Link className="landing-btn" to={ROUTES.SIGN_UP}>SKAPA KONTO</Link>
+		</li>
+		
 	</ul>
 );
 

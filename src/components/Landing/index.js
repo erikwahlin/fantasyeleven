@@ -1,8 +1,12 @@
 import React from 'react';
+import styled from 'styled-components'
+import './index.css'
+import Navigation from '../Navigation';
+
 
 const Landing = () => (
-  <div>
-    <h1>Landing</h1>
+  <div className="landing-bg">
+  
   </div>
 );
 
