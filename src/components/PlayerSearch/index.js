@@ -224,8 +224,8 @@ class PlayerSearch extends Component {
 				 />
 				<br />
 				<Input
-					type='text'
-					name='name'
+					type="text"
+					name="name"
 					onChange={this.handleTextFilterChange}
 					placeholder='SÖK SPELARE'
 				></Input>
@@ -247,9 +247,7 @@ class PlayerSearch extends Component {
 									return (
 										<PlayerRow key={i}>
 											<PlayerInfoBtn>info</PlayerInfoBtn>
-											<PlayerInfo
-												onClick={e => setters.addPlayer(player)}
-											>
+											<PlayerInfo onClick={e => setters.addHandler(player)}>
 												<p>{player.name}</p>
 												<p>
 													{player.club} - {player.position}
