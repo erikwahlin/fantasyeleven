@@ -10,10 +10,6 @@ const Wrapper = styled.div`
 	width: 500px; /* 1.000 */
 	height: 453px; /* 0.906 */
 
-	max-width: 800px;
-	width: 70vw;
-	height: 100%;
-
 	display: flex;
 	flex-direction: column;
 `;
