@@ -370,8 +370,22 @@ export default class MyTeam extends Component {
 					<Pitch />
 
 					<Sidebar className="Sidebar">
+						<div>
+							Total kostnad för ditt lag:
+							{team.list[0] !== undefined ? (
+								<div
+									style={
+										team.list.length === 15 ? { color: 'green', fontWeight: 'bold' } : { color: 'black' }
+									}
+								>
+									{team.list.map(elem => elem.price).reduce((acc, cur) => acc + cur) + 'kr'}
+								</div>
+							) : (
+								<div>0kr</div>
+							)}
+						</div>
 						<div
-							style={team.list.length == 15 ? { color: 'green', fontWeight: 'bold' } : { color: 'red' }}
+							style={team.list.length === 15 ? { color: 'green', fontWeight: 'bold' } : { color: 'red' }}
 						>
 							{team.list.length > 0 ? team.list.length + '/15' : 0 + '/15'}
 						</div>
