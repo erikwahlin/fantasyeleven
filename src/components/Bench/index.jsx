@@ -43,8 +43,16 @@ const Plupp = styled.img`
 `;
 
 const Bench = props => {
-	const { state } = props.myTeam;
+	const { state, setters } = props.myTeam;
 	const { config, team } = state;
+
+	const clickHandler = pos => {
+		const player = team.bench[pos][0];
+
+		if (player) {
+			setters.delHandler(player);
+		}
+	};
 
 	return (
 		<Wrapper className="Bench">
@@ -56,6 +64,7 @@ const Bench = props => {
 						position={pos}
 						lineupCount={team.field[pos].length}
 						lineupIndex={nth}
+						onClick={e => clickHandler(pos)}
 					/>
 					{team.bench[pos][0] && <span className="playerName">{team.bench[pos][0].name}</span>}
 				</PluppContainer>

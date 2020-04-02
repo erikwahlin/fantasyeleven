@@ -330,18 +330,24 @@ export default class MyTeam extends Component {
 		//dec team value
 		game.value -= player.price;
 
-		// del player from
-		// list
+		// del player from list
 		team.list.forEach((item, nth) => {
 			if (item.uid === player.uid) {
 				team.list.splice(nth, 1);
 			}
 		});
 
-		// field or bench
+		// del player from field or bench
 		team[fieldOrBench][pos].forEach((item, nth) => {
 			if (item.uid === player.uid) {
-				team[fieldOrBench][pos].splice(nth, 1);
+				// if field, del from field
+				if (player.field) {
+					team.field[pos].splice(nth, 1);
+				}
+				//if bench, just clear bench pos
+				else {
+					team.bench[pos] = [];
+				}
 			}
 		});
 
