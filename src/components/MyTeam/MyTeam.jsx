@@ -370,6 +370,12 @@ export default class MyTeam extends Component {
 					<Pitch />
 
 					<Sidebar className="Sidebar">
+						<div
+							style={team.list.length == 15 ? { color: 'green', fontWeight: 'bold' } : { color: 'red' }}
+						>
+							{team.list.length > 0 ? team.list.length + '/15' : 0 + '/15'}
+						</div>
+
 						<PlayerSearch players={filteredPlayers} />
 					</Sidebar>
 				</Content>
