@@ -128,7 +128,8 @@ class PlayerSearch extends Component {
 
 	onPageClickhandler = (e, playersList) => {
         const { pageNumber, pageSize } = this.state.paginationSettings
-        let cName = e.target.className;
+		//let cName = e.target.parentNode.parentNode.className; // works if icons imported from react-icons package
+		let cName = e.target.className
         if(cName === 'firstPage') {
 			this.setState(prevState => {
 			let paginationSettings = Object.assign({}, prevState.paginationSettings);
