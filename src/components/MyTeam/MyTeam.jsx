@@ -256,9 +256,8 @@ export default class MyTeam extends Component {
 
 	addHandler = player => {
 		// we need state and new player pos
-		const { config, team } = this.state;
+		const { config, team, game} = this.state;
 		const { position: pos } = player;
-
 		// player with same pos on field already reached limit? prepare bench
 		const putOnBench = team.field[pos].length >= config.limit.field[pos].max ? true : false;
 
