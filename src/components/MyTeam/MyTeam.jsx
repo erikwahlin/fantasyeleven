@@ -208,7 +208,7 @@ export default class MyTeam extends Component {
 		//// Midfielder
 		// scenario -1
 		let newMidLimit = midLimit.max;
-		if (defCount >= 5 || defCount + forCount === 6) {
+		if (defCount >= 5 || defCount + forCount === 6 || forCount >= 3) {
 			newMidLimit = midLimit.max - 1; // 4
 		}
 
@@ -245,7 +245,7 @@ export default class MyTeam extends Component {
 
 	addPlayer = (player, toBench = false) => {
 		// we need state
-		const { team, filter } = this.state;
+		const { team, filter, game } = this.state;
 
 		// set play vs bench-props
 		player.field = !toBench;
@@ -254,6 +254,9 @@ export default class MyTeam extends Component {
 		//player.captain = filter.keys.captain //do i do this here?
 		// add player to list
 		team.list.push(player);
+
+		// inc team value
+		game.value += player.price;
 
 		// add player to formation on field or bench
 		team[fieldOrBench][player.position].push(player);
@@ -269,7 +272,7 @@ export default class MyTeam extends Component {
 		filter.keys.uid.push(player.uid);
 
 		// update state
-		this.setState({ team, filter }, () => {
+		this.setState({ team, filter, game }, () => {
 			this.updateLimit();
 		});
 	};
@@ -288,9 +291,12 @@ export default class MyTeam extends Component {
 	};
 
 	delHandler = player => {
-		const { team, filter } = this.state;
+		const { team, filter, game } = this.state;
 		const { position: pos } = player;
 		const fieldOrBench = player.field ? 'field' : 'bench';
+
+		//dec team value
+		game.value -= player.price;
 
 		// del player from
 		// list
@@ -308,7 +314,7 @@ export default class MyTeam extends Component {
 		});
 
 		// if field-player was removed
-		if (player.field) {
+		/* if (player.field) {
 			// if same pos sitting on bench
 			if (team.bench[pos].length > 0) {
 				// copy lucky benchwarmer
@@ -320,10 +326,10 @@ export default class MyTeam extends Component {
 				// let lucky benchwarmer play!
 				/* luckyBenchWarmer.field = true;
 				luckyBenchWarmer.bench = false;
-				team.field[pos].push(luckyBenchWarmer); */
+				team.field[pos].push(luckyBenchWarmer); 
 				this.addPlayer(luckyBenchWarmer);
 			}
-		}
+		} */
 
 		// dec count
 		team.count.tot[pos] -= 1;
@@ -342,7 +348,7 @@ export default class MyTeam extends Component {
 			}
 		});
 
-		this.setState({ team, filter }, () => {
+		this.setState({ team, filter, game }, () => {
 			this.updateLimit();
 		});
 	};
@@ -354,7 +360,7 @@ export default class MyTeam extends Component {
 			delHandler: this.delHandler
 		};
 
-		const { config, team } = this.state;
+		const { config, team, game } = this.state;
 
 		// filter allPlayers before PlayerSearch
 		const filteredPlayers = this.applyFilter(allPlayers);
@@ -372,16 +378,16 @@ export default class MyTeam extends Component {
 					<Sidebar className="Sidebar">
 						<div>
 							Total kostnad för ditt lag:
-							{team.list[0] !== undefined ? (
+							{game.value > 0 ? (
 								<div
 									style={
 										team.list.length === 15 ? { color: 'green', fontWeight: 'bold' } : { color: 'black' }
 									}
 								>
-									{team.list.map(elem => elem.price).reduce((acc, cur) => acc + cur) + 'kr'}
+									{game.value + 'kr'}
 								</div>
 							) : (
-								<div>0kr</div>
+								<div>{game.value + 'kr'}</div>
 							)}
 						</div>
 						<div
