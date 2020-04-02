@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import pluppB from '../../media/pluppB.png';
+import Plupp from '../Plupp';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -33,14 +34,14 @@ const PluppContainer = styled.div`
 	}
 `;
 
-const Plupp = styled.img`
+/* const Plupp = styled.img`
 	width: 50px;
 	align-self: center;
 
 	${p => p.position};
 	${p => p.lineupCount};
 	${p => p.lineupIndex};
-`;
+`; */
 
 const Bench = props => {
 	const { state, setters } = props.myTeam;
@@ -58,14 +59,15 @@ const Bench = props => {
 		<Wrapper className="Bench">
 			{config.positions.map((pos, nth) => (
 				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
-					<Plupp
+					<Plupp lineupCount={team.bench[pos].length} lineupIndex={nth} />
+					{/* <Plupp
 						alt="player-plupp"
 						src={pluppB}
 						position={pos}
-						lineupCount={team.field[pos].length}
+						lineupCount={team.pitch[pos].length}
 						lineupIndex={nth}
 						onClick={e => clickHandler(pos)}
-					/>
+					/> */}
 					{team.bench[pos][0] && <span className="playerName">{team.bench[pos][0].name}</span>}
 				</PluppContainer>
 			))}

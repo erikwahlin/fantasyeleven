@@ -48,7 +48,7 @@ const initial_state = {
 	team: {
 		list: [],
 
-		field: {
+		pitch: {
 			Goalkeeper: [],
 			Defender: [],
 			Midfielder: [],
@@ -70,7 +70,7 @@ const initial_state = {
 				Midfielder: 0,
 				Forward: 0
 			},
-			field: {
+			pitch: {
 				Goalkeeper: 0,
 				Defender: 0,
 				Midfielder: 0,
@@ -94,7 +94,7 @@ const initial_state = {
 	config: {
 		limit: {
 			tot: { min: 15, max: 15 },
-			field: {
+			pitch: {
 				Goalkeeper: { min: 1, max: 1 },
 				Defender: { min: 3, max: 5 },
 				Midfielder: { min: 2, max: 5 },
@@ -108,7 +108,8 @@ const initial_state = {
 			},
 			club: { max: 3 }
 		},
-		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward']
+		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
+		markedPlupp: null
 	}
 };
 
@@ -123,46 +124,30 @@ export default class MyTeam extends Component {
 		this.updateFilter = this.updateFilter.bind(this);
 		this.applyFilter = this.applyFilter.bind(this);
 		this.delHandler = this.delHandler.bind(this);
-
-		this.limitReached = this.limitReached.bind(this);
+		this.setMarkedPlupp = this.setMarkedPlupp.bind(this);
 	}
 
-	limitReached = () => {
-		const { team, config, filter } = this.state;
+	setMarkedPlupp = (playFromStart, pos, index) => {
+		const { config } = this.state;
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
 
-		const field = {},
-			bench = {};
+		config.markedPlupp = {
+			pitchOrBench,
+			pos,
+			index
+		};
 
-		// any position limit reached on bench?
-		config.positions.forEach(pos => {
-			// (field already full) - add pos to filter
-			if (
-				team.bench[pos].length >= config.limit.bench[pos].max ||
-				team.field[pos].length >= config.limit.field[pos].max
-			) {
-				if (!filter.keys.position.includes(pos)) {
-					filter.keys.position.push(pos);
-					this.setState({ filter });
-				}
-				// (field not full) - remove pos from filter
-			} else {
-				if (filter.keys.position.includes(pos)) {
-					const index = filter.keys.position.indexOf(pos);
-					filter.keys.position.splice(index, 1);
-					this.setState({ filter });
-				}
-			}
-		});
+		this.setState({ config });
 	};
 
 	updateFilter = () => {
 		const { config, team, filter } = this.state;
 
 		config.positions.forEach(pos => {
-			// if field and bench full - add pos to filter (if filter is not active)
+			// if pitch and bench full - add pos to filter (if filter is not active)
 			if (
 				team.bench[pos].length >= config.limit.bench[pos].max &&
-				team.field[pos].length >= config.limit.field[pos].max
+				team.pitch[pos].length >= config.limit.pitch[pos].max
 			) {
 				if (!filter.keys.position.includes(pos)) {
 					filter.keys.position.push(pos);
@@ -212,17 +197,17 @@ export default class MyTeam extends Component {
 		const { config, team } = this.state;
 
 		// fresh copy of initial limits
-		config.limit.field = JSON.parse(JSON.stringify(initial_state.config.limit.field));
+		config.limit.pitch = JSON.parse(JSON.stringify(initial_state.config.limit.pitch));
 
 		// desctructure initial limits
 		const {
 			Defender: defLimit,
 			Midfielder: midLimit,
 			Forward: forLimit
-		} = initial_state.config.limit.field;
+		} = initial_state.config.limit.pitch;
 
-		// curr field count
-		const { Defender: defCount, Midfielder: midCount, Forward: forCount } = team.count.field;
+		// curr pitch count
+		const { Defender: defCount, Midfielder: midCount, Forward: forCount } = team.count.pitch;
 
 		//// Defender
 		// scenario -1
@@ -235,7 +220,7 @@ export default class MyTeam extends Component {
 		if (midCount + forCount >= 7) {
 			newDefLimit = defLimit.max - 2; // 3
 		}
-		config.limit.field.Defender.max = newDefLimit;
+		config.limit.pitch.Defender.max = newDefLimit;
 
 		//// Midfielder
 		// scenario -1
@@ -253,7 +238,7 @@ export default class MyTeam extends Component {
 		if (defCount + forCount >= 8) {
 			newMidLimit = midLimit.max - 3; // 1
 		}
-		config.limit.field.Midfielder.max = newMidLimit;
+		config.limit.pitch.Midfielder.max = newMidLimit;
 
 		//// Forward
 		// scenario -1
@@ -268,37 +253,38 @@ export default class MyTeam extends Component {
 			newForLimit = forLimit.max - 2; // 1
 			console.log('forward down 2', newForLimit);
 		}
-		config.limit.field.Forward.max = newForLimit;
+		config.limit.pitch.Forward.max = newForLimit;
 
 		this.setState({ config }, () => {
 			this.updateFilter();
 		});
 	};
 
-	addPlayer = (player, toBench = false) => {
+	addPlayer = (player, playFromStart = true) => {
 		// we need state
 		const { team, filter, game } = this.state;
 
 		// set play vs bench-props
-		player.field = !toBench;
-		player.bench = toBench;
-		const fieldOrBench = toBench ? 'bench' : 'field';
-		//player.captain = filter.keys.captain //do i do this here?
+		player.playFromStart = playFromStart;
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+
+		///// -> player.captain = filter.keys.captain //do i do this here?
+
 		// add player to list
 		team.list.push(player);
 
 		// inc team value
 		game.value += player.price;
 
-		// add player to formation on field or bench
-		team[fieldOrBench][player.position].push(player);
+		// add player to formation on pitch or bench
+		team[pitchOrBench][player.position].push(player);
 
 		// inc count for player's club
 		team.clubs[player.club] = team.clubs[player.club] + 1 || 1;
 
 		// inc count for player's pos
 		team.count.tot[player.position] += 1;
-		team.count[fieldOrBench][player.position] += 1;
+		team.count[pitchOrBench][player.position] += 1;
 
 		// filter out player's uid from PlayerSearch
 		filter.keys.uid.push(player.uid);
@@ -311,13 +297,14 @@ export default class MyTeam extends Component {
 
 	addHandler = player => {
 		// we need state and new player pos
-		const { config, team, game } = this.state;
+		const { config, team } = this.state;
 		const { position: pos } = player;
-		// player with same pos on field already reached limit? prepare bench
-		const putOnBench = team.field[pos].length >= config.limit.field[pos].max ? true : false;
+		// player with same pos on pitch already reached limit? prepare bench
+		///////const putOnBench = team.pitch[pos].length >= config.limit.pitch[pos].max ? true : false;
+		const playFromStart = team.pitch[pos].length < config.limit.pitch[pos].max ? true : false;
 
 		// add player
-		this.addPlayer(player, putOnBench);
+		this.addPlayer(player, playFromStart);
 
 		return;
 	};
@@ -325,7 +312,7 @@ export default class MyTeam extends Component {
 	delHandler = player => {
 		const { team, filter, game } = this.state;
 		const { position: pos } = player;
-		const fieldOrBench = player.field ? 'field' : 'bench';
+		const pitchOrBench = player.playFromStart ? 'pitch' : 'bench';
 
 		//dec team value
 		game.value -= player.price;
@@ -337,12 +324,12 @@ export default class MyTeam extends Component {
 			}
 		});
 
-		// del player from field or bench
-		team[fieldOrBench][pos].forEach((item, nth) => {
+		// del player from pitch or bench
+		team[pitchOrBench][pos].forEach((item, nth) => {
 			if (item.uid === player.uid) {
-				// if field, del from field
-				if (player.field) {
-					team.field[pos].splice(nth, 1);
+				// if pitch, del from pitch
+				if (player.playFromStart) {
+					team.pitch[pos].splice(nth, 1);
 				}
 				//if bench, just clear bench pos
 				else {
@@ -351,8 +338,8 @@ export default class MyTeam extends Component {
 			}
 		});
 
-		// if field-player was removed
-		/* if (player.field) {
+		// if pitch-player was removed
+		/* if (player.playFromStart) {
 			// if same pos sitting on bench
 			if (team.bench[pos].length > 0) {
 				// copy lucky benchwarmer
@@ -362,16 +349,16 @@ export default class MyTeam extends Component {
 				team.bench[pos] = [];
 
 				// let lucky benchwarmer play!
-				/* luckyBenchWarmer.field = true;
+				/* luckyBenchWarmer.pitch = true;
 				luckyBenchWarmer.bench = false;
-				team.field[pos].push(luckyBenchWarmer); 
+				team.pitch[pos].push(luckyBenchWarmer); 
 				this.addPlayer(luckyBenchWarmer);
 			}
 		} */
 
 		// dec count
 		team.count.tot[pos] -= 1;
-		team.count[fieldOrBench][pos] -= 1;
+		team.count[pitchOrBench][pos] -= 1;
 
 		// del from clubs
 		team.clubs[player.club] = team.clubs[player.club] - 1;

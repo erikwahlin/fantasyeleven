@@ -4,6 +4,8 @@ import { withMyTeam } from '../MyTeam/ctx';
 import pitchImg from '../../media/pitch.png';
 import pluppW from '../../media/pluppW.png';
 
+import Plupp from '../Plupp';
+
 import Bench from '../Bench';
 
 const Wrapper = styled.div`
@@ -14,7 +16,7 @@ const Wrapper = styled.div`
 	flex-direction: column;
 `;
 
-const FieldContainer = styled.div`
+const PitchContainer = styled.div`
 	background: url(${p => p.bg});
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -67,14 +69,14 @@ const PluppContainer = styled.div`
 	}
 `;
 
-const Plupp = styled.img`
+/* const Plupp = styled.img`
 	width: 50px;
 	align-self: center;
 
 	${p => p.position};
 	${p => p.lineupCount};
 	${p => p.lineupIndex};
-`;
+`; */
 
 const Pitch = props => {
 	const { state, setters } = props.myTeam;
@@ -103,27 +105,28 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch">
-			<FieldContainer className="FieldContainer" bg={pitchImg}>
+			<PitchContainer className="PitchContainer" bg={pitchImg}>
 				<FormationContainer className="FormationContainer">
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
-							{team.field[pos].map((player, nth) => (
+							{team.pitch[pos].map((player, nth) => (
 								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
-									<Plupp
+									<Plupp player={player} lineupCount={team.pitch[pos].length} lineupIndex={nth} />
+									{/* <Plupp
 										alt="player-plupp"
 										src={pluppW}
 										position={pos}
-										lineupCount={team.field[pos].length}
+										lineupCount={team.pitch[pos].length}
 										lineupIndex={nth}
 										onClick={e => setters.delHandler(player)}
-									/>
+									/> */}
 									<span className="playerName">{shortName(player.name)}</span>
 								</PluppContainer>
 							))}
 						</PosLineup>
 					))}
 				</FormationContainer>
-			</FieldContainer>
+			</PitchContainer>
 			<Bench />
 		</Wrapper>
 	);
