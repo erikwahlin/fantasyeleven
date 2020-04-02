@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeConsumer } from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import Dropdown from 'react-dropdown';
 import Paginate from './Paginate'
@@ -10,7 +10,6 @@ import {
 	PlayerPrice,
 	PlayerInfo,
 	PlayerInfoBtn,
-	Select,
 	Input,
 	Button,
 	ResultBox,
@@ -54,7 +53,7 @@ class PlayerSearch extends Component {
 
 		this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
 
-		this.updateState = this.updateState.bind(this);
+		this.updateStatePage = this.updateStatePage.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		//this.paginate = this.paginate.bind(this)
 		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
@@ -66,10 +65,12 @@ class PlayerSearch extends Component {
 	}
 
 	// update settings in state
-	updateState = (key, val) => {
-		this.setState({
-			[key]: val
-		});
+	updateStatePage = () => {
+		this.setState(prevState => {
+			let paginationSettings = Object.assign({}, prevState.paginationSettings);
+			paginationSettings.pageNumber = 1;
+			return { paginationSettings }	
+			})
 	};
 	
 
@@ -93,12 +94,14 @@ class PlayerSearch extends Component {
 	onSelectPosOrClub = option => {
 		const selected = this.state.posOrClubSelected;
 		console.log('You selected ', selected);
+		this.updateStatePage()
 		this.setState({ posOrClubSelected: option });
 	};
 
 	onSelectPrice = option => {
 		const selected = this.state.maxPriceSelected;
 		console.log('You selected ', selected);
+		this.updateStatePage()
 		this.setState({ maxPriceSelected: option });
 	};
 
@@ -124,7 +127,6 @@ class PlayerSearch extends Component {
 	};
 
 	onPageClickhandler = (e, playersList) => {
-		const { players } = this.props
         const { pageNumber, pageSize } = this.state.paginationSettings
         let cName = e.target.className;
         if(cName === 'firstPage') {
@@ -147,7 +149,7 @@ class PlayerSearch extends Component {
             //go back 1 page
         }
 
-        if(cName === 'forward' && pageNumber < Math.ceil(playersList.length/pageSize)) {
+        if(cName === 'forward' && pageNumber < Math.ceil(playersList/pageSize)) {
 			this.setState(prevState => {
 				let paginationSettings = Object.assign({}, prevState.paginationSettings);
 				paginationSettings.pageNumber += 1;
@@ -159,7 +161,7 @@ class PlayerSearch extends Component {
         if(cName === 'lastPage') {
 			this.setState(prevState => {
 				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber = Math.ceil(playersList.length/pageSize);
+				paginationSettings.pageNumber = Math.ceil(playersList/pageSize);
 				return { paginationSettings }	
 				})
             //go to last page
@@ -168,6 +170,7 @@ class PlayerSearch extends Component {
     }
 
 	handleTextFilterChange(event) {
+		this.updateStatePage()
 		this.setState({ searchTerm: event.target.value });
 	}
 
@@ -263,7 +266,8 @@ class PlayerSearch extends Component {
 							break;
 					}
 				});
-				return this.state.sortOrder === '<' ? res : res.reverse();
+				return res
+				//return this.state.sortOrder === '<' ? res : res.reverse();
 			};
 			return splitByPosition();
 			/* switch (sortBy) {
