@@ -123,14 +123,7 @@ class PlayerSearch extends Component {
 		});
 	};
 
-	onPageClickhandler = (e) => {
-
-		/* this.setState(prevState => {
-  			let jasper = Object.assign({}, prevState.jasper);  // creating copy of state variable jasper
-  			jasper.name = 'someothername';                     // update the name property, assign a new value                 
-  			return { jasper };                                 // return new object jasper object
-}) */
-
+	onPageClickhandler = (e, playersList) => {
 		const { players } = this.props
         const { pageNumber, pageSize } = this.state.paginationSettings
         let cName = e.target.className;
@@ -154,7 +147,7 @@ class PlayerSearch extends Component {
             //go back 1 page
         }
 
-        if(cName === 'forward' && pageNumber < Math.ceil(players.length/pageSize)) {
+        if(cName === 'forward' && pageNumber < Math.ceil(playersList.length/pageSize)) {
 			this.setState(prevState => {
 				let paginationSettings = Object.assign({}, prevState.paginationSettings);
 				paginationSettings.pageNumber += 1;
@@ -166,7 +159,7 @@ class PlayerSearch extends Component {
         if(cName === 'lastPage') {
 			this.setState(prevState => {
 				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber = Math.ceil(players.length/pageSize);
+				paginationSettings.pageNumber = Math.ceil(playersList.length/pageSize);
 				return { paginationSettings }	
 				})
             //go to last page
@@ -333,7 +326,7 @@ class PlayerSearch extends Component {
 				<br />
 				<br />
 				{/* RESULT */}
-				<Paginate onClick={this.onPageClickhandler} state={this.state.paginationSettings} players={players} />
+				<Paginate onClick={this.onPageClickhandler} state={this.state.paginationSettings} players={filtered} />
 				<ResultBox>
 					{result.map((section, nth) => {
 						return (

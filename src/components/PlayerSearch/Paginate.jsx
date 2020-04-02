@@ -21,7 +21,7 @@ export default class Paginate extends Component {
         const { pageNumber, pageSize } = this.props.state
         return (
             <div>
-            <Wrapper className="wrapp" onClick={onClick}>
+            <Wrapper className="wrapp" onClick={e => onClick(e,players)}>
                 
                 <div className="firstPage">första</div>
 
