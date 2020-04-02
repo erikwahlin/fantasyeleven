@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import Dropdown from 'react-dropdown';
+import Paginate from './Paginate'
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import {
@@ -32,7 +33,13 @@ const INITIAL_STATE = {
 	posOrClubSelected: { value: 'none', label: '- Alla spelare -' },
 	maxPriceSelected: { value: 'none', label: '- Högsta pris -' },
 	searchTerm: '',
-	priceSort: 'falling'
+	priceSort: 'falling',
+
+	paginationSettings:
+		{
+		pageNumber: 1,
+		pageSize: 20,
+		},
 };
 
 //orderby
@@ -49,11 +56,11 @@ class PlayerSearch extends Component {
 
 		this.updateState = this.updateState.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
-
+		//this.paginate = this.paginate.bind(this)
 		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
 		this.onSelectPrice = this.onSelectPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
-
+		this.onPageClickhandler = this.onPageClickhandler.bind(this)
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
 	}
@@ -64,6 +71,9 @@ class PlayerSearch extends Component {
 			[key]: val
 		});
 	};
+	
+
+
 	handleSort = e => {
 		console.log(this.sortedPlayerList(this.props.players));
 		if (e.target.value === 'falling') {
@@ -112,6 +122,57 @@ class PlayerSearch extends Component {
 			return player.name.toLowerCase().includes(searchTerm);
 		});
 	};
+
+	onPageClickhandler = (e) => {
+
+		/* this.setState(prevState => {
+  			let jasper = Object.assign({}, prevState.jasper);  // creating copy of state variable jasper
+  			jasper.name = 'someothername';                     // update the name property, assign a new value                 
+  			return { jasper };                                 // return new object jasper object
+}) */
+
+		const { players } = this.props
+        const { pageNumber, pageSize } = this.state.paginationSettings
+        let cName = e.target.className;
+        if(cName === 'firstPage') {
+			this.setState(prevState => {
+			let paginationSettings = Object.assign({}, prevState.paginationSettings);
+			paginationSettings.pageNumber = 1;
+			return { paginationSettings }	
+			})
+			
+            //go back to first page
+        }
+
+        if(cName ==='backward' && pageNumber > 1) {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber -= 1;
+				return { paginationSettings }	
+				})
+            
+            //go back 1 page
+        }
+
+        if(cName === 'forward' && pageNumber < Math.ceil(players.length/pageSize)) {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber += 1;
+				return { paginationSettings }	
+				})
+            //go forward 1 page
+        }
+
+        if(cName === 'lastPage') {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber = Math.ceil(players.length/pageSize);
+				return { paginationSettings }	
+				})
+            //go to last page
+        }
+
+    }
 
 	handleTextFilterChange(event) {
 		this.setState({ searchTerm: event.target.value });
@@ -175,10 +236,17 @@ class PlayerSearch extends Component {
 
 		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)));
 
+
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
 		const sorted = this.sortedPlayerList(filtered);
 		// WIP-test. split into result-sections based on sort
+		const paginate = (playersList, page_size, page_number) => {
+			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
+			return playersList.slice((page_number - 1) * page_size, page_number * page_size);
+		  }
+		  const paginated = paginate(sorted, this.state.paginationSettings.pageSize,this.state.paginationSettings.pageNumber)
+
 		const sectionFilter = items => {
 			const splitByPosition = () => {
 				const res = [];
@@ -213,7 +281,8 @@ class PlayerSearch extends Component {
 			} */
 		};
 
-		const result = sectionFilter(sorted);
+
+		const result = sectionFilter(paginated)
 
 		//console.log('search output', result);
 
@@ -264,6 +333,7 @@ class PlayerSearch extends Component {
 				<br />
 				<br />
 				{/* RESULT */}
+				<Paginate onClick={this.onPageClickhandler} state={this.state.paginationSettings} players={players} />
 				<ResultBox>
 					{result.map((section, nth) => {
 						return (
@@ -293,7 +363,9 @@ class PlayerSearch extends Component {
 						);
 					})}
 				</ResultBox>
+				
 			</Wrapper>
+			
 		);
 	}
 }
