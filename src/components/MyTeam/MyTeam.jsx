@@ -40,7 +40,8 @@ const initial_state = {
 		keys: {
 			uid: [],
 			position: [],
-			club: []
+			club: [],
+			captain: false
 		}
 	},
 
@@ -250,7 +251,7 @@ export default class MyTeam extends Component {
 		player.field = !toBench;
 		player.bench = toBench;
 		const fieldOrBench = toBench ? 'bench' : 'field';
-
+		//player.captain = filter.keys.captain //do i do this here?
 		// add player to list
 		team.list.push(player);
 
@@ -275,9 +276,8 @@ export default class MyTeam extends Component {
 
 	addHandler = player => {
 		// we need state and new player pos
-		const { config, team } = this.state;
+		const { config, team, game } = this.state;
 		const { position: pos } = player;
-
 		// player with same pos on field already reached limit? prepare bench
 		const putOnBench = team.field[pos].length >= config.limit.field[pos].max ? true : false;
 

@@ -4,12 +4,45 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import styled from 'styled-components'
 
+const Form = styled.form`
+	margin: 0 auto;
+	width: 50%;
+	display:flex;	
+	flex-direction: column;
+`
+const InputWrap = styled.div`
+color: white;
+display:flex;
+flex-direction: column;
+margin-top: 10px
+`
+const Button = styled.button`
+width: 90px;
+height:40px;
+align-self: flex-end;
+color: white;
+background-color:
+
+`
+const Input = styled.input`
+background-color: rgba(2,31,61,1);
+color: white;
+outline: none;
+height: 1.9em;
+font-size: 1.0em;
+border: none;
+border-bottom: 1px solid white;
+`
+const Wrapper = styled.div`
+background-color: rgba(2,31,61,1)
+`
 const SignUpPage = () => (
-	<div>
+	<Wrapper>
 		<h1>Börja spela</h1>
 		<SignUpForm />
-	</div>
+	</Wrapper>
 );
 
 const INITIAL_STATE = {
@@ -99,35 +132,44 @@ class SignUpFormBase extends Component {
 			username === '';
 
 		return (
-			<form onSubmit={this.onSubmit}>
-				<input
+			<Form onSubmit={this.onSubmit}>
+				<InputWrap>
+				Namn
+				<Input
 					name='username'
 					value={username}
 					onChange={this.onChange}
 					type='text'
-					placeholder='Full Name'
 				/>
-				<input
+				</InputWrap>
+				<InputWrap>
+				Email
+				<Input
 					name='email'
 					value={email}
 					onChange={this.onChange}
-					type='text'
-					placeholder='Email Address'
+						type='text'
 				/>
-				<input
+				</InputWrap>
+				<InputWrap>
+				Lösenord
+				<Input
 					name='passwordOne'
 					value={passwordOne}
 					onChange={this.onChange}
 					type='password'
-					placeholder='Password'
+
 				/>
-				<input
+				</InputWrap>
+				<InputWrap>
+				Lösenord igen
+				<Input
 					name='passwordTwo'
 					value={passwordTwo}
 					onChange={this.onChange}
 					type='password'
-					placeholder='Confirm Password'
 				/>
+				</InputWrap>
 				<label>
 					Admin:
 					<input
@@ -137,12 +179,13 @@ class SignUpFormBase extends Component {
 						onChange={this.onChangeCheckbox}
 					/>
 				</label>
-				<button disabled={isInvalid} type='submit'>
+				<Button disabled={isInvalid} type='submit'>
 					Registrera
-				</button>
+				</Button>
 
 				{error && <p>{error.message}</p>}
-			</form>
+			</Form>
+		
 		);
 	}
 }
