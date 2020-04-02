@@ -8,7 +8,23 @@ body {
     font-family:'Avenir';
     /* font-size:1em; */
     color:white;
+    height:100vh;
+}
 
+nav {
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    background-color:#092139;
+    padding:1.5rem;
+    margin-bottom:1rem;
+}
+
+
+nav li{
+    display:inline-block;
+    margin-right: 2rem;
 }
 
 h1 {
@@ -26,12 +42,12 @@ h2 {
 }
 
 .player {
-    font-size:0.8em !important;
+    font-size:0.9em !important;
     font-weight:500;
 }
 
 .sum {
-    font-size:0.7em;
+    font-size:0.8em;
     margin-top:-0.6rem;
 }
 
@@ -52,4 +68,21 @@ h2 {
 
 .labelPrice {
     margin-left:1.9rem;
+}
+
+.amount {
+    font-size:1.5rem;
+    color:#A0A0A0;
+    text-align:center;
+    margin-top:0px;
+}
+
+.bench {
+    display:block;
+    
+    margin:0 ;
+}
+
+.logotype {
+    width:200px;
 }

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import Logo from '../../media/Logo-white.png';
+
+
 
 const Navigation = () => (
 	<AuthUserContext.Consumer>
@@ -19,10 +21,14 @@ const Navigation = () => (
 );
 
 const NavigationAuth = ({ authUser }) => (
+
+	<nav>
+		
+		<img src={Logo} className="logotype"/>
 	<ul>
-		<li>
+{/* 		<li>
 			<Link to={ROUTES.LANDING}>*Logga*</Link>
-		</li>
+		</li> */}
 		<li>
 			<Link to={ROUTES.HOME}>Mitt lag</Link>
 		</li>
@@ -48,6 +54,8 @@ const NavigationAuth = ({ authUser }) => (
 			<SignOutButton />
 		</li>
 	</ul>
+		
+	</nav>
 );
 
 const NavigationNonAuth = () => (

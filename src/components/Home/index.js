@@ -30,7 +30,6 @@ class HomePage extends Component {
 	render() {
 		return (
 			<div>
-				<h1>Sök spelare</h1>
 
 				<MyTeam />
 			</div>

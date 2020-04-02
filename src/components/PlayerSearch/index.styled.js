@@ -2,6 +2,12 @@ import styled from 'styled-components';
 import '../fonts/MrEavesXLModNarOT-Reg.ttf'
 
 
+export const Wrapper = styled.div`
+	& > div {
+		height: 50px;
+	}
+`;
+
 export const Select = styled.select`
 	width: 202px;
 	height: 30px;
@@ -14,7 +20,7 @@ export const Select = styled.select`
 `;
 
 export const Input = styled.input`
-	width:15%;
+	width:100%;
 	/* position: relative; */
 	font-family:'Avenir';
 	font-size:0.9em;
@@ -34,9 +40,9 @@ export const Input = styled.input`
 	}
 `;
 
-export const Button = styled.button`
-	margin: 5px;
-	width: 7%;
+export const ButtonDes = styled.button`
+	margin-right: 5px;
+	width: 48%;
 	height: 30px;
 	font-family:'Avenir';
 	font-size:0.8em;
@@ -46,11 +52,25 @@ export const Button = styled.button`
 	color: white;
 	background: rgba(2, 31, 61, 1);
 	cursor: pointer;
+	padding:3px;
+`;
+
+export const ButtonAsc = styled.button`
+	width: 48%;
+	height: 30px;
+	font-family:'Avenir';
+	font-size:0.8em;
+	border: 1px solid white;
+	border-radius: 1px;
+	outline: none;
+	color: white;
+	background: rgba(2, 31, 61, 1);
+	cursor: pointer;
+	padding:3px;
 `;
 
 export const ButtonReset = styled.button`
-	margin: 5px;
-	width: 7%;
+	width: 100%;
 	height: 30px;
 	font-family:'Avenir';
 	font-size:0.8em;
@@ -65,7 +85,7 @@ export const ButtonReset = styled.button`
 
 export const ResultBox = styled.div`
 	background: #F5F5F5;
-	width: 15%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 `;
@@ -96,6 +116,7 @@ export const PlayerRow = styled.div`
 	border: 5px solid #ddd;
 	border: none;
 	border-bottom: 4px solid #021f3d;
+
 `;
 
 export const PlayerInfoBtn = styled.button`
@@ -115,4 +136,5 @@ export const PlayerInfo = styled.div`
 export const PlayerPrice = styled.div`
 	flex: 1;
 	padding: 5px;
+	align-items:flex-end;
 `;

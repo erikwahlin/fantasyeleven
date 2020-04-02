@@ -10,12 +10,14 @@ import { FaSearch } from 'react-icons/fa';
 import '../fonts/MrEavesXLModNarOT-Reg.ttf'
 
 import {
+	Wrapper,
 	PlayerPrice,
 	PlayerInfo,
 	PlayerInfoBtn,
 	Select,
 	Input,
-	Button,
+	ButtonDes,
+	ButtonAsc,
 	ResultBox,
 	Section,
 	LabelRow,
@@ -226,9 +228,10 @@ class PlayerSearch extends Component {
 		const { state, setters } = this.props.myTeam;
 
 		return (
-			<div className="App">
+			<Wrapper className="PlayerSearch">
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}{/* temp */}
+				<h1>Sök spelare</h1>
 				<Dropdown
 					options={filterOptions}
 					onChange={this.onSelectPosOrClub}
@@ -250,24 +253,23 @@ class PlayerSearch extends Component {
 				>
 				</Input>
 				
-				
 
 				<h2>Sortera efter pris</h2>
 
-				<Button
+				<ButtonDes
 					style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 					value="falling"
 					onClick={this.handleSort}
 				>
 					Fallande
-				</Button>
-				<Button
+				</ButtonDes>
+				<ButtonAsc
 					style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 					value="rising"
 					onClick={this.handleSort}
 				>
 					Stigande
-				</Button>
+				</ButtonAsc>
 				<br />
 				<ButtonReset onClick={this.resetSettings}><strong>Återställ filter</strong></ButtonReset>
 				<br />
@@ -302,7 +304,7 @@ class PlayerSearch extends Component {
 						);
 					})}
 				</ResultBox>
-			</div>
+			</Wrapper>
 		);
 	}
 }

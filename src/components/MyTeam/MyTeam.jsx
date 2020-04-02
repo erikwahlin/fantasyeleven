@@ -3,16 +3,28 @@ import styled from 'styled-components';
 import { players } from './players';
 import MyTeamCtx from './ctx';
 import PlayerSearch from '../PlayerSearch';
+import Pitch from '../Pitch';
+import  '../PlayerSearch/styles.css';
+
 import tempField from '../../media/temp_field.jpg';
 
-const Output = styled.div`
-	background: green;
-	position: fixed;
-	right: 100px;
-	background: url(${props => props.bg});
-	background-position: contain;
-	max-width: 500px;
+const Content = styled.div`
+	display: flex;
+	flex-direction:row;
+	justify-content:center;
+	height:100vh;
+
 `;
+
+const ContentWrap = styled.div`
+	width:	70%;
+	display: flex;
+	flex-direction:row;
+	justify-content:space-between;
+	flex-wrap:wrap;
+
+`;
+
 
 // convert millions to less
 const allPlayers = players.map(player => ({
@@ -339,7 +351,8 @@ export default class MyTeam extends Component {
 	render() {
 		// MyTeam-funcs in ctx
 		const setters = {
-			addHandler: this.addHandler
+			addHandler: this.addHandler,
+			delHandler: this.delHandler
 		};
 
 		const { config, team } = this.state;
@@ -354,44 +367,13 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<Output bg={tempField}>
-					<p>PÅ PLAN</p>
-					<div>
-						{config.positions.map(pos => (
-							<div key={`field-${pos}`}>
-								<p>
-									<b>{pos}</b>
-								</p>
-								{team.field[pos].map(player => (
-									<p key={player.uid} onClick={e => this.delHandler(player)}>
-										<i>{player.name}</i>
-									</p>
-								))}
-							</div>
-						))}
-					</div>
-
-					<br />
-
-					<p>PÅ BÄNKEN</p>
-					<div>
-						{config.positions.map(pos => (
-							<div key={`bench-${pos}`}>
-								<p>
-									<b>{pos}</b>
-								</p>
-								{team.bench[pos].map(player => (
-									<p key={player.uid} onClick={e => this.delHandler(player)}>
-										<i>{player.name}</i>
-									</p>
-								))}
-							</div>
-						))}
-					</div>
-					<br />
-					<hr />
-				</Output>
-				<PlayerSearch players={filteredPlayers} />
+				<Content>
+					<ContentWrap>
+					<Pitch />
+				
+						<PlayerSearch players={filteredPlayers} />
+					</ContentWrap>
+				</Content>
 			</MyTeamCtx.Provider>
 		);
 	}
