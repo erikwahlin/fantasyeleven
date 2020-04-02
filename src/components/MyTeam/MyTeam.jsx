@@ -123,20 +123,52 @@ export default class MyTeam extends Component {
 		this.updateFilter = this.updateFilter.bind(this);
 		this.applyFilter = this.applyFilter.bind(this);
 		this.delHandler = this.delHandler.bind(this);
+
+		this.limitReached = this.limitReached.bind(this);
 	}
 
-	updateFilter = () => {
-		const { config, team, filter } = this.state;
+	limitReached = () => {
+		const { team, config, filter } = this.state;
+
+		const field = {},
+			bench = {};
 
 		// any position limit reached on bench?
 		config.positions.forEach(pos => {
 			// (field already full) - add pos to filter
-			if (team.bench[pos].length >= config.limit.bench[pos].max) {
+			if (
+				team.bench[pos].length >= config.limit.bench[pos].max ||
+				team.field[pos].length >= config.limit.field[pos].max
+			) {
 				if (!filter.keys.position.includes(pos)) {
 					filter.keys.position.push(pos);
 					this.setState({ filter });
 				}
 				// (field not full) - remove pos from filter
+			} else {
+				if (filter.keys.position.includes(pos)) {
+					const index = filter.keys.position.indexOf(pos);
+					filter.keys.position.splice(index, 1);
+					this.setState({ filter });
+				}
+			}
+		});
+	};
+
+	updateFilter = () => {
+		const { config, team, filter } = this.state;
+
+		config.positions.forEach(pos => {
+			// if field and bench full - add pos to filter (if filter is not active)
+			if (
+				team.bench[pos].length >= config.limit.bench[pos].max &&
+				team.field[pos].length >= config.limit.field[pos].max
+			) {
+				if (!filter.keys.position.includes(pos)) {
+					filter.keys.position.push(pos);
+					this.setState({ filter });
+				}
+				// else remove pos from filter (if filter is active)
 			} else {
 				if (filter.keys.position.includes(pos)) {
 					const index = filter.keys.position.indexOf(pos);
