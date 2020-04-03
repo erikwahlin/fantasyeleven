@@ -16,6 +16,7 @@ import {
 	PlayerInfo,
 	PlayerInfoBtn,
 	Input,
+	ButtonContainer,
 	ButtonDes,
 	ButtonAsc,
 	ResultBox,
@@ -140,7 +141,6 @@ class PlayerSearch extends Component {
 				paginationSettings.pageNumber = 1;
 				return { paginationSettings };
 			});
-
 			//go back to first page
 		}
 
@@ -294,44 +294,6 @@ class PlayerSearch extends Component {
 
 		return (
 			<Wrapper className="PlayerSearch">
-				{/* TEMP */}
-				<div className="filter-info">
-					{Object.keys(state.filter.keys).map(
-						key =>
-							state.filter.keys[key] &&
-							state.filter.keys[key].map(val => {
-								const getPos = () => {
-									switch (val) {
-										case 'Goalkeeper':
-											return 'målvakter';
-										case 'Defender':
-											return 'försvarare';
-										case 'Midfielder':
-											return 'mittfältare';
-										default:
-											return 'anfallare';
-									}
-								};
-								const getMsg = () => {
-									switch (key) {
-										case 'club':
-											return val;
-										case 'position':
-											return getPos();
-										default:
-											return '';
-									}
-								};
-								if (key === 'uid') return null;
-								const msg = getMsg();
-								return (
-									<p style={{ color: 'hotpink', fontSize: '.5em', display: 'inline' }}>
-										<i>Maxgräns {msg}. </i>
-									</p>
-								);
-							})
-					)}
-				</div>
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
@@ -357,27 +319,27 @@ class PlayerSearch extends Component {
 				></Input>
 
 				<h2>Sortera efter pris</h2>
+				<ButtonContainer>
+					<ButtonDes
+						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+						value="falling"
+						onClick={this.handleSort}
+					>
+						Fallande
+					</ButtonDes>
+					<ButtonAsc
+						style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+						value="rising"
+						onClick={this.handleSort}
+					>
+						Stigande
+					</ButtonAsc>
+				</ButtonContainer>
 
-				<ButtonDes
-					style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
-					value="falling"
-					onClick={this.handleSort}
-				>
-					Fallande
-				</ButtonDes>
-				<ButtonAsc
-					style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
-					value="rising"
-					onClick={this.handleSort}
-				>
-					Stigande
-				</ButtonAsc>
-				<br />
 				<ButtonReset onClick={this.resetSettings}>
 					<strong>Återställ filter</strong>
 				</ButtonReset>
-				<br />
-				<br />
+
 				{/* RESULT */}
 				<Paginate
 					onClick={this.onPageClickhandler}

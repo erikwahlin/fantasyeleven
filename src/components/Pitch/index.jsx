@@ -94,7 +94,7 @@ const PluppContainer = styled.div`
 const Pitch = props => {
 	const { state, setters } = props.myTeam;
 
-	const { config, team } = state;
+	const { config, team, game } = state;
 
 	const shortName = fullName => {
 		const afterSpace = fullName.indexOf(' ') + 1;
@@ -118,15 +118,15 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch">
-			<InfoContainer>
+			<InfoContainer className="InfoContainer">
 				<ChosenPlayers>
-					<h2>Valda spelare</h2>
-					<p className="amount">0/11</p>
+					<h2 className="infoTitle">Valda spelare</h2>
+					<p className="amount">{team.list.length + '/15'}</p>
 				</ChosenPlayers>
 
 				<ChosenPlayers>
-					<h2>Totalt pris</h2>
-					<p className="amount">0kr</p>
+					<h2 className="infoTitle">Totalt pris</h2>
+					<p className="amount">{game.value + 'kr'}</p>
 				</ChosenPlayers>
 			</InfoContainer>
 

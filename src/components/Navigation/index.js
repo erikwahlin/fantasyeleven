@@ -5,83 +5,65 @@ import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import Logo from '../../media/Logo-white.png';
-import styled from 'styled-components';
-
-const navWrap = styled.div`
-	display: flex;
-	flex-direction:row;
-	justify-content:space-between;
-	width:50%%;
-`;
-
-
 
 const Navigation = () => (
 	<AuthUserContext.Consumer>
-		{authUser =>
-			authUser ? (
-				<NavigationAuth authUser={authUser} />
-			) : (
-				<NavigationNonAuth />
-			)
-		}
+		{authUser => (authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />)}
 	</AuthUserContext.Consumer>
 );
 
 const NavigationAuth = ({ authUser }) => (
-
-	<nav>
-		
+	<>
 		{/* <img src={Logo} className="logotype"/> */}
-	<ul>
-		<li>
-			<Link to={ROUTES.LANDING}>*Logga*</Link>
-		</li>
-		<li>
-			<Link to={ROUTES.HOME}>Mitt lag</Link>
-		</li>
-		<li>
-			<Link to={ROUTES.ACCOUNT}>Konto</Link>
-		</li>
+		<ul>
+			<li>
+				<Link to={ROUTES.LANDING}>*Logga*</Link>
+			</li>
+			<li>
+				<Link to={ROUTES.HOME}>Mitt lag</Link>
+			</li>
+			<li>
+				<Link to={ROUTES.ACCOUNT}>Konto</Link>
+			</li>
 
-		{authUser.roles ? (
-			<>
-				{authUser.roles.includes(ROLES.ADMIN) && (
-					<li>
-						<Link to={ROUTES.ADMIN}>Admin</Link>
-					</li>
-				)}
-			</>
-		) : null}
+			{authUser.roles ? (
+				<>
+					{authUser.roles.includes(ROLES.ADMIN) && (
+						<li>
+							<Link to={ROUTES.ADMIN}>Admin</Link>
+						</li>
+					)}
+				</>
+			) : null}
 
-		<li>
-			<Link to={ROUTES.ABOUT}>Om</Link>
-		</li>
+			<li>
+				<Link to={ROUTES.ABOUT}>Om</Link>
+			</li>
 
-		<li>
-			<SignOutButton />
-		</li>
-	</ul>
-		
-	</nav>
+			<li>
+				<SignOutButton />
+			</li>
+		</ul>
+	</>
 );
 
 const NavigationNonAuth = () => (
 	<ul className="landing-nav">
-
 		<li>
 			<Link className="logo" to={ROUTES.LANDING}></Link>
 		</li>
 
-
 		<li className="landing-btn-container">
-			<Link className="landing-btn" to={ROUTES.SIGN_IN}>LOGGA IN</Link>
+			<Link className="landing-btn" to={ROUTES.SIGN_IN}>
+				LOGGA IN
+			</Link>
 		</li>
 
 		<li>
-			<Link className="landing-btn" to={ROUTES.SIGN_UP}>SKAPA KONTO</Link>
+			<Link className="landing-btn" to={ROUTES.SIGN_UP}>
+				SKAPA KONTO
+			</Link>
 		</li>
-		
 	</ul>
 );
 

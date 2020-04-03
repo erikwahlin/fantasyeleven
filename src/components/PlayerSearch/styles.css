@@ -1,89 +1,95 @@
 @font-face {
-  font-family: 'MrEavesXL';
-  src: local('MrEavesXL'), url(../fonts/MrEavesXLModNarOT-Reg.ttf) format('truetype');
+	font-family: 'MrEavesXL';
+	src: local('MrEavesXL'), url(../fonts/MrEavesXLModNarOT-Reg.ttf) format('truetype');
 }
 
 body {
-    background-color: #011931;
-    font-family:'Avenir';
-    /* font-size:1em; */
-    color:white;
-    height:100vh;
+	background-color: #011931;
+	font-family: 'Avenir';
+	/* font-size:1em; */
+	color: white;
+	height: 100vh;
 }
 
 nav {
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-start;
-    align-items:center;
-    background-color:#092139;
-    padding:1.5rem;
-    margin-bottom:1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	background-color: #092139;
+	padding: 1.5rem;
+	margin-bottom: 1rem;
 }
 
-
-nav li{
-    display:inline-block;
-    margin-right: 2rem;
+nav li {
+	display: inline-block;
+	margin-right: 2rem;
 }
 
 h1 {
-    font-family:'Avenir';
-    font-size:1.5em;
-    color:white;
-    font-weight:800;
+	font-family: 'Avenir';
+	font-size: 1.5em;
+	color: white;
+	font-weight: 800;
 }
 
 h2 {
-    font-size:1em;
-    color:white;
-    font-weight:800;
-    margin-bottom:0.2rem;
+	font-size: 1em;
+	color: white;
+	font-weight: 800;
+	margin-bottom: 0.2rem;
+}
+
+.infoTitle {
+	font-size: 1em;
+	color: white;
+	font-weight: 800;
+	margin-bottom: 0.2rem;
 }
 
 .player {
-    font-size:0.9em !important;
-    font-weight:500;
-    cursor: pointer;
+	font-size: 0.9em !important;
+	font-weight: 500;
+	cursor: pointer;
 }
 
 .sum {
-    font-size:0.8em;
-    margin-top:-0.6rem;
+	font-size: 0.8em;
+	margin-top: -0.6rem;
 }
 
 .player_price {
-    font-size:0.8em;
-    font-weight:bold;
+	font-size: 0.8em;
+	font-weight: bold;
 }
 
 .info {
-    width:20px;
+	width: 20px;
 }
 
 .labelPosition {
-    font-style:italic;
-    font-weight:600;
-    font-size:1.1em;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 1.1em;
 }
 
 .labelPrice {
-    margin-left:1.9rem;
+	margin-left: 1.9rem;
 }
 
 .amount {
-    font-size:1.5rem;
-    color:#A0A0A0;
-    text-align:center;
-    margin-top:0px;
+	font-size: 1.5rem;
+	color: #a0a0a0;
+	text-align: center;
+	margin-top: 0px;
 }
 
 .bench {
-    display:block;
-    
-    margin:0 ;
+	display: block;
+
+	margin: 0;
 }
 
 .logotype {
-    width:200px;
+	width: 200px;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 //import PluppB from '../../media/pluppB.png';
-import PluppG from '../../media/PluppG.svg';
+import PluppG from '../../media/pluppG.svg';
 import Plupp from '../Plupp';
 
 const Wrapper = styled.div`

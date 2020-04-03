@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import '../fonts/MrEavesXLModNarOT-Reg.ttf'
-
+import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
-/* 	& > div {
+	/* 	& > div {
 		height: 50px;
 	} */
-	width:15rem;
+	width: 15rem;
 `;
 
 /* export const Select = styled.select`
@@ -21,15 +20,16 @@ export const Wrapper = styled.div`
 `; */
 
 export const Input = styled.input`
-	width:100%;
+	width: 100%;
+	margin-bottom: 6px;
 	/* position: relative; */
-	font-family:'Avenir';
-	font-size:0.9em;
-	font-weight:bold;
-	color:white;
-	padding:8px 52px 8px 10px;
-	border:1px solid white;
-	 box-sizing: border-box;
+	font-family: 'Avenir';
+	font-size: 0.9em;
+	font-weight: bold;
+	color: white;
+	padding: 8px 52px 8px 10px;
+	border: 1px solid white;
+	box-sizing: border-box;
 	outline: none;
 	background: rgba(2, 31, 61, 1);
 	cursor: text;
@@ -41,51 +41,64 @@ export const Input = styled.input`
 	}
 `;
 
-export const ButtonDes = styled.button`
-	margin-right: 5px;
-	width: 48%;
+export const ButtonContainer = styled.div`
+	width: 100%;
 	height: 30px;
-	font-family:'Avenir';
-	font-size:0.8em;
+	font-family: 'Avenir';
+	font-size: 0.8em;
+	border: none;
+	padding: 0;
+	display: flex;
+	margin-bottom: 6px;
+
+	& > button {
+		width: 49%;
+	}
+`;
+
+export const ButtonDes = styled.button`
+	margin-right: auto;
+	height: 30px;
+	font-family: 'Avenir';
+	font-size: 0.8em;
 	border: 1px solid white;
 	border-radius: 1px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
 	cursor: pointer;
-	padding:3px;
+	padding: 3px;
 `;
 
 export const ButtonAsc = styled.button`
-	width: 48%;
 	height: 30px;
-	font-family:'Avenir';
-	font-size:0.8em;
+	font-family: 'Avenir';
+	font-size: 0.8em;
 	border: 1px solid white;
 	border-radius: 1px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
 	cursor: pointer;
-	padding:3px;
+	padding: 3px;
 `;
 
 export const ButtonReset = styled.button`
 	width: 100%;
 	height: 30px;
-	font-family:'Avenir';
-	font-size:0.8em;
+	font-family: 'Avenir';
+	font-size: 0.8em;
 	border: 1px solid white;
 	border-radius: 1px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
-	margin-top:1rem;
 	cursor: pointer;
+	margin-bottom: 12px;
 `;
 
 export const ResultBox = styled.div`
-	background: #F5F5F5;
+	background: #f5f5f5;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -99,34 +112,32 @@ export const Section = styled.div`
 
 export const LabelRow = styled.div`
 	width: 100%;
-	height:30px !important;
+	height: 30px !important;
 	display: flex;
-	justify-content:space-around;
-	align-items:center;
-	background: #00FFF5;
+	justify-content: space-around;
+	align-items: center;
+	background: #00fff5;
 	color: black;
 	font-weight: 700;
-	font-size:0.8em;
+	font-size: 0.8em;
 `;
 
 export const PlayerRow = styled.div`
 	width: 100%;
 	display: flex;
-	background: #F5F5F5;
-	color:black;
+	background: #f5f5f5;
+	color: black;
 	border: 5px solid #ddd;
 	border: none;
 	border-bottom: 4px solid #021f3d;
-
 `;
 
 export const PlayerInfoBtn = styled.button`
-	background: #F5F5F5;
+	background: #f5f5f5;
 	border: none;
 	outline: none;
-	font-size:1.7em;
+	font-size: 1.7em;
 	cursor: pointer;
-	
 `;
 
 export const PlayerInfo = styled.div`
@@ -137,5 +148,5 @@ export const PlayerInfo = styled.div`
 export const PlayerPrice = styled.div`
 	flex: 1;
 	padding: 5px;
-	align-items:flex-end;
+	align-items: flex-end;
 `;
