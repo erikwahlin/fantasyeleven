@@ -47,7 +47,9 @@ const initial_state = {
 	team: {
 		list: [],
 
-		field: {
+		captain: false,
+
+		pitch: {
 			Goalkeeper: [],
 			Defender: [],
 			Midfielder: [],
@@ -69,7 +71,7 @@ const initial_state = {
 				Midfielder: 0,
 				Forward: 0
 			},
-			field: {
+			pitch: {
 				Goalkeeper: 0,
 				Defender: 0,
 				Midfielder: 0,
@@ -93,7 +95,7 @@ const initial_state = {
 	config: {
 		limit: {
 			tot: { min: 15, max: 15 },
-			field: {
+			pitch: {
 				Goalkeeper: { min: 1, max: 1 },
 				Defender: { min: 3, max: 5 },
 				Midfielder: { min: 2, max: 5 },
@@ -107,7 +109,11 @@ const initial_state = {
 			},
 			club: { max: 3 }
 		},
-		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward']
+		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
+		switch: {
+			a: null,
+			b: null
+		}
 	}
 };
 
@@ -116,37 +122,104 @@ export default class MyTeam extends Component {
 		super(props);
 		this.state = JSON.parse(JSON.stringify({ ...initial_state }));
 
+		this.updateState = this.updateState.bind(this);
 		this.addHandler = this.addHandler.bind(this);
 		this.addPlayer = this.addPlayer.bind(this);
 		this.updateLimit = this.updateLimit.bind(this);
 		this.updateFilter = this.updateFilter.bind(this);
 		this.applyFilter = this.applyFilter.bind(this);
 		this.delHandler = this.delHandler.bind(this);
+		this.setMarkedPlupp = this.setMarkedPlupp.bind(this);
+		this.setTargetPlupp = this.setTargetPlupp.bind(this);
+		this.switchPlayers = this.switchPlayers.bind(this);
 	}
 
-	updateFilter = () => {
+	updateState = (key, val, callback) => {
+		this.setState(
+			{
+				[key]: val
+			},
+			() => {
+				if (typeof callback === 'function') return callback();
+			}
+		);
+	};
+
+	setMarkedPlupp = ({ playFromStart, pos, index, ref, clear }) => {
+		const { config } = this.state;
+
+		if (clear) {
+			config.switch.a = null;
+			return this.setState({ config });
+		}
+
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+
+		config.switch.a = {
+			pitchOrBench,
+			pos,
+			index,
+			ref
+		};
+
+		this.setState({ config });
+	};
+
+	setTargetPlupp = ({ playFromStart, pos, index, ref, clear }) => {
+		const { config } = this.state;
+
+		/* if (clear) {
+			config.switch.b = null;
+			return this.setState({ config });
+		} */
+
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+
+		config.switch.b = {
+			pitchOrBench,
+			pos,
+			index,
+			ref
+		};
+
+		this.setState({ config });
+	};
+
+	updateFilter = callback => {
 		const { config, team, filter } = this.state;
 
-		// any position limit reached on bench?
 		config.positions.forEach(pos => {
-			// (field already full) - add pos to filter
-			if (team.bench[pos].length >= config.limit.bench[pos].max) {
+			// if pitch and bench full - add pos to filter (if filter is not active)
+			if (
+				team.bench[pos].length >= config.limit.bench[pos].max &&
+				team.pitch[pos].length >= config.limit.pitch[pos].max
+			) {
 				if (!filter.keys.position.includes(pos)) {
 					filter.keys.position.push(pos);
-					this.setState({ filter });
 				}
-				// (field not full) - remove pos from filter
+				// else remove pos from filter (if filter is active)
 			} else {
 				if (filter.keys.position.includes(pos)) {
 					const index = filter.keys.position.indexOf(pos);
 					filter.keys.position.splice(index, 1);
-					this.setState({ filter });
 				}
 			}
 		});
+
+		Object.keys(team.clubs).forEach(club => {
+			if (team.clubs[club] >= 3) {
+				if (!filter.keys.club.includes(club)) filter.keys.club.push(club);
+			} else {
+				if (filter.keys.club.includes(club)) {
+					const index = filter.keys.club.indexOf(club);
+					filter.keys.club.splice(index, 1);
+				}
+			}
+		});
+		this.setState({ filter });
 	};
 
-	applyFilter = players => {
+	applyFilter = input => {
 		const { team, filter } = this.state;
 		const { keys: filterKeys } = filter;
 
@@ -155,12 +228,12 @@ export default class MyTeam extends Component {
 			return [];
 		}
 
-		const f = (items, key) => {
-			const res = items.filter(item => {
+		const f = (players, key) => {
+			const res = players.filter(player => {
 				let willReturn = true;
 
 				filterKeys[key].forEach(val => {
-					if (item[key] === val) {
+					if (player[key] === val) {
 						willReturn = false;
 					}
 				});
@@ -171,7 +244,7 @@ export default class MyTeam extends Component {
 			return res;
 		};
 
-		return f(f(f(players, 'club'), 'position'), 'uid');
+		return f(f(f(input, 'club'), 'position'), 'uid');
 	};
 
 	// update formation rules (limits)
@@ -179,17 +252,17 @@ export default class MyTeam extends Component {
 		const { config, team } = this.state;
 
 		// fresh copy of initial limits
-		config.limit.field = JSON.parse(JSON.stringify(initial_state.config.limit.field));
+		config.limit.pitch = JSON.parse(JSON.stringify(initial_state.config.limit.pitch));
 
 		// desctructure initial limits
 		const {
 			Defender: defLimit,
 			Midfielder: midLimit,
 			Forward: forLimit
-		} = initial_state.config.limit.field;
+		} = initial_state.config.limit.pitch;
 
-		// curr field count
-		const { Defender: defCount, Midfielder: midCount, Forward: forCount } = team.count.field;
+		// curr pitch count
+		const { Defender: defCount, Midfielder: midCount, Forward: forCount } = team.count.pitch;
 
 		//// Defender
 		// scenario -1
@@ -202,12 +275,12 @@ export default class MyTeam extends Component {
 		if (midCount + forCount >= 7) {
 			newDefLimit = defLimit.max - 2; // 3
 		}
-		config.limit.field.Defender.max = newDefLimit;
+		config.limit.pitch.Defender.max = newDefLimit;
 
 		//// Midfielder
 		// scenario -1
 		let newMidLimit = midLimit.max;
-		if (defCount >= 5 || defCount + forCount === 6) {
+		if (defCount >= 5 || defCount + forCount === 6 || forCount >= 3) {
 			newMidLimit = midLimit.max - 1; // 4
 		}
 
@@ -220,7 +293,7 @@ export default class MyTeam extends Component {
 		if (defCount + forCount >= 8) {
 			newMidLimit = midLimit.max - 3; // 1
 		}
-		config.limit.field.Midfielder.max = newMidLimit;
+		config.limit.pitch.Midfielder.max = newMidLimit;
 
 		//// Forward
 		// scenario -1
@@ -235,40 +308,44 @@ export default class MyTeam extends Component {
 			newForLimit = forLimit.max - 2; // 1
 			console.log('forward down 2', newForLimit);
 		}
-		config.limit.field.Forward.max = newForLimit;
+		config.limit.pitch.Forward.max = newForLimit;
 
 		this.setState({ config }, () => {
 			this.updateFilter();
 		});
 	};
 
-	addPlayer = (player, toBench = false) => {
+	addPlayer = (player, playFromStart = true) => {
 		// we need state
-		const { team, filter } = this.state;
+		const { team, filter, game } = this.state;
 
 		// set play vs bench-props
-		player.field = !toBench;
-		player.bench = toBench;
-		const fieldOrBench = toBench ? 'bench' : 'field';
+		player.playFromStart = playFromStart;
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+
+		///// -> player.captain = filter.keys.captain //do i do this here?
 
 		// add player to list
 		team.list.push(player);
 
-		// add player to formation on field or bench
-		team[fieldOrBench][player.position].push(player);
+		// inc team value
+		game.value += player.price;
+
+		// add player to formation on pitch or bench
+		team[pitchOrBench][player.position].push(player);
 
 		// inc count for player's club
 		team.clubs[player.club] = team.clubs[player.club] + 1 || 1;
 
 		// inc count for player's pos
 		team.count.tot[player.position] += 1;
-		team.count[fieldOrBench][player.position] += 1;
+		team.count[pitchOrBench][player.position] += 1;
 
 		// filter out player's uid from PlayerSearch
 		filter.keys.uid.push(player.uid);
 
 		// update state
-		this.setState({ team, filter }, () => {
+		this.setState({ team, filter, game }, () => {
 			this.updateLimit();
 		});
 	};
@@ -277,38 +354,47 @@ export default class MyTeam extends Component {
 		// we need state and new player pos
 		const { config, team } = this.state;
 		const { position: pos } = player;
-
-		// player with same pos on field already reached limit? prepare bench
-		const putOnBench = team.field[pos].length >= config.limit.field[pos].max ? true : false;
+		// player with same pos on pitch already reached limit? prepare bench
+		///////const putOnBench = team.pitch[pos].length >= config.limit.pitch[pos].max ? true : false;
+		const playFromStart = team.pitch[pos].length < config.limit.pitch[pos].max ? true : false;
 
 		// add player
-		this.addPlayer(player, putOnBench);
+		this.addPlayer(player, playFromStart);
 
 		return;
 	};
 
 	delHandler = player => {
-		const { team, filter } = this.state;
+		const { team, filter, game, config } = this.state;
 		const { position: pos } = player;
-		const fieldOrBench = player.field ? 'field' : 'bench';
+		const pitchOrBench = player.playFromStart ? 'pitch' : 'bench';
 
-		// del player from
-		// list
+		//dec team value
+		game.value -= player.price;
+
+		// del player from list
 		team.list.forEach((item, nth) => {
 			if (item.uid === player.uid) {
 				team.list.splice(nth, 1);
 			}
 		});
 
-		// field or bench
-		team[fieldOrBench][pos].forEach((item, nth) => {
+		// del player from pitch or bench
+		team[pitchOrBench][pos].forEach((item, nth) => {
 			if (item.uid === player.uid) {
-				team[fieldOrBench][pos].splice(nth, 1);
+				// if pitch, del from pitch
+				//if (player.playFromStart) {
+				team[pitchOrBench][pos].splice(nth, 1);
+				//}
+				//if bench, just clear bench pos
+				//else {
+				//	team.bench[pos] = [];
+				//}
 			}
 		});
 
-		// if field-player was removed
-		if (player.field) {
+		// if pitch-player was removed
+		/* if (player.playFromStart) {
 			// if same pos sitting on bench
 			if (team.bench[pos].length > 0) {
 				// copy lucky benchwarmer
@@ -318,16 +404,16 @@ export default class MyTeam extends Component {
 				team.bench[pos] = [];
 
 				// let lucky benchwarmer play!
-				/* luckyBenchWarmer.field = true;
+				/* luckyBenchWarmer.pitch = true;
 				luckyBenchWarmer.bench = false;
-				team.field[pos].push(luckyBenchWarmer); */
+				team.pitch[pos].push(luckyBenchWarmer); 
 				this.addPlayer(luckyBenchWarmer);
 			}
-		}
+		} */
 
 		// dec count
 		team.count.tot[pos] -= 1;
-		team.count[fieldOrBench][pos] -= 1;
+		team.count[pitchOrBench][pos] -= 1;
 
 		// del from clubs
 		team.clubs[player.club] = team.clubs[player.club] - 1;
@@ -342,7 +428,100 @@ export default class MyTeam extends Component {
 			}
 		});
 
-		this.setState({ team, filter }, () => {
+		this.setState({ team, filter, game, config }, () => {
+			this.updateLimit();
+			console.log('player deleted', player);
+		});
+	};
+
+	/* Needs work */
+	// maybe loop through positions on pitch/bench and update playFromStart?
+	switchPlayers = ({ a, b }) => {
+		const { team, config } = this.state;
+
+		config.switch.b = {
+			playFromStart: b.playFromStart || null,
+			pos: b.pos,
+			index: b.index,
+			ref: b.ref || null
+		};
+		/* this.setTargetPlupp(
+			{
+				playFromStart: b.playFromStart || null,
+				pos: b.pos,
+				index: b.index,
+				ref: b.ref || null
+			},
+			() => console.log('set target plupp')
+		); */
+
+		console.log(a, b);
+
+		const a_temp = JSON.parse(JSON.stringify(a));
+		const b_temp = JSON.parse(JSON.stringify(b));
+		const playerA = a.player ? JSON.parse(JSON.stringify(a.player)) : null;
+		const playerB = a.player ? JSON.parse(JSON.stringify(b.player)) : null;
+
+		// if !b or b was on bench, set !playFromStart for a
+		const updatePitchOrBench = x => {
+			if (x.player) {
+				console.log(
+					x.player.name,
+					'was on',
+					x.pitchOrBench,
+					'and had playfromstart',
+					x.player.playFromStart
+				);
+				if (x.pitchOrBench === 'pitch') {
+					return true;
+				}
+			}
+			console.log('x was undefined');
+			return false;
+		};
+
+		const fromStartA = updatePitchOrBench(b_temp);
+		const fromStartB = updatePitchOrBench(a_temp);
+
+		// if plupp 1 contains player, take plupp 2's place
+		// a to b
+		if (a.player !== null) {
+			console.log('switching item b');
+			team[b.pitchOrBench][b.pos][b.index] = playerA;
+		}
+		// else delete player plupp 2 player
+		else {
+			team[b.pitchOrBench][b.pos].splice([b.index], 1);
+			console.log('removing marked item b');
+		}
+
+		// and vice versa
+		// b to a
+		if (b.player !== null) {
+			console.log('switching item a');
+			team[a.pitchOrBench][a.pos][a.index] = playerB;
+		} else {
+			console.log('removing marked item a');
+			team[a.pitchOrBench][a.pos].splice([a.index], 1);
+
+			team[b.pitchOrBench][b.pos][b.index].playFromStart = false;
+		}
+
+		if (team[b.pitchOrBench][b.pos][b.index]) {
+			team[b.pitchOrBench][b.pos][b.index].playFromStart = fromStartA;
+		}
+
+		if (team[a.pitchOrBench][a.pos][a.index]) {
+			team[a.pitchOrBench][a.pos][a.index].playFromStart = fromStartB;
+		}
+
+		config.switch.a = null;
+		// temp-fix for bug
+		if (b.pitchOrBench === 'pitch') {
+			config.switch.b = null;
+		}
+
+		this.setState({ team, config }, () => {
 			this.updateLimit();
 		});
 	};
@@ -350,11 +529,14 @@ export default class MyTeam extends Component {
 	render() {
 		// MyTeam-funcs in ctx
 		const setters = {
+			updateState: this.updateState,
 			addHandler: this.addHandler,
-			delHandler: this.delHandler
+			delHandler: this.delHandler,
+			setMarkedPlupp: this.setMarkedPlupp,
+			switchPlayers: this.switchPlayers
 		};
 
-		const { config, team } = this.state;
+		const { team, game } = this.state;
 
 		// filter allPlayers before PlayerSearch
 		const filteredPlayers = this.applyFilter(allPlayers);

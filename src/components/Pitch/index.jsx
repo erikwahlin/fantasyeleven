@@ -4,19 +4,20 @@ import { withMyTeam } from '../MyTeam/ctx';
 import pitchImg from '../../media/pitch.png';
 import pluppW from '../../media/pluppW.png';
 
+import Plupp from '../Plupp';
+
 import Bench from '../Bench';
 
 const Wrapper = styled.div`
 	/* width: 576px; /* 1.000 */
-	 height: 422px; /* 0.906 */   */
-	display: flex;
+	height: 422px; /* 0.906 */
+	*/display: flex;
 	flex-direction: column;
-	
 `;
 
 const FieldContainer = styled.div`
-	width:576px;
-	height:500px;
+	width: 576px;
+	height: 500px;
 	background: url(${p => p.bg});
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -28,16 +29,15 @@ const FieldContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
-	display:flex;
-	flex-direction:row;
-	justify-content:space-around;
-	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 `;
 
 const ChosenPlayers = styled.div`
-	display:flex;
-	flex-direction:column;
-	justify-content:center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 `;
 
 const BenchContainer = styled.div`
@@ -56,7 +56,7 @@ const FormationContainer = styled.div`
 const PosLineup = styled.div`
 	width: 100%;
 	height: 100px;
-	min-height: 130px;
+	min-height: 117px;
 	flex: 1;
 	position: relative;
 	display: flex;
@@ -66,7 +66,7 @@ const PosLineup = styled.div`
 const PluppContainer = styled.div`
 	flex: 1;
 	height: 100%;
-	min-height: 130px;
+	min-height: 117px;
 	flex: 1;
 	position: relative;
 	display: flex;
@@ -74,21 +74,22 @@ const PluppContainer = styled.div`
 
 	& > span.playerName {
 		position: absolute;
+		top: 18px;
 		font-size: 0.7em;
 		text-align: center;
 		/* text-shadow: 0 0 6px #333; */
-		color: ${p => (p.player.position === 'Goalkeeper' ? '#000' : '#dda')};
+		color: #dda;
 	}
 `;
 
-const Plupp = styled.img`
+/* const Plupp = styled.img`
 	width: 50px;
 	align-self: center;
 
 	${p => p.position};
 	${p => p.lineupCount};
 	${p => p.lineupIndex};
-`;
+`; */
 
 const Pitch = props => {
 	const { state, setters } = props.myTeam;
@@ -117,35 +118,39 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch">
-
 			<InfoContainer>
 				<ChosenPlayers>
-				<h2>Valda spelare</h2>
-				<p className="amount">0/11</p>
+					<h2>Valda spelare</h2>
+					<p className="amount">0/11</p>
 				</ChosenPlayers>
 
 				<ChosenPlayers>
-				<h2>Totalt pris</h2>
-				<p className="amount">0kr</p>
+					<h2>Totalt pris</h2>
+					<p className="amount">0kr</p>
 				</ChosenPlayers>
 			</InfoContainer>
 
 			<FieldContainer className="FieldContainer" bg={pitchImg}>
 				<FormationContainer className="FormationContainer">
-					
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
-							{team.field[pos].map((player, nth) => (
+							{team.pitch[pos].map((player, nth) => (
 								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
+									<span className="playerName">{shortName(player.name)}</span>
 									<Plupp
+										player={player}
+										pos={player.position}
+										lineupCount={team.pitch[pos].length}
+										lineupIndex={nth}
+									/>
+									{/* <Plupp
 										alt="player-plupp"
 										src={pluppW}
 										position={pos}
-										lineupCount={team.field[pos].length}
+										lineupCount={team.pitch[pos].length}
 										lineupIndex={nth}
 										onClick={e => setters.delHandler(player)}
-									/>
-									<span className="playerName">{shortName(player.name)}</span>
+									/> */}
 								</PluppContainer>
 							))}
 						</PosLineup>

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
-import pluppB from '../../media/pluppB.png';
-import pluppG from '../../media/pluppG.svg';
+//import PluppB from '../../media/pluppB.png';
+import PluppG from '../../media/PluppG.svg';
+import Plupp from '../Plupp';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -13,7 +14,7 @@ const Wrapper = styled.div`
 
 	background: none;
 
-	border-top:1px solid white;
+	border-top: 1px solid white;
 `;
 
 const PluppContainer = styled.div`
@@ -34,14 +35,14 @@ const PluppContainer = styled.div`
 	}
 `;
 
-const Plupp = styled.img`
+/* const Plupp = styled.img`
 	width: 50px;
 	align-self: center;
 
 	${p => p.position};
 	${p => p.lineupCount};
 	${p => p.lineupIndex};
-`;
+`; */
 
 const Bench = props => {
 	const { state } = props.myTeam;
@@ -49,16 +50,23 @@ const Bench = props => {
 
 	return (
 		<Wrapper className="Bench">
-			
 			{config.positions.map((pos, nth) => (
 				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
 					<Plupp
+						bench={true}
+						pos={pos}
+						player={team.bench[pos][0]}
+						lineupCount={team.bench[pos].length}
+						lineupIndex={0}
+					/>
+					{/* <Plupp
 						alt="player-plupp"
 						src={pluppG}
 						position={pos}
-						lineupCount={team.field[pos].length}
+						lineupCount={team.pitch[pos].length}
 						lineupIndex={nth}
-					/>
+						onClick={e => clickHandler(pos)}
+					/> */}
 					{team.bench[pos][0] && <span className="playerName">{team.bench[pos][0].name}</span>}
 				</PluppContainer>
 			))}

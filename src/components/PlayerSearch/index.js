@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeConsumer } from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import Dropdown from 'react-dropdown';
+import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
-import { FaInfoCircle } from 'react-icons/fa';
-import { FaSearch } from 'react-icons/fa';
-import '../fonts/MrEavesXLModNarOT-Reg.ttf'
+import { FaInfoCircle, FaSearch } from 'react-icons/fa';
+
+import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 import {
 	Wrapper,
 	PlayerPrice,
 	PlayerInfo,
 	PlayerInfoBtn,
-	Select,
 	Input,
 	ButtonDes,
 	ButtonAsc,
@@ -39,7 +39,12 @@ const INITIAL_STATE = {
 	posOrClubSelected: { value: 'none', label: 'Alla spelare' },
 	maxPriceSelected: { value: 'none', label: 'Högsta pris' },
 	searchTerm: '',
-	priceSort: 'falling'
+	priceSort: 'falling',
+
+	paginationSettings: {
+		pageNumber: 1,
+		pageSize: 20
+	}
 };
 
 //orderby
@@ -54,23 +59,26 @@ class PlayerSearch extends Component {
 
 		this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
 
-		this.updateState = this.updateState.bind(this);
+		this.updateStatePage = this.updateStatePage.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
-
+		//this.paginate = this.paginate.bind(this)
 		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
 		this.onSelectPrice = this.onSelectPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
-
+		this.onPageClickhandler = this.onPageClickhandler.bind(this);
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
 	}
 
 	// update settings in state
-	updateState = (key, val) => {
-		this.setState({
-			[key]: val
+	updateStatePage = () => {
+		this.setState(prevState => {
+			let paginationSettings = Object.assign({}, prevState.paginationSettings);
+			paginationSettings.pageNumber = 1;
+			return { paginationSettings };
 		});
 	};
+
 	handleSort = e => {
 		console.log(this.sortedPlayerList(this.props.players));
 		if (e.target.value === 'falling') {
@@ -90,12 +98,14 @@ class PlayerSearch extends Component {
 	onSelectPosOrClub = option => {
 		const selected = this.state.posOrClubSelected;
 		console.log('You selected ', selected);
+		this.updateStatePage();
 		this.setState({ posOrClubSelected: option });
 	};
 
 	onSelectPrice = option => {
 		const selected = this.state.maxPriceSelected;
 		console.log('You selected ', selected);
+		this.updateStatePage();
 		this.setState({ maxPriceSelected: option });
 	};
 
@@ -120,7 +130,51 @@ class PlayerSearch extends Component {
 		});
 	};
 
+	onPageClickhandler = (e, playersList) => {
+		const { pageNumber, pageSize } = this.state.paginationSettings;
+		//let cName = e.target.parentNode.parentNode.className; // works if icons imported from react-icons package
+		let cName = e.target.className;
+		if (cName === 'firstPage') {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber = 1;
+				return { paginationSettings };
+			});
+
+			//go back to first page
+		}
+
+		if (cName === 'backward' && pageNumber > 1) {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber -= 1;
+				return { paginationSettings };
+			});
+
+			//go back 1 page
+		}
+
+		if (cName === 'forward' && pageNumber < Math.ceil(playersList / pageSize)) {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber += 1;
+				return { paginationSettings };
+			});
+			//go forward 1 page
+		}
+
+		if (cName === 'lastPage') {
+			this.setState(prevState => {
+				let paginationSettings = Object.assign({}, prevState.paginationSettings);
+				paginationSettings.pageNumber = Math.ceil(playersList / pageSize);
+				return { paginationSettings };
+			});
+			//go to last page
+		}
+	};
+
 	handleTextFilterChange(event) {
+		this.updateStatePage();
 		this.setState({ searchTerm: event.target.value });
 	}
 
@@ -186,6 +240,16 @@ class PlayerSearch extends Component {
 		//const sorted = this.applySortBy(filtered);
 		const sorted = this.sortedPlayerList(filtered);
 		// WIP-test. split into result-sections based on sort
+		const paginate = (playersList, page_size, page_number) => {
+			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
+			return playersList.slice((page_number - 1) * page_size, page_number * page_size);
+		};
+		const paginated = paginate(
+			sorted,
+			this.state.paginationSettings.pageSize,
+			this.state.paginationSettings.pageNumber
+		);
+
 		const sectionFilter = items => {
 			const splitByPosition = () => {
 				const res = [];
@@ -209,7 +273,8 @@ class PlayerSearch extends Component {
 							break;
 					}
 				});
-				return this.state.sortOrder === '<' ? res : res.reverse();
+				return res;
+				//return this.state.sortOrder === '<' ? res : res.reverse();
 			};
 			return splitByPosition();
 			/* switch (sortBy) {
@@ -220,7 +285,7 @@ class PlayerSearch extends Component {
 			} */
 		};
 
-		const result = sectionFilter(sorted);
+		const result = sectionFilter(paginated);
 
 		//console.log('search output', result);
 
@@ -229,8 +294,47 @@ class PlayerSearch extends Component {
 
 		return (
 			<Wrapper className="PlayerSearch">
+				{/* TEMP */}
+				<div className="filter-info">
+					{Object.keys(state.filter.keys).map(
+						key =>
+							state.filter.keys[key] &&
+							state.filter.keys[key].map(val => {
+								const getPos = () => {
+									switch (val) {
+										case 'Goalkeeper':
+											return 'målvakter';
+										case 'Defender':
+											return 'försvarare';
+										case 'Midfielder':
+											return 'mittfältare';
+										default:
+											return 'anfallare';
+									}
+								};
+								const getMsg = () => {
+									switch (key) {
+										case 'club':
+											return val;
+										case 'position':
+											return getPos();
+										default:
+											return '';
+									}
+								};
+								if (key === 'uid') return null;
+								const msg = getMsg();
+								return (
+									<p style={{ color: 'hotpink', fontSize: '.5em', display: 'inline' }}>
+										<i>Maxgräns {msg}. </i>
+									</p>
+								);
+							})
+					)}
+				</div>
 				{/* FILTER */}
-				{/* (FILTER) <br />  */}{/* temp */}
+				{/* (FILTER) <br />  */}
+				{/* temp */}
 				<h1>Sök spelare</h1>
 				<Dropdown
 					options={filterOptions}
@@ -244,15 +348,13 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
-				
-				<Input 
+
+				<Input
 					type="text"
 					name="name"
 					onChange={this.handleTextFilterChange}
 					placeholder="Sök spelare"
-				>
-				</Input>
-				
+				></Input>
 
 				<h2>Sortera efter pris</h2>
 
@@ -271,23 +373,37 @@ class PlayerSearch extends Component {
 					Stigande
 				</ButtonAsc>
 				<br />
-				<ButtonReset onClick={this.resetSettings}><strong>Återställ filter</strong></ButtonReset>
+				<ButtonReset onClick={this.resetSettings}>
+					<strong>Återställ filter</strong>
+				</ButtonReset>
 				<br />
 				<br />
 				{/* RESULT */}
+				<Paginate
+					onClick={this.onPageClickhandler}
+					state={this.state.paginationSettings}
+					players={filtered}
+				/>
 				<ResultBox>
 					{result.map((section, nth) => {
 						return (
 							<Section key={nth}>
 								{section.length ? (
 									<LabelRow>
-											<div className="labelPosition"><p> {`${section[0].position}s`}</p></div> <div className="labelPrice"><p>SEK</p></div>
+										<div className="labelPosition">
+											<p> {`${section[0].position}s`}</p>
+										</div>{' '}
+										<div className="labelPrice">
+											<p>SEK</p>
+										</div>
 									</LabelRow>
 								) : null}
 								{section.map((player, i) => {
 									return (
 										<PlayerRow key={i}>
-											<PlayerInfoBtn><FaInfoCircle className="info" /></PlayerInfoBtn>
+											<PlayerInfoBtn>
+												<FaInfoCircle className="info" />
+											</PlayerInfoBtn>
 											<PlayerInfo onClick={e => setters.addHandler(player)}>
 												<p className="player">{player.name}</p>
 												<p className="sum">
