@@ -45,6 +45,10 @@ const BenchContainer = styled.div`
 	background: grey;
 `;
 
+const InfoP = styled.p`
+	color: ${p => p.ready && '#35892A'};
+`;
+
 const FormationContainer = styled.div`
 	margin: auto;
 	width: 100%;
@@ -96,6 +100,8 @@ const Pitch = props => {
 
 	const { config, team, game } = state;
 
+	const playerCount = team.list.length;
+
 	const shortName = fullName => {
 		const afterSpace = fullName.indexOf(' ') + 1;
 
@@ -121,12 +127,14 @@ const Pitch = props => {
 			<InfoContainer className="InfoContainer">
 				<ChosenPlayers>
 					<h2 className="infoTitle">Valda spelare</h2>
-					<p className="amount">{team.list.length + '/15'}</p>
+					<InfoP ready={playerCount === 15} className="amount">
+						{playerCount + '/15'}
+					</InfoP>
 				</ChosenPlayers>
 
 				<ChosenPlayers>
 					<h2 className="infoTitle">Totalt pris</h2>
-					<p className="amount">{game.value + 'kr'}</p>
+					<InfoP className="amount">{game.value + 'kr'}</InfoP>
 				</ChosenPlayers>
 			</InfoContainer>
 
