@@ -53,12 +53,12 @@ const NavigationAuth = ({ authUser }) => (
 const NavigationNonAuth = () => (
 	<ul className="landing-nav">
 
-		<li className="logo-container">
+		<li>
 			<Link className="logo" to={ROUTES.LANDING}></Link>
 		</li>
 
 
-		<li>
+		<li className="landing-btn-container">
 			<Link className="landing-btn" to={ROUTES.SIGN_IN}>LOGGA IN</Link>
 		</li>
 
