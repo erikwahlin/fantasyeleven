@@ -13,7 +13,7 @@ const Content = styled.div`
 	flex-direction:row;
 	justify-content:center;
 	height:100vh;
-
+	width:100%;
 `;
 
 const ContentWrap = styled.div`
@@ -22,7 +22,6 @@ const ContentWrap = styled.div`
 	flex-direction:row;
 	justify-content:space-between;
 	flex-wrap:wrap;
-
 `;
 
 

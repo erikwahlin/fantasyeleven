@@ -44,6 +44,7 @@ h2 {
 .player {
     font-size:0.9em !important;
     font-weight:500;
+    cursor: pointer;
 }
 
 .sum {

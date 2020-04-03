@@ -7,18 +7,19 @@ import pluppW from '../../media/pluppW.png';
 import Bench from '../Bench';
 
 const Wrapper = styled.div`
-	width: 576px; /* 1.000 */
-	height: 422px; /* 0.906 */
+	/* width: 576px; /* 1.000 */
+	 height: 422px; /* 0.906 */   */
 	display: flex;
 	flex-direction: column;
+	
 `;
 
 const FieldContainer = styled.div`
-
+	width:576px;
+	height:500px;
 	background: url(${p => p.bg});
 	background-size: cover;
 	background-repeat: no-repeat;
-	
 	@media screen and (max-width: 602px) {
 		background-size: auto 100%;
 	}
@@ -55,7 +56,7 @@ const FormationContainer = styled.div`
 const PosLineup = styled.div`
 	width: 100%;
 	height: 100px;
-	min-height: 100px;
+	min-height: 130px;
 	flex: 1;
 	position: relative;
 	display: flex;
@@ -65,7 +66,7 @@ const PosLineup = styled.div`
 const PluppContainer = styled.div`
 	flex: 1;
 	height: 100%;
-	min-height: 100px;
+	min-height: 130px;
 	flex: 1;
 	position: relative;
 	display: flex;
@@ -75,7 +76,7 @@ const PluppContainer = styled.div`
 		position: absolute;
 		font-size: 0.7em;
 		text-align: center;
-		text-shadow: 0 0 6px #333;
+		/* text-shadow: 0 0 6px #333; */
 		color: ${p => (p.player.position === 'Goalkeeper' ? '#000' : '#dda')};
 	}
 `;
