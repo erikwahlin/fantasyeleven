@@ -10,10 +10,10 @@ const Wrapper = styled.div`
 		margin-right: 5px;
 	}
 	font-family: 'Avenir';
+	margin-bottom: 12px;
 `;
 
 const Btn = styled.button`
-	height: 100%;
 	width: 30px;
 
 	margin: 0 5px;
@@ -29,6 +29,12 @@ const Btn = styled.button`
 	}
 `;
 
+const PageNumber = styled.div`
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+`;
+
 export default class Paginate extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +47,7 @@ export default class Paginate extends Component {
 		//angle double right - left
 		return (
 			<div>
-				<Wrapper className="wrapp" onClick={e => onClick(e, players.length)}>
+				<Wrapper className="PageNav" onClick={e => onClick(e, players.length)}>
 					<Btn className="firstPage">
 						<FaAngleDoubleLeft />
 					</Btn>
@@ -49,7 +55,9 @@ export default class Paginate extends Component {
 					<Btn className="backward">
 						<FaAngleLeft />
 					</Btn>
-					{<div>{pageNumber + '/' + Math.ceil(players.length / pageSize)}</div>}
+
+					{<PageNumber>{pageNumber + '/' + Math.ceil(players.length / pageSize)}</PageNumber>}
+
 					<Btn className="forward">
 						<FaAngleRight />
 					</Btn>
