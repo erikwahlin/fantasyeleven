@@ -20,8 +20,6 @@ const ContentWrap = styled.div`
 	& > .PlayerSearch {
 		flex: 1;
 	}
-
-	/* flex-wrap:wrap; */
 `;
 
 // convert millions to less
@@ -144,15 +142,17 @@ export default class MyTeam extends Component {
 		);
 	};
 
-	setMarkedPlupp = ({ playFromStart, pos, index, ref, clear }) => {
+	setMarkedPlupp = ({ pitchOrBench, pos, index, ref, clear, callback }) => {
 		const { config } = this.state;
 
+		console.log('setmarked...!');
 		if (clear) {
+			console.log('clear!');
 			config.switch.a = null;
 			return this.setState({ config });
 		}
 
-		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+		//const pitchOrBench = playFromStart ? 'pitch' : 'bench';
 
 		config.switch.a = {
 			pitchOrBench,
@@ -161,7 +161,11 @@ export default class MyTeam extends Component {
 			ref
 		};
 
-		this.setState({ config });
+		this.setState({ config }, () => {
+			if (typeof callback === 'function') {
+				return callback();
+			}
+		});
 	};
 
 	setTargetPlupp = ({ playFromStart, pos, index, ref, clear }) => {
@@ -436,93 +440,83 @@ export default class MyTeam extends Component {
 	/* Needs work */
 	// maybe loop through positions on pitch/bench and update playFromStart?
 	switchPlayers = ({ a, b }) => {
+		// we want state
 		const { team, config } = this.state;
 
+		// switch target in state config
 		config.switch.b = {
 			playFromStart: b.playFromStart || null,
 			pos: b.pos,
 			index: b.index,
 			ref: b.ref || null
 		};
-		/* this.setTargetPlupp(
-			{
-				playFromStart: b.playFromStart || null,
-				pos: b.pos,
-				index: b.index,
-				ref: b.ref || null
-			},
-			() => console.log('set target plupp')
-		); */
 
-		console.log(a, b);
+		this.updateState('config', config);
 
-		const a_temp = JSON.parse(JSON.stringify(a));
-		const b_temp = JSON.parse(JSON.stringify(b));
-		const playerA = a.player ? JSON.parse(JSON.stringify(a.player)) : null;
-		const playerB = a.player ? JSON.parse(JSON.stringify(b.player)) : null;
+		const switcher = () => {
+			const a_temp = JSON.parse(JSON.stringify(a));
+			const b_temp = JSON.parse(JSON.stringify(b));
+			const playerA = a.player ? JSON.parse(JSON.stringify(a.player)) : null;
+			const playerB = a.player ? JSON.parse(JSON.stringify(b.player)) : null;
 
-		// if !b or b was on bench, set !playFromStart for a
-		const updatePitchOrBench = x => {
-			if (x.player) {
-				console.log(
-					x.player.name,
-					'was on',
-					x.pitchOrBench,
-					'and had playfromstart',
-					x.player.playFromStart
-				);
-				if (x.pitchOrBench === 'pitch') {
-					return true;
+			// if !b or b was on bench, set !playFromStart for a
+			const updatePitchOrBench = x => {
+				if (x.player) {
+					if (x.pitchOrBench === 'pitch') {
+						return true;
+					}
 				}
+				return false;
+			};
+
+			//switch playFromStart-prop, store in temp
+			const fromStartA = updatePitchOrBench(b_temp);
+			const fromStartB = updatePitchOrBench(a_temp);
+
+			// if plupp 1 contains player, take plupp 2's place
+			// a to b
+			if (a.player !== null) {
+				console.log('switching item b');
+				team[b.pitchOrBench][b.pos][b.index] = playerA;
 			}
-			console.log('x was undefined');
-			return false;
+			// else delete player plupp 2 player
+			else {
+				team[b.pitchOrBench][b.pos].splice([b.index], 1);
+				console.log('removing marked item b');
+			}
+
+			// and vice versa
+			// b to a
+			if (b.player !== null) {
+				console.log('switching item a');
+				team[a.pitchOrBench][a.pos][a.index] = playerB;
+			} else {
+				console.log('removing marked item a');
+				team[a.pitchOrBench][a.pos].splice([a.index], 1);
+
+				team[b.pitchOrBench][b.pos][b.index].playFromStart = false;
+			}
+
+			if (team[b.pitchOrBench][b.pos][b.index]) {
+				team[b.pitchOrBench][b.pos][b.index].playFromStart = fromStartA;
+			}
+
+			if (team[a.pitchOrBench][a.pos][a.index]) {
+				team[a.pitchOrBench][a.pos][a.index].playFromStart = fromStartB;
+			}
+
+			config.switch.a = null;
+			// temp-fix for bug
+			if (b.pitchOrBench === 'pitch') {
+				config.switch.b = null;
+			}
+
+			this.setState({ team, config }, () => {
+				this.updateLimit();
+			});
 		};
 
-		const fromStartA = updatePitchOrBench(b_temp);
-		const fromStartB = updatePitchOrBench(a_temp);
-
-		// if plupp 1 contains player, take plupp 2's place
-		// a to b
-		if (a.player !== null) {
-			console.log('switching item b');
-			team[b.pitchOrBench][b.pos][b.index] = playerA;
-		}
-		// else delete player plupp 2 player
-		else {
-			team[b.pitchOrBench][b.pos].splice([b.index], 1);
-			console.log('removing marked item b');
-		}
-
-		// and vice versa
-		// b to a
-		if (b.player !== null) {
-			console.log('switching item a');
-			team[a.pitchOrBench][a.pos][a.index] = playerB;
-		} else {
-			console.log('removing marked item a');
-			team[a.pitchOrBench][a.pos].splice([a.index], 1);
-
-			team[b.pitchOrBench][b.pos][b.index].playFromStart = false;
-		}
-
-		if (team[b.pitchOrBench][b.pos][b.index]) {
-			team[b.pitchOrBench][b.pos][b.index].playFromStart = fromStartA;
-		}
-
-		if (team[a.pitchOrBench][a.pos][a.index]) {
-			team[a.pitchOrBench][a.pos][a.index].playFromStart = fromStartB;
-		}
-
-		config.switch.a = null;
-		// temp-fix for bug
-		if (b.pitchOrBench === 'pitch') {
-			config.switch.b = null;
-		}
-
-		this.setState({ team, config }, () => {
-			this.updateLimit();
-		});
+		setTimeout(switcher, 3000);
 	};
 
 	render() {

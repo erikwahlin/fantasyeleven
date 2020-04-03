@@ -99,28 +99,32 @@ class Plupp extends Component {
 	}
 
 	checkSwitchable = () => {
-		const { player, myTeam, pos, bench } = this.props;
-		const { a: switchA } = myTeam.state.config.switch;
+		const { player, myTeam, pos, pitchOrBench } = this.props;
+		const { a: marked, b: target } = myTeam.state.config.switch;
+		const pluppRef = this.pluppRef.current;
 
 		// decide if switchable
 		// if plupp contains player or its on bench, and any plupp is marked
-		if ((player || bench) && switchA) {
+		if ((player || pitchOrBench === 'bench') && marked) {
 			// if plupp-pos is marked pos, but not marked plupp
-			if (pos === switchA.pos && this.pluppRef.current !== switchA.ref) {
-				return true;
+			if (marked) {
+				if (pos === marked.pos && pluppRef !== marked.ref) {
+					return true;
+				}
 			}
 		}
 		return false;
 	};
 
+	// check if switchable
 	componentDidMount = () => {
-		if (this.checkSwitchable()) {
-			this.setState({ isSwitchable: true });
-		}
+		this.setState({ isSwitchable: this.checkSwitchable() });
 	};
 
+	// sync switchable
 	componentDidUpdate = () => {
 		const newState = this.checkSwitchable();
+
 		if (newState !== this.state.isSwitchable) {
 			this.setState({ isSwitchable: newState });
 		}
@@ -137,7 +141,7 @@ class Plupp extends Component {
 		const { myTeam, player, pos, lineupIndex } = this.props;
 		const playFromStart = player ? player.playFromStart : null;
 
-		if (!newVal) return myTeam.setters.setMarkedPlupp({ clear: true });
+		//if (!newVal) return myTeam.setters.setMarkedPlupp({ clear: true });
 
 		myTeam.setters.setMarkedPlupp({
 			playFromStart,
@@ -160,16 +164,47 @@ class Plupp extends Component {
 	};
 
 	clickHandler = e => {
-		const { setters, state } = this.props.myTeam;
-		const { config } = state;
+		const { myTeam, player, pos, pitchOrBench, lineupIndex } = this.props;
+		const { setters, state } = myTeam;
+		const { a: marked, b: target } = state.config.switch;
+		const ref = this.pluppRef.current;
 
-		if (config.switch.b) {
+		// if this is not target b (pitchOrBench, pos, index)
+		// try comparing ref!
+
+		// if marked in state, set target else marked
+		if (marked) {
+			console.log('this is a target', ref);
+		} else {
+			console.log('this is a marked', ref);
+
+			this.setState({ isMarked: true }, () => {
+				// set this as marked
+				setters.setMarkedPlupp({
+					pitchOrBench,
+					pos,
+					lineupIndex,
+					player,
+					ref
+				});
+			});
+		}
+		/*const {
+			b: targetCompare
+		} = config.switch const pluppCompare = [pitchOrBench, pos, lineupIndex];
+		const playerCompare = [targetCompare.pitchOrBench, targetCompare.pos
+		const stateCompare = 
+		
+		if(){
+			
+		} */
+		/* if (config.switch.b) {
 			config.switch.b = null;
 			setters.updateState('config', config);
 			return;
-		}
+		} */
 
-		this.setMarked(!this.state.isMarked);
+		//this.setMarked(!this.state.isMarked);
 
 		// toggle marked
 	};
@@ -177,12 +212,32 @@ class Plupp extends Component {
 	handleClickOutside = e => {
 		if (!this.state.isMarked) return;
 
+		console.log('click outside', this.pluppRef);
+
+		/*
+		const { state, setters } = this.props.myTeam;
+		const { config } = state;
+		*/
+
+		// if not on another plupp (later player in list)
+		// clear switch in state
+		if (!e.target.classList.contains('SwitchablePlupp')) {
+			this.setState({ isMarked: false }, () => {
+				this.props.myTeam.setters.setMarkedPlupp({ clear: true });
+			});
+		}
+
+		/*
 		// if clicked on plupp, handle possible switch, else unmark
 		if (e.target.classList.contains('SwitchablePlupp')) {
-			this.switchHandler(e);
+			if (!config.switch.a) {
+				setters.setMarkedPlupp({ clear: true });
+				this.checkSwitchable();
+			}
+			//this.switchHandler(e);
 		} else {
-			this.setMarked(false);
 		}
+		this.setMarked(false); */
 	};
 
 	switchHandler = e => {
@@ -235,22 +290,10 @@ class Plupp extends Component {
 
 	render() {
 		const { isMarked, isSwitchable } = this.state;
-		const { player, myTeam, pos, bench, lineupIndex } = this.props;
-		const { markedPlupp } = myTeam.state.config;
-
-		const pitchOrBench = () => {
-			if (player) {
-				if (player.playFromStart) {
-					return 'pitch';
-				}
-			}
-			return 'bench';
-		};
-
-		const img = pitchOrBench() === 'pitch' ? pluppW : pluppB;
+		const { player, pos, pitchOrBench, lineupIndex } = this.props;
 
 		return (
-			<Container ref={this.pluppRef}>
+			<Container>
 				{isMarked && player && (
 					<Options>
 						<DelBtn ref={this.delBtn} onClick={this.del}>
@@ -260,7 +303,8 @@ class Plupp extends Component {
 				)}
 
 				<PluppImg
-					id={`switch-${pitchOrBench()}-${pos}-${lineupIndex}`}
+					ref={this.pluppRef}
+					id={`switch-${pitchOrBench}-${pos}-${lineupIndex}`}
 					className={`${isSwitchable ? 'Switchable' : ''}Plupp`}
 					alt={`player-plupp ${pitchOrBench}`}
 					src={pluppC}

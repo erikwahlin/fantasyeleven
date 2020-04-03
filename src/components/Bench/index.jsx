@@ -58,6 +58,7 @@ const Bench = props => {
 						player={team.bench[pos][0]}
 						lineupCount={team.bench[pos].length}
 						lineupIndex={0}
+						pitchOrBench={'bench'}
 					/>
 					{/* <Plupp
 						alt="player-plupp"

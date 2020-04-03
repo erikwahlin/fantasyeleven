@@ -147,16 +147,20 @@ const Pitch = props => {
 				<FormationContainer className="FormationContainer">
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
-							{team.pitch[pos].map((player, nth) => (
-								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
-									<span className="playerName">{shortName(player.name)}</span>
-									<Plupp
-										player={player}
-										pos={player.position}
-										lineupCount={team.pitch[pos].length}
-										lineupIndex={nth}
-									/>
-									{/* <Plupp
+							{team.pitch[pos].map((player, nth) => {
+								const pitchOrBench = player.playFromStart ? 'pitch' : 'bench';
+
+								return (
+									<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
+										<span className="playerName">{shortName(player.name)}</span>
+										<Plupp
+											pitchOrBench={pitchOrBench}
+											player={player}
+											pos={player.position}
+											lineupCount={team.pitch[pos].length}
+											lineupIndex={nth}
+										/>
+										{/* <Plupp
 										alt="player-plupp"
 										src={pluppW}
 										position={pos}
@@ -164,8 +168,9 @@ const Pitch = props => {
 										lineupIndex={nth}
 										onClick={e => setters.delHandler(player)}
 									/> */}
-								</PluppContainer>
-							))}
+									</PluppContainer>
+								);
+							})}
 						</PosLineup>
 					))}
 				</FormationContainer>
