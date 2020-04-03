@@ -8,10 +8,11 @@ import './dropdown.css';
 import './styles.css';
 import { FaInfoCircle, FaSearch } from 'react-icons/fa';
 
-import '../fonts/MrEavesXLModNarOT-Reg.ttf';
+//import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 import {
 	Wrapper,
+	Title,
 	PlayerPrice,
 	PlayerInfo,
 	PlayerInfoBtn,
@@ -297,7 +298,7 @@ class PlayerSearch extends Component {
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
-				<h1>Sök spelare</h1>
+				<Title>Sök spelare</Title>
 				<Dropdown
 					options={filterOptions}
 					onChange={this.onSelectPosOrClub}

@@ -9,9 +9,9 @@ import Plupp from '../Plupp';
 import Bench from '../Bench';
 
 const Wrapper = styled.div`
-	/* width: 576px; /* 1.000 */
 	height: 422px; /* 0.906 */
-	*/display: flex;
+	max-width: 580px; /* Or do we make pitch wider? */
+	display: flex;
 	flex-direction: column;
 `;
 
@@ -38,6 +38,11 @@ const ChosenPlayers = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+`;
+
+const InfoTitle = styled.h2`
+	margin: 0;
+	margin-bottom: 0.2rem;
 `;
 
 const BenchContainer = styled.div`
@@ -126,14 +131,14 @@ const Pitch = props => {
 		<Wrapper className="Pitch">
 			<InfoContainer className="InfoContainer">
 				<ChosenPlayers>
-					<h2 className="infoTitle">Valda spelare</h2>
+					<InfoTitle className="infoTitle">Valda spelare</InfoTitle>
 					<InfoP ready={playerCount === 15} className="amount">
 						{playerCount + '/15'}
 					</InfoP>
 				</ChosenPlayers>
 
 				<ChosenPlayers>
-					<h2 className="infoTitle">Totalt pris</h2>
+					<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
 					<InfoP className="amount">{game.value + 'kr'}</InfoP>
 				</ChosenPlayers>
 			</InfoContainer>

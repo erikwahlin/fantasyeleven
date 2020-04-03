@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { players } from './players';
 import MyTeamCtx from './ctx';
-import PlayerSearch from '../PlayerSearch';
+import PlayerSearch from '../PlayerSearch/index';
 import Pitch from '../Pitch';
-import  '../PlayerSearch/styles.css';
+import '../PlayerSearch/styles.css';
 
 import tempField from '../../media/temp_field.jpg';
 
-const Content = styled.div`
-	display: flex;
-	flex-direction:row;
-	justify-content:center;
-	height:100vh;
-	width:100%;
-`;
-
 const ContentWrap = styled.div`
-	width:	70%;
+	width: 90%;
+	max-width: 1200px;
+	margin: auto;
 	display: flex;
-	flex-direction:row;
-	justify-content:space-between;
+
+	flex-direction: row;
+	justify-content: space-around;
+
+	& > .PlayerSearch {
+		flex: 1;
+	}
+
 	/* flex-wrap:wrap; */
 `;
-
 
 // convert millions to less
 const allPlayers = players.map(player => ({
@@ -548,13 +547,13 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<Content>
-					<ContentWrap>
-					<Pitch />
-				
+				<div className="MyTeam Content">
+					<ContentWrap className="ContentWrap">
+						<Pitch />
+
 						<PlayerSearch players={filteredPlayers} />
 					</ContentWrap>
-				</Content>
+				</div>
 			</MyTeamCtx.Provider>
 		);
 	}

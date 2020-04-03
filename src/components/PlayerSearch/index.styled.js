@@ -1,23 +1,18 @@
 import styled from 'styled-components';
-import '../fonts/MrEavesXLModNarOT-Reg.ttf';
+//import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
-	/* 	& > div {
-		height: 50px;
-	} */
 	width: 15rem;
+	max-width: 350px; /* Or wider? */
+	min-width: 200px;
 `;
 
-/* export const Select = styled.select`
-	width: 202px;
-	height: 30px;
-	margin: 5px;
-	border: none;
-	outline: none;
-	background: #fff;
-	box-shadow: 0 0 5px #eee;
-	cursor: pointer;
-`; */
+export const Title = styled.h2`
+	font-size: 1.5em;
+	line-height: 30px; /* in line with titles above pitch */
+	margin: 0;
+	margin-bottom: 12px;
+`;
 
 export const Input = styled.input`
 	width: 100%;
