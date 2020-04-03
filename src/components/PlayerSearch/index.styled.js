@@ -3,12 +3,13 @@ import '../fonts/MrEavesXLModNarOT-Reg.ttf'
 
 
 export const Wrapper = styled.div`
-	& > div {
+/* 	& > div {
 		height: 50px;
-	}
+	} */
+	width:15rem;
 `;
 
-export const Select = styled.select`
+/* export const Select = styled.select`
 	width: 202px;
 	height: 30px;
 	margin: 5px;
@@ -17,7 +18,7 @@ export const Select = styled.select`
 	background: #fff;
 	box-shadow: 0 0 5px #eee;
 	cursor: pointer;
-`;
+`; */
 
 export const Input = styled.input`
 	width:100%;

@@ -83,13 +83,13 @@
 }
 
 .Dropdown-option:hover {
-	background-color: #f2f9fc;
-	color: #333;
+	background-color: #011931;;
+	color: white;
 }
 
 .Dropdown-option.is-selected {
-	background-color: #f2f9fc;
-	color: #333;
+	background-color: #011931;;
+	color: white;
 }
 
 .Dropdown-noresults {

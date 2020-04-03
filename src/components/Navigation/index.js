@@ -5,6 +5,14 @@ import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import Logo from '../../media/Logo-white.png';
+import styled from 'styled-components';
+
+const navWrap = styled.div`
+	display: flex;
+	flex-direction:row;
+	justify-content:space-between;
+	width:50%%;
+`;
 
 
 
@@ -24,11 +32,11 @@ const NavigationAuth = ({ authUser }) => (
 
 	<nav>
 		
-		<img src={Logo} className="logotype"/>
+		{/* <img src={Logo} className="logotype"/> */}
 	<ul>
-{/* 		<li>
+		<li>
 			<Link to={ROUTES.LANDING}>*Logga*</Link>
-		</li> */}
+		</li>
 		<li>
 			<Link to={ROUTES.HOME}>Mitt lag</Link>
 		</li>
