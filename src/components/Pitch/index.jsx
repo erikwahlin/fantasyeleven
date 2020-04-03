@@ -55,7 +55,6 @@ const PluppContainer = styled.div`
 	flex: 1;
 	height: 100%;
 	min-height: 100px;
-	flex: 1;
 	position: relative;
 	display: flex;
 	justify-content: space-evenly;
@@ -111,7 +110,13 @@ const Pitch = props => {
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (
 								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
-									<Plupp player={player} lineupCount={team.pitch[pos].length} lineupIndex={nth} />
+									<span className="playerName">{shortName(player.name)}</span>
+									<Plupp
+										player={player}
+										pos={player.position}
+										lineupCount={team.pitch[pos].length}
+										lineupIndex={nth}
+									/>
 									{/* <Plupp
 										alt="player-plupp"
 										src={pluppW}
@@ -120,7 +125,6 @@ const Pitch = props => {
 										lineupIndex={nth}
 										onClick={e => setters.delHandler(player)}
 									/> */}
-									<span className="playerName">{shortName(player.name)}</span>
 								</PluppContainer>
 							))}
 						</PosLineup>

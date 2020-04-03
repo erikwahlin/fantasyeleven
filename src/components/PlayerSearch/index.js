@@ -222,6 +222,44 @@ class PlayerSearch extends Component {
 
 		return (
 			<Wrapper className="PlayerSearch">
+				{/* TEMP */}
+				<div className="filter-info">
+					{Object.keys(state.filter.keys).map(
+						key =>
+							state.filter.keys[key] &&
+							state.filter.keys[key].map(val => {
+								const getPos = () => {
+									switch (val) {
+										case 'Goalkeeper':
+											return 'målvakter';
+										case 'Defender':
+											return 'försvarare';
+										case 'Midfielder':
+											return 'mittfältare';
+										default:
+											return 'anfallare';
+									}
+								};
+								const getMsg = () => {
+									switch (key) {
+										case 'club':
+											return val;
+										case 'position':
+											return getPos();
+										default:
+											return '';
+									}
+								};
+								if (key === 'uid') return null;
+								const msg = getMsg();
+								return (
+									<p style={{ color: 'hotpink', fontSize: '.5em', display: 'inline' }}>
+										<i>Maxgräns {msg}. </i>
+									</p>
+								);
+							})
+					)}
+				</div>
 				{/* FILTER */}
 				(FILTER) <br /> {/* temp */}
 				<Dropdown

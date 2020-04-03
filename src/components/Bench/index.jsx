@@ -44,22 +44,20 @@ const PluppContainer = styled.div`
 `; */
 
 const Bench = props => {
-	const { state, setters } = props.myTeam;
+	const { state } = props.myTeam;
 	const { config, team } = state;
-
-	const clickHandler = pos => {
-		const player = team.bench[pos][0];
-
-		if (player) {
-			setters.delHandler(player);
-		}
-	};
 
 	return (
 		<Wrapper className="Bench">
 			{config.positions.map((pos, nth) => (
 				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
-					<Plupp lineupCount={team.bench[pos].length} lineupIndex={nth} />
+					<Plupp
+						bench={true}
+						pos={pos}
+						player={team.bench[pos][0]}
+						lineupCount={team.bench[pos].length}
+						lineupIndex={0}
+					/>
 					{/* <Plupp
 						alt="player-plupp"
 						src={pluppB}

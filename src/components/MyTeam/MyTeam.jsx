@@ -40,13 +40,14 @@ const initial_state = {
 		keys: {
 			uid: [],
 			position: [],
-			club: [],
-			captain: false
+			club: []
 		}
 	},
 
 	team: {
 		list: [],
+
+		captain: false,
 
 		pitch: {
 			Goalkeeper: [],
@@ -109,7 +110,10 @@ const initial_state = {
 			club: { max: 3 }
 		},
 		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
-		markedPlupp: null
+		switch: {
+			a: null,
+			b: null
+		}
 	}
 };
 
@@ -118,6 +122,7 @@ export default class MyTeam extends Component {
 		super(props);
 		this.state = JSON.parse(JSON.stringify({ ...initial_state }));
 
+		this.updateState = this.updateState.bind(this);
 		this.addHandler = this.addHandler.bind(this);
 		this.addPlayer = this.addPlayer.bind(this);
 		this.updateLimit = this.updateLimit.bind(this);
@@ -125,22 +130,62 @@ export default class MyTeam extends Component {
 		this.applyFilter = this.applyFilter.bind(this);
 		this.delHandler = this.delHandler.bind(this);
 		this.setMarkedPlupp = this.setMarkedPlupp.bind(this);
+		this.setTargetPlupp = this.setTargetPlupp.bind(this);
+		this.switchPlayers = this.switchPlayers.bind(this);
 	}
 
-	setMarkedPlupp = (playFromStart, pos, index) => {
+	updateState = (key, val, callback) => {
+		this.setState(
+			{
+				[key]: val
+			},
+			() => {
+				if (typeof callback === 'function') return callback();
+			}
+		);
+	};
+
+	setMarkedPlupp = ({ playFromStart, pos, index, ref, clear }) => {
 		const { config } = this.state;
+
+		if (clear) {
+			config.switch.a = null;
+			return this.setState({ config });
+		}
+
 		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
 
-		config.markedPlupp = {
+		config.switch.a = {
 			pitchOrBench,
 			pos,
-			index
+			index,
+			ref
 		};
 
 		this.setState({ config });
 	};
 
-	updateFilter = () => {
+	setTargetPlupp = ({ playFromStart, pos, index, ref, clear }) => {
+		const { config } = this.state;
+
+		/* if (clear) {
+			config.switch.b = null;
+			return this.setState({ config });
+		} */
+
+		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+
+		config.switch.b = {
+			pitchOrBench,
+			pos,
+			index,
+			ref
+		};
+
+		this.setState({ config });
+	};
+
+	updateFilter = callback => {
 		const { config, team, filter } = this.state;
 
 		config.positions.forEach(pos => {
@@ -151,20 +196,30 @@ export default class MyTeam extends Component {
 			) {
 				if (!filter.keys.position.includes(pos)) {
 					filter.keys.position.push(pos);
-					this.setState({ filter });
 				}
 				// else remove pos from filter (if filter is active)
 			} else {
 				if (filter.keys.position.includes(pos)) {
 					const index = filter.keys.position.indexOf(pos);
 					filter.keys.position.splice(index, 1);
-					this.setState({ filter });
 				}
 			}
 		});
+
+		Object.keys(team.clubs).forEach(club => {
+			if (team.clubs[club] >= 3) {
+				if (!filter.keys.club.includes(club)) filter.keys.club.push(club);
+			} else {
+				if (filter.keys.club.includes(club)) {
+					const index = filter.keys.club.indexOf(club);
+					filter.keys.club.splice(index, 1);
+				}
+			}
+		});
+		this.setState({ filter });
 	};
 
-	applyFilter = players => {
+	applyFilter = input => {
 		const { team, filter } = this.state;
 		const { keys: filterKeys } = filter;
 
@@ -173,12 +228,12 @@ export default class MyTeam extends Component {
 			return [];
 		}
 
-		const f = (items, key) => {
-			const res = items.filter(item => {
+		const f = (players, key) => {
+			const res = players.filter(player => {
 				let willReturn = true;
 
 				filterKeys[key].forEach(val => {
-					if (item[key] === val) {
+					if (player[key] === val) {
 						willReturn = false;
 					}
 				});
@@ -189,7 +244,7 @@ export default class MyTeam extends Component {
 			return res;
 		};
 
-		return f(f(f(players, 'club'), 'position'), 'uid');
+		return f(f(f(input, 'club'), 'position'), 'uid');
 	};
 
 	// update formation rules (limits)
@@ -310,7 +365,7 @@ export default class MyTeam extends Component {
 	};
 
 	delHandler = player => {
-		const { team, filter, game } = this.state;
+		const { team, filter, game, config } = this.state;
 		const { position: pos } = player;
 		const pitchOrBench = player.playFromStart ? 'pitch' : 'bench';
 
@@ -328,13 +383,13 @@ export default class MyTeam extends Component {
 		team[pitchOrBench][pos].forEach((item, nth) => {
 			if (item.uid === player.uid) {
 				// if pitch, del from pitch
-				if (player.playFromStart) {
-					team.pitch[pos].splice(nth, 1);
-				}
+				//if (player.playFromStart) {
+				team[pitchOrBench][pos].splice(nth, 1);
+				//}
 				//if bench, just clear bench pos
-				else {
-					team.bench[pos] = [];
-				}
+				//else {
+				//	team.bench[pos] = [];
+				//}
 			}
 		});
 
@@ -373,7 +428,100 @@ export default class MyTeam extends Component {
 			}
 		});
 
-		this.setState({ team, filter, game }, () => {
+		this.setState({ team, filter, game, config }, () => {
+			this.updateLimit();
+			console.log('player deleted', player);
+		});
+	};
+
+	/* Needs work */
+	// maybe loop through positions on pitch/bench and update playFromStart?
+	switchPlayers = ({ a, b }) => {
+		const { team, config } = this.state;
+
+		config.switch.b = {
+			playFromStart: b.playFromStart || null,
+			pos: b.pos,
+			index: b.index,
+			ref: b.ref || null
+		};
+		/* this.setTargetPlupp(
+			{
+				playFromStart: b.playFromStart || null,
+				pos: b.pos,
+				index: b.index,
+				ref: b.ref || null
+			},
+			() => console.log('set target plupp')
+		); */
+
+		console.log(a, b);
+
+		const a_temp = JSON.parse(JSON.stringify(a));
+		const b_temp = JSON.parse(JSON.stringify(b));
+		const playerA = a.player ? JSON.parse(JSON.stringify(a.player)) : null;
+		const playerB = a.player ? JSON.parse(JSON.stringify(b.player)) : null;
+
+		// if !b or b was on bench, set !playFromStart for a
+		const updatePitchOrBench = x => {
+			if (x.player) {
+				console.log(
+					x.player.name,
+					'was on',
+					x.pitchOrBench,
+					'and had playfromstart',
+					x.player.playFromStart
+				);
+				if (x.pitchOrBench === 'pitch') {
+					return true;
+				}
+			}
+			console.log('x was undefined');
+			return false;
+		};
+
+		const fromStartA = updatePitchOrBench(b_temp);
+		const fromStartB = updatePitchOrBench(a_temp);
+
+		// if plupp 1 contains player, take plupp 2's place
+		// a to b
+		if (a.player !== null) {
+			console.log('switching item b');
+			team[b.pitchOrBench][b.pos][b.index] = playerA;
+		}
+		// else delete player plupp 2 player
+		else {
+			team[b.pitchOrBench][b.pos].splice([b.index], 1);
+			console.log('removing marked item b');
+		}
+
+		// and vice versa
+		// b to a
+		if (b.player !== null) {
+			console.log('switching item a');
+			team[a.pitchOrBench][a.pos][a.index] = playerB;
+		} else {
+			console.log('removing marked item a');
+			team[a.pitchOrBench][a.pos].splice([a.index], 1);
+
+			team[b.pitchOrBench][b.pos][b.index].playFromStart = false;
+		}
+
+		if (team[b.pitchOrBench][b.pos][b.index]) {
+			team[b.pitchOrBench][b.pos][b.index].playFromStart = fromStartA;
+		}
+
+		if (team[a.pitchOrBench][a.pos][a.index]) {
+			team[a.pitchOrBench][a.pos][a.index].playFromStart = fromStartB;
+		}
+
+		config.switch.a = null;
+		// temp-fix for bug
+		if (b.pitchOrBench === 'pitch') {
+			config.switch.b = null;
+		}
+
+		this.setState({ team, config }, () => {
 			this.updateLimit();
 		});
 	};
@@ -381,11 +529,14 @@ export default class MyTeam extends Component {
 	render() {
 		// MyTeam-funcs in ctx
 		const setters = {
+			updateState: this.updateState,
 			addHandler: this.addHandler,
-			delHandler: this.delHandler
+			delHandler: this.delHandler,
+			setMarkedPlupp: this.setMarkedPlupp,
+			switchPlayers: this.switchPlayers
 		};
 
-		const { config, team, game } = this.state;
+		const { team, game } = this.state;
 
 		// filter allPlayers before PlayerSearch
 		const filteredPlayers = this.applyFilter(allPlayers);
