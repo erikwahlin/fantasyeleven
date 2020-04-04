@@ -25,14 +25,14 @@ const PluppContainer = styled.div`
 	position: relative;
 	display: flex;
 	justify-content: space-evenly;
+`;
 
-	& > span.playerName {
-		position: absolute;
-		top: 8px;
-		font-size: 0.6em;
-		text-align: center;
-		color: black;
-	}
+const PlayerName = styled.span`
+	position: absolute;
+	top: 8px;
+	font-size: 0.6em;
+	text-align: center;
+	color: white;
 `;
 
 /* const Plupp = styled.img`
@@ -53,12 +53,11 @@ const Bench = props => {
 			{config.positions.map((pos, nth) => (
 				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
 					<Plupp
-						bench={true}
 						pos={pos}
 						player={team.bench[pos][0]}
 						lineupCount={team.bench[pos].length}
 						lineupIndex={0}
-						pitchOrBench={'bench'}
+						origin="bench"
 					/>
 					{/* <Plupp
 						alt="player-plupp"
@@ -68,7 +67,9 @@ const Bench = props => {
 						lineupIndex={nth}
 						onClick={e => clickHandler(pos)}
 					/> */}
-					{team.bench[pos][0] && <span className="playerName">{team.bench[pos][0].name}</span>}
+					{team.bench[pos][0] && (
+						<PlayerName className="playerName">{team.bench[pos][0].name}</PlayerName>
+					)}
 				</PluppContainer>
 			))}
 		</Wrapper>

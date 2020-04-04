@@ -367,7 +367,7 @@ class PlayerSearch extends Component {
 											<PlayerInfoBtn>
 												<FaInfoCircle className="info" />
 											</PlayerInfoBtn>
-											<PlayerInfo onClick={e => setters.addHandler(player)}>
+											<PlayerInfo onClick={e => setters.addPlayer(player)}>
 												<p className="player">{player.name}</p>
 												<p className="sum">
 													<strong>{player.club.toUpperCase().slice(0, 3)}</strong> &nbsp; {player.position}

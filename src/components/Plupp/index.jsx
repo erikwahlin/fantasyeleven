@@ -87,25 +87,38 @@ class Plupp extends Component {
 		this.setMarked = this.setMarked.bind(this);
 		this.updateCtx = this.updateCtx.bind(this);
 		this.del = this.del.bind(this);
-		this.clickHandler = this.clickHandler.bind(this);
+		this.handleClickInside = this.handleClickInside.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.switchHandler = this.switchHandler.bind(this);
 
 		this.checkSwitchable = this.checkSwitchable.bind(this);
+		this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
 
 		this.delBtn = createRef(null);
 		this.pluppRef = createRef(null);
 		this.switchRef = createRef(null);
 	}
 
+	// on mount
+	componentDidMount = () => {
+		this.setState({ isSwitchable: this.checkSwitchable() });
+	};
+
+	// on update
+	componentDidUpdate = () => {
+		this.syncWithSwitchers();
+	};
+
+	// check if switchable
 	checkSwitchable = () => {
-		const { player, myTeam, pos, pitchOrBench } = this.props;
-		const { a: marked, b: target } = myTeam.state.config.switch;
+		const { player, myTeam, pos, origin } = this.props;
+		const { marked, target } = myTeam.state.config.switchers;
 		const pluppRef = this.pluppRef.current;
+		//this.setState({ foundMarked: marked !== null });
 
 		// decide if switchable
 		// if plupp contains player or its on bench, and any plupp is marked
-		if ((player || pitchOrBench === 'bench') && marked) {
+		if ((player || origin === 'bench') && marked !== null) {
 			// if plupp-pos is marked pos, but not marked plupp
 			if (marked) {
 				if (pos === marked.pos && pluppRef !== marked.ref) {
@@ -116,141 +129,155 @@ class Plupp extends Component {
 		return false;
 	};
 
-	// check if switchable
-	componentDidMount = () => {
-		this.setState({ isSwitchable: this.checkSwitchable() });
-	};
+	// update marked and switchable
+	syncWithSwitchers = () => {
+		const markedSwitcher = this.props.myTeam.state.config.switchers.marked;
+		const ref = this.pluppRef.current;
 
-	// sync switchable
-	componentDidUpdate = () => {
-		const newState = this.checkSwitchable();
+		// should we mark?
+		const shouldMark = (() => {
+			if (markedSwitcher) {
+				if (!this.state.isMarked && ref === markedSwitcher.ref) {
+					return true;
+				}
+			}
+			return false;
+		})();
 
-		if (newState !== this.state.isSwitchable) {
-			this.setState({ isSwitchable: newState });
+		// or unmark?
+		const shouldUnmark = this.state.isMarked && !markedSwitcher;
+
+		// mark
+		if (shouldMark) {
+			this.setState({ isMarked: true });
+		}
+
+		// unmark
+		if (shouldUnmark) {
+			this.setState({ isMarked: false });
+		}
+
+		// new switchable status
+		const newIsSwitchable = this.checkSwitchable();
+
+		// update switchable if necessary
+		if (newIsSwitchable !== this.state.isSwitchable) {
+			this.setState({ isSwitchable: newIsSwitchable });
 		}
 	};
 
 	setMarked = newVal => {
-		this.setState({ isMarked: newVal }, () => {
+		/* this.setState({ isMarked: newVal }, () => {
 			// update ctx state
 			this.updateCtx(newVal);
-		});
+		}); */
 	};
 
 	updateCtx = (newVal = true) => {
-		const { myTeam, player, pos, lineupIndex } = this.props;
+		/* const { myTeam, player, pos, lineupIndex } = this.props;
 		const playFromStart = player ? player.playFromStart : null;
 
-		//if (!newVal) return myTeam.setters.setMarkedPlupp({ clear: true });
+		//if (!newVal) return myTeam.setters.setSwitchers({ clear: true });
 
-		myTeam.setters.setMarkedPlupp({
+		myTeam.setters.setSwitchers({
 			playFromStart,
 			pos,
 			index: lineupIndex,
 			ref: this.pluppRef.current
-		});
+		}); */
 	};
 
 	del = () => {
-		this.setMarked(false);
-
-		// clear marked in state before ref-del
-		this.props.myTeam.setters.setMarkedPlupp({ clear: true });
-
 		const { myTeam, player } = this.props;
+		const { setSwitchers, delHandler } = myTeam.setters;
 
-		// del ref
-		myTeam.setters.delHandler(player);
+		// unmark, then clear switchers, then confirm and del ref
+		this.setState({ isMarked: false }, () => {
+			setSwitchers({ marked: null, target: null }, () => {
+				console.log('Cleared switchers.');
+
+				delHandler(player);
+			});
+		});
 	};
 
-	clickHandler = e => {
-		const { myTeam, player, pos, pitchOrBench, lineupIndex } = this.props;
-		const { setters, state } = myTeam;
-		const { a: marked, b: target } = state.config.switch;
+	// (runs before click inside)
+	handleClickOutside = e => {
+		if (!this.state.isMarked) return;
+
+		const { setSwitchers } = this.props.myTeam.setters;
+
+		// if not on another plupp (later player in list!)
+		// clear switch in state
+		if (!e.target.classList.contains('SwitchablePlupp')) {
+			setSwitchers({ marked: null, target: null }, () => {
+				console.log('Cleared switchers.');
+			});
+		}
+	};
+
+	// (runs after click outside)
+	handleClickInside = e => {
+		const { myTeam, player, pos, origin, lineupIndex } = this.props;
+		const { setSwitchers, switchPlayers } = myTeam.setters;
+		const { marked, target } = myTeam.state.config.switchers;
 		const ref = this.pluppRef.current;
 
-		// if this is not target b (pitchOrBench, pos, index)
-		// try comparing ref!
-
-		// if marked in state, set target else marked
-		if (marked) {
-			console.log('this is a target', ref);
-		} else {
+		// if switchers dont have a marked, mark this plupp
+		if (!marked) {
 			console.log('this is a marked', ref);
 
-			this.setState({ isMarked: true }, () => {
-				// set this as marked
-				setters.setMarkedPlupp({
-					pitchOrBench,
+			// set as marked, then update switchers
+			setSwitchers({
+				marked: {
+					origin,
 					pos,
 					lineupIndex,
 					player,
 					ref
-				});
+				}
 			});
-		}
-		/*const {
-			b: targetCompare
-		} = config.switch const pluppCompare = [pitchOrBench, pos, lineupIndex];
-		const playerCompare = [targetCompare.pitchOrBench, targetCompare.pos
-		const stateCompare = 
-		
-		if(){
-			
-		} */
-		/* if (config.switch.b) {
-			config.switch.b = null;
-			setters.updateState('config', config);
-			return;
-		} */
-
-		//this.setMarked(!this.state.isMarked);
-
-		// toggle marked
-	};
-
-	handleClickOutside = e => {
-		if (!this.state.isMarked) return;
-
-		console.log('click outside', this.pluppRef);
-
-		/*
-		const { state, setters } = this.props.myTeam;
-		const { config } = state;
-		*/
-
-		// if not on another plupp (later player in list)
-		// clear switch in state
-		if (!e.target.classList.contains('SwitchablePlupp')) {
-			this.setState({ isMarked: false }, () => {
-				this.props.myTeam.setters.setMarkedPlupp({ clear: true });
-			});
-		}
-
-		/*
-		// if clicked on plupp, handle possible switch, else unmark
-		if (e.target.classList.contains('SwitchablePlupp')) {
-			if (!config.switch.a) {
-				setters.setMarkedPlupp({ clear: true });
-				this.checkSwitchable();
-			}
-			//this.switchHandler(e);
+			// if switchers do have a marked...
 		} else {
+			console.log('this is a target', ref);
+
+			// if this is the marked plupp, unmark, clear switchers
+			if (ref === marked.ref) {
+				setSwitchers({ marked: null, target: null }, () => {
+					return console.log('Cleared switchers.');
+				});
+			}
+
+			// else, target this plupp, prepare switch
+			setSwitchers(
+				{
+					target: {
+						origin,
+						pos,
+						lineupIndex,
+						player,
+						ref
+					}
+				},
+				() => {
+					console.log('Switch-target set.');
+					switchPlayers();
+				}
+			);
 		}
-		this.setMarked(false); */
 	};
 
 	switchHandler = e => {
-		const { player } = this.props;
+		/* const { player } = this.props;
 		const { state: ctx, setters } = this.props.myTeam;
-		const { pitchOrBench, pos, index } = ctx.config.switch.a;
+		const { origin, pos, index } = ctx.config.switchers.marked;
 
 		const getClickedProps = () => {
 			//if (!clickedId)
 
 			const res = e.target.id.split('-');
 			return {
-				pitchOrBench: res[1],
+				origin: res[1],
 				pos: res[2],
 				index: res[1] === 'pitch' ? parseInt(res[3]) : 0,
 				player: ctx.team[res[1]][res[2]][res[3]] || null
@@ -260,37 +287,37 @@ class Plupp extends Component {
 		const clickedProps = getClickedProps();
 		console.log(clickedProps);
 
-		// player, pitchOrBench, pos, index
+		// player, origin, pos, index
 
 		// A
-		const config = {
-			a: {
-				pitchOrBench,
+		const switchers = {
+			marked: {
+				origin,
 				pos,
 				index,
 				player: player || null
 			},
-			b: {
-				pitchOrBench: clickedProps.pitchOrBench,
+			target: {
+				origin: clickedProps.origin,
 				pos: clickedProps.pos,
 				index: clickedProps.index,
 				player: clickedProps.player || null
 			}
 		};
 
-		console.log(config);
+		console.log(switchers);
 
 		// skip unmark if
 		//if (config.b.player) {
 		this.setMarked(false);
 		//}
 
-		setters.switchPlayers(config);
+		setters.switchPlayers(switchers); */
 	};
 
 	render() {
 		const { isMarked, isSwitchable } = this.state;
-		const { player, pos, pitchOrBench, lineupIndex } = this.props;
+		const { player, pos, origin, lineupIndex } = this.props;
 
 		return (
 			<Container>
@@ -304,12 +331,12 @@ class Plupp extends Component {
 
 				<PluppImg
 					ref={this.pluppRef}
-					id={`switch-${pitchOrBench}-${pos}-${lineupIndex}`}
+					id={`switch-${origin}-${pos}-${lineupIndex}`}
 					className={`${isSwitchable ? 'Switchable' : ''}Plupp`}
-					alt={`player-plupp ${pitchOrBench}`}
+					alt={`player-plupp ${origin}`}
 					src={pluppC}
 					isMarked={this.state.isMarked}
-					onClick={this.clickHandler}
+					onClick={this.handleClickInside}
 					isSwitchable={isSwitchable}
 				/>
 

@@ -6,6 +6,8 @@ import PlayerSearch from '../PlayerSearch/index';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
 
+import cloneDeep from 'lodash.clonedeep';
+
 import tempField from '../../media/temp_field.jpg';
 
 const ContentWrap = styled.div`
@@ -106,10 +108,12 @@ const initial_state = {
 			},
 			club: { max: 3 }
 		},
+
 		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
-		switch: {
-			a: null,
-			b: null
+
+		switchers: {
+			marked: null,
+			target: null
 		}
 	}
 };
@@ -120,14 +124,12 @@ export default class MyTeam extends Component {
 		this.state = JSON.parse(JSON.stringify({ ...initial_state }));
 
 		this.updateState = this.updateState.bind(this);
-		this.addHandler = this.addHandler.bind(this);
 		this.addPlayer = this.addPlayer.bind(this);
 		this.updateLimit = this.updateLimit.bind(this);
 		this.updateFilter = this.updateFilter.bind(this);
 		this.applyFilter = this.applyFilter.bind(this);
 		this.delHandler = this.delHandler.bind(this);
-		this.setMarkedPlupp = this.setMarkedPlupp.bind(this);
-		this.setTargetPlupp = this.setTargetPlupp.bind(this);
+		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
 	}
 
@@ -142,50 +144,29 @@ export default class MyTeam extends Component {
 		);
 	};
 
-	setMarkedPlupp = ({ pitchOrBench, pos, index, ref, clear, callback }) => {
+	// update switchers plupps (takes in new data as key/val-obj, optional callback)
+	setSwitchers = (data, callback) => {
+		console.log('setMarked...!');
+
 		const { config } = this.state;
 
-		console.log('setmarked...!');
-		if (clear) {
-			console.log('clear!');
-			config.switch.a = null;
-			return this.setState({ config });
-		}
+		// update switchers with given data
+		Object.keys(data).forEach(key => {
+			// log changes (temp)
+			if (config.switchers[key] !== data[key]) {
+				console.log(`Updated switchers.${key} to ${data[key]}`);
+			}
 
-		//const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+			// give new val
+			config.switchers[key] = data[key];
+		});
 
-		config.switch.a = {
-			pitchOrBench,
-			pos,
-			index,
-			ref
-		};
-
+		// update state, then do opt callback
 		this.setState({ config }, () => {
 			if (typeof callback === 'function') {
 				return callback();
 			}
 		});
-	};
-
-	setTargetPlupp = ({ playFromStart, pos, index, ref, clear }) => {
-		const { config } = this.state;
-
-		/* if (clear) {
-			config.switch.b = null;
-			return this.setState({ config });
-		} */
-
-		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
-
-		config.switch.b = {
-			pitchOrBench,
-			pos,
-			index,
-			ref
-		};
-
-		this.setState({ config });
 	};
 
 	updateFilter = callback => {
@@ -318,34 +299,36 @@ export default class MyTeam extends Component {
 		});
 	};
 
-	addPlayer = (player, playFromStart = true) => {
-		// we need state
-		const { team, filter, game } = this.state;
+	addPlayer = player => {
+		// we need
+		const { position: pos, club, uid } = player;
+		const { team, filter, game, config } = this.state;
+		const { pitch } = team;
 
-		// set play vs bench-props
-		player.playFromStart = playFromStart;
-		const pitchOrBench = playFromStart ? 'pitch' : 'bench';
+		// play from start or put on bench?
+		const origin = pitch[pos].length < config.limit.pitch[pos].max ? 'pitch' : 'bench';
+		player.origin = origin;
 
 		///// -> player.captain = filter.keys.captain //do i do this here?
 
 		// add player to list
 		team.list.push(player);
 
+		// add player to formation on pitch or bench
+		team[origin][pos].push(player);
+
 		// inc team value
 		game.value += player.price;
 
-		// add player to formation on pitch or bench
-		team[pitchOrBench][player.position].push(player);
-
 		// inc count for player's club
-		team.clubs[player.club] = team.clubs[player.club] + 1 || 1;
+		team.clubs[club] = team.clubs[club] + 1 || 1;
 
 		// inc count for player's pos
-		team.count.tot[player.position] += 1;
-		team.count[pitchOrBench][player.position] += 1;
+		team.count.tot[pos] += 1;
+		team.count[origin][pos] += 1;
 
 		// filter out player's uid from PlayerSearch
-		filter.keys.uid.push(player.uid);
+		filter.keys.uid.push(uid);
 
 		// update state
 		this.setState({ team, filter, game }, () => {
@@ -353,179 +336,125 @@ export default class MyTeam extends Component {
 		});
 	};
 
-	addHandler = player => {
-		// we need state and new player pos
-		const { config, team } = this.state;
-		const { position: pos } = player;
-		// player with same pos on pitch already reached limit? prepare bench
-		///////const putOnBench = team.pitch[pos].length >= config.limit.pitch[pos].max ? true : false;
-		const playFromStart = team.pitch[pos].length < config.limit.pitch[pos].max ? true : false;
-
-		// add player
-		this.addPlayer(player, playFromStart);
-
-		return;
-	};
-
 	delHandler = player => {
+		const { position: pos, uid, club, name, origin } = player;
 		const { team, filter, game, config } = this.state;
-		const { position: pos } = player;
-		const pitchOrBench = player.playFromStart ? 'pitch' : 'bench';
 
 		//dec team value
 		game.value -= player.price;
 
 		// del player from list
 		team.list.forEach((item, nth) => {
-			if (item.uid === player.uid) {
+			if (item.uid === uid) {
 				team.list.splice(nth, 1);
 			}
 		});
 
 		// del player from pitch or bench
-		team[pitchOrBench][pos].forEach((item, nth) => {
-			if (item.uid === player.uid) {
-				// if pitch, del from pitch
-				//if (player.playFromStart) {
-				team[pitchOrBench][pos].splice(nth, 1);
-				//}
-				//if bench, just clear bench pos
-				//else {
-				//	team.bench[pos] = [];
-				//}
+		team[origin][pos].forEach((item, nth) => {
+			if (item.uid === uid) {
+				team[origin][pos].splice(nth, 1);
 			}
 		});
 
-		// if pitch-player was removed
-		/* if (player.playFromStart) {
-			// if same pos sitting on bench
-			if (team.bench[pos].length > 0) {
-				// copy lucky benchwarmer
-				const luckyBenchWarmer = JSON.parse(JSON.stringify(team.bench[pos][0]));
-
-				// clear bench pos
-				team.bench[pos] = [];
-
-				// let lucky benchwarmer play!
-				/* luckyBenchWarmer.pitch = true;
-				luckyBenchWarmer.bench = false;
-				team.pitch[pos].push(luckyBenchWarmer); 
-				this.addPlayer(luckyBenchWarmer);
-			}
-		} */
-
 		// dec count
 		team.count.tot[pos] -= 1;
-		team.count[pitchOrBench][pos] -= 1;
+		team.count[origin][pos] -= 1;
 
 		// del from clubs
-		team.clubs[player.club] = team.clubs[player.club] - 1;
-		if (team.clubs[player.club] < 1) {
-			delete team.clubs[player.club];
+		team.clubs[club] = team.clubs[club] - 1;
+		if (team.clubs[club] < 1) {
+			delete team.clubs[club];
 		}
 
 		// remove player's uid from filter
-		filter.keys.uid.forEach((uid, nth) => {
-			if (uid === player.uid) {
+		filter.keys.uid.forEach((filterUid, nth) => {
+			if (uid === filterUid) {
 				filter.keys.uid.splice(nth, 1);
 			}
 		});
 
+		// update state, then update limits
 		this.setState({ team, filter, game, config }, () => {
+			console.log(name, 'was kicked from team.');
 			this.updateLimit();
-			console.log('player deleted', player);
 		});
 	};
 
-	/* Needs work */
 	// maybe loop through positions on pitch/bench and update playFromStart?
-	switchPlayers = ({ a, b }) => {
-		// we want state
+	switchPlayers = () => {
 		const { team, config } = this.state;
+		const { marked, target } = config.switchers;
 
-		// switch target in state config
-		config.switch.b = {
-			playFromStart: b.playFromStart || null,
-			pos: b.pos,
-			index: b.index,
-			ref: b.ref || null
+		// just in case, if marked/target not set, clear switchers and bail
+		if (!marked || !target) {
+			console.log('Tried to switch plupps but marked or target not set.');
+
+			this.setSwitchers({ marked: null, target: null }, () => {
+				console.log('Switchers cleared.');
+			});
+
+			return;
+		}
+
+		const { player: markedPlayer } = marked;
+		const { player: targetPlayer } = target;
+
+		// deep clone switchers with vanilla
+		const clone = (obj, keyName) => {
+			// if level bottom or key is 'ref' return val
+			if (obj === null || typeof obj !== 'object' || keyName === 'ref') {
+				return obj;
+			}
+
+			const copy = obj.constructor();
+
+			for (var key in obj) {
+				copy[key] = clone(obj[key], key);
+			}
+			return copy;
 		};
 
-		this.updateState('config', config);
+		// copies
+		const markedClone = clone(marked);
+		const targetClone = clone(target);
 
-		const switcher = () => {
-			const a_temp = JSON.parse(JSON.stringify(a));
-			const b_temp = JSON.parse(JSON.stringify(b));
-			const playerA = a.player ? JSON.parse(JSON.stringify(a.player)) : null;
-			const playerB = a.player ? JSON.parse(JSON.stringify(b.player)) : null;
+		// the new marked (<- target data)
+		// if player, set target player, else del
+		if (target.player) {
+			// update origin
+			targetClone.player.origin = markedClone.origin;
 
-			// if !b or b was on bench, set !playFromStart for a
-			const updatePitchOrBench = x => {
-				if (x.player) {
-					if (x.pitchOrBench === 'pitch') {
-						return true;
-					}
-				}
-				return false;
-			};
+			team[marked.origin][marked.pos][marked.lineupIndex] = targetClone.player;
+		} else {
+			team[marked.origin][marked.pos].splice(marked.lineupIndex, 1);
+		}
 
-			//switch playFromStart-prop, store in temp
-			const fromStartA = updatePitchOrBench(b_temp);
-			const fromStartB = updatePitchOrBench(a_temp);
+		// the new target (<- marked data)
+		// if player, set target player, else del
+		if (marked.player) {
+			// update origin
+			markedClone.player.origin = targetClone.origin;
 
-			// if plupp 1 contains player, take plupp 2's place
-			// a to b
-			if (a.player !== null) {
-				console.log('switching item b');
-				team[b.pitchOrBench][b.pos][b.index] = playerA;
-			}
-			// else delete player plupp 2 player
-			else {
-				team[b.pitchOrBench][b.pos].splice([b.index], 1);
-				console.log('removing marked item b');
-			}
+			team[target.origin][target.pos][target.lineupIndex] = markedClone.player;
+		} else {
+			team[target.origin][target.pos].splice(target.lineupIndex, 1);
+		}
 
-			// and vice versa
-			// b to a
-			if (b.player !== null) {
-				console.log('switching item a');
-				team[a.pitchOrBench][a.pos][a.index] = playerB;
-			} else {
-				console.log('removing marked item a');
-				team[a.pitchOrBench][a.pos].splice([a.index], 1);
-
-				team[b.pitchOrBench][b.pos][b.index].playFromStart = false;
-			}
-
-			if (team[b.pitchOrBench][b.pos][b.index]) {
-				team[b.pitchOrBench][b.pos][b.index].playFromStart = fromStartA;
-			}
-
-			if (team[a.pitchOrBench][a.pos][a.index]) {
-				team[a.pitchOrBench][a.pos][a.index].playFromStart = fromStartB;
-			}
-
-			config.switch.a = null;
-			// temp-fix for bug
-			if (b.pitchOrBench === 'pitch') {
-				config.switch.b = null;
-			}
-
-			this.setState({ team, config }, () => {
+		this.setState({ team, config }, () => {
+			this.setSwitchers({ marked: null, target: null }, () => {
 				this.updateLimit();
 			});
-		};
-
-		setTimeout(switcher, 3000);
+		});
 	};
 
 	render() {
 		// MyTeam-funcs in ctx
 		const setters = {
 			updateState: this.updateState,
-			addHandler: this.addHandler,
+			addPlayer: this.addPlayer,
 			delHandler: this.delHandler,
-			setMarkedPlupp: this.setMarkedPlupp,
+			setSwitchers: this.setSwitchers,
 			switchPlayers: this.switchPlayers
 		};
 
