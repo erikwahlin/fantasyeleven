@@ -1,10 +1,7 @@
 import React, { Component, createRef } from 'react';
-import { compose } from 'recompose';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import onClickOutside from 'react-onclickoutside';
-import pluppW from '../../media/pluppW.png';
-import pluppB from '../../media/pluppB.png';
 import pluppC from '../../media/pluppC.svg';
 import switchImg from '../../media/switchIcon.png';
 
@@ -111,7 +108,7 @@ class Plupp extends Component {
 	// check if switchable
 	checkSwitchable = () => {
 		const { player, myTeam, pos, origin } = this.props;
-		const { marked, target } = myTeam.state.config.switchers;
+		const { marked } = myTeam.state.config.switchers;
 		const pluppRef = this.pluppRef.current;
 		//this.setState({ foundMarked: marked !== null });
 
@@ -188,14 +185,14 @@ class Plupp extends Component {
 
 	del = () => {
 		const { myTeam, player } = this.props;
-		const { setSwitchers, delHandler } = myTeam.setters;
+		const { setSwitchers, delPlayer } = myTeam.setters;
 
 		// unmark, then clear switchers, then confirm and del ref
 		this.setState({ isMarked: false }, () => {
 			setSwitchers({ marked: null, target: null }, () => {
 				console.log('Cleared switchers.');
 
-				delHandler(player);
+				delPlayer(player);
 			});
 		});
 	};
@@ -206,9 +203,12 @@ class Plupp extends Component {
 
 		const { setSwitchers } = this.props.myTeam.setters;
 
-		// if not on another plupp (later player in list!)
+		// if not on another plupp or player in list
 		// clear switch in state
-		if (!e.target.classList.contains('SwitchablePlupp')) {
+		const listedPlayer = e.target.closest('div').classList.contains('ListedPlayer');
+		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
+
+		if (!listedPlayer && !switchablePlupp) {
 			setSwitchers({ marked: null, target: null }, () => {
 				console.log('Cleared switchers.');
 			});
@@ -219,7 +219,7 @@ class Plupp extends Component {
 	handleClickInside = e => {
 		const { myTeam, player, pos, origin, lineupIndex } = this.props;
 		const { setSwitchers, switchPlayers } = myTeam.setters;
-		const { marked, target } = myTeam.state.config.switchers;
+		const { marked } = myTeam.state.config.switchers;
 		const ref = this.pluppRef.current;
 
 		// if switchers dont have a marked, mark this plupp

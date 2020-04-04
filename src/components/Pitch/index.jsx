@@ -107,7 +107,7 @@ const Pitch = props => {
 
 				<ChosenPlayers>
 					<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
-					<InfoP className="amount">{game.value + 'kr'}</InfoP>
+					<InfoP className="amount">{game.value + ' kr'}</InfoP>
 				</ChosenPlayers>
 			</InfoContainer>
 

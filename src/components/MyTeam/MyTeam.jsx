@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { players } from '../../constants/players';
+import { clone } from './helperFuncs';
 import MyTeamCtx from './ctx';
 import PlayerSearch from '../PlayerSearch/index';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
-
-import cloneDeep from 'lodash.clonedeep';
-
-import tempField from '../../media/temp_field.jpg';
 
 const ContentWrap = styled.div`
 	width: 90%;
@@ -88,6 +85,7 @@ const initial_state = {
 			position: [],
 			club: []
 		},
+		searchRes: [],
 		limit: {
 			tot: { min: 15, max: 15 },
 			pitch: {
@@ -117,17 +115,22 @@ const initial_state = {
 export default class MyTeam extends Component {
 	constructor(props) {
 		super(props);
-		this.state = JSON.parse(JSON.stringify({ ...initial_state }));
+		this.state = clone(initial_state);
 
 		this.updateState = this.updateState.bind(this);
+		this.updateSearchRes = this.updateSearchRes.bind(this);
 		this.addPlayer = this.addPlayer.bind(this);
 		this.updateLimit = this.updateLimit.bind(this);
 		this.updateFilterKeys = this.updateFilterKeys.bind(this);
 		this.applyFilter = this.applyFilter.bind(this);
-		this.delHandler = this.delHandler.bind(this);
+		this.delPlayer = this.delPlayer.bind(this);
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
 	}
+
+	componentDidMount = () => {
+		this.updateSearchRes();
+	};
 
 	updateState = (key, val, callback) => {
 		this.setState(
@@ -140,24 +143,11 @@ export default class MyTeam extends Component {
 		);
 	};
 
-	// update switchers plupps (takes in new data as key/val-obj, optional callback)
-	setSwitchers = (data, callback) => {
-		console.log('setMarked...!');
-
+	updateSearchRes = callback => {
 		const { config } = this.state;
 
-		// update switchers with given data
-		Object.keys(data).forEach(key => {
-			// log changes (temp)
-			if (config.switchers[key] !== data[key]) {
-				console.log(`Updated switchers.${key} to ${data[key]}`);
-			}
+		config.searchRes = this.applyFilter(allPlayers);
 
-			// give new val
-			config.switchers[key] = data[key];
-		});
-
-		// update state, then do opt callback
 		this.setState({ config }, () => {
 			if (typeof callback === 'function') {
 				return callback();
@@ -165,10 +155,25 @@ export default class MyTeam extends Component {
 		});
 	};
 
+	// update switchers plupps (takes in new data as key/val-obj, optional callback)
+	setSwitchers = (data, callback = null) => {
+		const { config } = this.state;
+
+		// update switchers with given data
+		Object.keys(data).forEach(key => {
+			// give new val
+			config.switchers[key] = data[key];
+		});
+
+		// update state, then do opt callback
+		this.setState({ config }, () => {
+			this.updateSearchRes(callback);
+		});
+	};
+
 	updateFilterKeys = callback => {
 		const { config, team } = this.state;
-		const { filterKeys, switchers } = config;
-		const { marked, target } = switchers;
+		const { filterKeys } = config;
 
 		config.positions.forEach(pos => {
 			// if pitch and bench full - add pos to filter (if filter is not active)
@@ -198,7 +203,9 @@ export default class MyTeam extends Component {
 				}
 			}
 		});
-		this.setState({ config });
+		this.setState({ config }, () => {
+			this.updateSearchRes();
+		});
 	};
 
 	// filter before playerSearch-result
@@ -208,7 +215,7 @@ export default class MyTeam extends Component {
 		const { marked, target } = switchers;
 
 		// marked plupp?
-		const markedMode = marked && !target;
+		const markedMode = marked && !target ? true : false;
 
 		// 15 players picked and no plupp marked, bail
 		if (team.list.length >= 15 && !markedMode) {
@@ -229,10 +236,6 @@ export default class MyTeam extends Component {
 			// if markedMode, return all with same pos, ignore all other filters except uid
 			if (markedMode && key !== 'uid') {
 				return samePosPass();
-				if (key === 'position') {
-					return samePosPass();
-				}
-				return players;
 			}
 
 			const res = players.filter(player => {
@@ -258,7 +261,7 @@ export default class MyTeam extends Component {
 		const { config, team } = this.state;
 
 		// fresh copy of initial limits
-		config.limit.pitch = JSON.parse(JSON.stringify(initial_state.config.limit.pitch));
+		config.limit.pitch = clone(initial_state.config.limit).pitch;
 
 		// desctructure initial limits
 		const {
@@ -306,13 +309,11 @@ export default class MyTeam extends Component {
 		let newForLimit = forLimit.max;
 		if (defCount >= 5 || midCount >= 5 || defCount + midCount === 8) {
 			newForLimit = forLimit.max - 1; // 2
-			console.log('forward down 1', newForLimit);
 		}
 
 		// scenario -2
 		if (defCount + midCount >= 9) {
 			newForLimit = forLimit.max - 2; // 1
-			console.log('forward down 2', newForLimit);
 		}
 		config.limit.pitch.Forward.max = newForLimit;
 
@@ -359,8 +360,8 @@ export default class MyTeam extends Component {
 		});
 	};
 
-	delHandler = player => {
-		const { position: pos, uid, club, name, origin } = player;
+	delPlayer = player => {
+		const { position: pos, uid, club, origin } = player;
 		const { team, game, config } = this.state;
 		const { filterKeys } = config;
 
@@ -400,41 +401,24 @@ export default class MyTeam extends Component {
 
 		// update state, then update limits
 		this.setState({ team, game, config }, () => {
-			console.log(name, 'was kicked from team.');
 			this.updateLimit();
 		});
 	};
 
 	// maybe loop through positions on pitch/bench and update playFromStart?
 	switchPlayers = () => {
-		const { team, config } = this.state;
+		const { team, config, game } = this.state;
 		const { marked, target } = config.switchers;
+		const fromList = target.origin === 'list';
 
 		// just in case, if marked/target not set, clear switchers and bail
 		if (!marked || !target) {
-			console.log('Tried to switch plupps but marked or target not set.');
+			console.log('Something went wrong when switching players.');
 
-			this.setSwitchers({ marked: null, target: null }, () => {
-				console.log('Switchers cleared.');
-			});
+			this.setSwitchers({ marked: null, target: null });
 
 			return;
 		}
-
-		// deep clone switchers with vanilla
-		const clone = (obj, keyName) => {
-			// if level bottom or key is 'ref' return val
-			if (obj === null || typeof obj !== 'object' || keyName === 'ref') {
-				return obj;
-			}
-
-			const copy = obj.constructor();
-
-			for (var key in obj) {
-				copy[key] = clone(obj[key], key);
-			}
-			return copy;
-		};
 
 		// copies
 		const markedClone = clone(marked);
@@ -451,18 +435,54 @@ export default class MyTeam extends Component {
 			team[marked.origin][marked.pos].splice(marked.lineupIndex, 1);
 		}
 
-		// the new target (<- marked data)
-		// if player, set target player, else del
-		if (marked.player) {
-			// update origin
-			markedClone.player.origin = targetClone.origin;
+		// if target is listed player
+		if (fromList) {
+			//replace in team.list
+			team.list.forEach((item, nth) => {
+				if (item.uid === marked.player.uid) {
+					team.list[nth] = targetClone.player;
+				}
+			});
 
-			team[target.origin][target.pos][target.lineupIndex] = markedClone.player;
-		} else {
-			team[target.origin][target.pos].splice(target.lineupIndex, 1);
+			//calculate new team value (curr val + (old player - new player))
+			if (marked.player.price !== target.player.price) {
+				game.value += Math.round(marked.player.price) - Math.round(target.player.price);
+			}
+
+			//update club-count
+			const markedClub = marked.player.club;
+			const targetClub = target.player.club;
+
+			if (markedClub !== targetClub) {
+				team.clubs[markedClub] -= 1;
+				if (team.clubs[markedClub] < 1) {
+					delete team.clubs[markedClub];
+				}
+				team.clubs[targetClub] = team.clubs[targetClub] + 1 || 1;
+			}
+
+			// replace uid in filterKeys
+			config.filterKeys.uid.forEach((uid, nth) => {
+				if (uid === marked.player.uid) {
+					config.filterKeys.uid[nth] = target.player.uid;
+				}
+			});
+		}
+		// if target is plupp
+		else {
+			// the new target (<- marked data)
+			// if player, set target player, else del
+			if (marked.player) {
+				// update origin
+				markedClone.player.origin = targetClone.origin;
+
+				team[target.origin][target.pos][target.lineupIndex] = markedClone.player;
+			} else {
+				team[target.origin][target.pos].splice(target.lineupIndex, 1);
+			}
 		}
 
-		this.setState({ team, config }, () => {
+		this.setState({ team, config, game }, () => {
 			this.setSwitchers({ marked: null, target: null }, () => {
 				this.updateLimit();
 			});
@@ -470,17 +490,18 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
+		const { searchRes } = this.state.config;
+
 		// MyTeam-funcs in ctx
 		const setters = {
 			updateState: this.updateState,
 			addPlayer: this.addPlayer,
-			delHandler: this.delHandler,
+			delPlayer: this.delPlayer,
 			setSwitchers: this.setSwitchers,
 			switchPlayers: this.switchPlayers
 		};
 
 		// filter allPlayers before PlayerSearch
-		const filteredPlayers = this.applyFilter(allPlayers);
 
 		return (
 			<MyTeamCtx.Provider
@@ -493,7 +514,7 @@ export default class MyTeam extends Component {
 					<ContentWrap className="ContentWrap">
 						<Pitch />
 
-						<PlayerSearch players={filteredPlayers} />
+						<PlayerSearch players={searchRes} />
 					</ContentWrap>
 				</div>
 			</MyTeamCtx.Provider>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import styled, { ThemeConsumer } from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import allClubs from '../../constants/clubs';
+import { clone } from '../MyTeam/helperFuncs';
 import Dropdown from 'react-dropdown';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
-import { FaInfoCircle, FaSearch } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
@@ -68,7 +68,7 @@ class PlayerSearch extends Component {
 		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
 		this.onSelectPrice = this.onSelectPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
-		this.onPageClickhandler = this.onPageClickhandler.bind(this);
+		this.updateResultPage = this.updateResultPage.bind(this);
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
@@ -76,12 +76,28 @@ class PlayerSearch extends Component {
 	}
 
 	playerClickHandler = player => {
+		const { position: pos } = player;
 		const { state, setters } = this.props.myTeam;
 		const { marked, target } = state.config.switchers;
-		const { addPlayer } = setters;
+		const { addPlayer, setSwitchers, switchPlayers } = setters;
 
 		if (marked && !target) {
-			alert('should switch with list');
+			// set switcher-target
+			setSwitchers(
+				{
+					target: {
+						origin: 'list',
+						pos,
+						lineupIndex: null,
+						player,
+						ref: null
+					}
+				},
+				() => {
+					console.log('Switch-target set.');
+					switchPlayers();
+				}
+			);
 		} else {
 			addPlayer(player);
 		}
@@ -147,46 +163,13 @@ class PlayerSearch extends Component {
 		});
 	};
 
-	onPageClickhandler = (e, playersList) => {
-		const { pageNumber, pageSize } = this.state.paginationSettings;
-		//let cName = e.target.parentNode.parentNode.className; // works if icons imported from react-icons package
-		let cName = e.target.className;
-		if (cName === 'firstPage') {
-			this.setState(prevState => {
-				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber = 1;
-				return { paginationSettings };
-			});
-			//go back to first page
-		}
-
-		if (cName === 'backward' && pageNumber > 1) {
-			this.setState(prevState => {
-				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber -= 1;
-				return { paginationSettings };
-			});
-
-			//go back 1 page
-		}
-
-		if (cName === 'forward' && pageNumber < Math.ceil(playersList / pageSize)) {
-			this.setState(prevState => {
-				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber += 1;
-				return { paginationSettings };
-			});
-			//go forward 1 page
-		}
-
-		if (cName === 'lastPage') {
-			this.setState(prevState => {
-				let paginationSettings = Object.assign({}, prevState.paginationSettings);
-				paginationSettings.pageNumber = Math.ceil(playersList / pageSize);
-				return { paginationSettings };
-			});
-			//go to last page
-		}
+	updateResultPage = pageNumber => {
+		this.setState(prevState => ({
+			paginationSettings: {
+				...prevState.paginationSettings,
+				pageNumber
+			}
+		}));
 	};
 
 	handleTextFilterChange(event) {
@@ -209,15 +192,6 @@ class PlayerSearch extends Component {
 	render() {
 		const { players } = this.props;
 		if (!players) return <p>Didn't find any players</p>;
-
-		const {
-			position,
-			club,
-			maxPrice,
-			//searchTerm,
-			sortBy,
-			sortOrder
-		} = this.state;
 
 		const clubs = [...new Set(players.map(item => item.club))];
 		const priceTags = [...new Set(players.map(item => item.price))];
@@ -313,9 +287,6 @@ class PlayerSearch extends Component {
 
 		//console.log('search output', result);
 
-		// MyTeam context
-		const { state, setters } = this.props.myTeam;
-
 		return (
 			<Wrapper className="PlayerSearch">
 				{/* FILTER */}
@@ -366,9 +337,9 @@ class PlayerSearch extends Component {
 
 				{/* RESULT */}
 				<Paginate
-					onClick={this.onPageClickhandler}
-					state={this.state.paginationSettings}
-					players={filtered}
+					updateResultPage={this.updateResultPage}
+					settings={this.state.paginationSettings}
+					playerCount={filtered.length}
 				/>
 				<ResultBox className="ResultBox unmarkable">
 					{result.map((section, nth) => {
@@ -399,7 +370,7 @@ class PlayerSearch extends Component {
 												</p>
 											</Player>
 											<PlayerPrice className="PlayerPrice">
-												<p className="player_price">{parseInt(player.price)}</p>
+												<p className="player_price">{Math.round(player.price)}</p>
 											</PlayerPrice>
 										</PlayerRow>
 									);

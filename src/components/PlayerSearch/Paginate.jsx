@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 const Wrapper = styled.div`
@@ -35,38 +35,60 @@ const PageNumber = styled.div`
 	line-height: 30px;
 `;
 
-export default class Paginate extends Component {
-	constructor(props) {
-		super(props);
-	}
+const Paginate = props => {
+	const { settings, playerCount, updateResultPage } = props;
+	const { pageNumber, pageSize } = settings;
 
-	render() {
-		const { players, onClick } = this.props;
-		const { pageNumber, pageSize } = this.props.state;
-		//angle right - left
-		//angle double right - left
-		return (
-			<div>
-				<Wrapper className="Paginate unmarkable" onClick={e => onClick(e, players.length)}>
-					<Btn className="firstPage">
-						<FaAngleDoubleLeft />
-					</Btn>
+	const clickHandler = e => {
+		const classes = ['firstPage', 'forward', 'backward', 'lastPage'];
+		const cList = e.target.closest('button').classList || e.target.classList;
+		const cName = classes.filter(c => cList.contains(c))[0];
 
-					<Btn className="backward">
-						<FaAngleLeft />
-					</Btn>
+		console.log(cName);
 
-					{<PageNumber>{pageNumber + '/' + Math.ceil(players.length / pageSize)}</PageNumber>}
+		//go to page according to cName
+		const newPage = curr => {
+			switch (cName) {
+				case 'firstPage':
+					return 1;
+				case 'forward':
+					return curr + 1;
+				case 'backward':
+					return curr - 1;
+				default:
+					// 'lastPage'
+					return Math.ceil(playerCount / pageSize);
+			}
+		};
 
-					<Btn className="forward">
-						<FaAngleRight />
-					</Btn>
+		updateResultPage(newPage(pageNumber));
+	};
 
-					<Btn className="lastPage">
-						<FaAngleDoubleRight />
-					</Btn>
-				</Wrapper>
-			</div>
-		);
-	}
-}
+	//angle right - left
+	//angle double right - left
+	return (
+		<div>
+			<Wrapper className="Paginate unmarkable" onClick={clickHandler}>
+				<Btn className="firstPage">
+					<FaAngleDoubleLeft />
+				</Btn>
+
+				<Btn className="backward">
+					<FaAngleLeft />
+				</Btn>
+
+				{<PageNumber>{pageNumber + '/' + Math.ceil(playerCount / pageSize)}</PageNumber>}
+
+				<Btn className="forward">
+					<FaAngleRight />
+				</Btn>
+
+				<Btn className="lastPage">
+					<FaAngleDoubleRight />
+				</Btn>
+			</Wrapper>
+		</div>
+	);
+};
+
+export default Paginate;
