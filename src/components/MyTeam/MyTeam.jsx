@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { players } from './players';
+import { players } from '../../constants/players';
 import MyTeamCtx from './ctx';
 import PlayerSearch from '../PlayerSearch/index';
 import Pitch from '../Pitch';
@@ -31,7 +31,7 @@ const allPlayers = players.map(player => ({
 }));
 
 // get clubs
-const allClubs = [...new Set(allPlayers.map(item => item.club))];
+window.allClubs = [...new Set(allPlayers.map(item => item.club))];
 
 const initial_state = {
 	team: {
@@ -167,7 +167,8 @@ export default class MyTeam extends Component {
 
 	updateFilterKeys = callback => {
 		const { config, team } = this.state;
-		const { filterKeys } = config;
+		const { filterKeys, switchers } = config;
+		const { marked, target } = switchers;
 
 		config.positions.forEach(pos => {
 			// if pitch and bench full - add pos to filter (if filter is not active)
@@ -203,14 +204,37 @@ export default class MyTeam extends Component {
 	// filter before playerSearch-result
 	applyFilter = input => {
 		const { team, config } = this.state;
-		const { filterKeys } = config;
+		const { filterKeys, switchers } = config;
+		const { marked, target } = switchers;
 
-		// 15 players already picked? - bail
-		if (team.list.length >= 15) {
+		// marked plupp?
+		const markedMode = marked && !target;
+
+		// 15 players picked and no plupp marked, bail
+		if (team.list.length >= 15 && !markedMode) {
 			return [];
 		}
 
+		// if marked plupp, return players with same pos
+		const samePosPass = () => {
+			const res = players.filter(player => {
+				return player.position === marked.pos;
+			});
+
+			return res;
+		};
+
+		// filter func
 		const f = (players, key) => {
+			// if markedMode, return all with same pos, ignore all other filters except uid
+			if (markedMode && key !== 'uid') {
+				return samePosPass();
+				if (key === 'position') {
+					return samePosPass();
+				}
+				return players;
+			}
+
 			const res = players.filter(player => {
 				let willReturn = true;
 

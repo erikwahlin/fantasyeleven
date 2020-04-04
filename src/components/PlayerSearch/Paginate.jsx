@@ -47,7 +47,7 @@ export default class Paginate extends Component {
 		//angle double right - left
 		return (
 			<div>
-				<Wrapper className="PageNav" onClick={e => onClick(e, players.length)}>
+				<Wrapper className="Paginate unmarkable" onClick={e => onClick(e, players.length)}>
 					<Btn className="firstPage">
 						<FaAngleDoubleLeft />
 					</Btn>

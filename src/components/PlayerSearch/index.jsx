@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { ThemeConsumer } from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
+import allClubs from '../../constants/clubs';
 import Dropdown from 'react-dropdown';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
@@ -14,8 +15,8 @@ import {
 	Wrapper,
 	Title,
 	PlayerPrice,
+	Player,
 	PlayerInfo,
-	PlayerInfoBtn,
 	Input,
 	ButtonContainer,
 	ButtonDes,
@@ -70,7 +71,21 @@ class PlayerSearch extends Component {
 		this.onPageClickhandler = this.onPageClickhandler.bind(this);
 		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
 		this.filterByName = this.filterByName.bind(this);
+		this.playerClickHandler = this.playerClickHandler.bind(this);
+		this.displayPlayerInfo = this.displayPlayerInfo.bind(this);
 	}
+
+	playerClickHandler = player => {
+		const { state, setters } = this.props.myTeam;
+		const { marked, target } = state.config.switchers;
+		const { addPlayer } = setters;
+
+		if (marked && !target) {
+			alert('should switch with list');
+		} else {
+			addPlayer(player);
+		}
+	};
 
 	// update settings in state
 	updateStatePage = () => {
@@ -122,7 +137,7 @@ class PlayerSearch extends Component {
 		const maxPrice = this.state.maxPriceSelected.label;
 		if (isNaN(maxPrice) || !maxPrice || maxPrice === '' || maxPrice <= 0) return playerList;
 
-		return playerList.filter(player => parseFloat(player.price) <= maxPrice);
+		return playerList.filter(player => player.price <= maxPrice);
 	};
 
 	filterByName = playersList => {
@@ -185,6 +200,10 @@ class PlayerSearch extends Component {
 		} else {
 			return playerList.sort((a, b) => a.price - b.price);
 		}
+	};
+
+	displayPlayerInfo = player => {
+		alert('Coming soon.');
 	};
 
 	render() {
@@ -288,6 +307,10 @@ class PlayerSearch extends Component {
 
 		const result = sectionFilter(paginated);
 
+		const clubAbbr = club => {
+			return allClubs.filter(item => item.long === club)[0].short;
+		};
+
 		//console.log('search output', result);
 
 		// MyTeam context
@@ -298,7 +321,7 @@ class PlayerSearch extends Component {
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
-				<Title>Sök spelare</Title>
+				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
 				<Dropdown
 					options={filterOptions}
 					onChange={this.onSelectPosOrClub}
@@ -319,7 +342,7 @@ class PlayerSearch extends Component {
 					placeholder="Sök spelare"
 				></Input>
 
-				<h2>Sortera efter pris</h2>
+				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer>
 					<ButtonDes
 						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
@@ -347,7 +370,7 @@ class PlayerSearch extends Component {
 					state={this.state.paginationSettings}
 					players={filtered}
 				/>
-				<ResultBox>
+				<ResultBox className="ResultBox unmarkable">
 					{result.map((section, nth) => {
 						return (
 							<Section key={nth}>
@@ -363,18 +386,20 @@ class PlayerSearch extends Component {
 								) : null}
 								{section.map((player, i) => {
 									return (
-										<PlayerRow key={i}>
-											<PlayerInfoBtn>
+										<PlayerRow key={i} className="PlayerRow">
+											<PlayerInfo className="PlayerInfo" onClick={e => this.displayPlayerInfo(player)}>
 												<FaInfoCircle className="info" />
-											</PlayerInfoBtn>
-											<PlayerInfo onClick={e => setters.addPlayer(player)}>
+											</PlayerInfo>
+											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
 												<p className="player">{player.name}</p>
 												<p className="sum">
-													<strong>{player.club.toUpperCase().slice(0, 3)}</strong> &nbsp; {player.position}
+													<strong>{clubAbbr(player.club)}</strong>
+													&nbsp; &nbsp;
+													{player.position}
 												</p>
-											</PlayerInfo>
-											<PlayerPrice>
-												<p className="player_price">{player.price}</p>
+											</Player>
+											<PlayerPrice className="PlayerPrice">
+												<p className="player_price">{parseInt(player.price)}</p>
 											</PlayerPrice>
 										</PlayerRow>
 									);

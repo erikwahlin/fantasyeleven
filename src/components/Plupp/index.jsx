@@ -89,7 +89,6 @@ class Plupp extends Component {
 		this.del = this.del.bind(this);
 		this.handleClickInside = this.handleClickInside.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
-		this.switchHandler = this.switchHandler.bind(this);
 
 		this.checkSwitchable = this.checkSwitchable.bind(this);
 		this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
@@ -265,54 +264,6 @@ class Plupp extends Component {
 				}
 			);
 		}
-	};
-
-	switchHandler = e => {
-		/* const { player } = this.props;
-		const { state: ctx, setters } = this.props.myTeam;
-		const { origin, pos, index } = ctx.config.switchers.marked;
-
-		const getClickedProps = () => {
-			//if (!clickedId)
-
-			const res = e.target.id.split('-');
-			return {
-				origin: res[1],
-				pos: res[2],
-				index: res[1] === 'pitch' ? parseInt(res[3]) : 0,
-				player: ctx.team[res[1]][res[2]][res[3]] || null
-			};
-		};
-
-		const clickedProps = getClickedProps();
-		console.log(clickedProps);
-
-		// player, origin, pos, index
-
-		// A
-		const switchers = {
-			marked: {
-				origin,
-				pos,
-				index,
-				player: player || null
-			},
-			target: {
-				origin: clickedProps.origin,
-				pos: clickedProps.pos,
-				index: clickedProps.index,
-				player: clickedProps.player || null
-			}
-		};
-
-		console.log(switchers);
-
-		// skip unmark if
-		//if (config.b.player) {
-		this.setMarked(false);
-		//}
-
-		setters.switchPlayers(switchers); */
 	};
 
 	render() {

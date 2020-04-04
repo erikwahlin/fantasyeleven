@@ -47,7 +47,7 @@ const Bench = props => {
 	const { config, team } = props.myTeam.state;
 
 	return (
-		<Wrapper className="Bench">
+		<Wrapper className="Bench unmarkable">
 			{config.positions.map((pos, nth) => (
 				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
 					<Plupp

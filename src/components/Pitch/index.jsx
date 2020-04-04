@@ -97,7 +97,7 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch">
-			<InfoContainer className="InfoContainer">
+			<InfoContainer className="InfoContainer unmarkable">
 				<ChosenPlayers>
 					<InfoTitle className="infoTitle">Valda spelare</InfoTitle>
 					<InfoP ready={playerCount === 15} className="amount">
@@ -116,7 +116,11 @@ const Pitch = props => {
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (
-								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
+								<PluppContainer
+									key={player.uid}
+									className={`PluppContainer ${pos} unmarkable`}
+									player={player}
+								>
 									<span className="playerName">{shortenName(player.name)}</span>
 									<Plupp
 										origin="pitch"

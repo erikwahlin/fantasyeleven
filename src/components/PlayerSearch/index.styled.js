@@ -130,7 +130,7 @@ export const PlayerRow = styled.div`
 	border-bottom: 4px solid #021f3d;
 `;
 
-export const PlayerInfoBtn = styled.button`
+export const PlayerInfo = styled.button`
 	background: #f5f5f5;
 	border: none;
 	outline: none;
@@ -138,9 +138,10 @@ export const PlayerInfoBtn = styled.button`
 	cursor: pointer;
 `;
 
-export const PlayerInfo = styled.div`
+export const Player = styled.div`
 	flex: 3;
 	padding: 5px;
+	cursor: pointer;
 `;
 
 export const PlayerPrice = styled.div`
