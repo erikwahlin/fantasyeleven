@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
-import pitchImg from '../../media/pitch.png';
-import pluppW from '../../media/pluppW.png';
-
+import { shortenName } from '../MyTeam/helperFuncs';
 import Plupp from '../Plupp';
-
 import Bench from '../Bench';
+
+import pitchImg from '../../media/pitch.png';
 
 const Wrapper = styled.div`
 	height: 422px; /* 0.906 */
@@ -91,41 +90,10 @@ const PluppContainer = styled.div`
 	}
 `;
 
-/* const Plupp = styled.img`
-	width: 50px;
-	align-self: center;
-
-	${p => p.position};
-	${p => p.lineupCount};
-	${p => p.lineupIndex};
-`; */
-
 const Pitch = props => {
-	const { state, setters } = props.myTeam;
-
-	const { config, team, game } = state;
+	const { config, team, game } = props.myTeam.state;
 
 	const playerCount = team.list.length;
-
-	const shortName = fullName => {
-		const afterSpace = fullName.indexOf(' ') + 1;
-
-		let lastName = fullName.substring(afterSpace);
-
-		let midName = '';
-
-		const firstName = lastName.length < 9 ? fullName[0] + '.' : '';
-
-		if (lastName.includes('-')) {
-			const afterHyphen = lastName.indexOf('-') + 1;
-
-			midName = lastName[0] + '-';
-
-			lastName = lastName[afterHyphen].toUpperCase() + lastName.substring(afterHyphen + 1);
-		}
-
-		return `${firstName} ${midName}${lastName}`;
-	};
 
 	return (
 		<Wrapper className="Pitch">
@@ -149,7 +117,7 @@ const Pitch = props => {
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (
 								<PluppContainer key={player.uid} className={`PluppContainer ${pos}`} player={player}>
-									<span className="playerName">{shortName(player.name)}</span>
+									<span className="playerName">{shortenName(player.name)}</span>
 									<Plupp
 										origin="pitch"
 										player={player}
@@ -157,14 +125,6 @@ const Pitch = props => {
 										lineupCount={team.pitch[pos].length}
 										lineupIndex={nth}
 									/>
-									{/* <Plupp
-										alt="player-plupp"
-										src={pluppW}
-										position={pos}
-										lineupCount={team.pitch[pos].length}
-										lineupIndex={nth}
-										onClick={e => setters.delHandler(player)}
-									/> */}
 								</PluppContainer>
 							))}
 						</PosLineup>

@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
-//import PluppB from '../../media/pluppB.png';
-import PluppG from '../../media/pluppG.svg';
+import { shortenName } from '../MyTeam/helperFuncs';
 import Plupp from '../Plupp';
 
 const Wrapper = styled.div`
@@ -45,8 +44,7 @@ const PlayerName = styled.span`
 `; */
 
 const Bench = props => {
-	const { state } = props.myTeam;
-	const { config, team } = state;
+	const { config, team } = props.myTeam.state;
 
 	return (
 		<Wrapper className="Bench">
@@ -59,16 +57,8 @@ const Bench = props => {
 						lineupIndex={0}
 						origin="bench"
 					/>
-					{/* <Plupp
-						alt="player-plupp"
-						src={pluppG}
-						position={pos}
-						lineupCount={team.pitch[pos].length}
-						lineupIndex={nth}
-						onClick={e => clickHandler(pos)}
-					/> */}
 					{team.bench[pos][0] && (
-						<PlayerName className="playerName">{team.bench[pos][0].name}</PlayerName>
+						<PlayerName className="playerName">{shortenName(team.bench[pos][0].name)}</PlayerName>
 					)}
 				</PluppContainer>
 			))}
