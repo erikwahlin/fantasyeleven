@@ -38,52 +38,51 @@ const PageNumber = styled.div`
 const Paginate = props => {
 	const { settings, playerCount, updateResultPage } = props;
 	const { pageNumber, pageSize } = settings;
+	const lastPage = Math.ceil(playerCount / pageSize);
 
 	const clickHandler = e => {
 		const classes = ['firstPage', 'forward', 'backward', 'lastPage'];
-		const cList = e.target.closest('button').classList || e.target.classList;
+		const cList = e.currentTarget.classList;
 		const cName = classes.filter(c => cList.contains(c))[0];
 
-		console.log(cName);
-
 		//go to page according to cName
-		const newPage = curr => {
+		const newPage = () => {
 			switch (cName) {
 				case 'firstPage':
 					return 1;
 				case 'forward':
-					return curr + 1;
+					return pageNumber < lastPage ? pageNumber + 1 : pageNumber;
 				case 'backward':
-					return curr - 1;
+					return pageNumber > 1 ? pageNumber - 1 : pageNumber;
 				default:
 					// 'lastPage'
-					return Math.ceil(playerCount / pageSize);
+					return lastPage;
 			}
 		};
 
-		updateResultPage(newPage(pageNumber));
+		updateResultPage(newPage());
 	};
 
 	//angle right - left
 	//angle double right - left
 	return (
 		<div>
-			<Wrapper className="Paginate unmarkable" onClick={clickHandler}>
-				<Btn className="firstPage">
+			<Wrapper className="Paginate unmarkable">
+				<Btn className="firstPage paginationBtn" onClick={clickHandler}>
 					<FaAngleDoubleLeft />
 				</Btn>
 
-				<Btn className="backward">
+				<Btn className="backward paginationBtn" onClick={clickHandler}>
 					<FaAngleLeft />
 				</Btn>
 
 				{<PageNumber>{pageNumber + '/' + Math.ceil(playerCount / pageSize)}</PageNumber>}
 
-				<Btn className="forward">
+				<Btn className="forward paginationBtn" onClick={clickHandler}>
 					<FaAngleRight />
 				</Btn>
 
-				<Btn className="lastPage">
+				<Btn className="lastPage paginationBtn" onClick={clickHandler}>
 					<FaAngleDoubleRight />
 				</Btn>
 			</Wrapper>

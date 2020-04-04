@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withMyTeam } from '../MyTeam/ctx';
-import allClubs from '../../constants/clubs';
-import { clone } from '../MyTeam/helperFuncs';
+import { allClubs } from '../MyTeam/setup';
 import Dropdown from 'react-dropdown';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
@@ -47,7 +46,9 @@ const INITIAL_STATE = {
 	paginationSettings: {
 		pageNumber: 1,
 		pageSize: 20
-	}
+	},
+
+	result: []
 };
 
 //orderby
@@ -73,6 +74,7 @@ class PlayerSearch extends Component {
 		this.filterByName = this.filterByName.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
 		this.displayPlayerInfo = this.displayPlayerInfo.bind(this);
+		this.sectionFilter = this.sectionFilter.bind(this);
 	}
 
 	playerClickHandler = player => {
@@ -189,8 +191,45 @@ class PlayerSearch extends Component {
 		alert('Coming soon.');
 	};
 
+	sectionFilter = items => {
+		const splitByPosition = () => {
+			const res = [];
+			config.positions.forEach(pos => res.push([]));
+
+			items.forEach(item => {
+				switch (item.position) {
+					case 'Goalkeeper':
+						res[0].push(item);
+						break;
+					case 'Defender':
+						res[1].push(item);
+						break;
+					case 'Midfielder':
+						res[2].push(item);
+						break;
+					case 'Forward':
+						res[3].push(item);
+						break;
+					default:
+						break;
+				}
+			});
+			return res;
+			//return this.state.sortOrder === '<' ? res : res.reverse();
+		};
+		return splitByPosition();
+		/* switch (sortBy) {
+				case 'position':
+					return splitByPosition();
+				default:
+					return [[...items]];
+			} */
+	};
+
 	render() {
+		const { paginationSettings } = this.state;
 		const { players } = this.props;
+
 		if (!players) return <p>Didn't find any players</p>;
 
 		const clubs = [...new Set(players.map(item => item.club))];
@@ -220,6 +259,7 @@ class PlayerSearch extends Component {
 		];
 		//options for dropdown.
 		const maxPriceDefaultOption = this.state.maxPriceSelected;
+
 		const priceOptions = priceTags
 			.sort((a, b) => b - a)
 			.map(price => {
@@ -233,53 +273,16 @@ class PlayerSearch extends Component {
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
 		const sorted = this.sortedPlayerList(filtered);
+
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
 			return playersList.slice((page_number - 1) * page_size, page_number * page_size);
 		};
-		const paginated = paginate(
-			sorted,
-			this.state.paginationSettings.pageSize,
-			this.state.paginationSettings.pageNumber
-		);
 
-		const sectionFilter = items => {
-			const splitByPosition = () => {
-				const res = [];
-				config.positions.forEach(pos => res.push([]));
+		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
 
-				items.forEach(item => {
-					switch (item.position) {
-						case 'Goalkeeper':
-							res[0].push(item);
-							break;
-						case 'Defender':
-							res[1].push(item);
-							break;
-						case 'Midfielder':
-							res[2].push(item);
-							break;
-						case 'Forward':
-							res[3].push(item);
-							break;
-						default:
-							break;
-					}
-				});
-				return res;
-				//return this.state.sortOrder === '<' ? res : res.reverse();
-			};
-			return splitByPosition();
-			/* switch (sortBy) {
-				case 'position':
-					return splitByPosition();
-				default:
-					return [[...items]];
-			} */
-		};
-
-		const result = sectionFilter(paginated);
+		const result = this.sectionFilter(paginated);
 
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
@@ -338,7 +341,7 @@ class PlayerSearch extends Component {
 				{/* RESULT */}
 				<Paginate
 					updateResultPage={this.updateResultPage}
-					settings={this.state.paginationSettings}
+					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
 				<ResultBox className="ResultBox unmarkable">

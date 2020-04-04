@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { players } from '../../constants/players';
 import { clone } from './helperFuncs';
 import MyTeamCtx from './ctx';
+import initialState, { allPlayers } from './setup';
 import PlayerSearch from '../PlayerSearch/index';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
@@ -21,101 +21,10 @@ const ContentWrap = styled.div`
 	}
 `;
 
-// convert millions to less
-const allPlayers = players.map(player => ({
-	...player,
-	price: Math.round(parseFloat(player.price))
-}));
-
-// get clubs
-window.allClubs = [...new Set(allPlayers.map(item => item.club))];
-
-const initial_state = {
-	team: {
-		list: [],
-
-		captain: false,
-
-		pitch: {
-			Goalkeeper: [],
-			Defender: [],
-			Midfielder: [],
-			Forward: []
-		},
-		bench: {
-			Goalkeeper: [],
-			Defender: [],
-			Midfielder: [],
-			Forward: []
-		},
-
-		clubs: {},
-
-		count: {
-			tot: {
-				Goalkeeper: 0,
-				Defender: 0,
-				Midfielder: 0,
-				Forward: 0
-			},
-			pitch: {
-				Goalkeeper: 0,
-				Defender: 0,
-				Midfielder: 0,
-				Forward: 0
-			},
-			bench: {
-				Goalkeeper: 0,
-				Defender: 0,
-				Midfielder: 0,
-				Forward: 0
-			}
-		}
-	},
-
-	game: {
-		boosts: [],
-		value: 0,
-		round: 666
-	},
-
-	config: {
-		filterKeys: {
-			uid: [],
-			position: [],
-			club: []
-		},
-		searchRes: [],
-		limit: {
-			tot: { min: 15, max: 15 },
-			pitch: {
-				Goalkeeper: { min: 1, max: 1 },
-				Defender: { min: 3, max: 5 },
-				Midfielder: { min: 2, max: 5 },
-				Forward: { min: 1, max: 3 }
-			},
-			bench: {
-				Goalkeeper: { min: 1, max: 1 },
-				Defender: { min: 1, max: 1 },
-				Midfielder: { min: 1, max: 1 },
-				Forward: { min: 1, max: 1 }
-			},
-			club: { max: 3 }
-		},
-
-		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
-
-		switchers: {
-			marked: null,
-			target: null
-		}
-	}
-};
-
 export default class MyTeam extends Component {
 	constructor(props) {
 		super(props);
-		this.state = clone(initial_state);
+		this.state = clone(initialState);
 
 		this.updateState = this.updateState.bind(this);
 		this.updateSearchRes = this.updateSearchRes.bind(this);
@@ -217,27 +126,13 @@ export default class MyTeam extends Component {
 		// marked plupp?
 		const markedMode = marked && !target ? true : false;
 
-		// 15 players picked and no plupp marked, bail
+		// if 15 players picked and no plupp marked, bail
 		if (team.list.length >= 15 && !markedMode) {
 			return [];
 		}
 
-		// if marked plupp, return players with same pos
-		const samePosPass = () => {
-			const res = players.filter(player => {
-				return player.position === marked.pos;
-			});
-
-			return res;
-		};
-
 		// filter func
 		const f = (players, key) => {
-			// if markedMode, return all with same pos, ignore all other filters except uid
-			if (markedMode && key !== 'uid') {
-				return samePosPass();
-			}
-
 			const res = players.filter(player => {
 				let willReturn = true;
 
@@ -253,7 +148,15 @@ export default class MyTeam extends Component {
 			return res;
 		};
 
-		return f(f(f(input, 'club'), 'position'), 'uid');
+		// we never want uid-duplicates (picked vs unpicked players)
+		const uniqueUids = f(input, 'uid');
+
+		// if marked plupp, return all unpicked players with plupp's pos-prop
+		if (markedMode) {
+			return uniqueUids.filter(player => player.position === marked.pos);
+		}
+
+		return f(f(uniqueUids, 'club'), 'position');
 	};
 
 	// update formation rules (limits)
@@ -261,14 +164,14 @@ export default class MyTeam extends Component {
 		const { config, team } = this.state;
 
 		// fresh copy of initial limits
-		config.limit.pitch = clone(initial_state.config.limit).pitch;
+		config.limit.pitch = clone(initialState.config.limit).pitch;
 
 		// desctructure initial limits
 		const {
 			Defender: defLimit,
 			Midfielder: midLimit,
 			Forward: forLimit
-		} = initial_state.config.limit.pitch;
+		} = initialState.config.limit.pitch;
 
 		// curr pitch count
 		const { Defender: defCount, Midfielder: midCount, Forward: forCount } = team.count.pitch;

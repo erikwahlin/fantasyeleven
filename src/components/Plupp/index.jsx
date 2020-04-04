@@ -203,12 +203,13 @@ class Plupp extends Component {
 
 		const { setSwitchers } = this.props.myTeam.setters;
 
-		// if not on another plupp or player in list
+		// if not on another plupp, player in list or paginationBtn
 		// clear switch in state
 		const listedPlayer = e.target.closest('div').classList.contains('ListedPlayer');
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
+		const paginate = e.target.closest('div').classList.contains('Paginate');
 
-		if (!listedPlayer && !switchablePlupp) {
+		if (!listedPlayer && !switchablePlupp && !paginate) {
 			setSwitchers({ marked: null, target: null }, () => {
 				console.log('Cleared switchers.');
 			});
