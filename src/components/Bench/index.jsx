@@ -48,9 +48,6 @@ const Bench = props => {
 						lineupIndex={0}
 						origin="bench"
 					/>
-					{team.bench[pos][0] && (
-						<PlayerName className="playerName">{shortenName(team.bench[pos][0].name)}</PlayerName>
-					)}
 				</PluppContainer>
 			))}
 		</Wrapper>

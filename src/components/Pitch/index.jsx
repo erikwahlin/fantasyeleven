@@ -79,15 +79,6 @@ const PluppContainer = styled.div`
 	position: relative;
 	display: flex;
 	justify-content: space-evenly;
-
-	& > span.playerName {
-		position: absolute;
-		top: 18px;
-		font-size: 0.7em;
-		text-align: center;
-		/* text-shadow: 0 0 6px #333; */
-		color: #dda;
-	}
 `;
 
 const Pitch = props => {
@@ -121,7 +112,6 @@ const Pitch = props => {
 									className={`PluppContainer ${pos} unmarkable`}
 									player={player}
 								>
-									<span className="playerName">{shortenName(player.name)}</span>
 									<Plupp
 										origin="pitch"
 										player={player}

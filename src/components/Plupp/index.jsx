@@ -1,15 +1,27 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
+import { shortenName } from '../MyTeam/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../media/pluppC.svg';
-import switchImg from '../../media/switchIcon.png';
+import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 
 const Container = styled.div`
 	width: 50px;
 	height: 50px;
 	align-self: center;
 	position: relative;
+`;
+
+const PlayerName = styled.span`
+	position: absolute;
+	width: 100px;
+	left: -25px;
+	top: 50px;
+	font-size: 0.7em;
+	text-align: center;
+	text-shadow: 0 -2px 6px #333;
+	color: #eee;
 `;
 
 const PluppImg = styled.img`
@@ -26,40 +38,45 @@ const PluppImg = styled.img`
 const Options = styled.div`
 	position: absolute;
 	z-index: 1;
-	top: -68px;
-	left: -10px;
-	border-radius: 5px;
-	font-size: 1em;
-	padding: 5px;
-	height: 30px;
+	left: -25px;
+	top: -40px;
+	width: 100px;
+	height: 40px;
+	margin: 0;
+	padding: 0;
 
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 
 	& > button {
-		width: 50px;
+		width: 40px;
 		height: 100%;
 		margin: 0 5px;
 		cursor: pointer;
 		outline: none;
 		border: none;
-		box-shadow: inset 0px 30px 10px #021f3d;
+
 		border-radius: 3px;
-		background: #ddd;
+		background: none;
+
+		& > * {
+			width: 100%;
+			height: 100%;
+		}
 	}
 `;
 
 const DelBtn = styled.button`
-	color: red;
+	color: #222;
 	font-size: 1em;
 `;
 
 const SubstituteBtn = styled.button`
-	color: ${p => (p.origin === 'pitch' ? 'orange' : 'green')};
+	color: ${p => (p.origin === 'pitch' ? '#ccc' : '#ccc')};
 	font-size: 1em;
 `;
 
-const SwitchContainer = styled.div`
+const SwitchIcon = styled.div`
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -67,14 +84,16 @@ const SwitchContainer = styled.div`
 	height: 100%;
 	cursor: pointer;
 	z-index: 0;
-`;
+	text-align: center;
+	color: #ccc;
 
-const SwitchIcon = styled.img`
-	width: 20px;
-	margin: auto;
-	position: relative;
-	left: 15px;
-	top: 15px;
+	& > * {
+		width: 65%;
+		height: 65%;
+		margin-top: 16%;
+		left: unset;
+		top: unset;
+	}
 `;
 
 class Plupp extends Component {
@@ -83,7 +102,8 @@ class Plupp extends Component {
 
 		this.state = {
 			isMarked: false,
-			isSwitchable: false
+			isSwitchable: false,
+			isQuickSwitchable: false
 		};
 
 		this.del = this.del.bind(this);
@@ -101,7 +121,7 @@ class Plupp extends Component {
 
 	// on update
 	componentDidUpdate = (pp, ps) => {
-		this.syncWithSwitchers();
+		this.syncWithSwitchers(pp, ps);
 	};
 
 	// check if plupp should be marked
@@ -135,7 +155,7 @@ class Plupp extends Component {
 	};
 
 	// update marked and switchable
-	syncWithSwitchers = () => {
+	syncWithSwitchers = (pp, ps) => {
 		// get new privileges
 		const markedPrivilege = this.markedPrivilege();
 		const switchablePrivilege = this.switchablePrivilege();
@@ -147,6 +167,25 @@ class Plupp extends Component {
 
 		if (this.state.isSwitchable !== switchablePrivilege) {
 			this.setState({ isSwitchable: switchablePrivilege });
+		}
+
+		// check if bench/pitch has space for another plupp
+		const { isMarked, isQuickSwitchable } = this.state;
+		const { player, pos, origin, myTeam } = this.props;
+		const { config, team } = myTeam.state;
+
+		const quickSwitchable = () => {
+			const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
+			const limit = config.limit[oppOrigin][pos].max;
+			const count = team.count[oppOrigin][pos];
+			console.log(origin, oppOrigin, limit, count);
+			return count < limit ? true : false;
+		};
+
+		const qs = isMarked && player ? quickSwitchable() : false;
+
+		if (qs !== isQuickSwitchable) {
+			this.setState({ isQuickSwitchable: qs });
 		}
 	};
 
@@ -255,30 +294,21 @@ class Plupp extends Component {
 	};
 
 	render() {
-		const { isMarked, isSwitchable } = this.state;
-		const { player, pos, origin, lineupIndex, myTeam } = this.props;
-		const { team, config } = myTeam.state;
-
-		// check if bench/pitch has space for another plupp
-		const quickSwitchable = () => {
-			const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
-			const limit = config.limit[oppOrigin][pos].max;
-			const count = team.count[oppOrigin][pos];
-
-			return count < limit ? true : false;
-		};
-		const qs = isMarked && player ? quickSwitchable : null;
+		const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
+		const { player, pos, origin, lineupIndex } = this.props;
 
 		return (
 			<Container>
+				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
+
 				{isMarked && player && (
 					<Options>
 						<DelBtn ref={this.delBtn} onClick={this.del}>
-							X
+							<FaTrash />
 						</DelBtn>
-						{qs && (
+						{isQuickSwitchable && (
 							<SubstituteBtn origin={origin} onClick={this.quickSwitch}>
-								{origin === 'pitch' ? 'bench' : 'pitch'}
+								{origin === 'pitch' ? <FaAngleDoubleDown /> : <FaAngleDoubleUp />}
 							</SubstituteBtn>
 						)}
 					</Options>
@@ -295,15 +325,9 @@ class Plupp extends Component {
 					isSwitchable={isSwitchable}
 				/>
 
-				<SwitchContainer className="Switch" isSwitchable={isSwitchable}>
-					<SwitchIcon
-						src={switchImg}
-						alt="SwitchBtn"
-						className="SwitchIcon"
-						player={player}
-						ref={this.switchRef}
-					/>
-				</SwitchContainer>
+				<SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
+					<FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
+				</SwitchIcon>
 			</Container>
 		);
 	}
