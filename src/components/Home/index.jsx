@@ -4,7 +4,7 @@ import '../PlayerSearch/styles.css';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import Styled from 'styled-components';
-import MyTeam from '../MyTeam';
+import MyTeam from '../MyTeam/index';
 
 class HomePage extends Component {
 	constructor(props) {

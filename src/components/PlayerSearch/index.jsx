@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import INITIAL_STATE, { config } from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { allClubs } from '../MyTeam/setup';
+import { clone } from '../MyTeam/helperFuncs';
+import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
@@ -27,63 +29,35 @@ import {
 	ButtonReset
 } from './index.styled';
 
-const config = {
-	positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
-	sortOptions: {
-		name: 'namn',
-		club: 'lag',
-		price: 'pris',
-		position: 'position'
-	}
-};
-
-const INITIAL_STATE = {
-	posOrClubSelected: { value: 'none', label: 'Alla spelare' },
-	maxPriceSelected: { value: 'none', label: 'Högsta pris' },
-	searchTerm: '',
-	priceSort: 'falling',
-
-	paginationSettings: {
-		pageNumber: 1,
-		pageSize: 20
-	},
-
-	result: []
-};
-
-//orderby
-// namn alfabetiskt, lag alfabetiskt, pris, position
-// asc or desc
-
 class PlayerSearch extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = { ...INITIAL_STATE };
 
-		this.handleTextFilterChange = this.handleTextFilterChange.bind(this);
+		this.setFilter_name = this.setFilter_name.bind(this);
 
-		this.updateStatePage = this.updateStatePage.bind(this);
+		this.goToFirstPage = this.goToFirstPage.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		//this.paginate = this.paginate.bind(this)
-		this.onSelectPosOrClub = this.onSelectPosOrClub.bind(this);
-		this.onSelectPrice = this.onSelectPrice.bind(this);
+		this.setFilter_posClub = this.setFilter_posClub.bind(this);
+		this.setFilter_maxPrice = this.setFilter_maxPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
-		this.updateResultPage = this.updateResultPage.bind(this);
-		this.filterByMaxPrice = this.filterByMaxPrice.bind(this);
-		this.filterByName = this.filterByName.bind(this);
+		this.goToPage = this.goToPage.bind(this);
+		this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
+		this.applyFilter_name = this.applyFilter_name.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
 		this.displayPlayerInfo = this.displayPlayerInfo.bind(this);
-		this.sectionFilter = this.sectionFilter.bind(this);
+		this.groupByPosition = this.groupByPosition.bind(this);
 	}
 
 	playerClickHandler = player => {
 		const { position: pos } = player;
-		const { state, setters } = this.props.myTeam;
-		const { marked, target } = state.config.switchers;
-		const { addPlayer, setSwitchers, switchPlayers } = setters;
+		const { markedMode, myTeam } = this.props;
+		const { addPlayer, setSwitchers, switchPlayers } = myTeam.setters;
 
-		if (marked && !target) {
+		// if a plupp is already marked, prepare switch
+		if (markedMode) {
 			// set switcher-target
 			setSwitchers(
 				{
@@ -96,33 +70,15 @@ class PlayerSearch extends Component {
 					}
 				},
 				() => {
-					console.log('Switch-target set.');
 					switchPlayers();
 				}
 			);
+			// if nothing marked, add player
 		} else {
-			console.log('clicked player', player);
 			addPlayer(player);
 		}
 	};
 
-	// update settings in state
-	updateStatePage = () => {
-		this.setState(prevState => {
-			let paginationSettings = Object.assign({}, prevState.paginationSettings);
-			paginationSettings.pageNumber = 1;
-			return { paginationSettings };
-		});
-	};
-
-	handleSort = e => {
-		console.log(this.sortedPlayerList(this.props.players));
-		if (e.target.value === 'falling') {
-			this.setState({ priceSort: 'falling' });
-		} else {
-			this.setState({ priceSort: 'rising' });
-		}
-	};
 	// reset filter & order
 	resetSettings = () => {
 		this.setState({
@@ -130,106 +86,187 @@ class PlayerSearch extends Component {
 		});
 	};
 
-	// filter-funcs
-	onSelectPosOrClub = option => {
-		const selected = this.state.posOrClubSelected;
-		console.log('You selected ', selected);
-		this.updateStatePage();
-		this.setState({ posOrClubSelected: option });
+	// sort by (player price) rising/falling
+	handleSort = e => {
+		// dont update if new val === old val
+		if (this.state.priceSort === e.target.value) return;
+
+		this.setState({ priceSort: e.target.value });
 	};
 
-	onSelectPrice = option => {
-		const selected = this.state.maxPriceSelected;
-		console.log('You selected ', selected);
-		this.updateStatePage();
-		this.setState({ maxPriceSelected: option });
+	/*
+	 *
+	 *
+	 * SET FILTERS
+	 **************/
+
+	// set filter: pos/club
+	setFilter_posClub = selected => {
+		// clone for mutation
+		const res = clone(selected);
+
+		// substr to get valid data
+		const splitVal = res.value.indexOf('__');
+		res.value = res.value.substring(0, splitVal);
+
+		// update state
+		this.setState({ posOrClubSelected: res }, () => {
+			this.goToFirstPage();
+		});
 	};
 
-	filterPlayers = playerList => {
-		if (this.state.posOrClubSelected.value === 'none') return playerList;
+	// set filter: player max-price
+	setFilter_maxPrice = selected => {
+		// clone for mutation
+		const res = clone(selected);
+
+		// substr for valid data
+		const splitLabel = res.label.indexOf(' kr');
+		const splitVal = res.value.indexOf('__');
+		res.label = res.label.substring(0, splitLabel);
+		res.value = res.value.substring(0, splitVal);
+
+		// update state
+		this.setState({ maxPriceSelected: res }, () => {
+			this.goToFirstPage();
+		});
+	};
+
+	// set filter: name
+	setFilter_name(event) {
+		this.goToFirstPage();
+		this.setState({ searchTerm: event.target.value });
+	}
+
+	/*
+	 *
+	 *
+	 * APPLY FILTERS
+	 ****************/
+
+	// return players according to pos/club-filter
+	applyFilter_posClub = playerList => {
+		// if no active posClub-filter or plupp is marked, bail
+		const noFilter = this.state.posOrClubSelected.value === 'none' ? true : false;
+
+		if (noFilter || this.props.markedMode) return playerList;
+
+		// else, filter
 		return playerList.filter(
 			player => player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.label
 		);
 	};
 
-	filterByMaxPrice = playerList => {
+	// return players according to max-price-filter
+	applyFilter_maxPrice = playerList => {
 		const maxPrice = this.state.maxPriceSelected.label;
-		if (isNaN(maxPrice) || !maxPrice || maxPrice === '' || maxPrice <= 0) return playerList;
+		const noFilter =
+			isNaN(maxPrice) ||
+			!maxPrice ||
+			maxPrice === '' ||
+			maxPrice < 1 ||
+			maxPrice.label === 'Högsta pris'
+				? true
+				: false;
+		if (noFilter || this.props.markedMode) return playerList;
 
 		return playerList.filter(player => player.price <= maxPrice);
 	};
 
-	filterByName = playersList => {
+	// return players (names) according to searchTerm
+	applyFilter_name = playersList => {
+		if (this.state.searchTerm === '') return playersList;
+
 		const searchTerm = this.state.searchTerm.trim().toLowerCase();
+
 		return playersList.filter(player => {
 			return player.name.toLowerCase().includes(searchTerm);
 		});
 	};
+	/*
+	 *
+	 *
+	 * APPLY SORT-SETTINGS
+	 **********************/
 
-	updateResultPage = pageNumber => {
-		this.setState(prevState => ({
+	sortByPrice = playerList => {
+		const falling = this.state.priceSort === 'falling';
+
+		return playerList.sort((a, b) => (falling ? b.price - a.price : a.price - b.price));
+	};
+
+	// group players by position
+	groupByPosition = items => {
+		/* const res = [];
+		config.positions.forEach(pos => res.push([]));
+
+		items.forEach(item => {
+			switch (item.position) {
+				case 'Goalkeeper':
+					res[0].push(item);
+					break;
+				case 'Defender':
+					res[1].push(item);
+					break;
+				case 'Midfielder':
+					res[2].push(item);
+					break;
+				case 'Forward':
+					res[3].push(item);
+					break;
+				default:
+					break;
+			}
+		});
+		return res; */
+
+		var groupBy = (arr, key) => {
+			return arr.reduce(function(tot, cur) {
+				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
+				return tot;
+			}, {});
+		};
+
+		return groupBy(items, 'position');
+	};
+
+	/*
+	 *
+	 *
+	 * PAGINATION
+	 **************/
+
+	// go to page
+	goToPage = pageNumber => {
+		this.setState(ps => ({
 			paginationSettings: {
-				...prevState.paginationSettings,
+				...ps.paginationSettings,
 				pageNumber
 			}
 		}));
 	};
 
-	handleTextFilterChange(event) {
-		this.updateStatePage();
-		this.setState({ searchTerm: event.target.value });
-	}
-
-	sortedPlayerList = playerList => {
-		if (this.state.priceSort === 'falling') {
-			return playerList.sort((a, b) => b.price - a.price);
-		} else {
-			return playerList.sort((a, b) => a.price - b.price);
-		}
+	// go to first page in search result
+	goToFirstPage = () => {
+		this.setState(ps => ({
+			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
+		}));
 	};
 
+	/*
+	 *
+	 *
+	 *
+	 *******/
+
+	// display player info
 	displayPlayerInfo = player => {
 		alert('Coming soon.');
 	};
 
-	sectionFilter = items => {
-		const splitByPosition = () => {
-			const res = [];
-			config.positions.forEach(pos => res.push([]));
-
-			items.forEach(item => {
-				switch (item.position) {
-					case 'Goalkeeper':
-						res[0].push(item);
-						break;
-					case 'Defender':
-						res[1].push(item);
-						break;
-					case 'Midfielder':
-						res[2].push(item);
-						break;
-					case 'Forward':
-						res[3].push(item);
-						break;
-					default:
-						break;
-				}
-			});
-			return res;
-			//return this.state.sortOrder === '<' ? res : res.reverse();
-		};
-		return splitByPosition();
-		/* switch (sortBy) {
-				case 'position':
-					return splitByPosition();
-				default:
-					return [[...items]];
-			} */
-	};
-
 	render() {
 		const { paginationSettings } = this.state;
-		const { players } = this.props;
+		const { players, myTeam } = this.props;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -243,8 +280,8 @@ class PlayerSearch extends Component {
 				type: 'group',
 				name: '- Positioner - ',
 				items: [
-					...config.positions.map(position => {
-						return { value: 'position', label: position };
+					...config.positions.map((position, nth) => {
+						return { value: `position__${nth}`, label: position };
 					})
 				]
 			},
@@ -252,28 +289,32 @@ class PlayerSearch extends Component {
 				type: 'group',
 				name: '- Klubbar -',
 				items: [
-					...clubs.map(club => {
-						return { value: 'club', label: club };
+					...clubs.map((club, nth) => {
+						return { value: `club__${nth}`, label: club };
 					})
 				]
 			}
 		];
+
 		//options for dropdown.
 		const maxPriceDefaultOption = this.state.maxPriceSelected;
 
 		const priceOptions = priceTags
 			.sort((a, b) => b - a)
-			.map(price => {
-				return { value: 'maxPrice', label: price };
+			.map((price, nth) => {
+				return { value: `maxPrice__${nth}`, label: price + ' kr' };
 			}); //append kr to price.
+
 		//default option for dropdown - All players are shown.
 		const posOrClubdefaultOption = this.state.posOrClubSelected;
 
-		const filtered = this.filterByMaxPrice(this.filterPlayers(this.filterByName(players)));
+		const filtered = this.applyFilter_maxPrice(
+			this.applyFilter_posClub(this.applyFilter_name(players))
+		);
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
-		const sorted = this.sortedPlayerList(filtered);
+		const sorted = this.sortByPrice(filtered);
 
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
@@ -283,8 +324,10 @@ class PlayerSearch extends Component {
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
 
-		const result = this.sectionFilter(paginated);
+		//const result = markedMode ? sorted : this.groupByPosition(paginated);
+		const result = this.groupByPosition(paginated);
 
+		// get short club name (according to reuter)
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
@@ -299,23 +342,18 @@ class PlayerSearch extends Component {
 				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
 				<Dropdown
 					options={filterOptions}
-					onChange={this.onSelectPosOrClub}
+					onChange={this.setFilter_posClub}
 					value={posOrClubdefaultOption}
 					placeholder="Select an option"
 				/>
 				<Dropdown
-					onChange={this.onSelectPrice}
+					onChange={this.setFilter_maxPrice}
 					value={maxPriceDefaultOption}
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
 
-				<Input
-					type="text"
-					name="name"
-					onChange={this.handleTextFilterChange}
-					placeholder="Sök spelare"
-				></Input>
+				<Input type="text" name="name" onChange={this.setFilter_name} placeholder="Sök spelare"></Input>
 
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer>
@@ -341,25 +379,25 @@ class PlayerSearch extends Component {
 
 				{/* RESULT */}
 				<Paginate
-					updateResultPage={this.updateResultPage}
+					goToPage={this.goToPage}
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
 				<ResultBox className="ResultBox unmarkable">
-					{result.map((section, nth) => {
+					{Object.keys(result).map((section, nth) => {
 						return (
 							<Section key={nth}>
-								{section.length ? (
+								{result[section].length ? (
 									<LabelRow>
 										<div className="labelPosition">
-											<p> {`${section[0].position}s`}</p>
+											<p> {`${section}s`}</p>
 										</div>{' '}
 										<div className="labelPrice">
 											<p>SEK</p>
 										</div>
 									</LabelRow>
 								) : null}
-								{section.map((player, i) => {
+								{result[section].map((player, i) => {
 									return (
 										<PlayerRow key={i} className="PlayerRow">
 											<PlayerInfo className="PlayerInfo" onClick={e => this.displayPlayerInfo(player)}>

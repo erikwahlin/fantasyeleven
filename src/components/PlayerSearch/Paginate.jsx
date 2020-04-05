@@ -36,7 +36,7 @@ const PageNumber = styled.div`
 `;
 
 const Paginate = props => {
-	const { settings, playerCount, updateResultPage } = props;
+	const { settings, playerCount, goToPage } = props;
 	const { pageNumber, pageSize } = settings;
 	const lastPage = Math.ceil(playerCount / pageSize);
 
@@ -60,7 +60,7 @@ const Paginate = props => {
 			}
 		};
 
-		updateResultPage(newPage());
+		goToPage(newPage());
 	};
 
 	//angle right - left

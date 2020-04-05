@@ -1,7 +1,7 @@
 import players from '../../constants/players';
 import clubs from '../../constants/clubs';
 
-const initialState = {
+const INITIAL_STATE = {
 	team: {
 		list: [],
 
@@ -93,4 +93,4 @@ export const allPlayers = players.map(player => ({
 export const allClubs = clubs;
 
 // my team initial state
-export default initialState;
+export default INITIAL_STATE;

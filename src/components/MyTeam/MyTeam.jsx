@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { clone } from './helperFuncs';
 import MyTeamCtx from './ctx';
-import initialState, { allPlayers } from './setup';
-import PlayerSearch from '../PlayerSearch/index';
+import INITIAL_STATE, { allPlayers } from './config';
+import PlayerSearch from '../PlayerSearch';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
 
@@ -24,7 +24,7 @@ const ContentWrap = styled.div`
 export default class MyTeam extends Component {
 	constructor(props) {
 		super(props);
-		this.state = clone(initialState);
+		this.state = clone(INITIAL_STATE);
 
 		this.updateState = this.updateState.bind(this);
 		this.updateSearchRes = this.updateSearchRes.bind(this);
@@ -35,6 +35,8 @@ export default class MyTeam extends Component {
 		this.delPlayer = this.delPlayer.bind(this);
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
+
+		this.checkMarkedMode = this.checkMarkedMode.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -92,17 +94,22 @@ export default class MyTeam extends Component {
 		);
 	};
 
+	checkMarkedMode = () => {
+		const { marked, target } = this.state.config.switchers;
+		return marked && !target ? true : false;
+	};
+
 	updateFilterKeys = callback => {
 		// updater, based on clone of curr state config
-		const updater = (prevConf, prevTeam) => {
-			const config = clone(prevConf);
+		const updater = prevState => {
+			const { config } = clone(prevState);
 			const { filterKeys } = config;
 
 			config.positions.forEach(pos => {
 				// if pitch and bench full - add pos to filter (if filter is not active)
 				if (
-					prevTeam.bench[pos].length >= config.limit.bench[pos].max &&
-					prevTeam.pitch[pos].length >= config.limit.pitch[pos].max
+					prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
+					prevState.team.pitch[pos].length >= config.limit.pitch[pos].max
 				) {
 					if (!filterKeys.position.includes(pos)) {
 						filterKeys.position.push(pos);
@@ -116,8 +123,8 @@ export default class MyTeam extends Component {
 				}
 			});
 
-			Object.keys(prevTeam.clubs).forEach(club => {
-				if (prevTeam.clubs[club] >= 3) {
+			Object.keys(prevState.team.clubs).forEach(club => {
+				if (prevState.team.clubs[club] >= 3) {
 					if (!filterKeys.club.includes(club)) filterKeys.club.push(club);
 				} else {
 					if (filterKeys.club.includes(club)) {
@@ -131,7 +138,7 @@ export default class MyTeam extends Component {
 		};
 
 		this.setState(
-			ps => ({ config: updater(ps.config, ps.team) }),
+			ps => ({ config: updater(ps) }),
 			() => {
 				this.updateSearchRes();
 			}
@@ -184,22 +191,26 @@ export default class MyTeam extends Component {
 	// update formation rules (limits)
 	updateLimit = () => {
 		// updater, based on curr state
-		const updater = (prevConf, prevTeam) => {
+		const updater = prevState => {
 			// use clone of curr config for mutation
-			const config = clone(prevConf);
+			const { config } = clone(prevState);
 
 			// reset config limits to initial state
-			config.limit.pitch = clone(initialState.config.limit.pitch);
+			config.limit.pitch = clone(INITIAL_STATE.config.limit.pitch);
 
 			// use initial limits to compare
 			const {
 				Defender: defLimit,
 				Midfielder: midLimit,
 				Forward: forLimit
-			} = initialState.config.limit.pitch;
+			} = INITIAL_STATE.config.limit.pitch;
 
 			// curr pitch count
-			const { Defender: defCount, Midfielder: midCount, Forward: forCount } = prevTeam.count.pitch;
+			const {
+				Defender: defCount,
+				Midfielder: midCount,
+				Forward: forCount
+			} = prevState.team.count.pitch;
 
 			// Mutate config based on scenario
 
@@ -261,7 +272,7 @@ export default class MyTeam extends Component {
 
 		// update state
 		this.setState(
-			ps => ({ config: updater(ps.config, ps.team) }),
+			ps => ({ config: updater(ps) }),
 			() => {
 				this.updateFilterKeys();
 			}
@@ -273,11 +284,9 @@ export default class MyTeam extends Component {
 		const player = clone(clickedPlayer);
 		const { position: pos, club, uid } = player;
 
-		const updater = (prevTeam, prevConf, prevGame) => {
+		const updater = prevState => {
 			// use clones of curr state
-			const team = clone(prevTeam);
-			const config = clone(prevConf);
-			const game = clone(prevGame);
+			const { team, config, game } = prevState;
 
 			const { filterKeys } = config;
 			const { pitch } = team;
@@ -321,7 +330,7 @@ export default class MyTeam extends Component {
 
 		// update state
 		this.setState(
-			ps => ({ ...updater(ps.team, ps.config, ps.game) }),
+			ps => ({ ...updater(ps) }),
 			() => {
 				this.updateLimit();
 			}
@@ -332,11 +341,9 @@ export default class MyTeam extends Component {
 		// use player, read only
 		const { position: pos, uid, club, origin } = player;
 
-		const updater = (prevTeam, prevConf, prevGame) => {
+		const updater = prevState => {
 			// use clones of curr state for mutation
-			const team = clone(prevTeam);
-			const config = clone(prevConf);
-			const game = clone(prevGame);
+			const { team, config, game } = clone(prevState);
 
 			const { filterKeys } = config;
 
@@ -383,7 +390,7 @@ export default class MyTeam extends Component {
 
 		// update state, then update limits
 		this.setState(
-			ps => ({ ...updater(ps.team, ps.config, ps.game) }),
+			ps => ({ ...updater(ps) }),
 			() => {
 				this.updateLimit();
 			}
@@ -394,8 +401,9 @@ export default class MyTeam extends Component {
 	switchPlayers = () => {
 		// just in case, if marked/target not set, clear switchers and bail
 		const { marked, target } = this.state.config.switchers;
+		const fromList = target.origin === 'list';
 
-		if (!marked || !target) {
+		if (!marked || (!marked && !target)) {
 			console.log('Something went wrong when switching players.');
 
 			this.setSwitchers({ marked: null, target: null });
@@ -403,16 +411,45 @@ export default class MyTeam extends Component {
 			return;
 		}
 
+		// if marked but no target, assume that player wants a quick switch (field to bench or bench to field)
+		if (marked && !target && marked.player) {
+			// check limits (do this before in plupp-component???)
+
+			//const { player } = clone(this.state.config.switchers.marked);
+
+			// del player in team.origin (splice)
+
+			// toggle player origin
+
+			// add player in team.origin (push)
+
+			// update state, done?
+			this.setState(ps => ({}));
+
+			this.setSwitchers({ marked: null, target: null }, () => {
+				this.updateLimit();
+			});
+
+			return;
+		}
+
+		// if marked is empty seat on bench, we only do this
+		const addToBench = () => {
+			const { target } = clone(this.state.config.switchers);
+
+			target.player.origin = 'bench';
+
+			this.setSwitchers({ marked: null, target: null }, () => {
+				this.addPlayer(target.player);
+			});
+		};
+
 		// updater, based on curr state
-		const updater = (prevTeam, prevConf, prevGame) => {
+		const updater = prevState => {
 			// use clones of curr state for mutation
-			const team = clone(prevTeam);
-			const config = clone(prevConf);
-			const game = clone(prevGame);
+			const { team, config, game } = clone(prevState);
 
 			const { marked, target } = config.switchers;
-
-			const fromList = target.origin === 'list';
 
 			/*
 			 * UPDATE MARKED
@@ -426,6 +463,10 @@ export default class MyTeam extends Component {
 				team[marked.origin][marked.pos][marked.lineupIndex] = target.player;
 			} else {
 				team[marked.origin][marked.pos].splice(marked.lineupIndex, 1);
+
+				// update team count, marked origin -1, target origin +1
+				team.count[marked.origin][marked.pos] -= 1;
+				team.count[target.origin][target.pos] += 1;
 			}
 
 			// if target is listed player
@@ -482,6 +523,10 @@ export default class MyTeam extends Component {
 					team[target.origin][target.pos][target.lineupIndex] = marked.player;
 				} else {
 					team[target.origin][target.pos].splice(target.lineupIndex, 1);
+
+					// update team count, marked origin +1, target origin -1
+					team.count[target.origin][target.pos] -= 1;
+					team.count[marked.origin][marked.pos] += 1;
 				}
 			}
 
@@ -492,8 +537,12 @@ export default class MyTeam extends Component {
 			};
 		};
 
+		// if marked was empty seat on bench, just add new player
+		if (!marked.player && marked.origin === 'bench' && fromList) return addToBench();
+
+		// else update state with the switch
 		this.setState(
-			ps => ({ ...updater(ps.team, ps.config, ps.game) }),
+			ps => ({ ...updater(ps) }),
 			() => {
 				this.setSwitchers({ marked: null, target: null }, () => {
 					this.updateLimit();
@@ -527,7 +576,7 @@ export default class MyTeam extends Component {
 					<ContentWrap className="ContentWrap">
 						<Pitch />
 
-						<PlayerSearch players={searchRes} />
+						<PlayerSearch players={searchRes} markedMode={this.checkMarkedMode()} />
 					</ContentWrap>
 				</div>
 			</MyTeamCtx.Provider>

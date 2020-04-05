@@ -34,15 +34,6 @@ const PlayerName = styled.span`
 	color: white;
 `;
 
-/* const Plupp = styled.img`
-	width: 50px;
-	align-self: center;
-
-	${p => p.position};
-	${p => p.lineupCount};
-	${p => p.lineupIndex};
-`; */
-
 const Bench = props => {
 	const { config, team } = props.myTeam.state;
 
