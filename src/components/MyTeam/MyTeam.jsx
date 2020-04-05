@@ -411,17 +411,19 @@ export default class MyTeam extends Component {
 			return;
 		}
 
-		// if marked but no target, assume that player wants a quick switch (field to bench or bench to field)
+		/* // if marked but no target, assume that player wants a quick switch (field to bench or bench to field)
 		if (marked && !target && marked.player) {
 			// check limits (do this before in plupp-component???)
 
-			//const { player } = clone(this.state.config.switchers.marked);
+			const { player } = clone(this.state.config.switchers.marked);
 
 			// del player in team.origin (splice)
 
 			// toggle player origin
 
 			// add player in team.origin (push)
+
+			// update player count (origin)
 
 			// update state, done?
 			this.setState(ps => ({}));
@@ -431,7 +433,7 @@ export default class MyTeam extends Component {
 			});
 
 			return;
-		}
+		} */
 
 		// if marked is empty seat on bench, we only do this
 		const addToBench = () => {

@@ -92,7 +92,7 @@ class Plupp extends Component {
 		this.markedPrivilege = this.markedPrivilege.bind(this);
 		this.switchablePrivilege = this.switchablePrivilege.bind(this);
 		this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
-		this.pitchBenchSwap = this.pitchBenchSwap.bind(this);
+		this.quickSwitch = this.quickSwitch.bind(this);
 
 		this.delBtn = createRef(null);
 		this.pluppRef = createRef(null);
@@ -223,15 +223,51 @@ class Plupp extends Component {
 		}
 	};
 
-	pitchBenchSwap = () => {
-		const { player, pos, origin, lineupIndex } = this.props;
+	quickSwitch = () => {
+		const ref = this.pluppRef.current;
+		const { player, pos, origin, lineupIndex, myTeam } = this.props;
+		const { setSwitchers, switchPlayers } = myTeam.setters;
+		const targetOrigin = origin === 'pitch' ? 'bench' : 'pitch';
+		const targetIndex = myTeam.state.team[targetOrigin][pos].length;
 
-		//this.setState(ps => ({ team }));
+		// else, target this plupp, prepare switch
+		setSwitchers(
+			{
+				marked: {
+					origin,
+					pos,
+					lineupIndex,
+					player,
+					ref
+				},
+				target: {
+					origin: targetOrigin,
+					pos,
+					lineupIndex: targetIndex,
+					player: null,
+					ref: null
+				}
+			},
+			() => {
+				switchPlayers();
+			}
+		);
 	};
 
 	render() {
 		const { isMarked, isSwitchable } = this.state;
-		const { player, pos, origin, lineupIndex } = this.props;
+		const { player, pos, origin, lineupIndex, myTeam } = this.props;
+		const { team, config } = myTeam.state;
+
+		// check if bench/pitch has space for another plupp
+		const quickSwitchable = () => {
+			const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
+			const limit = config.limit[oppOrigin][pos].max;
+			const count = team.count[oppOrigin][pos];
+
+			return count < limit ? true : false;
+		};
+		const qs = isMarked && player ? quickSwitchable : null;
 
 		return (
 			<Container>
@@ -240,9 +276,11 @@ class Plupp extends Component {
 						<DelBtn ref={this.delBtn} onClick={this.del}>
 							X
 						</DelBtn>
-						<SubstituteBtn origin={origin} onClick={this.pitchBenchSwap}>
-							{origin === 'pitch' ? 'bench' : 'pitch'}
-						</SubstituteBtn>
+						{qs && (
+							<SubstituteBtn origin={origin} onClick={this.quickSwitch}>
+								{origin === 'pitch' ? 'bench' : 'pitch'}
+							</SubstituteBtn>
+						)}
 					</Options>
 				)}
 
