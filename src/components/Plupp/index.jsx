@@ -187,11 +187,9 @@ class Plupp extends Component {
 		const { myTeam, player } = this.props;
 		const { setSwitchers, delPlayer } = myTeam.setters;
 
-		// unmark, then clear switchers, then confirm and del ref
+		// unmark, then clear switchers, then del ref
 		this.setState({ isMarked: false }, () => {
 			setSwitchers({ marked: null, target: null }, () => {
-				console.log('Cleared switchers.');
-
 				delPlayer(player);
 			});
 		});
@@ -210,9 +208,7 @@ class Plupp extends Component {
 		const paginate = e.target.closest('div').classList.contains('Paginate');
 
 		if (!listedPlayer && !switchablePlupp && !paginate) {
-			setSwitchers({ marked: null, target: null }, () => {
-				console.log('Cleared switchers.');
-			});
+			setSwitchers({ marked: null, target: null });
 		}
 	};
 
@@ -225,8 +221,6 @@ class Plupp extends Component {
 
 		// if switchers dont have a marked, mark this plupp
 		if (!marked) {
-			console.log('this is a marked', ref);
-
 			// set as marked, then update switchers
 			setSwitchers({
 				marked: {
@@ -239,13 +233,9 @@ class Plupp extends Component {
 			});
 			// if switchers do have a marked...
 		} else {
-			console.log('this is a target', ref);
-
 			// if this is the marked plupp, unmark, clear switchers
 			if (ref === marked.ref) {
-				setSwitchers({ marked: null, target: null }, () => {
-					return console.log('Cleared switchers.');
-				});
+				setSwitchers({ marked: null, target: null });
 			}
 
 			// else, target this plupp, prepare switch
@@ -260,7 +250,6 @@ class Plupp extends Component {
 					}
 				},
 				() => {
-					console.log('Switch-target set.');
 					switchPlayers();
 				}
 			);

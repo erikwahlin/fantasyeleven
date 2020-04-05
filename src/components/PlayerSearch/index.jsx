@@ -101,6 +101,7 @@ class PlayerSearch extends Component {
 				}
 			);
 		} else {
+			console.log('clicked player', player);
 			addPlayer(player);
 		}
 	};

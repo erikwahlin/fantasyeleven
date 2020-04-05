@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import '../PlayerSearch/styles.css';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
-
+import Styled from 'styled-components';
 import MyTeam from '../MyTeam';
 
 class HomePage extends Component {
@@ -30,7 +30,6 @@ class HomePage extends Component {
 	render() {
 		return (
 			<div>
-
 				<MyTeam />
 			</div>
 		);
