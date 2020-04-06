@@ -53,14 +53,14 @@ const NavigationNonAuth = () => (
 		</li>
 
 		<li className="landing-btn-container">
-			<Link className="landing-btn" to={ROUTES.SIGN_IN}>
-				LOGGA IN
+			<Link className="landing-btn" to={ROUTES.SIGN_UP}>
+				Skapa konto
 			</Link>
 		</li>
 
 		<li>
-			<Link className="landing-btn" to={ROUTES.SIGN_UP}>
-				SKAPA KONTO
+			<Link className="landing-btn" to={ROUTES.SIGN_IN}>
+				Logga in
 			</Link>
 		</li>
 	</ul>

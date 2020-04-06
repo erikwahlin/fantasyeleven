@@ -40,16 +40,16 @@ hr {
 }
 
 .landing-btn {
+	background-color:#061E2F;
 	text-decoration: none;
 	color: white;
-	border: solid white 2px;
-	padding: 15px;
-	margin: 10px;
+	border: solid white 1px;
+	padding: 13px;
 	float: right;
-	margin-left: 30px;
+	margin-left: 10px;
 	font-weight: 500;
 	position: relative;
-	font-family: 'MrEavesReg';
+	font-family: 'Avenir';
 }
 
 .landing-btn-container {
