@@ -5,7 +5,9 @@ import Navigation from '../Navigation';
 
 
 const Landing = () => (
+  
   <div className="landing-bg">
+    <Navigation />
   
     <div className="landing-container">
       <p className="landing-big-logo"></p>

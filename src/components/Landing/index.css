@@ -31,9 +31,9 @@ hr {
 } */
 
 .logo {
-	background-image: url(fantasy11-logo.png);
-	height: 55px;
-	width: 225px;
+	background-image: url(fantasy11-white-logo.png);
+	height: 70px;
+	width: 300px;
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	position: fixed;
