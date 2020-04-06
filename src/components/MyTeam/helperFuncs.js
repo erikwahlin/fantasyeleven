@@ -1,3 +1,5 @@
+import * as LEX from '../../constants/lexicon';
+
 export const shortenName = fullName => {
 	const afterSpace = fullName.indexOf(' ') + 1;
 
@@ -30,4 +32,8 @@ export const clone = (obj, keyName) => {
 		copy[key] = clone(obj[key], key);
 	}
 	return copy;
+};
+
+export const toSwe = (word, chapter) => {
+	return LEX[chapter][word];
 };

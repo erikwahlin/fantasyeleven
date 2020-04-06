@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import INITIAL_STATE, { config } from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { clone } from '../MyTeam/helperFuncs';
+import { clone, toSwe } from '../MyTeam/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
+import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
-import { FaInfoCircle } from 'react-icons/fa';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
@@ -17,7 +17,7 @@ import {
 	Title,
 	PlayerPrice,
 	Player,
-	PlayerInfo,
+	PlayerInfoBtn,
 	Input,
 	ButtonContainer,
 	ButtonDes,
@@ -26,7 +26,8 @@ import {
 	Section,
 	LabelRow,
 	PlayerRow,
-	ButtonReset
+	ButtonReset,
+	PlayerInfoModal
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -47,7 +48,7 @@ class PlayerSearch extends Component {
 		this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
 		this.applyFilter_name = this.applyFilter_name.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
-		this.displayPlayerInfo = this.displayPlayerInfo.bind(this);
+		this.displayPlayerInfoBtn = this.displayPlayerInfoBtn.bind(this);
 		this.groupByPosition = this.groupByPosition.bind(this);
 	}
 
@@ -260,7 +261,7 @@ class PlayerSearch extends Component {
 	 *******/
 
 	// display player info
-	displayPlayerInfo = player => {
+	displayPlayerInfoBtn = player => {
 		alert('Coming soon.');
 	};
 
@@ -341,23 +342,32 @@ class PlayerSearch extends Component {
 				{/* temp */}
 				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
 				<Dropdown
+					className="FilterByPosClub dropdown unmarkable"
 					options={filterOptions}
 					onChange={this.setFilter_posClub}
 					value={posOrClubdefaultOption}
 					placeholder="Select an option"
 				/>
 				<Dropdown
+					className="FilterByMaxPrice dropdown unmarkable"
 					onChange={this.setFilter_maxPrice}
 					value={maxPriceDefaultOption}
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
 
-				<Input type="text" name="name" onChange={this.setFilter_name} placeholder="Sök spelare"></Input>
+				<Input
+					type="text"
+					name="name"
+					className="FilterByName unmarkable"
+					onChange={this.setFilter_name}
+					placeholder="Sök spelare"
+				></Input>
 
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer>
 					<ButtonDes
+						className="SortFalling unmarkable"
 						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 						value="falling"
 						onClick={this.handleSort}
@@ -365,6 +375,7 @@ class PlayerSearch extends Component {
 						Fallande
 					</ButtonDes>
 					<ButtonAsc
+						className="SortRising unmarkable"
 						style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
 						value="rising"
 						onClick={this.handleSort}
@@ -400,9 +411,17 @@ class PlayerSearch extends Component {
 								{result[section].map((player, i) => {
 									return (
 										<PlayerRow key={i} className="PlayerRow">
-											<PlayerInfo className="PlayerInfo" onClick={e => this.displayPlayerInfo(player)}>
-												<FaInfoCircle className="info" />
-											</PlayerInfo>
+											{/* <PlayerInfoBtn
+												className="PlayerInfoBtn"
+												onClick={e => this.displayPlayerInfoBtn(player)}
+											> */}
+											<InfoModal
+												title={player.name}
+												subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+												/* img={} */
+											/>
+											{/* <FaInfoCircle className="info" /> */}
+											<PlayerInfoBtn />
 											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
 												<p className="player">{player.name}</p>
 												<p className="sum">

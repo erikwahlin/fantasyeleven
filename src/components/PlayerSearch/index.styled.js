@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
@@ -130,7 +131,7 @@ export const PlayerRow = styled.div`
 	border-bottom: 4px solid #021f3d;
 `;
 
-export const PlayerInfo = styled.button`
+export const PlayerInfoBtn = styled.button`
 	background: #f5f5f5;
 	border: none;
 	outline: none;
