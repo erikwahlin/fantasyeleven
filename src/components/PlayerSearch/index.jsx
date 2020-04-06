@@ -171,7 +171,7 @@ class PlayerSearch extends Component {
 	// return players according to pos/club-filter
 	applyFilter_posClub = playerList => {
 		// if no active posClub-filter or plupp is marked, bail
-		const noFilter = this.state.posOrClubSelected.value === 'none' ? true : false;
+		const noFilter = this.state.posOrClubSelected.value === '' ? true : false;
 
 		if (noFilter || this.props.markedMode) return playerList;
 
@@ -220,7 +220,7 @@ class PlayerSearch extends Component {
 	};
 
 	// group players by position
-	groupByPosition = items => {
+ 	groupByPosition = items => {
 		/* const res = [];
 		config.positions.forEach(pos => res.push([]));
 
@@ -243,7 +243,6 @@ class PlayerSearch extends Component {
 			}
 		});
 		return res; */
-
 		var groupBy = (arr, key) => {
 			return arr.reduce(function(tot, cur) {
 				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
@@ -252,7 +251,7 @@ class PlayerSearch extends Component {
 		};
 
 		return groupBy(items, 'position');
-	};
+	}; 
 
 	/*
 	 *
@@ -276,15 +275,6 @@ class PlayerSearch extends Component {
 			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
 		}));
 	};
-
-	//determines what to render, player, position or team above list of players.
-	display_PosTeamPlayer = ({ posOrClubSelected }) => {
-		if(posOrClubSelected) {
-			return posOrClubSelected.label
-		} else {
-			return 'Fotbollsspelare'
-		}
-	}
 	/*
 	 *
 	 *
@@ -307,7 +297,7 @@ class PlayerSearch extends Component {
 
 		const filterOptions = [
 			//options for dropDown
-			{ value: 'none', label: '- Alla spelare -' },
+			{ value: '', label: 'Alla spelare' },
 			{
 				type: 'group',
 				name: '- Positioner - ',
@@ -348,8 +338,9 @@ class PlayerSearch extends Component {
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
-		const sorted = this.sortByPrice(filtered);
 
+		const sorted = this.sortByPrice(filtered);
+			//sorted
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
@@ -357,15 +348,15 @@ class PlayerSearch extends Component {
 		};
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
-
 		//const result = markedMode ? sorted : this.groupByPosition(paginated);
 		const result = this.groupByPosition(paginated);
-
+		//const result = paginated
 		// get short club name (according to reuter)
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-
+		console.log(Object.keys(result))
+		console.log(result)
 		//console.log('search output', result);
 
 		return (
@@ -427,7 +418,8 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
-				{ posOrClubSelected !== 'none' ? (									<LabelRow>
+				{ posOrClubSelected !== 'none' ? (
+													<LabelRow className="unmarkable">
 										<div className="labelPosition">
 											<p> {`${posOrClubSelected.label}`}</p>
 										</div>{' '}
@@ -448,20 +440,7 @@ class PlayerSearch extends Component {
 			}	
 				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
-					{Object.keys(result).map((section, nth) => {
-						return (
-							<Section key={nth}>
-{/* 								{result[section].length ? (
-									<LabelRow>
-										<div className="labelPosition">
-											<p> {`${section}s`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>
-								) : null} */}
-								{result[section].map((player, i) => {
+								{paginated.map((player, i) => {
 									return (
 										<PlayerRow key={i} className="PlayerRow">
 											<InfoModal
@@ -493,7 +472,6 @@ class PlayerSearch extends Component {
 										</PlayerRow>
 									);
 								})}
-							</Section>
 						);
 					})}
 				</ResultBox>
