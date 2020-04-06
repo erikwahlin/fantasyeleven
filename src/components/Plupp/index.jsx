@@ -17,14 +17,14 @@ const PlayerName = styled.span`
 	position: absolute;
 	width: 100px;
 	left: -25px;
-	top: 50px;
-	font-size: 0.7em;
+	top: 52px;
+	font-size: 0.8em;
 	text-align: center;
-	text-shadow: 0 -2px 6px #333;
+	text-shadow: 0 1px 2px #000;
 	color: #eee;
 `;
 
-const PluppImg = styled.img`
+const PluppImg = styled.svg`
 	width: 100%;
 	position: relative;
 	z-index: 1;
@@ -33,6 +33,10 @@ const PluppImg = styled.img`
 	opacity: ${p => (p.isSwitchable ? '.2' : '1')};
 
 	cursor: pointer;
+
+	height: 100%;
+	border-radius: 50%;
+	background: ${p => (p.origin === 'bench' && !p.player ? '#333' : '#999')};
 `;
 
 const Options = styled.div`
@@ -323,6 +327,8 @@ class Plupp extends Component {
 					isMarked={this.state.isMarked}
 					onClick={this.handleClickInside}
 					isSwitchable={isSwitchable}
+					origin={origin}
+					player={player}
 				/>
 
 				<SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
