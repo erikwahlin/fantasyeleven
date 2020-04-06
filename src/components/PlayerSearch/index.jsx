@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import INITIAL_STATE, { config } from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { clone, toSwe } from '../MyTeam/helperFuncs';
+import { clone, toSwe, homePitch } from '../MyTeam/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
@@ -17,7 +17,6 @@ import {
 	Title,
 	PlayerPrice,
 	Player,
-	PlayerInfoBtn,
 	Input,
 	ButtonContainer,
 	ButtonDes,
@@ -27,8 +26,27 @@ import {
 	LabelRow,
 	PlayerRow,
 	ButtonReset,
-	PlayerInfoModal
+	urlLink
 } from './index.styled';
+
+const CreateModal = props => {
+	const clickHandler = () => {
+		props.togglePlayerModal();
+	};
+
+	React.useEffect(() => {
+		console.log('modalstatus in bla', props.playerModal);
+	}, []);
+
+	//const Modal = Component => props => <Component {...props} />;
+
+	return (
+		<>
+			{props.display && props.children}
+			<button onClick={clickHandler}>{props.display ? 'close' : 'open'}</button>
+		</>
+	);
+};
 
 class PlayerSearch extends Component {
 	constructor(props) {
@@ -50,7 +68,12 @@ class PlayerSearch extends Component {
 		this.playerClickHandler = this.playerClickHandler.bind(this);
 		this.displayPlayerInfoBtn = this.displayPlayerInfoBtn.bind(this);
 		this.groupByPosition = this.groupByPosition.bind(this);
+		this.togglePlayerModal = this.togglePlayerModal.bind(this);
 	}
+
+	togglePlayerModal = () => {
+		this.setState(ps => ({ playerModal: !ps.playerModal }));
+	};
 
 	playerClickHandler = player => {
 		const { position: pos } = player;
@@ -411,17 +434,21 @@ class PlayerSearch extends Component {
 								{result[section].map((player, i) => {
 									return (
 										<PlayerRow key={i} className="PlayerRow">
-											{/* <PlayerInfoBtn
-												className="PlayerInfoBtn"
-												onClick={e => this.displayPlayerInfoBtn(player)}
-											> */}
 											<InfoModal
 												title={player.name}
 												subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-												/* img={} */
-											/>
-											{/* <FaInfoCircle className="info" /> */}
-											<PlayerInfoBtn />
+												img="https://source.unsplash.com/random"
+												display={this.state.playerModal}
+												togglePlayerModal={this.togglePlayerModal}
+											>
+												<p>Värde: {player.price} kr</p>
+												<p>
+													<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+														Hemmaplan
+													</a>
+												</p>
+											</InfoModal>
+
 											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
 												<p className="player">{player.name}</p>
 												<p className="sum">

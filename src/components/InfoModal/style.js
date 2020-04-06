@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
 
 const modalStyle = {
+	overlay: {
+		zIndex: '1'
+	},
 	content: {
 		top: '50%',
 		left: '50%',
@@ -10,14 +13,20 @@ const modalStyle = {
 		marginRight: '-50%',
 		transform: 'translate(-50%, -50%)',
 		minWidth: '50vw',
-		minHeight: '50vh'
+		minHeight: '50vh',
+		background: '#011931',
+		color: '#eee',
+		borderRadius: '10px'
 	}
 };
 
 export default modalStyle;
 
 export const ModalWrapper = styled.div`
-	flex: 1;
+	/* temp style */
+	flex: 0.8;
+	text-align: center;
+	min-width: 35px;
 `;
 
 export const OpenBtn = styled.button`
@@ -28,23 +37,20 @@ export const OpenBtn = styled.button`
 	cursor: pointer;
 
 	& > * {
-		width: 100%;
-		height: 100%;
+		width: 20px;
+		height: 20px;
+		margin-top: 30px;
 	}
 `;
 
 export const ContentWrapper = styled.div`
 	margin: auto;
-	width: 90%;
-	height: 90%;
+	min-width: 50vw;
+	min-height: 50vh;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
-	color: #222;
-
-	& * {
-		color: #222;
-	}
+	color: #eee;
 `;
 
 export const Title = styled.h1`
@@ -52,13 +58,17 @@ export const Title = styled.h1`
 `;
 
 export const Img = styled.img`
-	width: 50%;
-	max-height: 50%;
+	width: 200px;
+	height: 200px;
+	margin: 20px auto;
+	border-radius: 50%;
 `;
 
 export const ImgFallback = styled(FaUserCircle)`
-	width: 50%;
-	max-height: 50%;
+	width: 100px;
+	height: 100px;
+	margin: 20px auto;
+	color: #eee;
 `;
 
 export const Subtitle = styled.h2`
@@ -69,9 +79,15 @@ export const Subtitle = styled.h2`
 export const Content = styled.div``;
 
 export const Submit = styled.button`
-	min-width: 100px;
-	font-weight: 700;
+	width: 170px;
+	height: 50px;
+	margin: auto;
+	background: none;
+	font-size: 0.8em;
 
-	border: none;
+	color: #eee;
+	border: 1px solid #eee;
+	border-radius: 1px;
 	outline: none;
+	cursor: pointer;
 `;

@@ -14,37 +14,33 @@ import modalStyle, {
 } from './style';
 
 const InfoModal = props => {
-	const { openBtn, title, subtitle, content, img, submit } = props;
-
-	let ref = {
-		title: null,
-		subtitle: null,
-		content: null,
-		submit: submit || 'Stäng'
-	};
-
-	const setRef = (elem, key) => {
-		ref[key] = elem;
-	};
+	const { openBtn, title, subtitle, img, submit } = props;
 
 	const [modalIsOpen, setIsOpen] = React.useState(false);
+	const [fallbackImg, setFallbackImg] = React.useState(null);
+
+	let titleRef, subtitleRef, imgRef, submitRef;
 
 	function openModal() {
+		setFallbackImg('https://source.unsplash.com/random');
 		setIsOpen(true);
 	}
 
 	function afterOpenModal() {
-		// references are now sync'd and can be accessed.
-		//ref.subtitle.style.color = '#f00';
+		// references are now sync'd and can be accessed. wip
 	}
 
 	function closeModal() {
+		setFallbackImg(null);
 		setIsOpen(false);
 	}
 
 	return (
 		<ModalWrapper className="ModalWrapper">
-			<OpenBtn onClick={openModal}> {openBtn ? openBtn : <FaInfoCircle />} </OpenBtn>
+			<OpenBtn className="ModalOpenBtn" onClick={openModal}>
+				{' '}
+				{openBtn ? openBtn : <FaInfoCircle />}{' '}
+			</OpenBtn>
 
 			<Modal
 				isOpen={modalIsOpen}
@@ -53,19 +49,20 @@ const InfoModal = props => {
 				style={modalStyle}
 				contentLabel="InfoModal"
 			>
-				<ContentWrapper>
-					{title && <Title>{title}</Title>}
-					{subtitle && <Subtitle ref={self => setRef(self, 'subtitle')}>{subtitle}</Subtitle>}
-					{img ? <Img /> : <ImgFallback />}
-					<Content>
-						{content}
-						{props.children}
-					</Content>
-					<Submit onClick={closeModal}>{submit || 'Stäng'}</Submit>
+				<ContentWrapper className="ContentWrapper unmarkable">
+					{title && <Title ref={self => (titleRef = self)}>{title}</Title>}
+					{subtitle && <Subtitle ref={self => (subtitleRef = self)}>{subtitle}</Subtitle>}
+					<Img className="Img" src={img ? img : fallbackImg} ref={self => (imgRef = self)} />
+					<Content>{props.children}</Content>
+					<Submit onClick={closeModal} ref={self => (submitRef = self)}>
+						{submit || 'Stäng'}
+					</Submit>
 				</ContentWrapper>
 			</Modal>
 		</ModalWrapper>
 	);
 };
+
+Modal.setAppElement('body');
 
 export default InfoModal;

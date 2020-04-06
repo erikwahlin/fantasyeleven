@@ -19,7 +19,8 @@ const INITIAL_STATE = {
 		pageSize: 20
 	},
 
-	result: []
+	result: [],
+	playerModal: false
 };
 
 export default INITIAL_STATE;

@@ -1,4 +1,5 @@
 import * as LEX from '../../constants/lexicon';
+import stadiums from '../../constants/stadiums';
 
 export const shortenName = fullName => {
 	const afterSpace = fullName.indexOf(' ') + 1;
@@ -34,6 +35,6 @@ export const clone = (obj, keyName) => {
 	return copy;
 };
 
-export const toSwe = (word, chapter) => {
-	return LEX[chapter][word];
-};
+export const toSwe = (word, chapter) => LEX[chapter][word];
+
+export const homePitch = club => stadiums[club].url;

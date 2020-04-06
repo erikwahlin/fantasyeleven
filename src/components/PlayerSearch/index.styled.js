@@ -25,6 +25,7 @@ export const Input = styled.input`
 	color: white;
 	padding: 8px 52px 8px 10px;
 	border: 1px solid white;
+	border-radius: 2px;
 	box-sizing: border-box;
 	outline: none;
 	background: rgba(2, 31, 61, 1);
@@ -58,7 +59,7 @@ export const ButtonDes = styled.button`
 	font-family: 'Avenir';
 	font-size: 0.8em;
 	border: 1px solid white;
-	border-radius: 1px;
+	border-radius: 2px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
@@ -71,7 +72,7 @@ export const ButtonAsc = styled.button`
 	font-family: 'Avenir';
 	font-size: 0.8em;
 	border: 1px solid white;
-	border-radius: 1px;
+	border-radius: 2px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
@@ -85,7 +86,7 @@ export const ButtonReset = styled.button`
 	font-family: 'Avenir';
 	font-size: 0.8em;
 	border: 1px solid white;
-	border-radius: 1px;
+	border-radius: 2px;
 	outline: none;
 	color: white;
 	background: rgba(2, 31, 61, 1);
