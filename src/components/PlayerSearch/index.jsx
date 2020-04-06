@@ -277,6 +277,14 @@ class PlayerSearch extends Component {
 		}));
 	};
 
+	//determines what to render, player, position or team above list of players.
+	display_PosTeamPlayer = ({ posOrClubSelected }) => {
+		if(posOrClubSelected) {
+			return posOrClubSelected.label
+		} else {
+			return 'Fotbollsspelare'
+		}
+	}
 	/*
 	 *
 	 *
@@ -289,7 +297,7 @@ class PlayerSearch extends Component {
 	};
 
 	render() {
-		const { paginationSettings } = this.state;
+		const { paginationSettings, posOrClubSelected } = this.state;
 		const { players, myTeam } = this.props;
 
 		if (!players) return <p>Didn't find any players</p>;
@@ -335,6 +343,8 @@ class PlayerSearch extends Component {
 		const filtered = this.applyFilter_maxPrice(
 			this.applyFilter_posClub(this.applyFilter_name(players))
 		);
+
+
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
@@ -417,12 +427,31 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
-
+				{ posOrClubSelected !== 'none' ? (									<LabelRow>
+										<div className="labelPosition">
+											<p> {`${posOrClubSelected.label}`}</p>
+										</div>{' '}
+										<div className="labelPrice">
+											<p>SEK</p>
+										</div>
+									</LabelRow>) : (
+										<LabelRow>
+									<div className="labelPosition">
+											<p> {`Spelare`}</p>
+										</div>{' '}
+										<div className="labelPrice">
+											<p>SEK</p>
+										</div>
+									</LabelRow>
+									)
+				
+			}	
+				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
 					{Object.keys(result).map((section, nth) => {
 						return (
 							<Section key={nth}>
-								{result[section].length ? (
+{/* 								{result[section].length ? (
 									<LabelRow>
 										<div className="labelPosition">
 											<p> {`${section}s`}</p>
@@ -431,7 +460,7 @@ class PlayerSearch extends Component {
 											<p>SEK</p>
 										</div>
 									</LabelRow>
-								) : null}
+								) : null} */}
 								{result[section].map((player, i) => {
 									return (
 										<PlayerRow key={i} className="PlayerRow">
