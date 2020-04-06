@@ -407,7 +407,7 @@ class PlayerSearch extends Component {
 					</ButtonAsc>
 				</ButtonContainer>
 
-				<ButtonReset onClick={this.resetSettings}>
+				<ButtonReset onClick={this.resetSettings} className="ResetFilter unmarkable">
 					<strong>Återställ filter</strong>
 				</ButtonReset>
 
@@ -417,6 +417,7 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
+
 				<ResultBox className="ResultBox unmarkable">
 					{Object.keys(result).map((section, nth) => {
 						return (
