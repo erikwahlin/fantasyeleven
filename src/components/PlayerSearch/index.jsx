@@ -419,6 +419,9 @@ class PlayerSearch extends Component {
 				<ButtonReset onClick={this.resetSettings} className="ResetFilter unmarkable">
 					<strong>Återställ filter</strong>
 				</ButtonReset>
+				<ButtonReset onClick={this.props.clearField} className='unmarkable'>
+					<strong>Rensa spelplanen</strong>
+				</ButtonReset>
 
 				{/* RESULT */}
 				<Paginate
