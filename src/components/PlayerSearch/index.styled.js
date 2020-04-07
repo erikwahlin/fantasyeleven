@@ -7,14 +7,16 @@ export const Wrapper = styled.div`
 	/* max-width: 350px; /* Or wider? */
 	/* min-width: 100px;  */
 	width: 100%;
-	background: orange;
-	grid-row: 2;
-	grid-column: 3;
+
+	position: fixed;
 
 	display: flex;
 	flex-direction: column;
 
 	@media screen and (min-width: 800px) {
+		position: relative;
+		grid-row: 2;
+		grid-column: 3;
 		height: 487px;
 	}
 
@@ -166,6 +168,15 @@ export const Player = styled.div`
 	flex: 3;
 	padding: 5px;
 	cursor: pointer;
+
+	& > p {
+		font-size: 12px;
+		margin: 0;
+	}
+
+	& > p.player {
+		font-weight: 700;
+	}
 `;
 
 export const PlayerPrice = styled.div`

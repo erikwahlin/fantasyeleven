@@ -25,8 +25,7 @@ const INITIAL_STATE = {
 	error: null
 };
 
-const ERROR_CODE_ACCOUNT_EXISTS =
-	'auth/account-exists-with-different-credential';
+const ERROR_CODE_ACCOUNT_EXISTS = 'auth/account-exists-with-different-credential';
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with an E-Mail address to
@@ -70,20 +69,20 @@ class SignInFormBase extends Component {
 		return (
 			<form onSubmit={this.onSubmit}>
 				<input
-					name='email'
+					name="email"
 					value={email}
 					onChange={this.onChange}
-					type='text'
-					placeholder='Email Address'
+					type="text"
+					placeholder="Email Address"
 				/>
 				<input
-					name='password'
+					name="password"
 					value={password}
 					onChange={this.onChange}
-					type='password'
-					placeholder='Password'
+					type="password"
+					placeholder="Password"
 				/>
-				<button disabled={isInvalid} type='submit'>
+				<button disabled={isInvalid} type="submit">
 					Logga in
 				</button>
 
@@ -131,7 +130,7 @@ class SignInGoogleBase extends Component {
 
 		return (
 			<form onSubmit={this.onSubmit}>
-				<button type='submit'>Logga in med Google</button>
+				<button type="submit">Logga in med Google</button>
 
 				{error && <p>{error.message}</p>}
 			</form>
@@ -177,7 +176,7 @@ class SignInFacebookBase extends Component {
 
 		return (
 			<form onSubmit={this.onSubmit}>
-				<button type='submit'>Logga in med Facebook</button>
+				<button type="submit">Logga in med Facebook</button>
 
 				{error && <p>{error.message}</p>}
 			</form>
@@ -223,7 +222,7 @@ class SignInTwitterBase extends Component {
 
 		return (
 			<form onSubmit={this.onSubmit}>
-				<button type='submit'>Logga in med Twitter</button>
+				<button type="submit">Logga in med Twitter</button>
 
 				{error && <p>{error.message}</p>}
 			</form>

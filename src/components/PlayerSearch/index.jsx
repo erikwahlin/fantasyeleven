@@ -10,6 +10,8 @@ import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
 
+import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 import {
@@ -171,7 +173,7 @@ class PlayerSearch extends Component {
 	// return players according to pos/club-filter
 	applyFilter_posClub = playerList => {
 		// if no active posClub-filter or plupp is marked, bail
-		const noFilter = this.state.posOrClubSelected.value === 'none' ? true : false;
+		const noFilter = this.state.posOrClubSelected.value === '' ? true : false;
 
 		if (noFilter || this.props.markedMode) return playerList;
 
@@ -243,7 +245,6 @@ class PlayerSearch extends Component {
 			}
 		});
 		return res; */
-
 		var groupBy = (arr, key) => {
 			return arr.reduce(function(tot, cur) {
 				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
@@ -276,7 +277,6 @@ class PlayerSearch extends Component {
 			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
 		}));
 	};
-
 	/*
 	 *
 	 *
@@ -289,7 +289,7 @@ class PlayerSearch extends Component {
 	};
 
 	render() {
-		const { paginationSettings } = this.state;
+		const { paginationSettings, posOrClubSelected } = this.state;
 		const { players, myTeam } = this.props;
 
 		if (!players) return <p>Didn't find any players</p>;
@@ -299,7 +299,7 @@ class PlayerSearch extends Component {
 
 		const filterOptions = [
 			//options for dropDown
-			{ value: 'none', label: '- Alla spelare -' },
+			{ value: '', label: 'Alla spelare' },
 			{
 				type: 'group',
 				name: '- Positioner - ',
@@ -338,8 +338,9 @@ class PlayerSearch extends Component {
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
-		const sorted = this.sortByPrice(filtered);
 
+		const sorted = this.sortByPrice(filtered);
+		//sorted
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
@@ -347,15 +348,15 @@ class PlayerSearch extends Component {
 		};
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
-
 		//const result = markedMode ? sorted : this.groupByPosition(paginated);
 		const result = this.groupByPosition(paginated);
-
+		//const result = paginated
 		// get short club name (according to reuter)
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-
+		console.log(Object.keys(result));
+		console.log(result);
 		//console.log('search output', result);
 
 		return (
@@ -371,6 +372,7 @@ class PlayerSearch extends Component {
 					value={posOrClubdefaultOption}
 					placeholder="Select an option"
 				/>
+
 				<Dropdown
 					className="FilterByMaxPrice dropdown unmarkable"
 					onChange={this.setFilter_maxPrice}
@@ -417,58 +419,60 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
-
+				{posOrClubSelected !== 'none' ? (
+					<LabelRow className="unmarkable">
+						<div className="labelPosition">
+							<p> {`${posOrClubSelected.label}`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>
+				) : (
+					<LabelRow>
+						<div className="labelPosition">
+							<p> {`Spelare`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>
+				)}
+				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
-					{Object.keys(result).map((section, nth) => {
+					{paginated.map((player, i) => {
 						return (
-							<Section key={nth}>
-								{result[section].length ? (
-									<LabelRow>
-										<div className="labelPosition">
-											<p> {`${section}s`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>
-								) : null}
-								{result[section].map((player, i) => {
-									return (
-										<PlayerRow key={i} className="PlayerRow">
-											<InfoModal
-												title={player.name}
-												subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-												img="https://source.unsplash.com/random"
-												display={this.state.playerModal}
-												togglePlayerModal={this.togglePlayerModal}
-											>
-												<p>Värde: {player.price} kr</p>
-												<p>
-													<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
-														Hemmaplan
-													</a>
-												</p>
-											</InfoModal>
+							<PlayerRow key={i} className="PlayerRow">
+								<InfoModal
+									title={player.name}
+									subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+									img="https://source.unsplash.com/random"
+									display={this.state.playerModal}
+									togglePlayerModal={this.togglePlayerModal}
+								>
+									<p>Värde: {player.price} kr</p>
+									<p>
+										<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+											Hemmaplan
+										</a>
+									</p>
+								</InfoModal>
 
-											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-												<p className="player">{player.name}</p>
-												<p className="sum">
-													<strong>{clubAbbr(player.club)}</strong>
-													&nbsp; &nbsp;
-													{player.position}
-												</p>
-											</Player>
-											<PlayerPrice className="PlayerPrice">
-												<p className="player_price">{Math.round(player.price)}</p>
-											</PlayerPrice>
-										</PlayerRow>
-									);
-								})}
-							</Section>
+								<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
+									<p className="player">{player.name}</p>
+									<p className="sum">
+										<strong>{clubAbbr(player.club)}</strong>
+										&nbsp; &nbsp;
+										{player.position}
+									</p>
+								</Player>
+								<PlayerPrice className="PlayerPrice">
+									<p className="player_price">{Math.round(player.price)}</p>
+								</PlayerPrice>
+							</PlayerRow>
 						);
 					})}
 				</ResultBox>
-				<span>end</span>
 			</Wrapper>
 		);
 	}

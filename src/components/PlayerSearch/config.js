@@ -9,7 +9,7 @@ export const config = {
 };
 
 const INITIAL_STATE = {
-	posOrClubSelected: { value: 'none', label: 'Alla spelare' },
+	posOrClubSelected: { value: '', label: 'Alla spelare' },
 	maxPriceSelected: { value: 'none', label: 'Högsta pris' },
 	searchTerm: '',
 	priceSort: 'falling',

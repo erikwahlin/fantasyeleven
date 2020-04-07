@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
-import { shortenName, getRefSize, afterWinResize } from '../MyTeam/helperFuncs';
 import Plupp from '../Plupp';
-import Bench from '../Bench';
 import pitchImg from '../../media/pitch.png';
 import InfoContainer from './InfoContainer';
 
@@ -125,6 +123,12 @@ function useWindowSize(ref) {
 	return windowSize;
 } */
 
+const AutoPickBtn = styled.button`
+	width: 100px;
+	height: 50px;
+	background: white;
+`;
+
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
 	const { togglePlayerSearch } = props.myTeam.setters;
@@ -152,6 +156,32 @@ const Pitch = props => {
 	}, []);
 
 	console.log('pitchsize', pitchSize); */
+
+	const { pitch: pitchLimit } = config.limit;
+
+	/* 
+	WIPWIPWIP
+	const autoPick = () => {
+		// for each pos, check if limit is reach
+		// while limit is not reach fill with players of that pos
+		// set origin field on player before add
+		config.positions.forEach(pos => {
+			
+
+			config.searchablePlayers.forEach(player => {
+				let pitchLimit = config.limit.pitch[pos].limit.max;
+				let limitReached = team.count.pitch[pos]
+
+				const add = () => {
+					
+					if (!limitReached) {
+						console.log('fake adding player');
+						
+					}
+				};
+			})
+		});
+	}; */
 
 	return (
 		<Wrapper className="Pitch" /* pitchSize={pitchSize} */>

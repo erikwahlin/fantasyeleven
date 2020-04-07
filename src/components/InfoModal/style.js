@@ -34,12 +34,15 @@ export const OpenBtn = styled.button`
 	border: none;
 	outline: none;
 	width: 100%;
+	height: 100%;
 	cursor: pointer;
+
+	margin: 0;
+	padding: 0;
 
 	& > * {
 		width: 20px;
-		height: 20px;
-		margin-top: 8px;
+		height: 100%;
 	}
 `;
 
