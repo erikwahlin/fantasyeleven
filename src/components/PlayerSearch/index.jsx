@@ -372,6 +372,7 @@ class PlayerSearch extends Component {
 					value={posOrClubdefaultOption}
 					placeholder="Select an option"
 				/>
+
 				<Dropdown
 					className="FilterByMaxPrice dropdown unmarkable"
 					onChange={this.setFilter_maxPrice}

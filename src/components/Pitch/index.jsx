@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
-import { shortenName } from '../MyTeam/helperFuncs';
 import Plupp from '../Plupp';
 import Bench from '../Bench';
 
@@ -81,10 +80,42 @@ const PluppContainer = styled.div`
 	justify-content: space-evenly;
 `;
 
+const AutoPickBtn = styled.button`
+	width: 100px;
+	height: 50px;
+	background: white;
+`;
+
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
 
 	const playerCount = team.list.length;
+
+	const { pitch: pitchLimit } = config.limit;
+
+	/* 
+	WIPWIPWIP
+	const autoPick = () => {
+		// for each pos, check if limit is reach
+		// while limit is not reach fill with players of that pos
+		// set origin field on player before add
+		config.positions.forEach(pos => {
+			
+
+			config.searchablePlayers.forEach(player => {
+				let pitchLimit = config.limit.pitch[pos].limit.max;
+				let limitReached = team.count.pitch[pos]
+
+				const add = () => {
+					
+					if (!limitReached) {
+						console.log('fake adding player');
+						
+					}
+				};
+			})
+		});
+	}; */
 
 	return (
 		<Wrapper className="Pitch">
@@ -95,6 +126,8 @@ const Pitch = props => {
 						{playerCount + '/15'}
 					</InfoP>
 				</ChosenPlayers>
+
+				<AutoPickBtn /* onClick={autoPick} */>Autopick</AutoPickBtn>
 
 				<ChosenPlayers>
 					<InfoTitle className="infoTitle">Totalt pris</InfoTitle>

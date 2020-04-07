@@ -27,7 +27,7 @@ export default class MyTeam extends Component {
 		this.state = clone(INITIAL_STATE);
 
 		this.updateState = this.updateState.bind(this);
-		this.updateSearchRes = this.updateSearchRes.bind(this);
+		this.updatesearchablePlayers = this.updatesearchablePlayers.bind(this);
 		this.addPlayer = this.addPlayer.bind(this);
 		this.updateLimit = this.updateLimit.bind(this);
 		this.updateFilterKeys = this.updateFilterKeys.bind(this);
@@ -40,7 +40,7 @@ export default class MyTeam extends Component {
 	}
 
 	componentDidMount = () => {
-		this.updateSearchRes();
+		this.updatesearchablePlayers();
 	};
 
 	updateState = (key, val, callback) => {
@@ -49,12 +49,12 @@ export default class MyTeam extends Component {
 		});
 	};
 
-	updateSearchRes = callback => {
+	updatesearchablePlayers = callback => {
 		// update clone of curr config in state
 		const update = input => {
 			const res = clone(input);
 			// set new search res
-			res.searchRes = this.applyFilter(allPlayers);
+			res.searchablePlayers = this.applyFilter(allPlayers);
 			return res;
 		};
 
@@ -89,7 +89,7 @@ export default class MyTeam extends Component {
 			}),
 			() => {
 				// optional callback
-				this.updateSearchRes(callback);
+				this.updatesearchablePlayers(callback);
 			}
 		);
 	};
@@ -140,7 +140,7 @@ export default class MyTeam extends Component {
 		this.setState(
 			ps => ({ config: updater(ps) }),
 			() => {
-				this.updateSearchRes();
+				this.updatesearchablePlayers();
 			}
 		);
 	};
@@ -554,7 +554,7 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
-		const { searchRes } = this.state.config;
+		const { searchablePlayers } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -578,7 +578,7 @@ export default class MyTeam extends Component {
 					<ContentWrap className="ContentWrap">
 						<Pitch />
 
-						<PlayerSearch players={searchRes} markedMode={this.checkMarkedMode()} />
+						<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 					</ContentWrap>
 				</div>
 			</MyTeamCtx.Provider>
