@@ -186,10 +186,10 @@ class PlayerSearch extends Component {
 		const maxPrice = this.state.maxPriceSelected.label;
 		const noFilter =
 			isNaN(maxPrice) ||
-			!maxPrice ||
-			maxPrice === '' ||
-			maxPrice < 1 ||
-			maxPrice.label === 'Högsta pris'
+				!maxPrice ||
+				maxPrice === '' ||
+				maxPrice < 1 ||
+				maxPrice.label === 'Högsta pris'
 				? true
 				: false;
 		if (noFilter || this.props.markedMode) return playerList;
@@ -220,7 +220,7 @@ class PlayerSearch extends Component {
 	};
 
 	// group players by position
- 	groupByPosition = items => {
+	groupByPosition = items => {
 		/* const res = [];
 		config.positions.forEach(pos => res.push([]));
 
@@ -244,14 +244,14 @@ class PlayerSearch extends Component {
 		});
 		return res; */
 		var groupBy = (arr, key) => {
-			return arr.reduce(function(tot, cur) {
+			return arr.reduce(function (tot, cur) {
 				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
 				return tot;
 			}, {});
 		};
 
 		return groupBy(items, 'position');
-	}; 
+	};
 
 	/*
 	 *
@@ -340,7 +340,7 @@ class PlayerSearch extends Component {
 		//const sorted = this.applySortBy(filtered);
 
 		const sorted = this.sortByPrice(filtered);
-			//sorted
+		//sorted
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
@@ -418,60 +418,60 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
-				{ posOrClubSelected !== 'none' ? (
-													<LabelRow className="unmarkable">
-										<div className="labelPosition">
-											<p> {`${posOrClubSelected.label}`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>) : (
-										<LabelRow>
-									<div className="labelPosition">
-											<p> {`Spelare`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>
-									)
-				
-			}	
+				{posOrClubSelected !== 'none' ? (
+					<LabelRow className="unmarkable">
+						<div className="labelPosition">
+							<p> {`${posOrClubSelected.label}`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>) : (
+						<LabelRow>
+							<div className="labelPosition">
+								<p> {`Spelare`}</p>
+							</div>{' '}
+							<div className="labelPrice">
+								<p>SEK</p>
+							</div>
+						</LabelRow>
+					)
+
+				}
 				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
-								{paginated.map((player, i) => {
-									return (
-										<PlayerRow key={i} className="PlayerRow">
-											<InfoModal
-												title={player.name}
-												subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-												img="https://source.unsplash.com/random"
-												display={this.state.playerModal}
-												togglePlayerModal={this.togglePlayerModal}
-											>
-												<p>Värde: {player.price} kr</p>
-												<p>
-													<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
-														Hemmaplan
+					{paginated.map((player, i) => {
+						return (
+							<PlayerRow key={i} className="PlayerRow">
+								<InfoModal
+									title={player.name}
+									subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+									img="https://source.unsplash.com/random"
+									display={this.state.playerModal}
+									togglePlayerModal={this.togglePlayerModal}
+								>
+									<p>Värde: {player.price} kr</p>
+									<p>
+										<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+											Hemmaplan
 													</a>
-												</p>
-											</InfoModal>
+									</p>
+								</InfoModal>
 
-											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-												<p className="player">{player.name}</p>
-												<p className="sum">
-													<strong>{clubAbbr(player.club)}</strong>
+								<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
+									<p className="player">{player.name}</p>
+									<p className="sum">
+										<strong>{clubAbbr(player.club)}</strong>
 													&nbsp; &nbsp;
 													{player.position}
-												</p>
-											</Player>
-											<PlayerPrice className="PlayerPrice">
-												<p className="player_price">{Math.round(player.price)}</p>
-											</PlayerPrice>
-										</PlayerRow>
-									);
-								})}
+									</p>
+								</Player>
+								<PlayerPrice className="PlayerPrice">
+									<p className="player_price">{Math.round(player.price)}</p>
+								</PlayerPrice>
+							</PlayerRow>
+						);
+					})}
 						);
 					})}
 				</ResultBox>
