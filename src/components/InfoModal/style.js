@@ -39,7 +39,7 @@ export const OpenBtn = styled.button`
 	& > * {
 		width: 20px;
 		height: 20px;
-		margin-top: 30px;
+		margin-top: 8px;
 	}
 `;
 

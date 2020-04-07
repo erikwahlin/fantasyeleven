@@ -4,8 +4,27 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
 	/* width: 15rem; */
-	max-width: 350px; /* Or wider? */
-	/* min-width: 100px;  */		
+	/* max-width: 350px; /* Or wider? */
+	/* min-width: 100px;  */
+	width: 100%;
+	background: orange;
+	grid-row: 2;
+	grid-column: 3;
+
+	display: flex;
+	flex-direction: column;
+
+	@media screen and (min-width: 800px) {
+		height: 487px;
+	}
+
+	@media screen and (min-width: 900px) {
+		height: 578px;
+	}
+
+	@media screen and (min-width: 1000px) {
+		height: 669px;
+	}
 `;
 
 export const Title = styled.h2`
@@ -97,10 +116,11 @@ export const ButtonReset = styled.button`
 export const ResultBox = styled.div`
 	background: #f5f5f5;
 	width: 100%;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 
-	max-height: 50vh; /* temp */
+	max-height: 478px; /* temp */
 	overflow-y: scroll;
 `;
 
@@ -130,6 +150,8 @@ export const PlayerRow = styled.div`
 	border: 5px solid #ddd;
 	border: none;
 	border-bottom: 4px solid #021f3d;
+
+	height: 40px;
 `;
 
 export const PlayerInfoBtn = styled.button`
@@ -148,6 +170,6 @@ export const Player = styled.div`
 
 export const PlayerPrice = styled.div`
 	flex: 1;
-	padding: 5px;
+	/* padding: 5px; */
 	align-items: flex-end;
 `;

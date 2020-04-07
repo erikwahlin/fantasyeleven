@@ -468,6 +468,7 @@ class PlayerSearch extends Component {
 						);
 					})}
 				</ResultBox>
+				<span>end</span>
 			</Wrapper>
 		);
 	}

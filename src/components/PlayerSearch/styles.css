@@ -6,10 +6,7 @@
 body {
 	background-color: #011931;
 	font-family: 'Avenir';
-	/* font-size:1em; */
 	color: white;
-	height: 100vh;
-	padding:10px;
 }
 
 nav {

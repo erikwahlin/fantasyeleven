@@ -22,19 +22,28 @@ import '../PlayerSearch/styles.css';
 }
 `; */
 
-
 const ContentWrap = styled.div`
-  display: grid;
-  grid-auto-rows: minmax(125px, auto);
-  grid-gap: .5rem;
-  margin:0 auto;
+	width: 100%;
+	margin: 0;
+	display: grid;
+	grid-template-columns: 100%;
 
-  @media screen and (min-width: 40em) {
-	    grid-template-columns: repeat(2, 1fr);
-    	grid-gap: 2px;
-  }
+	@media screen and (min-width: 800px) {
+		grid-template-columns: auto 450px 300px auto;
+		grid-template-rows: 10vh 487px;
+		grid-column-gap: 20px;
+	}
+
+	@media screen and (min-width: 900px) {
+		grid-template-columns: auto 550px 300px auto;
+		grid-template-rows: 10vh 533px;
+	}
+
+	@media screen and (min-width: 1000px) {
+		grid-template-columns: auto 650px 300px auto;
+		grid-template-rows: 10vh 624px;
+	}
 `;
-
 
 /* const ContentWrap = styled.div`
 	width: 90%;
@@ -66,6 +75,7 @@ export default class MyTeam extends Component {
 		this.switchPlayers = this.switchPlayers.bind(this);
 
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
+		this.togglePlayerSearch = this.togglePlayerSearch.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -582,8 +592,12 @@ export default class MyTeam extends Component {
 		);
 	};
 
+	togglePlayerSearch = () => {
+		this.setSwitchers({ marked: this.state.config.switchers.marked ? null : true, target: null });
+	};
+
 	render() {
-		const { searchRes } = this.state.config;
+		const { searchRes, switchers } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -591,8 +605,11 @@ export default class MyTeam extends Component {
 			addPlayer: this.addPlayer,
 			delPlayer: this.delPlayer,
 			setSwitchers: this.setSwitchers,
-			switchPlayers: this.switchPlayers
+			switchPlayers: this.switchPlayers,
+			togglePlayerSearch: this.togglePlayerSearch
 		};
+
+		const markedMode = switchers.marked && !switchers.target ? true : false;
 
 		// filter allPlayers before PlayerSearch
 
@@ -602,13 +619,12 @@ export default class MyTeam extends Component {
 					state: this.state,
 					setters
 				}}
-			>	
-					<ContentWrap className="ContentWrap">
-						<Pitch />
+			>
+				<ContentWrap className="ContentWrap" markedMode={markedMode}>
+					<Pitch />
 
-						<PlayerSearch players={searchRes} markedMode={this.checkMarkedMode()} />
-					</ContentWrap>
-				
+					<PlayerSearch players={searchRes} markedMode={this.checkMarkedMode()} />
+				</ContentWrap>
 			</MyTeamCtx.Provider>
 		);
 	}

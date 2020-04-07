@@ -1,20 +1,40 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
-const Navigation = () => (
+const Wrapper = styled.div`
+	margin: 0;
+`;
+
+const NavList = styled.ul`
+	margin: 0;
+`;
+
+const Navigation = ({ pathname }) => (
 	<AuthUserContext.Consumer>
-		{authUser => (authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />)}
+		{authUser =>
+			authUser ? (
+				<NavigationAuth authUser={authUser} pathname={pathname} />
+			) : (
+				<NavigationNonAuth pathname={pathname} />
+			)
+		}
 	</AuthUserContext.Consumer>
 );
 
-const NavigationAuth = ({ authUser }) => (
-	<>
+const NavigationAuth = ({ authUser, pathname }) => (
+	<Wrapper className="Navigation" pathname={pathname}>
 		{/* <img src={Logo} className="logotype"/> */}
-		<ul>
+		{pathname !== '/' && (
+			<p style={{ margin: '0' }}>
+				<i>(Will become a side-nav on this page){pathname}</i>
+			</p>
+		)}
+		<NavList className="NavList">
 			<li>
 				<Link to={ROUTES.LANDING}>*Logga*</Link>
 			</li>
@@ -42,11 +62,11 @@ const NavigationAuth = ({ authUser }) => (
 			<li>
 				<SignOutButton />
 			</li>
-		</ul>
-	</>
+		</NavList>
+	</Wrapper>
 );
 
-const NavigationNonAuth = () => (
+const NavigationNonAuth = ({ pathname }) => (
 	<ul className="landing-nav">
 		<li>
 			<Link className="logo" to={ROUTES.LANDING}></Link>
