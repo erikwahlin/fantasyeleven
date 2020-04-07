@@ -342,9 +342,17 @@ class PlayerSearch extends Component {
 		const sorted = this.sortByPrice(filtered);
 		//sorted
 		// WIP-test. split into result-sections based on sort
-		const paginate = (playersList, page_size, page_number) => {
+		const paginate = (playersList, pageSize, pageNumber) => {
+			const playersPerPage = playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+
+			/* do {
+				pageNumber -= 1
+				console.log('players pagination')
+				console.log(playersPerPage)
+			} while (playersPerPage.length === 0) */
+			return playersPerPage
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-			return playersList.slice((page_number - 1) * page_size, page_number * page_size);
+			//return playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 		};
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);

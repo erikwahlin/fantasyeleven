@@ -5,7 +5,9 @@ import { shortenName } from '../MyTeam/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
-import  allClubs  from '../../constants/clubs'
+import allClubs from '../../constants/clubs'
+
+
 const Container = styled.div`
 	width: 50px;
 	height: 50px;
@@ -36,9 +38,13 @@ const PluppImg = styled.svg`
 
 	height: 100%;
 	border-radius: 50%;
-/* 	background: ${props => props.player.club ? allClubs[props.player.club].color : null}
- */	/* got to render different depending on which team is on the pitch. */
- 	background: ${p => (p.origin === 'bench' && !p.player ? '#333' : '#999')};
+		/* got to render different depending on which team is on the pitch. */
+		background: ${props => props.player ?
+		allClubs.find(obj => {
+			return obj.long === props.player.club
+		}).color :
+		null}	
+ 	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
 
 const Options = styled.div`
@@ -300,11 +306,11 @@ class Plupp extends Component {
 	};
 
 	render() {
+
 		const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
 		const { player, pos, origin, lineupIndex } = this.props;
-		console.log('player')
-		console.log(player);
-		console.log(allClubs)
+
+
 		return (
 			<Container>
 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
