@@ -3,9 +3,9 @@ import styled from 'styled-components';
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
-	width: 15rem;
+	/* width: 15rem; */
 	max-width: 350px; /* Or wider? */
-	min-width: 200px;
+	/* min-width: 100px;  */		
 `;
 
 export const Title = styled.h2`

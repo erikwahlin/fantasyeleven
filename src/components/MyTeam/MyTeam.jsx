@@ -7,7 +7,36 @@ import PlayerSearch from '../PlayerSearch';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
 
+/* const ContentWrap = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 10rem;
+  grid-template-columns: repeat (2, 2fr);
+  @media (min-width: 600px) {
+  { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+   { grid-template-columns: repeat(3, 1fr); }
+}
+`; */
+
+
 const ContentWrap = styled.div`
+  display: grid;
+  grid-auto-rows: minmax(125px, auto);
+  grid-gap: .5rem;
+  margin:0 auto;
+
+  @media screen and (min-width: 40em) {
+	    grid-template-columns: repeat(2, 1fr);
+    	grid-gap: 2px;
+  }
+`;
+
+
+/* const ContentWrap = styled.div`
 	width: 90%;
 	max-width: 1200px;
 	margin: auto;
@@ -19,7 +48,7 @@ const ContentWrap = styled.div`
 	& > .PlayerSearch {
 		flex: 1;
 	}
-`;
+`; */
 
 export default class MyTeam extends Component {
 	constructor(props) {
@@ -573,14 +602,13 @@ export default class MyTeam extends Component {
 					state: this.state,
 					setters
 				}}
-			>
-				<div className="MyTeam Content">
+			>	
 					<ContentWrap className="ContentWrap">
 						<Pitch />
 
 						<PlayerSearch players={searchRes} markedMode={this.checkMarkedMode()} />
 					</ContentWrap>
-				</div>
+				
 			</MyTeamCtx.Provider>
 		);
 	}

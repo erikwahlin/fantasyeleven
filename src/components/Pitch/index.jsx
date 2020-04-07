@@ -4,27 +4,31 @@ import { withMyTeam } from '../MyTeam/ctx';
 import { shortenName } from '../MyTeam/helperFuncs';
 import Plupp from '../Plupp';
 import Bench from '../Bench';
-
 import pitchImg from '../../media/pitch.png';
 
 const Wrapper = styled.div`
-	height: 422px; /* 0.906 */
-	max-width: 580px; /* Or do we make pitch wider? */
+	/* height: 422px; */  /* 0.906 */
+	/* max-width: 580px; */ /* Or do we make pitch wider? */
+	max-width:576px;
+	
 	display: flex;
 	flex-direction: column;
+	
 `;
 
 const FieldContainer = styled.div`
-	width: 576px;
-	height: 500px;
+	/* min-height:522px; */
 	background: url(${p => p.bg});
 	background-size: cover;
 	background-repeat: no-repeat;
-	@media screen and (max-width: 602px) {
+	
+	
+
+/* 	@media screen and (max-width: 602px) {
 		background-size: auto 100%;
 	}
 
-	flex: 1;
+	flex: 1; */
 `;
 
 const InfoContainer = styled.div`
@@ -125,7 +129,7 @@ const Pitch = props => {
 					))}
 				</FormationContainer>
 			</FieldContainer>
-			<Bench />
+			{/* <Bench /> */}
 		</Wrapper>
 	);
 };

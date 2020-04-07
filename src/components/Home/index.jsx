@@ -5,6 +5,7 @@ import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import Styled from 'styled-components';
 import MyTeam from '../MyTeam/index';
+import Navigation from '../Navigation';
 
 class HomePage extends Component {
 	constructor(props) {
@@ -30,6 +31,7 @@ class HomePage extends Component {
 	render() {
 		return (
 			<div>
+				{/* <Navigation /> */}
 				<MyTeam />
 			</div>
 		);
