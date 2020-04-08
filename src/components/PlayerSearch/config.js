@@ -19,6 +19,9 @@ const INITIAL_STATE = {
 		pageSize: 20
 	},
 
+	slideSearch: window.innerWidth < 900 ? true : false,
+	searchOpen: false,
+
 	result: [],
 	playerModal: false
 };

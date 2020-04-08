@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import INITIAL_STATE, { config } from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { clone, toSwe, homePitch } from '../MyTeam/helperFuncs';
+import { clone, toSwe, homePitch, afterWinResize } from '../MyTeam/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
@@ -9,6 +9,7 @@ import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
+import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'react-device-detect';
 
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 
@@ -71,12 +72,31 @@ class PlayerSearch extends Component {
 		this.displayPlayerInfoBtn = this.displayPlayerInfoBtn.bind(this);
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
+		this.checkIfSlider = this.checkIfSlider.bind(this);
+		this.toggleSearch = this.toggleSearch.bind(this);
 	}
 
+	componentDidMount = (pp, ps) => {
+		// on win resize, check if playerSearch should slide in or not
+		afterWinResize(() => {
+			this.checkIfSlider();
+		}, 300);
+	};
+
+	// check if playerSearch should slide in
+	checkIfSlider = () => {
+		const slideSearch = window.innerWidth < 900 ? true : false;
+		if (this.state.slideSearch !== slideSearch) {
+			this.setState({ slideSearch });
+		}
+	};
+
+	// player info modal
 	togglePlayerModal = () => {
 		this.setState(ps => ({ playerModal: !ps.playerModal }));
 	};
 
+	// when clicking on listed player
 	playerClickHandler = player => {
 		const { position: pos } = player;
 		const { markedMode, myTeam } = this.props;
@@ -288,6 +308,10 @@ class PlayerSearch extends Component {
 		alert('Coming soon.');
 	};
 
+	toggleSearch = () => {
+		this.setState(ps => ({ searchOpen: !ps.searchOpen }));
+	};
+
 	render() {
 		const { paginationSettings, posOrClubSelected } = this.state;
 		const { players, myTeam } = this.props;
@@ -360,7 +384,7 @@ class PlayerSearch extends Component {
 		//console.log('search output', result);
 
 		return (
-			<Wrapper className="PlayerSearch">
+			<Wrapper className="PlayerSearch" slideSearch={this.state.slideSearch}>
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}

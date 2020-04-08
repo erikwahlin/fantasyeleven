@@ -28,6 +28,12 @@ const FieldContainer = styled.div`
 	height: 100%;
 	position: relative;
 	margin: auto;
+
+	& > {
+		@media screen and (max-height: 665px) and (max-width: 500px) {
+			height: 70vh;
+		}
+	}
 `;
 
 const PitchImg = styled.img`
@@ -44,12 +50,16 @@ const FormationContainer = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: column;
+
+	/* ${p => p.bg && 'background: url(' + p.bg + ')'};
+	background-size: 100% 100%;
+	background-repeat: no-repeat; */
 `;
 
 const PosLineup = styled.div`
 	width: 100%;
 	height: 100px;
-	min-height: 117px;
+	/* min-height: 117px; */
 	flex: 1;
 	position: relative;
 	display: flex;
@@ -167,8 +177,8 @@ const Pitch = props => {
 			<InfoContainer playerCount={playerCount} teamValue={teamValue} />
 
 			<FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
-				<PitchImg /* ref={pitchRef} */ src={pitchImg} />
-				<FormationContainer className="FormationContainer">
+				<PitchImg src={pitchImg} />
+				<FormationContainer className="FormationContainer" bg={pitchImg}>
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (

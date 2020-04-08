@@ -31,7 +31,7 @@ class HomePage extends Component {
 	render() {
 		const pathname = this.props.location && this.props.location.pathname;
 		return (
-			<div className="HomePage">
+			<div style={{ height: '100vh' }} className="HomePage">
 				{/* <Navigation pathname={this.props.location.pathname} /> */}
 				<MyTeam />
 			</div>

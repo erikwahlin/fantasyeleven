@@ -1,33 +1,28 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
+	display: flex;
+
 	width: 100%;
 	height: 100%;
-
-	position: fixed;
-
-	display: flex;
 	flex-direction: column;
+	position: relative;
+	grid-row: 2;
+	grid-column: 3;
 
-	display: none;
-
-	@media screen and (min-width: 900px) {
-		display: flex;
-		position: relative;
-		grid-row: 2;
-		grid-column: 3;
-		/* height: 487px; */
-	}
-
-	@media screen and (min-width: 900px) {
-		/* height: 578px; */
-	}
-
-	@media screen and (min-width: 1000px) {
-		/* height: 669px; */
-	}
+	${p =>
+		p.slideSearch &&
+		css`
+			display: block;
+			position: fixed;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			background: #011931;
+		`}
 `;
 
 export const Title = styled.h2`
