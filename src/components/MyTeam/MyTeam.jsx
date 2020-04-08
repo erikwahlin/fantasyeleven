@@ -68,9 +68,11 @@ export default class MyTeam extends Component {
 		this.delPlayer = this.delPlayer.bind(this);
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
-
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
-		this.togglePlayerSearch = this.togglePlayerSearch.bind(this);
+
+		this.toggleMobileSearch = this.toggleMobileSearch.bind(this);
+		this.openPlayerSearch = this.openPlayerSearch.bind(this);
+		this.closePlayerSearch = this.closePlayerSearch.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -81,6 +83,37 @@ export default class MyTeam extends Component {
 		this.setState({ [key]: val }, () => {
 			if (typeof callback === 'function') return callback();
 		});
+	};
+
+	toggleMobileSearch = () => {
+		this.setState(
+			ps => ({
+				config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
+			}),
+			() => {
+				if (this.state.config.mobileSearch) {
+					this.closePlayerSearch();
+				} else {
+					this.openPlayerSearch();
+				}
+			}
+		);
+	};
+
+	openPlayerSearch = () => {
+		if (!this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: true }
+			}));
+		}
+	};
+
+	closePlayerSearch = () => {
+		if (this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: false }
+			}));
+		}
 	};
 
 	updatesearchablePlayers = callback => {
@@ -587,10 +620,6 @@ export default class MyTeam extends Component {
 		);
 	};
 
-	togglePlayerSearch = () => {
-		this.setSwitchers({ marked: this.state.config.switchers.marked ? null : true, target: null });
-	};
-
 	render() {
 		const { searchablePlayers, switchers } = this.state.config;
 
@@ -601,7 +630,9 @@ export default class MyTeam extends Component {
 			delPlayer: this.delPlayer,
 			setSwitchers: this.setSwitchers,
 			switchPlayers: this.switchPlayers,
-			togglePlayerSearch: this.togglePlayerSearch
+			openPlayerSearch: this.openPlayerSearch,
+			closePlayerSearch: this.closePlayerSearch,
+			toggleMobileSearch: this.toggleMobileSearch
 		};
 
 		const markedMode = switchers.marked && !switchers.target ? true : false;

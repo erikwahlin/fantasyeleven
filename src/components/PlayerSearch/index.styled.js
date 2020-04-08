@@ -13,16 +13,39 @@ export const Wrapper = styled.div`
 	grid-column: 3;
 
 	${p =>
-		p.slideSearch &&
+		p.mobileSearch &&
 		css`
 			display: block;
 			position: fixed;
-			left: 0;
+			z-index: 1;
+			left: ${p.searchOpen ? '0' : '100vw'};
 			top: 0;
 			height: 100%;
 			width: 100%;
 			background: #011931;
 		`}
+
+	transition: .5s;
+`;
+
+export const CancelBtn = styled.button`
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	right: 0;
+	font-size: 1.5em;
+	padding: 0;
+	background: none;
+	color: white;
+	margin: 5px;
+	border: none;
+	outline: none;
+
+	& > svg {
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
 `;
 
 export const Title = styled.h2`

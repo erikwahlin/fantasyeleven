@@ -12,11 +12,13 @@ import './styles.css';
 import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'react-device-detect';
 
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+import { GiCancel } from 'react-icons/gi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 import {
 	Wrapper,
+	CancelBtn,
 	Title,
 	PlayerPrice,
 	Player,
@@ -73,7 +75,6 @@ class PlayerSearch extends Component {
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
 		this.checkIfSlider = this.checkIfSlider.bind(this);
-		this.toggleSearch = this.toggleSearch.bind(this);
 	}
 
 	componentDidMount = (pp, ps) => {
@@ -85,9 +86,11 @@ class PlayerSearch extends Component {
 
 	// check if playerSearch should slide in
 	checkIfSlider = () => {
-		const slideSearch = window.innerWidth < 900 ? true : false;
-		if (this.state.slideSearch !== slideSearch) {
-			this.setState({ slideSearch });
+		const { mobileSearch: oldVal } = this.props.myTeam.state.config;
+		const newVal = window.innerWidth < 900 ? true : false;
+
+		if (oldVal !== newVal) {
+			this.props.myTeam.setters.toggleMobileSearch();
 		}
 	};
 
@@ -308,13 +311,11 @@ class PlayerSearch extends Component {
 		alert('Coming soon.');
 	};
 
-	toggleSearch = () => {
-		this.setState(ps => ({ searchOpen: !ps.searchOpen }));
-	};
-
 	render() {
 		const { paginationSettings, posOrClubSelected } = this.state;
 		const { players, myTeam } = this.props;
+		const { closePlayerSearch } = myTeam.setters;
+		const { mobileSearch, searchOpen } = myTeam.state.config;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -384,13 +385,18 @@ class PlayerSearch extends Component {
 		//console.log('search output', result);
 
 		return (
-			<Wrapper className="PlayerSearch" slideSearch={this.state.slideSearch}>
+			<Wrapper className="Wrapper PlayerSearch" mobileSearch={mobileSearch} searchOpen={searchOpen}>
+				{mobileSearch && (
+					<CancelBtn onClick={closePlayerSearch}>
+						<GiCancel />
+					</CancelBtn>
+				)}
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
 				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
 				<Dropdown
-					className="FilterByPosClub dropdown unmarkable"
+					className="FilterByPosClub dropdown playerserach unmarkable"
 					options={filterOptions}
 					onChange={this.setFilter_posClub}
 					value={posOrClubdefaultOption}
@@ -398,7 +404,7 @@ class PlayerSearch extends Component {
 				/>
 
 				<Dropdown
-					className="FilterByMaxPrice dropdown unmarkable"
+					className="FilterByMaxPrice dropdown playerserach unmarkable"
 					onChange={this.setFilter_maxPrice}
 					value={maxPriceDefaultOption}
 					options={priceOptions}
@@ -414,7 +420,7 @@ class PlayerSearch extends Component {
 				></Input>
 
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
-				<ButtonContainer>
+				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
 						className="SortFalling unmarkable"
 						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}

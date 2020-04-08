@@ -209,25 +209,43 @@ class Plupp extends Component {
 	handleClickOutside = e => {
 		if (!this.state.isMarked) return;
 
-		const { setSwitchers } = this.props.myTeam.setters;
+		const { setSwitchers, closePlayerSearch } = this.props.myTeam.setters;
 
-		// if not on another plupp, player in list or paginationBtn
+		// if clicked on pitch but not a switchable plupp
 		// clear switch in state
 		const listedPlayer = e.target.closest('div').classList.contains('ListedPlayer');
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
-		const paginate = e.target.closest('div').classList.contains('Paginate');
 
-		if (!listedPlayer && !switchablePlupp && !paginate) {
-			setSwitchers({ marked: null, target: null });
-		}
+		const unMark = (() => {
+			let res = false;
+
+			if ((e.target.closest('.Pitch') && !switchablePlupp) || listedPlayer) {
+				res = true;
+			}
+
+			return res;
+		})();
+
+		if (!unMark) return;
+
+		closePlayerSearch();
+		console.log('haaaj');
+		setSwitchers({ marked: null, target: null });
 	};
 
 	// (runs after click outside)
 	handleClickInside = e => {
 		const { myTeam, player, pos, origin, lineupIndex } = this.props;
-		const { setSwitchers, switchPlayers } = myTeam.setters;
+		const { setSwitchers, switchPlayers, openPlayerSearch } = myTeam.setters;
 		const { marked } = myTeam.state.config.switchers;
 		const ref = this.pluppRef.current;
+
+		/* TEMP */
+		if (myTeam.state.config.mobileSearch) {
+			openPlayerSearch();
+		}
+
+		/* TEMP */
 
 		// if switchers dont have a marked, mark this plupp
 		if (!marked) {
