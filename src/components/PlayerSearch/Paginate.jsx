@@ -36,32 +36,46 @@ const PageNumber = styled.div`
 `;
 
 const Paginate = props => {
-	const { settings, playerCount, goToPage } = props;
+	const { settings, playerCount, goToPage, pageCount } = props;
 	const { pageNumber, pageSize } = settings;
 	const lastPage = Math.ceil(playerCount / pageSize);
+
+	//go to page according to cName
+	const newPage = (cName, newPage) => {
+		if (newPage) return goToPage(newPage);
+
+		switch (cName) {
+			case 'firstPage':
+				return 1;
+			case 'forward':
+				return pageNumber < lastPage ? pageNumber + 1 : pageNumber;
+			case 'backward':
+				return pageNumber > 1 ? pageNumber - 1 : pageNumber;
+			default:
+				// 'lastPage'
+				return lastPage;
+		}
+	};
+
+	React.useEffect(() => {
+		if (pageNumber > pageCount) {
+			newPage(null, pageCount);
+		}
+	}, [pageCount])
+
+
 
 	const clickHandler = e => {
 		const classes = ['firstPage', 'forward', 'backward', 'lastPage'];
 		const cList = e.currentTarget.classList;
 		const cName = classes.filter(c => cList.contains(c))[0];
 
-		//go to page according to cName
-		const newPage = () => {
-			switch (cName) {
-				case 'firstPage':
-					return 1;
-				case 'forward':
-					return pageNumber < lastPage ? pageNumber + 1 : pageNumber;
-				case 'backward':
-					return pageNumber > 1 ? pageNumber - 1 : pageNumber;
-				default:
-					// 'lastPage'
-					return lastPage;
-			}
-		};
 
-		goToPage(newPage());
+
+		goToPage(newPage(cName));
 	};
+
+
 
 	//angle right - left
 	//angle double right - left

@@ -38,12 +38,11 @@ const PluppImg = styled.svg`
 
 	height: 100%;
 	border-radius: 50%;
-		/* got to render different depending on which team is on the pitch. */
-		background: ${props => props.player ?
+	background: ${props => props.player ?
 		allClubs.find(obj => {
 			return obj.long === props.player.club
 		}).color :
-		null}	
+		'#333'};	
  	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
 

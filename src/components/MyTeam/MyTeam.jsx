@@ -12,7 +12,7 @@ const ContentWrap = styled.div`
 	max-width: 1200px;
 	margin: auto;
 	display: flex;
-
+	
 	flex-direction: row;
 	justify-content: space-around;
 

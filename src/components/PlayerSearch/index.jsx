@@ -428,6 +428,7 @@ class PlayerSearch extends Component {
 					goToPage={this.goToPage}
 					settings={paginationSettings}
 					playerCount={filtered.length}
+					pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
 				/>
 				{posOrClubSelected !== 'none' ? (
 					<LabelRow className="unmarkable">
