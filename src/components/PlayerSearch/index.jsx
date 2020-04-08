@@ -343,16 +343,11 @@ class PlayerSearch extends Component {
 		//sorted
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, pageSize, pageNumber) => {
+			//stores the amount of players / page in variable;
 			const playersPerPage = playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
 
-			/* do {
-				pageNumber -= 1
-				console.log('players pagination')
-				console.log(playersPerPage)
-			} while (playersPerPage.length === 0) */
 			return playersPerPage
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-			//return playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 		};
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
@@ -420,7 +415,7 @@ class PlayerSearch extends Component {
 				<ButtonReset onClick={this.resetSettings} className="ResetFilter unmarkable">
 					<strong>Återställ filter</strong>
 				</ButtonReset>
-				<ButtonReset onClick={this.props.clearField} className='unmarkable'>
+				<ButtonReset onClick={this.props.clearPitch} className='unmarkable'>
 					<strong>Rensa spelplanen</strong>
 				</ButtonReset>
 
