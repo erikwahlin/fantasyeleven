@@ -6,62 +6,41 @@ import pitchImg from '../../media/pitch.png';
 import InfoContainer from './InfoContainer';
 
 const Wrapper = styled.div`
-	/* height: 422px; */ /* 0.906 */
-	/* max-width: 580px; */ /* Or do we make pitch wider? */
-	/* max-width: 576px; */
-
-	/* display: flex;
-	flex-direction: column;
-
-	
-
-	background: hotpink;
-
-	text-align: center;
-	& > * {
-	} */
-
 	grid-row: 2;
-
-	/* height: ${p => (p.pitchSize ? p.pitchSize.h + 80 : 0)}px; */
-
 	display: grid;
 	grid-template-columns: 100%;
+	grid-template-rows: 80px auto;
 	position: relative;
 	width: 100%;
+	height: 100%;
 	max-width: 800px;
 	margin: auto;
 	margin-top: 0;
 
-	@media screen and (min-width: 800px) {
+	@media screen and (min-width: 900px) {
 		grid-column: 2;
 	}
 `;
 
 const FieldContainer = styled.div`
-	/* min-height:522px; */
-	/* background: url(${p => p.bg});
-	background-size: contain;
-	background-repeat: no-repeat; */
-
-	/* 	@media screen and (max-width: 602px) {
-		background-size: auto 100%;
-	}
-
-	flex: 1; */
-
-	
+	width: 100%;
+	max-width: 700px;
+	height: 100%;
+	position: relative;
+	margin: auto;
 `;
 
 const PitchImg = styled.img`
 	width: 100%;
-	max-width: 900px;
+	height: 100%;
+	max-width: 700px;
 	position: absolute;
 `;
 
 const FormationContainer = styled.div`
 	margin: auto;
 	width: 100%;
+	height: 100%;
 	position: relative;
 	display: flex;
 	flex-direction: column;

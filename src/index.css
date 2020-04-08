@@ -1,11 +1,3 @@
-/* html,
-body,
-#root,
-.App,
-.App > div {
-	height: 100%;
-} */
-
 html {
 	line-height: 1.38; /* normalize 1.15 */
 }

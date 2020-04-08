@@ -3,29 +3,30 @@ import styled from 'styled-components';
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 export const Wrapper = styled.div`
-	/* width: 15rem; */
-	/* max-width: 350px; /* Or wider? */
-	/* min-width: 100px;  */
 	width: 100%;
+	height: 100%;
 
 	position: fixed;
 
 	display: flex;
 	flex-direction: column;
 
-	@media screen and (min-width: 800px) {
+	display: none;
+
+	@media screen and (min-width: 900px) {
+		display: flex;
 		position: relative;
 		grid-row: 2;
 		grid-column: 3;
-		height: 487px;
+		/* height: 487px; */
 	}
 
 	@media screen and (min-width: 900px) {
-		height: 578px;
+		/* height: 578px; */
 	}
 
 	@media screen and (min-width: 1000px) {
-		height: 669px;
+		/* height: 669px; */
 	}
 `;
 

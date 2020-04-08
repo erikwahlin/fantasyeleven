@@ -9,57 +9,22 @@ import '../PlayerSearch/styles.css';
 
 import SlideMenu from 'react-slide-menu';
 
-/* const ContentWrap = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-gap: 10rem;
-  grid-template-columns: repeat (2, 2fr);
-  @media (min-width: 600px) {
-  { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 900px) {
-   { grid-template-columns: repeat(3, 1fr); }
-}
-`; */
-
 const ContentWrap = styled.div`
 	width: 100%;
 	margin: 0;
 	display: grid;
 	grid-template-columns: 100%;
-
-	@media screen and (min-width: 800px) {
-		grid-template-columns: auto 450px 300px auto;
-		grid-template-rows: 10vh 487px;
-		grid-column-gap: 20px;
-	}
+	grid-template-rows: 50px 80vh;
+	grid-gap: 0px 20px;
 
 	@media screen and (min-width: 900px) {
 		grid-template-columns: auto 550px 300px auto;
-		grid-template-rows: 10vh 533px;
 	}
 
 	@media screen and (min-width: 1000px) {
 		grid-template-columns: auto 650px 300px auto;
-		grid-template-rows: 10vh 624px;
 	}
 `;
-
-/* const ContentWrap = styled.div`
-	width: 90%;
-	max-width: 1200px;
-	margin: auto;
-	display: flex;
-
-	flex-direction: row;
-	justify-content: space-around;
-
-	& > .PlayerSearch {
-		flex: 1;
-	}
-`; */
 
 export default class MyTeam extends Component {
 	constructor(props) {
@@ -629,6 +594,7 @@ export default class MyTeam extends Component {
 					closeMenu={this.togglePlayerSearch}
 					extraComponent={<div>ej</div>}
 				> */}
+
 				<ContentWrap className="ContentWrap" markedMode={markedMode}>
 					<Pitch />
 
