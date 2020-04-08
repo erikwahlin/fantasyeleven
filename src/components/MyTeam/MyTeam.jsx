@@ -36,21 +36,12 @@ export default class MyTeam extends Component {
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
 
-		this.clearPitch = this.clearPitch.bind(this);
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
 	}
 
 	componentDidMount = () => {
 		this.updatesearchablePlayers();
 	};
-
-	clearPitch = () => {
-		/* 		this.setState({
-					...INITIAL_STATE,
-					players
-				})
-		 */		//do something! Set state to what it was initially, before adding players to pitch.
-	}
 
 	updateState = (key, val, callback) => {
 		this.setState({ [key]: val }, () => {
@@ -587,7 +578,7 @@ export default class MyTeam extends Component {
 					<ContentWrap className="ContentWrap">
 						<Pitch />
 
-						<PlayerSearch clearPitch={this.clearPitch} players={searchablePlayers} markedMode={this.checkMarkedMode()} />
+						<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 					</ContentWrap>
 				</div>
 			</MyTeamCtx.Provider>
