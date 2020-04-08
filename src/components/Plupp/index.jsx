@@ -5,6 +5,8 @@ import { shortenName } from '../MyTeam/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+import allClubs from '../../constants/clubs'
+
 
 const Container = styled.div`
 	width: 50px;
@@ -36,8 +38,13 @@ const PluppImg = styled.svg`
 
 	height: 100%;
 	border-radius: 50%;
-	background: ${p => (p.origin === 'bench' && !p.player ? '#333' : '#999')};
-`;
+	background: ${props => props.player ?
+		allClubs.find(obj => {
+			return obj.long === props.player.club
+		}).color :
+		'#333'};	
+ 	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
+ 	`;
 
 const Options = styled.div`
 	position: absolute;
@@ -298,8 +305,10 @@ class Plupp extends Component {
 	};
 
 	render() {
+
 		const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
 		const { player, pos, origin, lineupIndex } = this.props;
+
 
 		return (
 			<Container>

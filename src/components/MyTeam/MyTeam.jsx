@@ -12,7 +12,7 @@ const ContentWrap = styled.div`
 	max-width: 1200px;
 	margin: auto;
 	display: flex;
-
+	
 	flex-direction: row;
 	justify-content: space-around;
 
@@ -36,12 +36,17 @@ export default class MyTeam extends Component {
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
 
+		//this.clearField = this.clearField.bind(this);
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
 	}
 
 	componentDidMount = () => {
 		this.updatesearchablePlayers();
 	};
+
+	clearField = () => {
+		//do something! Set state to what it was initially, before adding players to pitch.
+	}
 
 	updateState = (key, val, callback) => {
 		this.setState({ [key]: val }, () => {
@@ -295,8 +300,8 @@ export default class MyTeam extends Component {
 			const origin = player.origin
 				? player.origin
 				: pitch[pos].length < config.limit.pitch[pos].max
-				? 'pitch'
-				: 'bench';
+					? 'pitch'
+					: 'bench';
 			player.origin = origin;
 
 			///// -> player.captain = filterKeys.captain //do i do this here?
