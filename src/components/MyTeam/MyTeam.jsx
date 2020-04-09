@@ -7,17 +7,38 @@ import PlayerSearch from '../PlayerSearch';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
 
+import SlideMenu from 'react-slide-menu';
+
 const ContentWrap = styled.div`
-	width: 90%;
-	max-width: 1200px;
-	margin: auto;
-	display: flex;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 10% 90%;
+	grid-gap: 0px 20px;
+	margin-top: 50px;
 
-	flex-direction: row;
-	justify-content: space-around;
+	@media screen and (min-height: 700px) and (max-width: 500px) {
+		grid-template-rows: 70px 632px;
+	}
 
-	& > .PlayerSearch {
-		flex: 1;
+	@media screen and (min-width: 501px) {
+		@media screen and (max-height: 600px) {
+			grid-template-rows: 70px 550px;
+		}
+
+		@media screen and (min-height: 765px) {
+			grid-template-rows: 70px 700px;
+		}
+
+		@media screen and (min-width: 900px) {
+			grid-template-columns: auto 550px 300px auto;
+
+			@media screen and (min-width: 1000px) {
+				grid-template-columns: auto 650px 300px auto;
+			}
+		}
 	}
 `;
 
@@ -35,8 +56,11 @@ export default class MyTeam extends Component {
 		this.delPlayer = this.delPlayer.bind(this);
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
-
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
+
+		this.toggleMobileSearch = this.toggleMobileSearch.bind(this);
+		this.openPlayerSearch = this.openPlayerSearch.bind(this);
+		this.closePlayerSearch = this.closePlayerSearch.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -47,6 +71,37 @@ export default class MyTeam extends Component {
 		this.setState({ [key]: val }, () => {
 			if (typeof callback === 'function') return callback();
 		});
+	};
+
+	toggleMobileSearch = () => {
+		this.setState(
+			ps => ({
+				config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
+			}),
+			() => {
+				if (this.state.config.mobileSearch) {
+					this.closePlayerSearch();
+				} else {
+					this.openPlayerSearch();
+				}
+			}
+		);
+	};
+
+	openPlayerSearch = () => {
+		if (!this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: true }
+			}));
+		}
+	};
+
+	closePlayerSearch = () => {
+		if (this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: false }
+			}));
+		}
 	};
 
 	updatesearchablePlayers = callback => {
@@ -554,7 +609,7 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
-		const { searchablePlayers } = this.state.config;
+		const { searchablePlayers, switchers, mobileSearch } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -562,8 +617,13 @@ export default class MyTeam extends Component {
 			addPlayer: this.addPlayer,
 			delPlayer: this.delPlayer,
 			setSwitchers: this.setSwitchers,
-			switchPlayers: this.switchPlayers
+			switchPlayers: this.switchPlayers,
+			openPlayerSearch: this.openPlayerSearch,
+			closePlayerSearch: this.closePlayerSearch,
+			toggleMobileSearch: this.toggleMobileSearch
 		};
+
+		const markedMode = switchers.marked && !switchers.target ? true : false;
 
 		// filter allPlayers before PlayerSearch
 
@@ -574,13 +634,19 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<div className="MyTeam Content">
-					<ContentWrap className="ContentWrap">
-						<Pitch />
+				{/* <SlideMenu
+					active={this.state.slideMenuActive}
+					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
+					reactRouter={false}
+					closeMenu={this.togglePlayerSearch}
+					extraComponent={<div>ej</div>}
+				> */}
 
-						<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
-					</ContentWrap>
-				</div>
+				<ContentWrap className="ContentWrap" markedMode={markedMode} mobileSearch={mobileSearch}>
+					<Pitch />
+
+					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
+				</ContentWrap>
 			</MyTeamCtx.Provider>
 		);
 	}

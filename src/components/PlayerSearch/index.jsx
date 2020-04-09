@@ -9,6 +9,7 @@ import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
+import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
@@ -26,7 +27,8 @@ import {
 	LabelRow,
 	PlayerRow,
 	ButtonReset,
-	urlLink
+	urlLink,
+	SearchFieldWrapper
 } from './index.styled';
 
 const CreateModal = props => {
@@ -220,7 +222,7 @@ class PlayerSearch extends Component {
 	};
 
 	// group players by position
- 	groupByPosition = items => {
+	groupByPosition = items => {
 		/* const res = [];
 		config.positions.forEach(pos => res.push([]));
 
@@ -251,7 +253,7 @@ class PlayerSearch extends Component {
 		};
 
 		return groupBy(items, 'position');
-	}; 
+	};
 
 	/*
 	 *
@@ -334,13 +336,11 @@ class PlayerSearch extends Component {
 			this.applyFilter_posClub(this.applyFilter_name(players))
 		);
 
-
-
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
 
 		const sorted = this.sortByPrice(filtered);
-			//sorted
+		//sorted
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, page_size, page_number) => {
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
@@ -355,8 +355,8 @@ class PlayerSearch extends Component {
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-		console.log(Object.keys(result))
-		console.log(result)
+		console.log(Object.keys(result));
+		console.log(result);
 		//console.log('search output', result);
 
 		return (
@@ -380,15 +380,18 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
-
-				<Input
-					type="text"
-					name="name"
-					className="FilterByName unmarkable"
-					onChange={this.setFilter_name}
-					placeholder="Sök spelare"
-				></Input>
-
+				<SearchFieldWrapper>
+					<Input
+						type="text"
+						name="name"
+						className="FilterByName unmarkable"
+						onChange={this.setFilter_name}
+						placeholder="Sök spelare"
+						onFocus={e => (e.target.placeholder = '')}
+						onBlur={e => (e.target.placeholder = 'Sök spelare')}
+					></Input>
+					<FiSearch />
+				</SearchFieldWrapper>
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer>
 					<ButtonDes
@@ -419,62 +422,60 @@ class PlayerSearch extends Component {
 					settings={paginationSettings}
 					playerCount={filtered.length}
 				/>
-				{ posOrClubSelected !== 'none' ? (
-													<LabelRow className="unmarkable">
-										<div className="labelPosition">
-											<p> {`${posOrClubSelected.label}`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>) : (
-										<LabelRow>
-									<div className="labelPosition">
-											<p> {`Spelare`}</p>
-										</div>{' '}
-										<div className="labelPrice">
-											<p>SEK</p>
-										</div>
-									</LabelRow>
-									)
-				
-			}	
+				{posOrClubSelected !== 'none' ? (
+					<LabelRow className="unmarkable">
+						<div className="labelPosition">
+							<p> {`${posOrClubSelected.label}`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>
+				) : (
+					<LabelRow>
+						<div className="labelPosition">
+							<p> {`Spelare`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>
+				)}
 				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
-								{paginated.map((player, i) => {
-									return (
-										<PlayerRow key={i} className="PlayerRow">
-											<InfoModal
-												title={player.name}
-												subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-												img="https://source.unsplash.com/random"
-												display={this.state.playerModal}
-												togglePlayerModal={this.togglePlayerModal}
-											>
-												<p>Värde: {player.price} kr</p>
-												<p>
-													<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
-														Hemmaplan
-													</a>
-												</p>
-											</InfoModal>
+					{paginated.map((player, i) => {
+						return (
+							<PlayerRow key={i} className="PlayerRow">
+								<InfoModal
+									title={player.name}
+									subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+									img="https://source.unsplash.com/random"
+									display={this.state.playerModal}
+									togglePlayerModal={this.togglePlayerModal}
+								>
+									<p>Värde: {player.price} kr</p>
+									<p>
+										<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+											Hemmaplan
+										</a>
+									</p>
+								</InfoModal>
 
-											<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-												<p className="player">{player.name}</p>
-												<p className="sum">
-													<strong>{clubAbbr(player.club)}</strong>
-													&nbsp; &nbsp;
-													{player.position}
-												</p>
-											</Player>
-											<PlayerPrice className="PlayerPrice">
-												<p className="player_price">{Math.round(player.price)}</p>
-											</PlayerPrice>
-										</PlayerRow>
-									);
-								})}
+								<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
+									<p className="player">{player.name}</p>
+									<p className="sum">
+										<strong>{clubAbbr(player.club)}</strong>
+										&nbsp; &nbsp;
+										{player.position}
+									</p>
+								</Player>
+								<PlayerPrice className="PlayerPrice">
+									<p className="player_price">{Math.round(player.price)}</p>
+								</PlayerPrice>
+							</PlayerRow>
 						);
 					})}
+					); })}
 				</ResultBox>
 			</Wrapper>
 		);
