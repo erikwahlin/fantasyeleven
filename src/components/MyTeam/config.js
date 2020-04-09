@@ -65,6 +65,7 @@ const INITIAL_STATE = {
 			club: []
 		},
 		searchablePlayers: [],
+
 		limit: {
 			tot: { min: 15, max: 15 },
 			pitch: {

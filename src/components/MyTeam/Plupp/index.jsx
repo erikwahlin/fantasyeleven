@@ -354,11 +354,11 @@ class Plupp extends Component {
 						<DelBtn ref={this.delBtn} onClick={this.del}>
 							<FaTrash />
 						</DelBtn>
-						{isQuickSwitchable && (
+						{/* {isQuickSwitchable && (
 							<SubstituteBtn origin={origin} onClick={this.quickSwitch}>
 								{origin === 'pitch' ? <FaAngleDoubleDown /> : <FaAngleDoubleUp />}
 							</SubstituteBtn>
-						)}
+						)} */}
 					</Options>
 				)}
 

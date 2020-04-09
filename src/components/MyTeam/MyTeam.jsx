@@ -174,13 +174,14 @@ export default class MyTeam extends Component {
 		// updater, based on clone of curr state config
 		const updater = prevState => {
 			const { config } = clone(prevState);
-			const { filterKeys } = config;
+			const { filterKeys, buildStage } = config;
 
 			config.positions.forEach(pos => {
 				// if pitch and bench full - add pos to filter (if filter is not active)
 				if (
-					prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
-					prevState.team.pitch[pos].length >= config.limit.pitch[pos].max
+					(prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
+						buildStage.key === 'bench') ||
+					(prevState.team.pitch[pos].length >= config.limit.pitch[pos].max && buildStage.key === 'pitch')
 				) {
 					if (!filterKeys.position.includes(pos)) {
 						filterKeys.position.push(pos);
@@ -363,12 +364,13 @@ export default class MyTeam extends Component {
 			const { pitch } = team;
 
 			// play from start or put on bench?
-			const origin = player.origin
+			const origin = this.state.config.buildStage.key;
+			/* const origin = player.origin
 				? player.origin
 				: pitch[pos].length < config.limit.pitch[pos].max
 				? 'pitch'
 				: 'bench';
-			player.origin = origin;
+			player.origin = origin; */
 
 			///// -> player.captain = filterKeys.captain //do i do this here?
 
