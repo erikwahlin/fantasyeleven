@@ -34,25 +34,6 @@ import {
 	urlLink
 } from './index.styled';
 
-const CreateModal = props => {
-	const clickHandler = () => {
-		props.togglePlayerModal();
-	};
-
-	React.useEffect(() => {
-		console.log('modalstatus in bla', props.playerModal);
-	}, []);
-
-	//const Modal = Component => props => <Component {...props} />;
-
-	return (
-		<>
-			{props.display && props.children}
-			<button onClick={clickHandler}>{props.display ? 'close' : 'open'}</button>
-		</>
-	);
-};
-
 class PlayerSearch extends Component {
 	constructor(props) {
 		super(props);
@@ -71,7 +52,6 @@ class PlayerSearch extends Component {
 		this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
 		this.applyFilter_name = this.applyFilter_name.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
-		this.displayPlayerInfoBtn = this.displayPlayerInfoBtn.bind(this);
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
 		this.checkIfSlider = this.checkIfSlider.bind(this);
@@ -103,7 +83,7 @@ class PlayerSearch extends Component {
 	playerClickHandler = player => {
 		const { position: pos } = player;
 		const { markedMode, myTeam } = this.props;
-		const { addPlayer, setSwitchers, switchPlayers } = myTeam.setters;
+		const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = myTeam.setters;
 
 		// if a plupp is already marked, prepare switch
 		if (markedMode) {
@@ -126,6 +106,8 @@ class PlayerSearch extends Component {
 		} else {
 			addPlayer(player);
 		}
+
+		closePlayerSearch();
 	};
 
 	// reset filter & order
@@ -300,16 +282,6 @@ class PlayerSearch extends Component {
 			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
 		}));
 	};
-	/*
-	 *
-	 *
-	 *
-	 *******/
-
-	// display player info
-	displayPlayerInfoBtn = player => {
-		alert('Coming soon.');
-	};
 
 	render() {
 		const { paginationSettings, posOrClubSelected } = this.state;
@@ -380,8 +352,8 @@ class PlayerSearch extends Component {
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-		console.log(Object.keys(result));
-		console.log(result);
+		//console.log(Object.keys(result));
+		//console.log(result);
 		//console.log('search output', result);
 
 		return (

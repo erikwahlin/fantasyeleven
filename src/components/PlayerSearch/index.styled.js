@@ -18,14 +18,15 @@ export const Wrapper = styled.div`
 			display: block;
 			position: fixed;
 			z-index: 1;
-			left: ${p.searchOpen ? '0' : '100vw'};
+			opacity: ${p.searchOpen ? '1' : '0'};
+			left: ${p.searchOpen ? '0' : '110vw'};
 			top: 0;
 			height: 100%;
 			width: 100%;
 			background: #011931;
 		`}
 
-	transition: .5s;
+	transition: all .5s;
 `;
 
 export const CancelBtn = styled.button`

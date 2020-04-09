@@ -219,7 +219,7 @@ class Plupp extends Component {
 		const unMark = (() => {
 			let res = false;
 
-			if ((e.target.closest('.Pitch') && !switchablePlupp) || listedPlayer) {
+			if (e.target.closest('.Pitch') && !switchablePlupp) {
 				res = true;
 			}
 
@@ -229,7 +229,7 @@ class Plupp extends Component {
 		if (!unMark) return;
 
 		closePlayerSearch();
-		console.log('haaaj');
+
 		setSwitchers({ marked: null, target: null });
 	};
 
