@@ -3,40 +3,39 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Form = styled.form`
 	margin: 0 auto;
 	width: 50%;
-	display:flex;	
+	display: flex;
 	flex-direction: column;
-`
+`;
 const InputWrap = styled.div`
-color: white;
-display:flex;
-flex-direction: column;
-margin-top: 10px
-`
+	color: white;
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+`;
 const Button = styled.button`
-width: 90px;
-height:40px;
-align-self: flex-end;
-color: white;
-background-color:
-
-`
+	width: 90px;
+	height: 40px;
+	align-self: flex-end;
+	color: white;
+	background-color: ;
+`;
 const Input = styled.input`
-background-color: rgba(2,31,61,1);
-color: white;
-outline: none;
-height: 1.9em;
-font-size: 1.0em;
-border: none;
-border-bottom: 1px solid white;
-`
+	background-color: rgba(2, 31, 61, 1);
+	color: white;
+	outline: none;
+	height: 1.9em;
+	font-size: 1em;
+	border: none;
+	border-bottom: 1px solid white;
+`;
 const Wrapper = styled.div`
-background-color: rgba(2,31,61,1)
-`
+	background-color: rgba(2, 31, 61, 1);
+`;
 const SignUpPage = () => (
 	<Wrapper>
 		<h1>Börja spela</h1>
@@ -115,76 +114,39 @@ class SignUpFormBase extends Component {
 	};
 
 	render() {
-		const {
-			username,
-			email,
-			passwordOne,
-			passwordTwo,
-			isAdmin,
-			error
-		} = this.state;
+		const { username, email, passwordOne, passwordTwo, isAdmin, error } = this.state;
 
 		const isInvalid =
-			passwordOne !== passwordTwo ||
-			passwordOne === '' ||
-			email === '' ||
-			username === '';
+			passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
 
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<InputWrap>
-				Namn
-				<Input
-					name='username'
-					value={username}
-					onChange={this.onChange}
-					type='text'
-				/>
+					Namn
+					<Input name="username" value={username} onChange={this.onChange} type="text" />
 				</InputWrap>
 				<InputWrap>
-				Email
-				<Input
-					name='email'
-					value={email}
-					onChange={this.onChange}
-						type='text'
-				/>
+					Email
+					<Input name="email" value={email} onChange={this.onChange} type="text" />
 				</InputWrap>
 				<InputWrap>
-				Lösenord
-				<Input
-					name='passwordOne'
-					value={passwordOne}
-					onChange={this.onChange}
-					type='password'
-
-				/>
+					Lösenord
+					<Input name="passwordOne" value={passwordOne} onChange={this.onChange} type="password" />
 				</InputWrap>
 				<InputWrap>
-				Lösenord igen
-				<Input
-					name='passwordTwo'
-					value={passwordTwo}
-					onChange={this.onChange}
-					type='password'
-				/>
+					Lösenord igen
+					<Input name="passwordTwo" value={passwordTwo} onChange={this.onChange} type="password" />
 				</InputWrap>
 				<label>
 					Admin:
-					<input
-						name='isAdmin'
-						type='checkbox'
-						checked={isAdmin}
-						onChange={this.onChangeCheckbox}
-					/>
+					<input name="isAdmin" type="checkbox" checked={isAdmin} onChange={this.onChangeCheckbox} />
 				</label>
-				<Button disabled={isInvalid} type='submit'>
+				<Button disabled={isInvalid} type="submit">
 					Registrera
 				</Button>
 
 				{error && <p>{error.message}</p>}
 			</Form>
-		
 		);
 	}
 }

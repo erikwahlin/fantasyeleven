@@ -36,7 +36,7 @@ const InfoModal = props => {
 	}
 
 	return (
-		<ModalWrapper className="ModalWrapper">
+		<ModalWrapper className="ModalWrapper playerModal">
 			<OpenBtn className="ModalOpenBtn" onClick={openModal}>
 				{' '}
 				{openBtn ? openBtn : <FaInfoCircle />}{' '}
@@ -49,11 +49,11 @@ const InfoModal = props => {
 				style={modalStyle}
 				contentLabel="InfoModal"
 			>
-				<ContentWrapper className="ContentWrapper unmarkable">
+				<ContentWrapper className="ContentWrapper playerModal unmarkable">
 					{title && <Title ref={self => (titleRef = self)}>{title}</Title>}
 					{subtitle && <Subtitle ref={self => (subtitleRef = self)}>{subtitle}</Subtitle>}
 					<Img className="Img" src={img ? img : fallbackImg} ref={self => (imgRef = self)} />
-					<Content>{props.children}</Content>
+					<Content className="Content playerModal unmarkable">{props.children}</Content>
 					<Submit onClick={closeModal} ref={self => (submitRef = self)}>
 						{submit || 'Stäng'}
 					</Submit>

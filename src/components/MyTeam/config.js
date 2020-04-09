@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 		captain: false,
 
 		pitch: {
-			Goalkeeper: [],
+			Goalkeeper: [{ name: 'test', uid: 4235123, origin: 'pitch', position: 'Goalkeeper' }],
 			Defender: [],
 			Midfielder: [],
 			Forward: []
@@ -52,6 +52,8 @@ const INITIAL_STATE = {
 
 	config: {
 		stage: 'pitch',
+		mobileSearch: window.innerWidth < 900 ? true : false,
+		searchOpen: false,
 
 		filterKeys: {
 			uid: [],

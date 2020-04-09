@@ -1,12 +1,11 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../MyTeam/ctx';
-import { shortenName } from '../MyTeam/helperFuncs';
+import { withMyTeam } from '../ctx';
+import { shortenName } from '../helperFuncs';
 import onClickOutside from 'react-onclickoutside';
-import pluppC from '../../media/pluppC.svg';
+import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
-import allClubs from '../../constants/clubs'
-
+import allClubs from '../../../constants/clubs';
 
 const Container = styled.div`
 	width: 50px;
@@ -15,14 +14,13 @@ const Container = styled.div`
 	position: relative;
 `;
 
-
 const PlayerName = styled.span`
 	position: absolute;
 	width: 100px;
 	left: -25px;
 	top: -22px;
-	font-family:'Avenir';
-	font-weight:bold;
+	font-family: 'Avenir';
+	font-weight: bold;
 	font-size: 0.8em;
 	text-align: center;
 	text-shadow: 0 1px 2px #000;
@@ -32,12 +30,12 @@ const PlayerName = styled.span`
 const PlayerPrice = styled.span`
 	position: absolute;
 	width: 96px;
-	background-color:rgba(51, 170, 51, .6);
-	padding:3px;
+	background-color: rgba(51, 170, 51, 0.6);
+	padding: 3px;
 	left: -25px;
 	top: 52px;
-	font-family:'Avenir';
-	font-weight:bold;
+	font-family: 'Avenir';
+	font-weight: bold;
 	font-size: 0.8em;
 	text-align: center;
 	text-shadow: 0 1px 2px #000;
@@ -56,11 +54,12 @@ const PluppImg = styled.svg`
 
 	height: 100%;
 	border-radius: 50%;
-	background: ${props => props.player ?
-		allClubs.find(obj => {
-			return obj.long === props.player.club
-		}).color :
-		'#333'};	
+	background: ${props =>
+		props.player.club
+			? allClubs.find(obj => {
+					return obj.long === props.player.club;
+			  }).color
+			: '#333'};	
  	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
 
@@ -115,7 +114,7 @@ const SwitchIcon = styled.div`
 	z-index: 0;
 	text-align: center;
 	color: #ccc;
-	font-size:0.5em;
+	font-size: 0.5em;
 
 	& > * {
 		width: 65%;
@@ -235,25 +234,43 @@ class Plupp extends Component {
 	handleClickOutside = e => {
 		if (!this.state.isMarked) return;
 
-		const { setSwitchers } = this.props.myTeam.setters;
+		const { setSwitchers, closePlayerSearch } = this.props.myTeam.setters;
 
-		// if not on another plupp, player in list or paginationBtn
+		// if clicked on pitch but not a switchable plupp
 		// clear switch in state
 		const listedPlayer = e.target.closest('div').classList.contains('ListedPlayer');
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
-		const paginate = e.target.closest('div').classList.contains('Paginate');
 
-		if (!listedPlayer && !switchablePlupp && !paginate) {
-			setSwitchers({ marked: null, target: null });
-		}
+		const unMark = (() => {
+			let res = false;
+
+			if (e.target.closest('.Pitch') && !switchablePlupp) {
+				res = true;
+			}
+
+			return res;
+		})();
+
+		if (!unMark) return;
+
+		closePlayerSearch();
+
+		setSwitchers({ marked: null, target: null });
 	};
 
 	// (runs after click outside)
 	handleClickInside = e => {
 		const { myTeam, player, pos, origin, lineupIndex } = this.props;
-		const { setSwitchers, switchPlayers } = myTeam.setters;
+		const { setSwitchers, switchPlayers, openPlayerSearch } = myTeam.setters;
 		const { marked } = myTeam.state.config.switchers;
 		const ref = this.pluppRef.current;
+
+		/* TEMP */
+		if (myTeam.state.config.mobileSearch) {
+			openPlayerSearch();
+		}
+
+		/* TEMP */
 
 		// if switchers dont have a marked, mark this plupp
 		if (!marked) {
@@ -324,14 +341,11 @@ class Plupp extends Component {
 	};
 
 	render() {
-
 		const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
 		const { player, pos, origin, lineupIndex } = this.props;
 
-
 		return (
 			<Container>
-				
 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>}
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import INITIAL_STATE, { config } from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { clone, toSwe, homePitch } from '../MyTeam/helperFuncs';
+import { clone, toSwe, homePitch, afterWinResize } from '../MyTeam/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
@@ -9,12 +9,17 @@ import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
+import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'react-device-detect';
+
+import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+import { GiCancel } from 'react-icons/gi';
 import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
 import {
 	Wrapper,
+	CancelBtn,
 	Title,
 	PlayerPrice,
 	Player,
@@ -30,25 +35,6 @@ import {
 	urlLink,
 	SearchFieldWrapper
 } from './index.styled';
-
-const CreateModal = props => {
-	const clickHandler = () => {
-		props.togglePlayerModal();
-	};
-
-	React.useEffect(() => {
-		console.log('modalstatus in bla', props.playerModal);
-	}, []);
-
-	//const Modal = Component => props => <Component {...props} />;
-
-	return (
-		<>
-			{props.display && props.children}
-			<button onClick={clickHandler}>{props.display ? 'close' : 'open'}</button>
-		</>
-	);
-};
 
 class PlayerSearch extends Component {
 	constructor(props) {
@@ -68,19 +54,38 @@ class PlayerSearch extends Component {
 		this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
 		this.applyFilter_name = this.applyFilter_name.bind(this);
 		this.playerClickHandler = this.playerClickHandler.bind(this);
-		this.displayPlayerInfoBtn = this.displayPlayerInfoBtn.bind(this);
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
+		this.checkIfSlider = this.checkIfSlider.bind(this);
 	}
 
+	componentDidMount = (pp, ps) => {
+		// on win resize, check if playerSearch should slide in or not
+		afterWinResize(() => {
+			this.checkIfSlider();
+		}, 300);
+	};
+
+	// check if playerSearch should slide in
+	checkIfSlider = () => {
+		const { mobileSearch: oldVal } = this.props.myTeam.state.config;
+		const newVal = window.innerWidth < 900 ? true : false;
+
+		if (oldVal !== newVal) {
+			this.props.myTeam.setters.toggleMobileSearch();
+		}
+	};
+
+	// player info modal
 	togglePlayerModal = () => {
 		this.setState(ps => ({ playerModal: !ps.playerModal }));
 	};
 
+	// when clicking on listed player
 	playerClickHandler = player => {
 		const { position: pos } = player;
 		const { markedMode, myTeam } = this.props;
-		const { addPlayer, setSwitchers, switchPlayers } = myTeam.setters;
+		const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = myTeam.setters;
 
 		// if a plupp is already marked, prepare switch
 		if (markedMode) {
@@ -103,6 +108,8 @@ class PlayerSearch extends Component {
 		} else {
 			addPlayer(player);
 		}
+
+		closePlayerSearch();
 	};
 
 	// reset filter & order
@@ -277,20 +284,12 @@ class PlayerSearch extends Component {
 			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
 		}));
 	};
-	/*
-	 *
-	 *
-	 *
-	 *******/
-
-	// display player info
-	displayPlayerInfoBtn = player => {
-		alert('Coming soon.');
-	};
 
 	render() {
 		const { paginationSettings, posOrClubSelected } = this.state;
 		const { players, myTeam } = this.props;
+		const { closePlayerSearch } = myTeam.setters;
+		const { mobileSearch, searchOpen } = myTeam.state.config;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -358,18 +357,23 @@ class PlayerSearch extends Component {
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-		console.log(Object.keys(result));
-		console.log(result);
+		//console.log(Object.keys(result));
+		//console.log(result);
 		//console.log('search output', result);
 
 		return (
-			<Wrapper className="PlayerSearch">
+			<Wrapper className="Wrapper PlayerSearch" mobileSearch={mobileSearch} searchOpen={searchOpen}>
+				{mobileSearch && (
+					<CancelBtn onClick={closePlayerSearch}>
+						<GiCancel />
+					</CancelBtn>
+				)}
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
 				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
 				<Dropdown
-					className="FilterByPosClub dropdown unmarkable"
+					className="FilterByPosClub dropdown playerserach unmarkable"
 					options={filterOptions}
 					onChange={this.setFilter_posClub}
 					value={posOrClubdefaultOption}
@@ -377,7 +381,7 @@ class PlayerSearch extends Component {
 				/>
 
 				<Dropdown
-					className="FilterByMaxPrice dropdown unmarkable"
+					className="FilterByMaxPrice dropdown playerserach unmarkable"
 					onChange={this.setFilter_maxPrice}
 					value={maxPriceDefaultOption}
 					options={priceOptions}
@@ -396,7 +400,7 @@ class PlayerSearch extends Component {
 					<FiSearch />
 				</SearchFieldWrapper>
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
-				<ButtonContainer>
+				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
 						className="SortFalling unmarkable"
 						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}

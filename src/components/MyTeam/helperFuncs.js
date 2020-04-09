@@ -38,3 +38,33 @@ export const clone = (obj, keyName) => {
 export const toSwe = (word, chapter) => LEX[chapter][word];
 
 export const homePitch = club => stadiums[club].url;
+
+export const afterWinResize = (callback, timeout = 300) => {
+	let doWhenDone;
+
+	window.onresize = () => {
+		clearTimeout(doWhenDone);
+
+		doWhenDone = setTimeout(() => {
+			if (typeof callback === 'function') {
+				callback();
+			}
+		}, timeout);
+	};
+};
+
+export const getRefSize = ref => {
+	let res = {
+		w: undefined,
+		h: undefined
+	};
+
+	if (ref) {
+		if (ref.current) {
+			res.w = ref.current.clientWidth;
+			res.h = ref.current.clientHeight;
+		}
+	}
+
+	return res;
+};

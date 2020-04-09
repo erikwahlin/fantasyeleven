@@ -6,25 +6,49 @@ import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
 import BuildStages from './BuildStages';
+import { isMobile, isBrowser } from 'react-device-detect';
+
+/* console.log(
+	'browser view',
+	<BrowserView />,
+	'mobile view',
+	MobileView,
+	'browser',
+	isBrowser,
+	'mobile',
+	isMobile,
+	'detect',
+	deviceDetect()
+); */
 
 const ContentWrap = styled.div`
-	width: 90%;
-	max-width: 1200px;
-	margin: auto;
-	display: flex;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 10% 90%;
+	grid-gap: 0px 20px;
 
-	flex-direction: row;
-	justify-content: space-around;
-
-	@media screen and (min-height: 765px) {
-		grid-template-rows: 70px 700px;
+	@media screen and (min-height: 700px) and (max-width: 500px) {
+		grid-template-rows: 70px 632px;
 	}
 
-	@media screen and (min-width: 900px) {
-		grid-template-columns: auto 550px 300px auto;
+	@media screen and (min-width: 501px) {
+		@media screen and (max-height: 600px) {
+			grid-template-rows: 70px 550px;
+		}
 
-		@media screen and (min-width: 1000px) {
-			grid-template-columns: auto 650px 300px auto;
+		@media screen and (min-height: 765px) {
+			grid-template-rows: 70px 700px;
+		}
+
+		@media screen and (min-width: 900px) {
+			grid-template-columns: auto 550px 300px auto;
+
+			@media screen and (min-width: 1000px) {
+				grid-template-columns: auto 650px 300px auto;
+			}
 		}
 	}
 `;

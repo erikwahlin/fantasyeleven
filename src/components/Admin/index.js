@@ -1,14 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
+import Navigation from '../Navigation';
 
 import { withAuthorization } from '../Session';
 import { UserList, UserItem } from '../Users';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
-const AdminPage = () => (
+const AdminPage = ({ location }) => (
 	<div>
+		<Navigation pathname={location.pathname} />
+
 		<h1>Admin</h1>
 		<p>The Admin Page is accessible by every signed in admin user.</p>
 

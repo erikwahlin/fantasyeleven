@@ -1,73 +1,74 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
-import Plupp from '../../Plupp';
-import Bench from '../../Bench';
-
+import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
+import InfoContainer from '../../Pitch/InfoContainer';
 
 const Wrapper = styled.div`
-	/* height: 422px; /* 0.906 */
-	max-width: 580px; /* Or do we make pitch wider? */
-	display: flex;
-	flex-direction: column;
+	grid-row: 2;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 80px auto;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	max-width: 800px;
+	margin: auto;
+	margin-top: 0;
+
+	@media screen and (min-width: 900px) {
+		grid-column: 2;
+	}
 `;
 
 const FieldContainer = styled.div`
-	width: 576px;
-	height: 500px;
-	background: url(${p => p.bg});
-	background-size: cover;
-	background-repeat: no-repeat;
-	@media screen and (max-width: 602px) {
-		background-size: auto 100%;
+	width: 100%;
+	max-width: 700px;
+	height: 100%;
+	position: relative;
+	margin: auto;
+
+	& > {
+		@media screen and (max-height: 665px) and (max-width: 500px) {
+			height: 70vh;
+		}
 	}
-
-	flex: 1;
 `;
 
-const InfoContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-`;
-
-const ChosenPlayers = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-`;
-
-const InfoTitle = styled.h2`
-	margin: 0;
-	margin-bottom: 0.2rem;
-`;
-
-const BenchContainer = styled.div`
-	flex: 1;
-	background: grey;
-`;
-
-const InfoP = styled.p`
-	color: ${p => p.ready && '#35892A'};
+const PitchImg = styled.img`
+	width: 100%;
+	height: 100%;
+	max-width: 700px;
+	position: absolute;
 `;
 
 const FormationContainer = styled.div`
 	margin: auto;
 	width: 100%;
+	height: 100%;
 	position: relative;
 	display: flex;
 	flex-direction: column;
+
+	/* ${p => p.bg && 'background: url(' + p.bg + ')'};
+	background-size: 100% 100%;
+	background-repeat: no-repeat; */
 `;
 
 const PosLineup = styled.div`
 	width: 100%;
 	height: 100px;
-	min-height: 117px;
+	/* min-height: 117px; */
 	flex: 1;
 	position: relative;
 	display: flex;
 	justify-content: space-evenly;
+`;
+
+const BenchContainer = styled.div`
+	flex: 1;
+	background: grey;
 `;
 
 const PluppContainer = styled.div`
@@ -79,6 +80,37 @@ const PluppContainer = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 `;
+/* 
+function useWindowSize(ref) {
+	//const isClient = typeof window === 'object';
+
+	function getRefSize() {
+		if (!ref) return { width: 'not set', height: 'not set' };
+
+		console.log(ref.current);
+		return {
+			width: ref.current ? ref.current.innerWidth : undefined,
+			height: ref.current ? ref.current.innerHeight : undefined
+		};
+	}
+
+	const [windowSize, setWindowSize] = React.useState(getRefSize);
+
+	React.useEffect(() => {
+		if (!ref) {
+			if (!ref) return { width: 'not set', height: 'not set' };
+		}
+
+		function handleResize() {
+			setWindowSize(getRefSize());
+		}
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []); // Empty array ensures that effect is only run on mount and unmount
+
+	return windowSize;
+} */
 
 const ClearPitch = styled.button`
 	width: 100px;
@@ -96,9 +128,31 @@ const ClearPitch = styled.button`
 
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
-	const { delPlayer } = props.myTeam.setters;
+	const { togglePlayerSearch, delPlayer } = props.myTeam.setters;
 
 	const playerCount = team.list.length;
+	const teamValue = game.value;
+
+	/* let pitchRef = React.useRef(null);
+
+	const [pitchSize, setPitchSize] = React.useState(null);
+	const [mounted, setMounted] = React.useState(false);
+
+	React.useEffect(() => {
+		const curSize = getRefSize(pitchRef);
+		if (curSize !== pitchSize) {
+			setPitchSize(getRefSize(pitchRef));
+		}
+	}, [pitchRef]);
+
+	React.useEffect(() => {
+		if (!mounted) {
+			setMounted(true);
+			afterWinResize(() => setPitchSize(getRefSize(pitchRef)), 500);
+		}
+	}, []);
+
+	console.log('pitchsize', pitchSize); */
 
 	const { pitch: pitchLimit } = config.limit;
 
@@ -134,25 +188,12 @@ const Pitch = props => {
 	}; */
 
 	return (
-		<Wrapper className="Pitch">
-			<InfoContainer className="InfoContainer unmarkable">
-				<ChosenPlayers>
-					<InfoTitle className="infoTitle">Valda spelare</InfoTitle>
-					<InfoP ready={playerCount === 15} className="amount">
-						{playerCount + '/15'}
-					</InfoP>
-				</ChosenPlayers>
+		<Wrapper className="Pitch" /* pitchSize={pitchSize} */>
+			<InfoContainer playerCount={playerCount} teamValue={teamValue} />
 
-				<ClearPitch onClick={clearPitch}>Radera lag</ClearPitch>
-
-				<ChosenPlayers>
-					<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
-					<InfoP className="amount">{game.value + ' kr'}</InfoP>
-				</ChosenPlayers>
-			</InfoContainer>
-
-			<FieldContainer className="FieldContainer" bg={pitchImg}>
-				<FormationContainer className="FormationContainer">
+			<FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
+				<PitchImg src={pitchImg} />
+				<FormationContainer className="FormationContainer" bg={pitchImg}>
 					{config.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (
@@ -174,7 +215,7 @@ const Pitch = props => {
 					))}
 				</FormationContainer>
 			</FieldContainer>
-			<Bench />
+			{/* <Bench /> */}
 		</Wrapper>
 	);
 };

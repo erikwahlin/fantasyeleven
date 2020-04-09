@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../MyTeam/ctx';
 import { shortenName } from '../MyTeam/helperFuncs';
-import Plupp from '../Plupp';
+import Plupp from '../MyTeam/Plupp';
 
 const Wrapper = styled.div`
 	width: 100%;
