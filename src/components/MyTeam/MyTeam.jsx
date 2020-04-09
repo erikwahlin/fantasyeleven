@@ -72,6 +72,7 @@ export default class MyTeam extends Component {
 		this.toggleMobileSearch = this.toggleMobileSearch.bind(this);
 		this.openPlayerSearch = this.openPlayerSearch.bind(this);
 		this.closePlayerSearch = this.closePlayerSearch.bind(this);
+		this.setStage = this.setStage.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -84,8 +85,8 @@ export default class MyTeam extends Component {
 		});
 	};
 
-	setStage = newVal => {
-		this.setState();
+	setStage = newStage => {
+		this.setState(ps => ({ config: { ...ps.config, buildStage: newStage } }));
 	};
 
 	toggleMobileSearch = () => {
@@ -627,7 +628,7 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
-		const { searchablePlayers, switchers, mobileSearch } = this.state.config;
+		const { searchablePlayers, switchers, mobileSearch, buildStage } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -638,7 +639,8 @@ export default class MyTeam extends Component {
 			switchPlayers: this.switchPlayers,
 			openPlayerSearch: this.openPlayerSearch,
 			closePlayerSearch: this.closePlayerSearch,
-			toggleMobileSearch: this.toggleMobileSearch
+			toggleMobileSearch: this.toggleMobileSearch,
+			setStage: this.setStage
 		};
 
 		const markedMode = switchers.marked && !switchers.target ? true : false;
@@ -661,7 +663,7 @@ export default class MyTeam extends Component {
 				> */}
 
 				<ContentWrap className="ContentWrap" markedMode={markedMode} mobileSearch={mobileSearch}>
-					<BuildStages />
+					<BuildStages buildStage={buildStage} />
 					{/* <Pitch /> */}
 
 					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />

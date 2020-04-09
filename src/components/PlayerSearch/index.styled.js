@@ -195,11 +195,11 @@ export const PlayerInfoBtn = styled.button`
 
 export const Player = styled.div`
 	flex: 3;
-	padding: 5px;
+	padding: 2px;
 	cursor: pointer;
 
 	& > p {
-		font-size: 12px;
+		font-size: 11px;
 		margin: 0;
 	}
 
