@@ -7,8 +7,6 @@ import PlayerSearch from '../PlayerSearch';
 import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
 
-import SlideMenu from 'react-slide-menu';
-
 /* console.log(
 	'browser view',
 	<BrowserView />,
