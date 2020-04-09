@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
+import BuildInfo from '../BuildInfo';
 import { shortenName } from '../helperFuncs';
 import Plupp from '../Plupp';
 
@@ -35,22 +36,28 @@ const PlayerName = styled.span`
 `;
 
 const Bench = props => {
-	const { config, team } = props.myTeam.state;
+	const { config, team, game } = props.myTeam.state;
+	const playerCount = team.list.map(player => player.origin === 'bench').length;
+	const teamValue = game.value;
 
 	return (
-		<Wrapper className="Bench unmarkable">
-			{config.positions.map((pos, nth) => (
-				<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
-					<Plupp
-						pos={pos}
-						player={team.bench[pos][0]}
-						lineupCount={team.bench[pos].length}
-						lineupIndex={0}
-						origin="bench"
-					/>
-				</PluppContainer>
-			))}
-		</Wrapper>
+		<div>
+			<BuildInfo playerCount={playerCount} teamValue={teamValue} team={team} origin="bench" />
+
+			<Wrapper className="Bench unmarkable">
+				{config.positions.map((pos, nth) => (
+					<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
+						<Plupp
+							pos={pos}
+							player={team.bench[pos][0]}
+							lineupCount={team.bench[pos].length}
+							lineupIndex={0}
+							origin="bench"
+						/>
+					</PluppContainer>
+				))}
+			</Wrapper>
+		</div>
 	);
 };
 

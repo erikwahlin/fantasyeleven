@@ -234,6 +234,7 @@ class Plupp extends Component {
 	handleClickOutside = e => {
 		if (!this.state.isMarked) return;
 
+		const { buildStage } = this.props.myTeam.state.config;
 		const { setSwitchers, closePlayerSearch } = this.props.myTeam.setters;
 
 		// if clicked on pitch but not a switchable plupp
@@ -244,7 +245,10 @@ class Plupp extends Component {
 		const unMark = (() => {
 			let res = false;
 
-			if (e.target.closest('.Pitch') && !switchablePlupp) {
+			if (
+				(e.target.closest('.Pitch') && !switchablePlupp) ||
+				(buildStage.key === 'bench' && !listedPlayer)
+			) {
 				res = true;
 			}
 
@@ -262,7 +266,8 @@ class Plupp extends Component {
 	handleClickInside = e => {
 		const { myTeam, player, pos, origin, lineupIndex } = this.props;
 		const { setSwitchers, switchPlayers, openPlayerSearch } = myTeam.setters;
-		const { marked } = myTeam.state.config.switchers;
+		const { switchers, buildStage } = myTeam.state.config;
+		const { marked } = switchers;
 		const ref = this.pluppRef.current;
 
 		/* TEMP */
@@ -290,6 +295,8 @@ class Plupp extends Component {
 			if (ref === marked.ref) {
 				return setSwitchers({ marked: null, target: null });
 			}
+
+			if (buildStage.key !== 'pitch') return;
 
 			// else, target this plupp, prepare switch
 			setSwitchers(

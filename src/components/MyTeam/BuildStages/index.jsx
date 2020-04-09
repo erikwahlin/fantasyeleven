@@ -117,9 +117,11 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 	const { list: playerList } = myTeam.state.team;
 	const pitchCount = playerList.filter(player => player.origin === 'pitch').length;
 	const benchCount = playerList.filter(player => player.origin === 'bench').length;
-	const { setStage } = myTeam.setters;
+	const { setStage, updateFilterKeys } = myTeam.setters;
 
-	const callback = key => {};
+	const callback = key => {
+		console.log('tab change callback...');
+	};
 
 	const tabRef = useRef(null);
 
@@ -128,7 +130,7 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 			tab: 'Pitch',
 			key: 'pitch',
 			content: <Pitch />,
-			condition: true, //pitchCount === 11,
+			condition: pitchCount === 11,
 			ref: useRef()
 		},
 		{
@@ -147,8 +149,6 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 		}
 	];
 
-	const tabBarGutter = tabRef.current ? tabRef.current.clientWidth / tabs.length : 100;
-
 	const navHandler = input => {
 		let index = buildStage.index + input;
 
@@ -162,6 +162,8 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 			key: tabs[index].key,
 			index: index
 		});
+
+		updateFilterKeys();
 	};
 
 	return (

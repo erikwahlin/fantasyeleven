@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
-import InfoContainer from './InfoContainer';
+import BuildInfo from '../BuildInfo';
 
 const Wrapper = styled.div`
 	grid-row: 2;
@@ -112,25 +112,11 @@ function useWindowSize(ref) {
 	return windowSize;
 } */
 
-const ClearPitch = styled.button`
-	width: 100px;
-	height: 50px;
-	background: #031e3d;
-	border: 1px solid white;
-	border-radius: 2px;
-	outline: none;
-	cursor: pointer;
-	font-family: 'Avenir';
-	font-size: 0.9em;
-	font-weight: bold;
-	color: white;
-`;
-
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
 	const { togglePlayerSearch, delPlayer } = props.myTeam.setters;
 
-	const playerCount = team.list.length;
+	const playerCount = team.list.map(player => player.origin === 'pitch').length;
 	const teamValue = game.value;
 
 	/* let pitchRef = React.useRef(null);
@@ -189,7 +175,7 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch" /* pitchSize={pitchSize} */>
-			<InfoContainer playerCount={playerCount} teamValue={teamValue} />
+			<BuildInfo playerCount={playerCount} teamValue={teamValue} team={team} origin="pitch" />
 
 			<FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
 				<PitchImg src={pitchImg} />

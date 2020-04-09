@@ -175,7 +175,6 @@ export default class MyTeam extends Component {
 		const updater = prevState => {
 			const { config } = clone(prevState);
 			const { filterKeys, buildStage } = config;
-
 			config.positions.forEach(pos => {
 				// if pitch and bench full - add pos to filter (if filter is not active)
 				if (
@@ -642,7 +641,8 @@ export default class MyTeam extends Component {
 			openPlayerSearch: this.openPlayerSearch,
 			closePlayerSearch: this.closePlayerSearch,
 			toggleMobileSearch: this.toggleMobileSearch,
-			setStage: this.setStage
+			setStage: this.setStage,
+			updateFilterKeys: this.updateFilterKeys
 		};
 
 		const markedMode = switchers.marked && !switchers.target ? true : false;
