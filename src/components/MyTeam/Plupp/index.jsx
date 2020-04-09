@@ -55,7 +55,7 @@ const PluppImg = styled.svg`
 	height: 100%;
 	border-radius: 50%;
 	background: ${props =>
-		props.player.club
+		props.player
 			? allClubs.find(obj => {
 					return obj.long === props.player.club;
 			  }).color

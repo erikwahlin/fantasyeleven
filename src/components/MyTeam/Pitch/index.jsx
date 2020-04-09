@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
-import InfoContainer from '../../Pitch/InfoContainer';
+import InfoContainer from './InfoContainer';
 
 const Wrapper = styled.div`
 	grid-row: 2;
@@ -215,7 +215,6 @@ const Pitch = props => {
 					))}
 				</FormationContainer>
 			</FieldContainer>
-			{/* <Bench /> */}
 		</Wrapper>
 	);
 };

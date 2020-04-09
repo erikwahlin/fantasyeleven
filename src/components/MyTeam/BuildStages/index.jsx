@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { withMyTeam } from '../ctx';
 import styled from 'styled-components';
 import Pitch from '../Pitch';
+import Bench from '../Bench';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -90,8 +91,32 @@ const NavBtn = styled.button`
 	opacity: ${p => (p.disabled ? '.5' : '1')};
 `;
 
+const BenchContent = () => {
+	return (
+		<>
+			<h2>BÄNK</h2>
+			<Bench />
+		</>
+	);
+};
+
+const Powerups = () => {
+	return (
+		<>
+			<h2>Superkrafter</h2>
+			<hr />
+			<h3>Kapten Trippel</h3>
+			<h3>Hål i nätet</h3>
+			<h3>Guds hand</h3>
+			<h3>8cm dobbar</h3>
+		</>
+	);
+};
+
 const BuildStages = ({ buildStage, myTeam, ...props }) => {
-	const pitchCount = myTeam.state.team.list.filter(player => player.origin === 'pitch').length;
+	const { list: playerList } = myTeam.state.team;
+	const pitchCount = playerList.filter(player => player.origin === 'pitch').length;
+	const benchCount = playerList.filter(player => player.origin === 'bench').length;
 	const { setStage } = myTeam.setters;
 
 	const callback = key => {};
@@ -103,20 +128,20 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 			tab: 'Pitch',
 			key: 'pitch',
 			content: <Pitch />,
-			condition: pitchCount === 11,
+			condition: true, //pitchCount === 11,
 			ref: useRef()
 		},
 		{
 			tab: 'Bench',
 			key: 'bench',
-			content: <h2>BENCH</h2>,
-			condition: true,
+			content: <BenchContent />,
+			condition: benchCount === 4,
 			ref: useRef()
 		},
 		{
 			tab: 'Powerups',
 			key: 'powerups',
-			content: <h2>POWERUPS</h2>,
+			content: <Powerups />,
 			condition: true,
 			ref: useRef()
 		}
