@@ -112,15 +112,23 @@ function useWindowSize(ref) {
 	return windowSize;
 } */
 
-const AutoPickBtn = styled.button`
+const ClearPitch = styled.button`
 	width: 100px;
 	height: 50px;
-	background: white;
+	background: #031e3d;
+	border: 1px solid white;
+	border-radius: 2px;
+	outline: none;
+	cursor: pointer;
+	font-family: 'Avenir';
+	font-size: 0.9em;
+	font-weight: bold;
+	color: white;
 `;
 
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
-	const { togglePlayerSearch } = props.myTeam.setters;
+	const { togglePlayerSearch, delPlayer } = props.myTeam.setters;
 
 	const playerCount = team.list.length;
 	const teamValue = game.value;
@@ -147,6 +155,13 @@ const Pitch = props => {
 	console.log('pitchsize', pitchSize); */
 
 	const { pitch: pitchLimit } = config.limit;
+
+	const clearPitch = () => {
+		// alla spelare på []
+		const pitchPlayers = team.list.filter(player => player.origin === 'pitch');
+		pitchPlayers.forEach(player => delPlayer(player));
+		// loop, kör delPlayer på []
+	};
 
 	/* 
 	WIPWIPWIP

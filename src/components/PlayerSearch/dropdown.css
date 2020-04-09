@@ -1,6 +1,6 @@
 .Dropdown-root {
 	position: relative;
-	/* width: 100%; */
+	width: 100%;
 	margin-bottom: 6px;
 	font-family: 'Avenir';
 	font-size: 0.9em;
@@ -15,7 +15,7 @@
 	border-radius: 2px;
 	box-sizing: border-box;
 	color: white;
-	cursor: default;
+	cursor: pointer;
 	outline: none;
 	padding: 8px 52px 8px 10px;
 	transition: all 200ms ease;

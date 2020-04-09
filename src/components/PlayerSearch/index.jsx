@@ -13,6 +13,7 @@ import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'reac
 
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
+import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
@@ -31,7 +32,8 @@ import {
 	LabelRow,
 	PlayerRow,
 	ButtonReset,
-	urlLink
+	urlLink,
+	SearchFieldWrapper
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -339,9 +341,12 @@ class PlayerSearch extends Component {
 		const sorted = this.sortByPrice(filtered);
 		//sorted
 		// WIP-test. split into result-sections based on sort
-		const paginate = (playersList, page_size, page_number) => {
+		const paginate = (playersList, pageSize, pageNumber) => {
+			//stores the amount of players / page in variable;
+			const playersPerPage = playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+
+			return playersPerPage;
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-			return playersList.slice((page_number - 1) * page_size, page_number * page_size);
 		};
 
 		const paginated = paginate(sorted, paginationSettings.pageSize, paginationSettings.pageNumber);
@@ -382,15 +387,18 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
-
-				<Input
-					type="text"
-					name="name"
-					className="FilterByName unmarkable"
-					onChange={this.setFilter_name}
-					placeholder="Sök spelare"
-				></Input>
-
+				<SearchFieldWrapper>
+					<Input
+						type="text"
+						name="name"
+						className="FilterByName unmarkable"
+						onChange={this.setFilter_name}
+						placeholder="Sök spelare"
+						onFocus={e => (e.target.placeholder = '')}
+						onBlur={e => (e.target.placeholder = 'Sök spelare')}
+					></Input>
+					<FiSearch />
+				</SearchFieldWrapper>
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
@@ -420,6 +428,7 @@ class PlayerSearch extends Component {
 					goToPage={this.goToPage}
 					settings={paginationSettings}
 					playerCount={filtered.length}
+					pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
 				/>
 				{posOrClubSelected !== 'none' ? (
 					<LabelRow className="unmarkable">

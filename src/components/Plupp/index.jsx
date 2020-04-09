@@ -5,6 +5,7 @@ import { shortenName } from '../MyTeam/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+import allClubs from '../../constants/clubs';
 
 const Container = styled.div`
 	width: 50px;
@@ -17,7 +18,24 @@ const PlayerName = styled.span`
 	position: absolute;
 	width: 100px;
 	left: -25px;
+	top: -22px;
+	font-family: 'Avenir';
+	font-weight: bold;
+	font-size: 0.8em;
+	text-align: center;
+	text-shadow: 0 1px 2px #000;
+	color: #eee;
+`;
+
+const PlayerPrice = styled.span`
+	position: absolute;
+	width: 96px;
+	background-color: rgba(51, 170, 51, 0.6);
+	padding: 3px;
+	left: -25px;
 	top: 52px;
+	font-family: 'Avenir';
+	font-weight: bold;
 	font-size: 0.8em;
 	text-align: center;
 	text-shadow: 0 1px 2px #000;
@@ -36,8 +54,14 @@ const PluppImg = styled.svg`
 
 	height: 100%;
 	border-radius: 50%;
-	background: ${p => (p.origin === 'bench' && !p.player ? '#333' : '#999')};
-`;
+	background: ${props =>
+		props.player.club
+			? allClubs.find(obj => {
+					return obj.long === props.player.club;
+			  }).color
+			: '#333'};	
+ 	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
+ 	`;
 
 const Options = styled.div`
 	position: absolute;
@@ -90,6 +114,7 @@ const SwitchIcon = styled.div`
 	z-index: 0;
 	text-align: center;
 	color: #ccc;
+	font-size: 0.5em;
 
 	& > * {
 		width: 65%;
@@ -322,6 +347,7 @@ class Plupp extends Component {
 		return (
 			<Container>
 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
+				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>}
 
 				{isMarked && player && (
 					<Options>

@@ -372,6 +372,9 @@ export default class MyTeam extends Component {
 			// add player to formation on pitch or bench
 			team[origin][pos].push(player);
 
+			// update player origin (pitch/bench)
+			player.origin = origin;
+
 			// inc team value
 			game.value += player.price;
 
@@ -422,9 +425,9 @@ export default class MyTeam extends Component {
 				}
 			});
 
-			// del player from pitch or bench
-			team[origin][pos].forEach((item, nth) => {
-				if (item.uid === uid) {
+			// del player from origin/pos
+			team[origin][pos].forEach((existing, nth) => {
+				if (existing.uid === uid) {
 					team[origin][pos].splice(nth, 1);
 				}
 			});
@@ -619,7 +622,7 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
-		const { searchablePlayers, switchers } = this.state.config;
+		const { searchablePlayers, switchers, mobileSearch } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -652,12 +655,11 @@ export default class MyTeam extends Component {
 					extraComponent={<div>ej</div>}
 				> */}
 
-				<ContentWrap className="ContentWrap" markedMode={markedMode}>
+				<ContentWrap className="ContentWrap" markedMode={markedMode} mobileSearch={mobileSearch}>
 					<Pitch />
 
 					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 				</ContentWrap>
-				{/* </SlideMenu> */}
 			</MyTeamCtx.Provider>
 		);
 	}
