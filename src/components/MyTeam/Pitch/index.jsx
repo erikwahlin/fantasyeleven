@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../MyTeam/ctx';
-import Plupp from '../Plupp';
-import Bench from '../Bench';
+import { withMyTeam } from '../ctx';
+import Plupp from '../../Plupp';
+import Bench from '../../Bench';
 
-import pitchImg from '../../media/pitch.png';
+import pitchImg from '../../../media/pitch.png';
 
 const Wrapper = styled.div`
-	height: 422px; /* 0.906 */
+	/* height: 422px; /* 0.906 */
 	max-width: 580px; /* Or do we make pitch wider? */
 	display: flex;
 	flex-direction: column;

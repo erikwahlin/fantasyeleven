@@ -51,6 +51,8 @@ const INITIAL_STATE = {
 	},
 
 	config: {
+		stage: 'pitch',
+
 		filterKeys: {
 			uid: [],
 			position: [],

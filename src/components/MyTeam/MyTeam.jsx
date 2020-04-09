@@ -4,8 +4,8 @@ import { clone } from './helperFuncs';
 import MyTeamCtx from './ctx';
 import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
-import Pitch from '../Pitch';
 import '../PlayerSearch/styles.css';
+import BuildStages from './BuildStages';
 
 const ContentWrap = styled.div`
 	width: 90%;
@@ -58,6 +58,10 @@ export default class MyTeam extends Component {
 		this.setState({ [key]: val }, () => {
 			if (typeof callback === 'function') return callback();
 		});
+	};
+
+	setStage = newVal => {
+		this.setState();
 	};
 
 	toggleMobileSearch = () => {
@@ -633,7 +637,8 @@ export default class MyTeam extends Component {
 				> */}
 
 				<ContentWrap className="ContentWrap" markedMode={markedMode} mobileSearch={mobileSearch}>
-					<Pitch />
+					<BuildStages />
+					{/* <Pitch /> */}
 
 					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 				</ContentWrap>
