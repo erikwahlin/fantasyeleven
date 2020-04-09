@@ -42,7 +42,7 @@ const Bench = props => {
 
 	return (
 		<div>
-			<BuildInfo playerCount={playerCount} teamValue={teamValue} team={team} origin="bench" />
+			<BuildInfo playerCount={playerCount} team={team} origin="bench" />
 
 			<Wrapper className="Bench unmarkable">
 				{config.positions.map((pos, nth) => (

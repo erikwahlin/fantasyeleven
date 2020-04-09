@@ -24,7 +24,7 @@ const InfoTitle = styled.h2`
 `;
 
 const InfoP = styled.p`
-	color: ${p => (p.notReady ? 'hotpink' : p.ready ? '#35892A' : 'white')};
+	color: ${p => (p.notReady ? 'red' : p.ready ? '#35892A' : 'white')};
 `;
 
 const ClearBtn = styled.button`
@@ -41,8 +41,9 @@ const ClearBtn = styled.button`
 	color: white;
 `;
 
-const BuildInfo = ({ teamValue, myTeam, origin }) => {
-	const { team, config } = myTeam.state;
+const BuildInfo = ({ myTeam, origin }) => {
+	const { team, config, game } = myTeam.state;
+	const teamValue = game.value[origin];
 	const { buildStage } = config;
 	const { delPlayer } = myTeam.setters;
 	const maxPlayers = origin === 'pitch' ? 11 : 4;
@@ -50,8 +51,8 @@ const BuildInfo = ({ teamValue, myTeam, origin }) => {
 	const playerCount = team.list.filter(player => player.origin === origin).length;
 
 	const pitchReady = playerCount === 11;
-	const benchReady = buildStage === 'bench' && teamValue <= maxValue && playerCount === maxPlayers;
-	const benchNotReady = buildStage === 'bench' && teamValue > maxValue;
+	const benchReady = teamValue === maxValue || (teamValue <= maxValue && playerCount === maxPlayers);
+	const benchNotReady = teamValue > maxValue;
 
 	const clearPlayers = () => {
 		// alla spelare på []
@@ -59,8 +60,6 @@ const BuildInfo = ({ teamValue, myTeam, origin }) => {
 		players.forEach(player => delPlayer(player));
 		// loop, kör delPlayer på []
 	};
-
-	console.log('playercount', playerCount);
 
 	return (
 		<Wrapper className="BuildInfo unmarkable">

@@ -146,6 +146,13 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 			content: <Powerups />,
 			condition: true,
 			ref: useRef()
+		},
+		{
+			tab: 'Överblick',
+			key: 'overview',
+			content: <h2>Överblick...</h2>,
+			condition: true,
+			ref: useRef()
 		}
 	];
 
@@ -184,7 +191,7 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 					onClick={e => navHandler(1)}
 					disabled={!tabs[buildStage.index].condition}
 				>
-					Klar
+					{buildStage.key === 'overview' ? 'Lämna in lag!' : 'Vidare'}
 				</NavBtn>
 			</NavContainer>
 		</Wrapper>

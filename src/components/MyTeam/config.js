@@ -46,7 +46,11 @@ const INITIAL_STATE = {
 
 	game: {
 		boosts: [],
-		value: 0,
+		value: {
+			pitch: 0,
+			bench: 0,
+			tot: 0
+		},
 		round: 666
 	},
 

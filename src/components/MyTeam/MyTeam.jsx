@@ -383,7 +383,8 @@ export default class MyTeam extends Component {
 			player.origin = origin;
 
 			// inc team value
-			game.value += player.price;
+			game.value[origin] += player.price;
+			game.value.tot += player.price;
 
 			// inc count for player's club
 			team.clubs[club] = team.clubs[club] + 1 || 1;
@@ -423,7 +424,8 @@ export default class MyTeam extends Component {
 			const { filterKeys } = config;
 
 			//dec team value
-			game.value -= player.price;
+			game.value[origin] -= player.price;
+			game.value.tot -= player.price;
 
 			// del player from list
 			team.list.forEach((item, nth) => {

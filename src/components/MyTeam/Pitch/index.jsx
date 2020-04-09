@@ -175,7 +175,7 @@ const Pitch = props => {
 
 	return (
 		<Wrapper className="Pitch" /* pitchSize={pitchSize} */>
-			<BuildInfo playerCount={playerCount} teamValue={teamValue} team={team} origin="pitch" />
+			<BuildInfo playerCount={playerCount} team={team} origin="pitch" />
 
 			<FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
 				<PitchImg src={pitchImg} />
