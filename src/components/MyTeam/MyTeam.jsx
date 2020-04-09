@@ -12,12 +12,20 @@ const ContentWrap = styled.div`
 	max-width: 1200px;
 	margin: auto;
 	display: flex;
-	
+
 	flex-direction: row;
 	justify-content: space-around;
 
-	& > .PlayerSearch {
-		flex: 1;
+	@media screen and (min-height: 765px) {
+		grid-template-rows: 70px 700px;
+	}
+
+	@media screen and (min-width: 900px) {
+		grid-template-columns: auto 550px 300px auto;
+
+		@media screen and (min-width: 1000px) {
+			grid-template-columns: auto 650px 300px auto;
+		}
 	}
 `;
 
@@ -35,8 +43,11 @@ export default class MyTeam extends Component {
 		this.delPlayer = this.delPlayer.bind(this);
 		this.setSwitchers = this.setSwitchers.bind(this);
 		this.switchPlayers = this.switchPlayers.bind(this);
-
 		this.checkMarkedMode = this.checkMarkedMode.bind(this);
+
+		this.toggleMobileSearch = this.toggleMobileSearch.bind(this);
+		this.openPlayerSearch = this.openPlayerSearch.bind(this);
+		this.closePlayerSearch = this.closePlayerSearch.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -47,6 +58,37 @@ export default class MyTeam extends Component {
 		this.setState({ [key]: val }, () => {
 			if (typeof callback === 'function') return callback();
 		});
+	};
+
+	toggleMobileSearch = () => {
+		this.setState(
+			ps => ({
+				config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
+			}),
+			() => {
+				if (this.state.config.mobileSearch) {
+					this.closePlayerSearch();
+				} else {
+					this.openPlayerSearch();
+				}
+			}
+		);
+	};
+
+	openPlayerSearch = () => {
+		if (!this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: true }
+			}));
+		}
+	};
+
+	closePlayerSearch = () => {
+		if (this.state.config.searchOpen) {
+			this.setState(ps => ({
+				config: { ...ps.config, searchOpen: false }
+			}));
+		}
 	};
 
 	updatesearchablePlayers = callback => {
@@ -295,8 +337,8 @@ export default class MyTeam extends Component {
 			const origin = player.origin
 				? player.origin
 				: pitch[pos].length < config.limit.pitch[pos].max
-					? 'pitch'
-					: 'bench';
+				? 'pitch'
+				: 'bench';
 			player.origin = origin;
 
 			///// -> player.captain = filterKeys.captain //do i do this here?
@@ -306,6 +348,9 @@ export default class MyTeam extends Component {
 
 			// add player to formation on pitch or bench
 			team[origin][pos].push(player);
+
+			// update player origin (pitch/bench)
+			player.origin = origin;
 
 			// inc team value
 			game.value += player.price;
@@ -357,9 +402,9 @@ export default class MyTeam extends Component {
 				}
 			});
 
-			// del player from pitch or bench
-			team[origin][pos].forEach((item, nth) => {
-				if (item.uid === uid) {
+			// del player from origin/pos
+			team[origin][pos].forEach((existing, nth) => {
+				if (existing.uid === uid) {
 					team[origin][pos].splice(nth, 1);
 				}
 			});
@@ -554,7 +599,7 @@ export default class MyTeam extends Component {
 	};
 
 	render() {
-		const { searchablePlayers } = this.state.config;
+		const { searchablePlayers, switchers, mobileSearch } = this.state.config;
 
 		// MyTeam-funcs in ctx
 		const setters = {
@@ -562,8 +607,13 @@ export default class MyTeam extends Component {
 			addPlayer: this.addPlayer,
 			delPlayer: this.delPlayer,
 			setSwitchers: this.setSwitchers,
-			switchPlayers: this.switchPlayers
+			switchPlayers: this.switchPlayers,
+			openPlayerSearch: this.openPlayerSearch,
+			closePlayerSearch: this.closePlayerSearch,
+			toggleMobileSearch: this.toggleMobileSearch
 		};
+
+		const markedMode = switchers.marked && !switchers.target ? true : false;
 
 		// filter allPlayers before PlayerSearch
 
@@ -574,13 +624,19 @@ export default class MyTeam extends Component {
 					setters
 				}}
 			>
-				<div className="MyTeam Content">
-					<ContentWrap className="ContentWrap">
-						<Pitch />
+				{/* <SlideMenu
+					active={this.state.slideMenuActive}
+					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
+					reactRouter={false}
+					closeMenu={this.togglePlayerSearch}
+					extraComponent={<div>ej</div>}
+				> */}
 
-						<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
-					</ContentWrap>
-				</div>
+				<ContentWrap className="ContentWrap" markedMode={markedMode} mobileSearch={mobileSearch}>
+					<Pitch />
+
+					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
+				</ContentWrap>
 			</MyTeamCtx.Provider>
 		);
 	}

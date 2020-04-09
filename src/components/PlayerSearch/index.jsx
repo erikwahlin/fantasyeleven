@@ -9,6 +9,7 @@ import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
+import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
 
@@ -26,7 +27,8 @@ import {
 	LabelRow,
 	PlayerRow,
 	ButtonReset,
-	urlLink
+	urlLink,
+	SearchFieldWrapper
 } from './index.styled';
 
 const CreateModal = props => {
@@ -186,10 +188,10 @@ class PlayerSearch extends Component {
 		const maxPrice = this.state.maxPriceSelected.label;
 		const noFilter =
 			isNaN(maxPrice) ||
-				!maxPrice ||
-				maxPrice === '' ||
-				maxPrice < 1 ||
-				maxPrice.label === 'Högsta pris'
+			!maxPrice ||
+			maxPrice === '' ||
+			maxPrice < 1 ||
+			maxPrice.label === 'Högsta pris'
 				? true
 				: false;
 		if (noFilter || this.props.markedMode) return playerList;
@@ -244,7 +246,7 @@ class PlayerSearch extends Component {
 		});
 		return res; */
 		var groupBy = (arr, key) => {
-			return arr.reduce(function (tot, cur) {
+			return arr.reduce(function(tot, cur) {
 				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
 				return tot;
 			}, {});
@@ -334,8 +336,6 @@ class PlayerSearch extends Component {
 			this.applyFilter_posClub(this.applyFilter_name(players))
 		);
 
-
-
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
 
@@ -344,9 +344,9 @@ class PlayerSearch extends Component {
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, pageSize, pageNumber) => {
 			//stores the amount of players / page in variable;
-			const playersPerPage = playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+			const playersPerPage = playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 
-			return playersPerPage
+			return playersPerPage;
 			// human-readable page numbers usually start with 1, so we reduce 1 in the first argument
 		};
 
@@ -358,8 +358,8 @@ class PlayerSearch extends Component {
 		const clubAbbr = club => {
 			return allClubs.filter(item => item.long === club)[0].short;
 		};
-		console.log(Object.keys(result))
-		console.log(result)
+		console.log(Object.keys(result));
+		console.log(result);
 		//console.log('search output', result);
 
 		return (
@@ -383,15 +383,18 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
-
-				<Input
-					type="text"
-					name="name"
-					className="FilterByName unmarkable"
-					onChange={this.setFilter_name}
-					placeholder="Sök spelare"
-				></Input>
-
+				<SearchFieldWrapper>
+					<Input
+						type="text"
+						name="name"
+						className="FilterByName unmarkable"
+						onChange={this.setFilter_name}
+						placeholder="Sök spelare"
+						onFocus={e => (e.target.placeholder = '')}
+						onBlur={e => (e.target.placeholder = 'Sök spelare')}
+					></Input>
+					<FiSearch />
+				</SearchFieldWrapper>
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer>
 					<ButtonDes
@@ -431,18 +434,17 @@ class PlayerSearch extends Component {
 						<div className="labelPrice">
 							<p>SEK</p>
 						</div>
-					</LabelRow>) : (
-						<LabelRow>
-							<div className="labelPosition">
-								<p> {`Spelare`}</p>
-							</div>{' '}
-							<div className="labelPrice">
-								<p>SEK</p>
-							</div>
-						</LabelRow>
-					)
-
-				}
+					</LabelRow>
+				) : (
+					<LabelRow>
+						<div className="labelPosition">
+							<p> {`Spelare`}</p>
+						</div>{' '}
+						<div className="labelPrice">
+							<p>SEK</p>
+						</div>
+					</LabelRow>
+				)}
 				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
 					{paginated.map((player, i) => {
@@ -459,7 +461,7 @@ class PlayerSearch extends Component {
 									<p>
 										<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
 											Hemmaplan
-													</a>
+										</a>
 									</p>
 								</InfoModal>
 
@@ -467,16 +469,14 @@ class PlayerSearch extends Component {
 									<p className="player">{player.name}</p>
 									<p className="sum">
 										<strong>{clubAbbr(player.club)}</strong>
-													&nbsp; &nbsp;
-													{player.position}
+										&nbsp; &nbsp;
+										{player.position}
 									</p>
 								</Player>
 								<PlayerPrice className="PlayerPrice">
 									<p className="player_price">{Math.round(player.price)}</p>
 								</PlayerPrice>
 							</PlayerRow>
-						);
-					})}
 						);
 					})}
 				</ResultBox>

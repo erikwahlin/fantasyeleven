@@ -80,18 +80,34 @@ const PluppContainer = styled.div`
 	justify-content: space-evenly;
 `;
 
-const AutoPickBtn = styled.button`
+const ClearPitch = styled.button`
 	width: 100px;
 	height: 50px;
-	background: white;
+	background: #031e3d;
+	border: 1px solid white;
+	border-radius: 2px;
+	outline: none;
+	cursor: pointer;
+	font-family: 'Avenir';
+	font-size: 0.9em;
+	font-weight: bold;
+	color: white;
 `;
 
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
+	const { delPlayer } = props.myTeam.setters;
 
 	const playerCount = team.list.length;
 
 	const { pitch: pitchLimit } = config.limit;
+
+	const clearPitch = () => {
+		// alla spelare på []
+		const pitchPlayers = team.list.filter(player => player.origin === 'pitch');
+		pitchPlayers.forEach(player => delPlayer(player));
+		// loop, kör delPlayer på []
+	};
 
 	/* 
 	WIPWIPWIP
@@ -127,7 +143,7 @@ const Pitch = props => {
 					</InfoP>
 				</ChosenPlayers>
 
-				<AutoPickBtn /* onClick={autoPick} */>Autopick</AutoPickBtn>
+				<ClearPitch onClick={clearPitch}>Radera lag</ClearPitch>
 
 				<ChosenPlayers>
 					<InfoTitle className="infoTitle">Totalt pris</InfoTitle>

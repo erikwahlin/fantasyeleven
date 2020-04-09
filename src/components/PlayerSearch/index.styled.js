@@ -8,6 +8,15 @@ export const Wrapper = styled.div`
 	min-width: 200px;
 `;
 
+export const SearchFieldWrapper = styled.div`
+	position: relative;
+	& > svg {
+		position: absolute;
+		right: 8px;
+		top: 10px;
+	}
+`;
+
 export const Title = styled.h2`
 	font-size: 1.5em;
 	line-height: 30px; /* in line with titles above pitch */
