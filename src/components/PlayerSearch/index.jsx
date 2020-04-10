@@ -4,12 +4,14 @@ import { withMyTeam } from '../MyTeam/ctx';
 import * as preset from '../../constants/gamePreset';
 import { clone, toSwe, homePitch, afterWinResize } from '../../constants/helperFuncs';
 import { allClubs } from '../MyTeam/config';
+import { shortenName } from '../MyTeam/helperFuncs';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
+import Arrow from '../../media/arrow.svg';
 import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'react-device-detect';
 
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
@@ -34,7 +36,9 @@ import {
 	PlayerRow,
 	ButtonReset,
 	urlLink,
-	SearchFieldWrapper
+	SearchFieldWrapper,
+	ArrowWrapper
+
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -372,7 +376,8 @@ class PlayerSearch extends Component {
 				{/* FILTER */}
 				{/* (FILTER) <br />  */}
 				{/* temp */}
-				<Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
+				<Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
+				<ArrowWrapper>
 				<Dropdown
 					className="FilterByPosClub dropdown playerserach unmarkable"
 					options={filterOptions}
@@ -380,7 +385,9 @@ class PlayerSearch extends Component {
 					value={posOrClubdefaultOption}
 					placeholder="Select an option"
 				/>
-
+					<img src={Arrow} alt="arrow" />
+				</ArrowWrapper>
+		<ArrowWrapper>
 				<Dropdown
 					className="FilterByMaxPrice dropdown playerserach unmarkable"
 					onChange={this.setFilter_maxPrice}
@@ -388,6 +395,8 @@ class PlayerSearch extends Component {
 					options={priceOptions}
 					placeholder="Maxpris/spelare"
 				/>
+				<img src={Arrow} alt="arrow" />
+				</ArrowWrapper>
 				<SearchFieldWrapper>
 					<Input
 						type="text"
@@ -400,11 +409,12 @@ class PlayerSearch extends Component {
 					></Input>
 					<FiSearch />
 				</SearchFieldWrapper>
+
 				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
 						className="SortFalling unmarkable"
-						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+						style={this.state.priceSort === 'falling' ? { fontWeight: 'bold' } : { fontWeight: '500' }}
 						value="falling"
 						onClick={this.handleSort}
 					>
@@ -412,7 +422,7 @@ class PlayerSearch extends Component {
 					</ButtonDes>
 					<ButtonAsc
 						className="SortRising unmarkable"
-						style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+						style={this.state.priceSort === 'rising' ? { fontWeight: 'bold' } : { fontWeight: '500' }}
 						value="rising"
 						onClick={this.handleSort}
 					>
@@ -471,7 +481,7 @@ class PlayerSearch extends Component {
 								</InfoModal>
 
 								<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-									<p className="player">{player.name}</p>
+									<p className="player">{shortenName(player.name)}</p>
 									<p className="sum">
 										<strong>{clubAbbr(player.club)}</strong>
 										&nbsp; &nbsp;

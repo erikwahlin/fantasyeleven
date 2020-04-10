@@ -4,7 +4,7 @@
 } need to fix import-bug */
 
 body {
-	background-color: #011931;
+	background-color: #101D33;
 	font-family: 'Avenir';
 	color: white;
 }
@@ -32,7 +32,7 @@ h1 {
 }
 
 h2 {
-	font-size: 1em;
+	font-size: 1.3em;
 	color: white;
 	font-weight: 800;
 	margin-bottom: 0.2rem;
@@ -45,11 +45,11 @@ h2 {
 	margin-bottom: 0.2rem;
 }
 
-/* .player {
-	font-size: 0.9em !important;
+.player {
+	font-size: 1em !important;
 	font-weight: 500;
 	cursor: pointer;
-} */
+}
 
 .sum {
 	font-size: 0.8em;

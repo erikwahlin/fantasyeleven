@@ -53,32 +53,44 @@ export const SearchFieldWrapper = styled.div`
 	position: relative;
 	& > svg {
 		position: absolute;
-		right: 8px;
-		top: 10px;
+		right: 48px;
+		top: 16px;
+		font-size:1.5em;
+	}
+`;
+
+export const ArrowWrapper = styled.div`
+	position: relative;
+	& > img {
+		position: absolute;
+		right: 50px;
+		top: 22px;
+		font-size:1.5em;
+		cursor:pointer;
 	}
 `;
 
 export const Title = styled.h2`
-	font-size: 1.5em;
+	font-size: 2em;
 	line-height: 30px; /* in line with titles above pitch */
 	margin: 0;
 	margin-bottom: 12px;
+	font-weight:600;
 `;
 
 export const Input = styled.input`
-	width: 100%;
+	width: 90%;
 	margin-bottom: 6px;
 	/* position: relative; */
 	font-family: 'Avenir';
-	font-size: 0.9em;
-	font-weight: bold;
+	font-size: 1.3em;
+	font-weight: 500;
 	color: white;
-	padding: 8px 52px 8px 10px;
-	border: 1px solid white;
-	border-radius: 2px;
+	padding: 13px 52px 13px 12px;
+	border: none;
 	box-sizing: border-box;
 	outline: none;
-	background: rgba(2, 31, 61, 1);
+	background: rgba(35, 51, 77, 1);
 	cursor: text;
 	::placeholder {
 		color: white;
@@ -89,10 +101,10 @@ export const Input = styled.input`
 `;
 
 export const ButtonContainer = styled.div`
-	width: 100%;
-	height: 30px;
+	width: 90%;
+	height:40px;
 	font-family: 'Avenir';
-	font-size: 0.8em;
+	font-size: 1.1em;
 	border: none;
 	padding: 0;
 	display: flex;
@@ -105,53 +117,50 @@ export const ButtonContainer = styled.div`
 
 export const ButtonDes = styled.button`
 	margin-right: auto;
-	height: 30px;
+	height: 40px;
 	font-family: 'Avenir';
-	font-size: 0.8em;
-	border: 1px solid white;
-	border-radius: 2px;
+	font-size: 1em;
+	border: none;
 	outline: none;
 	color: white;
-	background: rgba(2, 31, 61, 1);
+	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	padding: 3px;
 `;
 
 export const ButtonAsc = styled.button`
-	height: 30px;
+	height: 40px;
 	font-family: 'Avenir';
-	font-size: 0.8em;
-	border: 1px solid white;
-	border-radius: 2px;
+	font-size: 1em;
+	border: none;
 	outline: none;
 	color: white;
-	background: rgba(2, 31, 61, 1);
+	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	padding: 3px;
 `;
 
 export const ButtonReset = styled.button`
-	width: 100%;
-	height: 30px;
+	width: 90%;
+	height: 40px;
 	font-family: 'Avenir';
-	font-size: 0.8em;
-	border: 1px solid white;
-	border-radius: 2px;
+	font-size: 1em;
+	border: none;
 	outline: none;
 	color: white;
-	background: rgba(2, 31, 61, 1);
+	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	margin-bottom: 12px;
 `;
 
 export const ResultBox = styled.div`
 	background: #f5f5f5;
-	width: 100%;
+	width: 90%;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 
-	max-height: 478px; /* temp */
+	/* max-height: 478px; */ /* temp */
 	overflow-y: scroll;
 `;
 
@@ -162,35 +171,37 @@ export const Section = styled.div`
 `;
 
 export const LabelRow = styled.div`
-	width: 100%;
-	height: 30px !important;
+	width: 90%;
+	/* height: 30px !important; */
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	background: #00fff5;
+	background: #5AC5D3;
 	color: black;
 	font-weight: 700;
-	font-size: 0.8em;
+	font-size: 1em;
 `;
 
 export const PlayerRow = styled.div`
 	width: 100%;
 	display: flex;
-	background: #f5f5f5;
-	color: black;
+	align-items:center;
+	background: rgba(35, 51, 77, 1);
+	color: white;
 	border: 5px solid #ddd;
 	border: none;
 	border-bottom: 4px solid #021f3d;
-
-	height: 40px;
+	font-size:1em !important;
+	min-height:60px !important;
 `;
 
 export const PlayerInfoBtn = styled.button`
-	background: #f5f5f5;
+	background: #021F3D;
 	border: none;
 	outline: none;
 	font-size: 1.7em;
 	cursor: pointer;
+	color:white;
 `;
 
 export const Player = styled.div`
