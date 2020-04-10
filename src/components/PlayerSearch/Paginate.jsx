@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 const Wrapper = styled.div`
 	height: 30px;
+	width:90%;
 	display: flex;
 	justify-content: space-evenly;
 
 	* {
-		margin-right: 5px;
+		/* margin-right: 5px; */
 	}
 	font-family: 'Avenir';
 	margin-bottom: 12px;
