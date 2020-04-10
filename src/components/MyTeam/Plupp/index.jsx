@@ -237,25 +237,18 @@ class Plupp extends Component {
 		const { buildStage } = this.props.myTeam.state.config;
 		const { setSwitchers, closePlayerSearch } = this.props.myTeam.setters;
 
-		// if clicked on pitch but not a switchable plupp
-		// clear switch in state
-		const listedPlayer = e.target.closest('div').classList.contains('ListedPlayer');
+		// if clicked on switchable plupp on pitch or inside playerSearch, bail
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
+		const playerSearch = e.target.closest('.PlayerSearch');
 
-		const unMark = (() => {
-			let res = false;
+		if (
+			(e.target.closest('.Pitch') && switchablePlupp) ||
+			(buildStage.key === 'bench' && playerSearch)
+		) {
+			return;
+		}
 
-			if (
-				(e.target.closest('.Pitch') && !switchablePlupp) ||
-				(buildStage.key === 'bench' && !listedPlayer)
-			) {
-				res = true;
-			}
-
-			return res;
-		})();
-
-		if (!unMark) return;
+		// else clear switchers and close playersearch (if slide-opened)
 
 		closePlayerSearch();
 

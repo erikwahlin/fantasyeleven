@@ -139,10 +139,11 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 	const stageCondition = key => {
 		switch (key) {
 			case 'pitch':
-				return (
+				return true;
+			/* return (
 					playerCount === preset.maxPlayers[activeStage] &&
 					game.value[activeStage] <= preset.maxPrice[activeStage]
-				);
+				); */
 
 			case 'bench':
 				return (
