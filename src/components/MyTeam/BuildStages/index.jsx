@@ -116,7 +116,7 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 	const { list: playerList } = team;
 	const { setStage, updateFilterKeys } = myTeam.setters;
 
-	const { key: activeStage, index: activeIndex } = buildStage;
+	const { key: activeStage } = buildStage;
 	const playerCount = playerList.filter(player => player.origin === activeStage).length;
 
 	const callback = key => {
@@ -139,11 +139,10 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 	const stageCondition = key => {
 		switch (key) {
 			case 'pitch':
-				return true;
-			/* return (
+				return (
 					playerCount === preset.maxPlayers[activeStage] &&
 					game.value[activeStage] <= preset.maxPrice[activeStage]
-				); */
+				);
 
 			case 'bench':
 				return (

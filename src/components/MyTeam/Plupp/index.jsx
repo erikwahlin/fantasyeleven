@@ -241,10 +241,7 @@ class Plupp extends Component {
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
 		const playerSearch = e.target.closest('.PlayerSearch');
 
-		if (
-			(e.target.closest('.Pitch') && switchablePlupp) ||
-			(buildStage.key === 'bench' && playerSearch)
-		) {
+		if ((e.target.closest('.Pitch') && switchablePlupp) || playerSearch) {
 			return;
 		}
 

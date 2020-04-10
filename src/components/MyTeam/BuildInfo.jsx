@@ -1,7 +1,7 @@
 import React from 'react';
 import { withMyTeam } from './ctx';
 import styled from 'styled-components';
-import BuildStages from './BuildStages';
+import { FaUserPlus } from 'react-icons/fa';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -41,10 +41,19 @@ const ClearBtn = styled.button`
 	color: white;
 `;
 
+const AddPlayerBtn = styled(FaUserPlus)`
+	width: 65px;
+	height: 100%;
+	color: white;
+
+	cursor: pointer;
+`;
+
 const BuildInfo = ({ myTeam, origin }) => {
 	const { team, config, game } = myTeam.state;
-	const { buildStage, limit } = config;
-	const { delPlayer } = myTeam.setters;
+	const { buildStage, limit, mobileSearch } = config;
+	const { key: activeStage } = buildStage;
+	const { delPlayer, openPlayerSearch } = myTeam.setters;
 
 	const maxPlayers = limit[origin].tot;
 	const maxValue = limit.value[origin];
@@ -89,6 +98,10 @@ const BuildInfo = ({ myTeam, origin }) => {
 					<InfoTitle className="infoTitle">Budget</InfoTitle>
 					<InfoP className="amount">{maxValue + ' kr'}</InfoP>
 				</ChosenPlayers>
+			)}
+
+			{(activeStage === 'pitch' || activeStage === 'bench') && mobileSearch && (
+				<AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
 			)}
 		</Wrapper>
 	);

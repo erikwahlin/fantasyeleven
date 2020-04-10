@@ -115,6 +115,7 @@ function useWindowSize(ref) {
 
 const Pitch = props => {
 	const { config, team, game } = props.myTeam.state;
+	const { mobileSearch } = config;
 	const { togglePlayerSearch, delPlayer } = props.myTeam.setters;
 
 	const playerCount = team.list.map(player => player.origin === 'pitch').length;
