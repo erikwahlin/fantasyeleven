@@ -1,5 +1,5 @@
-import * as LEX from '../../constants/lexicon';
-import stadiums from '../../constants/stadiums';
+import * as LEX from './lexicon';
+import stadiums from './stadiums';
 
 export const shortenName = fullName => {
 	const afterSpace = fullName.indexOf(' ') + 1;
@@ -67,4 +67,8 @@ export const getRefSize = ref => {
 	}
 
 	return res;
+};
+
+export const firstCap = word => {
+	return word[0].toUpperCase() + word.substring(1);
 };

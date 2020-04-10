@@ -76,18 +76,24 @@ const INITIAL_STATE = {
 				Goalkeeper: { min: 1, max: 1 },
 				Defender: { min: 3, max: 5 },
 				Midfielder: { min: 2, max: 5 },
-				Forward: { min: 1, max: 3 }
+				Forward: { min: 1, max: 3 },
+				tot: 11
 			},
 			bench: {
 				Goalkeeper: { min: 1, max: 1 },
 				Defender: { min: 1, max: 1 },
 				Midfielder: { min: 1, max: 1 },
-				Forward: { min: 1, max: 1 }
+				Forward: { min: 1, max: 1 },
+				tot: 4
 			},
-			club: { max: 3 }
+			club: { max: 3 },
+			value: {
+				pitch: Infinity,
+				bench: 30
+			}
 		},
 
-		positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
+		//positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
 
 		switchers: {
 			marked: null,

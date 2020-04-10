@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import INITIAL_STATE, { config } from './config';
+import INITIAL_STATE from './config';
 import { withMyTeam } from '../MyTeam/ctx';
-import { clone, toSwe, homePitch, afterWinResize } from '../MyTeam/helperFuncs';
+import * as preset from '../../constants/gamePreset';
+import { clone, toSwe, homePitch, afterWinResize } from '../../constants/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
@@ -231,7 +232,7 @@ class PlayerSearch extends Component {
 	// group players by position
 	groupByPosition = items => {
 		/* const res = [];
-		config.positions.forEach(pos => res.push([]));
+		preset.positions.forEach(pos => res.push([]));
 
 		items.forEach(item => {
 			switch (item.position) {
@@ -303,7 +304,7 @@ class PlayerSearch extends Component {
 				type: 'group',
 				name: '- Positioner - ',
 				items: [
-					...config.positions.map((position, nth) => {
+					...preset.positions.map((position, nth) => {
 						return { value: `position__${nth}`, label: position };
 					})
 				]

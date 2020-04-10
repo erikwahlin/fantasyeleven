@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
+import * as preset from '../../../constants/gamePreset';
+
 import BuildInfo from '../BuildInfo';
-import { shortenName } from '../helperFuncs';
+import { shortenName } from '../../../constants/helperFuncs';
 import Plupp from '../Plupp';
 
 const Wrapper = styled.div`
@@ -45,7 +47,7 @@ const Bench = props => {
 			<BuildInfo playerCount={playerCount} team={team} origin="bench" />
 
 			<Wrapper className="Bench unmarkable">
-				{config.positions.map((pos, nth) => (
+				{preset.positions.map((pos, nth) => (
 					<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
 						<Plupp
 							pos={pos}

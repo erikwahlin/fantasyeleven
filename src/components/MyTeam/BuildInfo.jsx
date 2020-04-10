@@ -43,16 +43,21 @@ const ClearBtn = styled.button`
 
 const BuildInfo = ({ myTeam, origin }) => {
 	const { team, config, game } = myTeam.state;
-	const teamValue = game.value[origin];
-	const { buildStage } = config;
+	const { buildStage, limit } = config;
 	const { delPlayer } = myTeam.setters;
-	const maxPlayers = origin === 'pitch' ? 11 : 4;
-	const maxValue = origin === 'bench' ? 30 : null;
-	const playerCount = team.list.filter(player => player.origin === origin).length;
 
-	const pitchReady = playerCount === 11;
-	const benchReady = teamValue === maxValue || (teamValue <= maxValue && playerCount === maxPlayers);
-	const benchNotReady = teamValue > maxValue;
+	const maxPlayers = limit[origin].tot;
+	const maxValue = limit.value[origin];
+
+	const playerCount = team.list.filter(player => player.origin === origin).length;
+	const teamValue = game.value[origin];
+
+	const ready =
+		buildStage.key === 'pitch' || buildStage.key === 'bench'
+			? teamValue <= maxValue && playerCount === maxPlayers
+			: true;
+
+	const notReady = teamValue > maxValue;
 
 	const clearPlayers = () => {
 		// alla spelare på []
@@ -65,7 +70,7 @@ const BuildInfo = ({ myTeam, origin }) => {
 		<Wrapper className="BuildInfo unmarkable">
 			<ChosenPlayers>
 				<InfoTitle className="infoTitle">Valda {origin === 'pitch' ? 'spelare' : 'reserver'}</InfoTitle>
-				<InfoP ready={pitchReady} className="amount">
+				<InfoP ready={ready} className="amount">
 					{playerCount + '/' + maxPlayers}
 				</InfoP>
 			</ChosenPlayers>
@@ -74,7 +79,7 @@ const BuildInfo = ({ myTeam, origin }) => {
 
 			<ChosenPlayers>
 				<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
-				<InfoP className="amount" ready={benchReady} notReady={benchNotReady}>
+				<InfoP className="amount" ready={ready} notReady={notReady}>
 					{teamValue + ' kr'}
 				</InfoP>
 			</ChosenPlayers>

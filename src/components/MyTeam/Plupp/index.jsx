@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
-import { shortenName } from '../helperFuncs';
+import { shortenName } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';

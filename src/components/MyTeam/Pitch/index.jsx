@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
+import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
 import BuildInfo from '../BuildInfo';
@@ -155,7 +156,7 @@ const Pitch = props => {
 		// for each pos, check if limit is reach
 		// while limit is not reach fill with players of that pos
 		// set origin field on player before add
-		config.positions.forEach(pos => {
+		preset.positions.forEach(pos => {
 			
 
 			config.searchablePlayers.forEach(player => {
@@ -180,7 +181,7 @@ const Pitch = props => {
 			<FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
 				<PitchImg src={pitchImg} />
 				<FormationContainer className="FormationContainer" bg={pitchImg}>
-					{config.positions.map((pos, nth) => (
+					{preset.positions.map((pos, nth) => (
 						<PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
 							{team.pitch[pos].map((player, nth) => (
 								<PluppContainer

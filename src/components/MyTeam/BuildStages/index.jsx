@@ -1,8 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { withMyTeam } from '../ctx';
+import * as preset from '../../../constants/gamePreset';
+import { firstCap } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
+import Powerups from '../Powerups';
 
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -66,17 +69,13 @@ const TabContainer = styled(Tabs)`
 
 const Tab = styled(TabPane)``;
 
-const callback = key => {
-	console.log('Tab', key);
-};
-
-const NavContainer = styled.div`
+const StageNav = styled.div`
 	margin-top: 20px;
 	display: flex;
 	justify-content: space-around;
 `;
 
-const NavBtn = styled.button`
+const StageNavBtn = styled.button`
 	width: 100px;
 	height: 50px;
 	background: #031e3d;
@@ -91,109 +90,105 @@ const NavBtn = styled.button`
 	opacity: ${p => (p.disabled ? '.5' : '1')};
 `;
 
-const BenchContent = () => {
-	return (
-		<>
-			<h2>BÄNK</h2>
-			<Bench />
-		</>
-	);
-};
+const stageContent = key => {
+	switch (key) {
+		case 'pitch':
+			return <Pitch />;
 
-const Powerups = () => {
-	return (
-		<>
-			<h2>Superkrafter</h2>
-			<hr />
-			<h3>Kapten Trippel</h3>
-			<h3>Hål i nätet</h3>
-			<h3>Guds hand</h3>
-			<h3>8cm dobbar</h3>
-		</>
-	);
+		case 'bench':
+			return (
+				<>
+					<h2>BÄNK</h2>
+					<Bench />
+				</>
+			);
+
+		case 'powerups':
+			return <Powerups />;
+
+		default:
+			return <h2>{firstCap(key)}</h2>;
+	}
 };
 
 const BuildStages = ({ buildStage, myTeam, ...props }) => {
-	const { list: playerList } = myTeam.state.team;
-	const pitchCount = playerList.filter(player => player.origin === 'pitch').length;
-	const benchCount = playerList.filter(player => player.origin === 'bench').length;
+	const { game, team } = myTeam.state;
+	const { list: playerList } = team;
 	const { setStage, updateFilterKeys } = myTeam.setters;
+
+	const { key: activeStage, index: activeIndex } = buildStage;
+	const playerCount = playerList.filter(player => player.origin === activeStage).length;
 
 	const callback = key => {
 		console.log('tab change callback...');
 	};
 
-	const tabRef = useRef(null);
-
-	const tabs = [
-		{
-			tab: 'Pitch',
-			key: 'pitch',
-			content: <Pitch />,
-			condition: pitchCount === 11,
-			ref: useRef()
-		},
-		{
-			tab: 'Bench',
-			key: 'bench',
-			content: <BenchContent />,
-			condition: benchCount === 4,
-			ref: useRef()
-		},
-		{
-			tab: 'Powerups',
-			key: 'powerups',
-			content: <Powerups />,
-			condition: true,
-			ref: useRef()
-		},
-		{
-			tab: 'Överblick',
-			key: 'overview',
-			content: <h2>Överblick...</h2>,
-			condition: true,
-			ref: useRef()
-		}
-	];
-
 	const navHandler = input => {
 		let index = buildStage.index + input;
 
-		console.log(buildStage.index, index);
-
-		if (index < 0 || index > tabs.length - 1) return;
-
-		console.log('gonna update, res', index);
+		if (index < 0 || index > preset.buildStages.length - 1) return;
 
 		setStage({
-			key: tabs[index].key,
+			key: preset.buildStages[index],
 			index: index
 		});
 
 		updateFilterKeys();
 	};
 
+	const stageCondition = key => {
+		switch (key) {
+			case 'pitch':
+				return (
+					playerCount === preset.maxPlayers[activeStage] &&
+					game.value[activeStage] <= preset.maxPrice[activeStage]
+				);
+
+			case 'bench':
+				return (
+					playerCount === preset.maxPlayers[activeStage] &&
+					game.value[activeStage] <= preset.maxPrice[activeStage]
+				);
+
+			case 'powerups':
+				return true;
+
+			default:
+				return true;
+		}
+	};
+
 	return (
-		<Wrapper className="BuildStages unmarkable" ref={tabRef}>
-			<TabContainer activeKey={buildStage.key} defaultActiveKey="pitch" onChange={callback}>
-				{tabs.map((tab, nth) => (
-					<Tab tab={tab.tab} key={tab.key} ref={tabs[nth].ref} disabled>
-						{tab.content}
+		<Wrapper className="BuildStages unmarkable">
+			<TabContainer
+				activeKey={activeStage}
+				defaultActiveKey={preset.buildStages[0]}
+				onChange={callback}
+			>
+				{preset.buildStages.map((stage, nth) => (
+					<Tab tab={firstCap(stage)} key={stage} disabled>
+						{stageContent(stage)}
 					</Tab>
 				))}
 			</TabContainer>
-			<NavContainer className="StageNav-Container">
-				<NavBtn className="StageNav prev" onClick={e => navHandler(-1)} disabled={buildStage.index < 1}>
+
+			<StageNav className="StageNav">
+				<StageNavBtn
+					className="StageNavBtn prev"
+					onClick={e => navHandler(-1)}
+					disabled={buildStage.index < 1}
+				>
 					Tillbaka
-				</NavBtn>
-				<NavBtn
-					className="StageNav next"
+				</StageNavBtn>
+
+				<StageNavBtn
+					className="StageNavBtn next"
 					onClick={e => navHandler(1)}
-					disabled={!tabs[buildStage.index].condition}
+					disabled={!stageCondition(activeStage)}
 				>
 					{buildStage.key === 'overview' ? 'Lämna in lag!' : 'Vidare'}
-				</NavBtn>
-			</NavContainer>
+				</StageNavBtn>
+			</StageNav>
 		</Wrapper>
 	);
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { clone } from './helperFuncs';
+import { clone } from '../../constants/helperFuncs';
+import * as preset from '../../constants/gamePreset';
 import MyTeamCtx from './ctx';
 import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
@@ -175,7 +176,7 @@ export default class MyTeam extends Component {
 		const updater = prevState => {
 			const { config } = clone(prevState);
 			const { filterKeys, buildStage } = config;
-			config.positions.forEach(pos => {
+			preset.positions.forEach(pos => {
 				// if pitch and bench full - add pos to filter (if filter is not active)
 				if (
 					(prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
@@ -567,9 +568,9 @@ export default class MyTeam extends Component {
 					}
 				});
 
-				//calculate new team value (curr val + (old player - new player))
+				//calculate new team value (curr val - (diff between old player and new player))
 				if (marked.player.price !== target.player.price) {
-					game.value += Math.round(marked.player.price) - Math.round(target.player.price);
+					game.value[marked.origin] -= Math.round(marked.player.price) - Math.round(target.player.price);
 				}
 
 				//update club-count
