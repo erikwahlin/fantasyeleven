@@ -8,8 +8,10 @@
 		"@testing-library/react": "^9.5.0",
 		"@testing-library/user-event": "^7.2.1",
 		"antd": "^4.1.1",
+		"assert": "^2.0.0",
 		"core-js": "^3.6.4",
 		"firebase": "^7.13.2",
+		"mongodb": "^3.5.5",
 		"normalize.css": "^8.0.1",
 		"react": "^16.13.1",
 		"react-device-detect": "^1.11.14",
@@ -25,6 +27,7 @@
 		"reactjs-dropdown-component": "^1.0.6",
 		"recompose": "^0.30.0",
 		"styled-components": "^5.0.1",
+		"util": "^0.12.2",
 		"xlsx": "^0.15.5"
 	},
 	"scripts": {
