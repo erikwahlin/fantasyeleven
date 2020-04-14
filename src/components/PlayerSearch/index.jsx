@@ -122,7 +122,6 @@ class PlayerSearch extends Component {
 		});
 	};
 	handleSortClick = e => {
-		console.log(e.target.className)
 		if (e.target.className.includes('popularity')) {
 			this.setState({ sortBy: 'popularity' })
 		} else {
