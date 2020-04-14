@@ -1,6 +1,6 @@
 export const positions = {
-	Goalkeeper: 'Målvakt',
-	Defender: 'Försvarare',
-	Midfielder: 'Mittfältare',
-	Forward: 'Anfallare'
+	Goalkeeper: { singular: 'Målvakt', plural: 'Målvakter' },
+	Defender: { singular: 'Försvarare', plural: 'Försvarare' },
+	Midfielder: { singular: 'Mittfältare', plural: 'Mittfältare' },
+	Forward: { singular: 'Anfallare', plural: 'Anfallare' },
 };

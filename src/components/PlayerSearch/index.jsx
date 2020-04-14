@@ -289,10 +289,16 @@ class PlayerSearch extends Component {
 	};
 
 	render() {
-		const { paginationSettings, posOrClubSelected } = this.state;
-		const { players, myTeam } = this.props;
+		const { paginationSettings, posOrClubSelected, searchTerm } = this.state;
+		const { players, myTeam, markedMode } = this.props;
 		const { closePlayerSearch } = myTeam.setters;
-		const { mobileSearch, searchOpen } = myTeam.state.config;
+		const { mobileSearch, searchOpen, switchers } = myTeam.state.config;
+
+		let resultLabel = markedMode
+			? toSwe(switchers.marked.pos, 'positions', 'plural')
+			: posOrClubSelected.value === 'position'
+			? toSwe(posOrClubSelected.label, 'positions', 'plural')
+			: posOrClubSelected.label;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -439,25 +445,15 @@ class PlayerSearch extends Component {
 					playerCount={filtered.length}
 					pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
 				/>
-				{posOrClubSelected !== 'none' ? (
-					<LabelRow className="unmarkable">
-						<div className="labelPosition">
-							<p> {`${posOrClubSelected.label}`}</p>
-						</div>{' '}
-						<div className="labelPrice">
-							<p>SEK</p>
-						</div>
-					</LabelRow>
-				) : (
-					<LabelRow>
-						<div className="labelPosition">
-							<p> {`Spelare`}</p>
-						</div>{' '}
-						<div className="labelPrice">
-							<p>SEK</p>
-						</div>
-					</LabelRow>
-				)}
+
+				<LabelRow className="unmarkable">
+					<div className="labelPosition">
+						<p> {resultLabel}</p>
+					</div>{' '}
+					<div className="labelPrice">
+						<p>SEK</p>
+					</div>
+				</LabelRow>
 				{/* here we want to render top row, depending on   */}
 				<ResultBox className="ResultBox unmarkable">
 					{paginated.map((player, i) => {

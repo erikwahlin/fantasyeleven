@@ -35,7 +35,7 @@ export const clone = (obj, keyName) => {
 	return copy;
 };
 
-export const toSwe = (word, chapter) => LEX[chapter][word];
+export const toSwe = (word, chapter, form = 'singular') => LEX[chapter][word][form];
 
 export const homePitch = club => stadiums[club].url;
 
@@ -56,7 +56,7 @@ export const afterWinResize = (callback, timeout = 300) => {
 export const getRefSize = ref => {
 	let res = {
 		w: undefined,
-		h: undefined
+		h: undefined,
 	};
 
 	if (ref) {
