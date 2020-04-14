@@ -522,8 +522,11 @@ class PlayerSearch extends Component {
 							);
 						})}
 					</ResultBox>
+
 					:
 					<div>Ditt lag är färdigbyggt!! <br /> gå vidare till nästa sida</div>}
+				{/* check state which stage player is at, render different messages.
+					in benchpick, check wheter totals pris is over 30 or not - different messages.*/}
 			</Wrapper>
 		);
 	}
