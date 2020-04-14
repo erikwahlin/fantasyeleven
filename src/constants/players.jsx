@@ -3760,7 +3760,7 @@ const arrOfFractions = arr => {
 	let arPercentages = [];
 
 	for (var i = 0; i < arr.length; i++) {
-		arPercentages.push(Math.random() * 10000 + 100);
+		arPercentages.push(Math.random() * 100000 + 100);
 	}
 	let total = arPercentages.reduce((acc, cur) => {
 		return acc + cur
