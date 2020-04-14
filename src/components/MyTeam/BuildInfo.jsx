@@ -29,16 +29,17 @@ const InfoP = styled.p`
 
 const ClearBtn = styled.button`
 	width: 100px;
-	height: 50px;
-	background: #031e3d;
-	border: 1px solid white;
-	border-radius: 2px;
+	height: 35px;
+	background: #5AC5D3;
+	border:none;
+	border-radius: 15px;
 	outline: none;
 	cursor: pointer;
 	font-family: 'Avenir';
-	font-size: 0.9em;
-	font-weight: bold;
-	color: white;
+	font-size: 1.1em;
+	font-weight: 500;
+	color: black;
+	padding:5px;
 `;
 
 const AddPlayerBtn = styled(FaUserPlus)`
@@ -84,7 +85,6 @@ const BuildInfo = ({ myTeam, origin }) => {
 				</InfoP>
 			</ChosenPlayers>
 
-			<ClearBtn onClick={clearPlayers}>Radera spelare</ClearBtn>
 
 			<ChosenPlayers>
 				<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
@@ -92,6 +92,8 @@ const BuildInfo = ({ myTeam, origin }) => {
 					{teamValue + ' kr'}
 				</InfoP>
 			</ChosenPlayers>
+
+			<ClearBtn onClick={clearPlayers}>Radera lag</ClearBtn>
 
 			{buildStage.key === 'bench' && (
 				<ChosenPlayers>

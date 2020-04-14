@@ -154,7 +154,7 @@ export const ButtonReset = styled.button`
 `;
 
 export const ResultBox = styled.div`
-	background: #f5f5f5;
+	background: rgba(35, 51, 77, 1);
 	width: 90%;
 	flex: 1;
 	display: flex;

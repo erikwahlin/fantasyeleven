@@ -75,7 +75,7 @@ const BenchContainer = styled.div`
 const PluppContainer = styled.div`
 	flex: 1;
 	height: 100%;
-	min-height: 117px;
+	min-height: 115px;
 	flex: 1;
 	position: relative;
 	display: flex;
