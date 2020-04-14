@@ -71,18 +71,22 @@ h2 {
 	font-size: 1.1em;
 }
 
-.labelPosition p {
+ .labelPosition p {
 margin:0;
 }
 
 .labelPrice {
-	margin-left: 1.9rem;
+	margin-left: 0.1rem;
+	margin-right:1rem;
 }
 
 .labelPrice p {
 	margin:0;
 }
-
+.labelPercentage p {
+margin: 0;
+margin-left: 4rem;
+} 
 .amount {
 	font-size: 1.5rem;
 	color: #a0a0a0;
@@ -102,4 +106,9 @@ margin:0;
 
 .SwitchIcon {
 	font-size:0.5em;
+}
+
+.clickable:hover {
+	cursor:pointer;
+
 }

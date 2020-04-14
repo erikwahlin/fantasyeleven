@@ -3756,5 +3756,27 @@ const players = [
 	}
 ];
 
+const arrOfFractions = arr => {
+	let arPercentages = [];
+
+	for (var i = 0; i < arr.length; i++) {
+		arPercentages.push(Math.random() * 10000 + 100);
+	}
+	let total = arPercentages.reduce((acc, cur) => {
+		return acc + cur
+	}, 0)
+
+	for (let i = 0; i < arr.length; i++) {
+		arPercentages[i] = Math.round((arPercentages[i] / total) * 100 * 100) / 100;
+	}
+	return arPercentages;
+};
+
+const appendToObj = (obj, arr) => {
+	obj.map((o, i) => o.popularity = arr[i])
+}
+
+appendToObj(players, arrOfFractions(players))
+
 
 export default players;

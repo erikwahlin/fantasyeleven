@@ -12,7 +12,9 @@ const INITIAL_STATE = {
 	posOrClubSelected: { value: '', label: 'Alla spelare' },
 	maxPriceSelected: { value: 'none', label: 'Högsta pris' },
 	searchTerm: '',
+	sortBy: '',
 	priceSort: 'falling',
+
 
 	paginationSettings: {
 		pageNumber: 1,

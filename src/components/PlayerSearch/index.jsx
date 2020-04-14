@@ -51,7 +51,6 @@ class PlayerSearch extends Component {
 		this.resetSettings = this.resetSettings.bind(this);
 		//this.paginate = this.paginate.bind(this)
 		this.setFilter_posClub = this.setFilter_posClub.bind(this);
-		this.setFilter_maxPrice = this.setFilter_maxPrice.bind(this);
 		this.handleSort = this.handleSort.bind(this);
 		this.goToPage = this.goToPage.bind(this);
 		this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
@@ -60,6 +59,7 @@ class PlayerSearch extends Component {
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
 		this.checkIfSlider = this.checkIfSlider.bind(this);
+		this.handleSortClick = this.handleSortClick.bind(this);
 	}
 
 	componentDidMount = (pp, ps) => {
@@ -121,13 +121,31 @@ class PlayerSearch extends Component {
 			...INITIAL_STATE,
 		});
 	};
+	handleSortClick = e => {
+		console.log(e.target.className)
+		if (e.target.className === 'popularity') {
+			this.setState({ sortBy: 'popularity' })
+		} else {
+			this.setState({ sortBy: 'price' })
+		}
+	}
 
 	// sort by (player price) rising/falling
 	handleSort = e => {
+		const { sortBy } = this.state
+		//first check wheter price or pupularity is clicked.
+		//then sort it by falling of rising.
 		// dont update if new val === old val
-		if (this.state.priceSort === e.target.value) return;
+		if (sortBy === 'price') {
+			if (this.state.priceSort === e.target.value) return;
 
-		this.setState({ priceSort: e.target.value });
+			this.setState({ priceSort: e.target.value });
+		}
+		if (sortBy === 'popularity') {
+			if (this.state.priceSort === e.target.value) return;
+
+			this.setState({ priceSort: e.target.value });
+		}
 	};
 
 	/*
@@ -198,10 +216,10 @@ class PlayerSearch extends Component {
 		const maxPrice = this.state.maxPriceSelected.label;
 		const noFilter =
 			isNaN(maxPrice) ||
-			!maxPrice ||
-			maxPrice === '' ||
-			maxPrice < 1 ||
-			maxPrice.label === 'Högsta pris'
+				!maxPrice ||
+				maxPrice === '' ||
+				maxPrice < 1 ||
+				maxPrice.label === 'Högsta pris'
 				? true
 				: false;
 		if (noFilter || this.props.markedMode) return playerList;
@@ -224,9 +242,14 @@ class PlayerSearch extends Component {
 	 *
 	 * APPLY SORT-SETTINGS
 	 **********************/
+	sortByPopularity = playerList => {
+		const falling = this.state.priceSort === 'falling'
+
+		return playerList.sort((a, b) => (falling ? b.popularity - a.popularity : a.popularity - b.popularity));
+	}
 
 	sortByPrice = playerList => {
-		const falling = this.state.priceSort === 'falling';
+		const falling = this.state.priceSort === 'falling' && this.state.sortBy === 'price';
 
 		return playerList.sort((a, b) => (falling ? b.price - a.price : a.price - b.price));
 	};
@@ -297,8 +320,8 @@ class PlayerSearch extends Component {
 		let resultLabel = markedMode
 			? toSwe(switchers.marked.pos, 'positions', 'plural')
 			: posOrClubSelected.value === 'position'
-			? toSwe(posOrClubSelected.label, 'positions', 'plural')
-			: posOrClubSelected.label;
+				? toSwe(posOrClubSelected.label, 'positions', 'plural')
+				: posOrClubSelected.label;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -346,9 +369,8 @@ class PlayerSearch extends Component {
 
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
-
-		const sorted = this.sortByPrice(filtered);
-		//sorted
+		//return either sorted by price or popularity
+		const sorted = this.state.sortBy === 'popularity' ? this.sortByPopularity(filtered) : this.sortByPrice(filtered);
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, pageSize, pageNumber) => {
 			//stores the amount of players / page in variable;
@@ -414,7 +436,12 @@ class PlayerSearch extends Component {
 					<FiSearch />
 				</SearchFieldWrapper>
 
-				<h2 className="FilterTitle unmarkable">Sortera efter pris</h2>
+				<h2
+					className="FilterTitle unmarkable">Sortera efter
+					<span className='clickable' onClick={this.handleSortClick} className='price'> pris </span>
+					eller
+					<span className='clickable' onClick={this.handleSortClick} className='popularity'> popularitet</span>
+				</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
 						className="SortFalling unmarkable"
@@ -449,7 +476,10 @@ class PlayerSearch extends Component {
 				<LabelRow className="unmarkable">
 					<div className="labelPosition">
 						<p> {resultLabel}</p>
-					</div>{' '}
+					</div>{'   '}
+					<div className="labelPercentage">
+						<p>%</p>
+					</div>
 					<div className="labelPrice">
 						<p>SEK</p>
 					</div>
@@ -482,6 +512,9 @@ class PlayerSearch extends Component {
 										{player.position}
 									</p>
 								</Player>
+								<PlayerPrice className="PlayerPrice">
+									<p className="player_price">{player.popularity}</p>
+								</PlayerPrice>
 								<PlayerPrice className="PlayerPrice">
 									<p className="player_price">{Math.round(player.price)}</p>
 								</PlayerPrice>
