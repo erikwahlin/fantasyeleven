@@ -123,7 +123,7 @@ class PlayerSearch extends Component {
 	};
 	handleSortClick = e => {
 		console.log(e.target.className)
-		if (e.target.className === 'popularity') {
+		if (e.target.className.includes('popularity')) {
 			this.setState({ sortBy: 'popularity' })
 		} else {
 			this.setState({ sortBy: 'price' })
@@ -438,9 +438,9 @@ class PlayerSearch extends Component {
 
 				<h2
 					className="FilterTitle unmarkable">Sortera efter
-					<span className='clickable' onClick={this.handleSortClick} className='price'> pris </span>
+					<span className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`} onClick={this.handleSortClick} > pris </span>
 					eller
-					<span className='clickable' onClick={this.handleSortClick} className='popularity'> popularitet</span>
+					<span className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`} onClick={this.handleSortClick} > popularitet</span>
 				</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes

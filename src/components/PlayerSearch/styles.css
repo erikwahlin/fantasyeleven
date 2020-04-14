@@ -108,6 +108,10 @@ margin-left: 4rem;
 	font-size:0.5em;
 }
 
+.clicked {
+	font-weight: 900;
+}
+
 .clickable:hover {
 	cursor:pointer;
 
