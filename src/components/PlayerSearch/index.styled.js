@@ -180,6 +180,7 @@ export const LabelRow = styled.div`
 	color: black;
 	font-weight: 700;
 	font-size: 1em;
+	min-height:30px !important;
 `;
 
 export const PlayerRow = styled.div`

@@ -71,8 +71,16 @@ h2 {
 	font-size: 1.1em;
 }
 
+.labelPosition p {
+margin:0;
+}
+
 .labelPrice {
 	margin-left: 1.9rem;
+}
+
+.labelPrice p {
+	margin:0;
 }
 
 .amount {
