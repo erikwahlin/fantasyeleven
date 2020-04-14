@@ -14,7 +14,7 @@ const Container = styled.div`
 	position: relative;
 `;
 
-const PlayerName = styled.span`
+/* const PlayerName = styled.span`
 	position: absolute;
 	width: 100px;
 	left: -25px;
@@ -25,18 +25,32 @@ const PlayerName = styled.span`
 	text-align: center;
 	text-shadow: 0 1px 2px #000;
 	color: #eee;
+`; */
+
+const PlayerName = styled.span`
+	position: absolute;
+	width: 96px;
+	background-color: rgba(57,118,59);
+	padding: 3px;
+	left: -25px;
+	top: 52px;
+	font-family: 'Avenir';
+	font-weight: bold;
+	font-size: 0.9em;
+	text-align: center;
+	text-shadow: 0 1px 2px #000;
+	color: #eee;
 `;
 
 const PlayerPrice = styled.span`
 	position: absolute;
 	width: 96px;
 	background-color: rgba(51, 170, 51, 0.6);
-	padding: 3px;
 	left: -25px;
-	top: 52px;
+	top: 77px;
 	font-family: 'Avenir';
 	font-weight: bold;
-	font-size: 0.8em;
+	font-size: 0.7em;
 	text-align: center;
 	text-shadow: 0 1px 2px #000;
 	color: #eee;
@@ -345,6 +359,9 @@ class Plupp extends Component {
 			<Container>
 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>}
+
+{/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
+				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
 
 				{isMarked && player && (
 					<Options>
