@@ -483,44 +483,47 @@ class PlayerSearch extends Component {
 						<p>SEK</p>
 					</div>
 				</LabelRow>
-				{/* here we want to render top row, depending on   */}
-				<ResultBox className="ResultBox unmarkable">
-					{paginated.map((player, i) => {
-						return (
-							<PlayerRow key={i} className="PlayerRow">
-								<InfoModal
-									title={player.name}
-									subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-									img="https://source.unsplash.com/random"
-									display={this.state.playerModal}
-									togglePlayerModal={this.togglePlayerModal}
-								>
-									<p>Värde: {player.price} kr</p>
-									<p>
-										<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
-											Hemmaplan
-										</a>
-									</p>
-								</InfoModal>
 
-								<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-									<p className="player">{shortenName(player.name)}</p>
-									<p className="sum">
-										<strong>{clubAbbr(player.club)}</strong>
+				{paginated.length ?
+					<ResultBox className="ResultBox unmarkable">
+						{paginated.map((player, i) => {
+							return (
+								<PlayerRow key={i} className="PlayerRow">
+									<InfoModal
+										title={player.name}
+										subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+										img="https://source.unsplash.com/random"
+										display={this.state.playerModal}
+										togglePlayerModal={this.togglePlayerModal}
+									>
+										<p>Värde: {player.price} kr</p>
+										<p>
+											<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+												Hemmaplan
+										</a>
+										</p>
+									</InfoModal>
+
+									<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
+										<p className="player">{shortenName(player.name)}</p>
+										<p className="sum">
+											<strong>{clubAbbr(player.club)}</strong>
 										&nbsp; &nbsp;
 										{player.position}
-									</p>
-								</Player>
-								<PlayerPrice className="PlayerPrice">
-									<p className="player_price">{player.popularity}</p>
-								</PlayerPrice>
-								<PlayerPrice className="PlayerPrice">
-									<p className="player_price">{Math.round(player.price)}</p>
-								</PlayerPrice>
-							</PlayerRow>
-						);
-					})}
-				</ResultBox>
+										</p>
+									</Player>
+									<PlayerPrice className="PlayerPrice">
+										<p className="player_price">{player.popularity}</p>
+									</PlayerPrice>
+									<PlayerPrice className="PlayerPrice">
+										<p className="player_price">{Math.round(player.price)}</p>
+									</PlayerPrice>
+								</PlayerRow>
+							);
+						})}
+					</ResultBox>
+					:
+					<div>Ditt lag är färdigbyggt!! <br /> gå vidare till nästa sida</div>}
 			</Wrapper>
 		);
 	}
