@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import INITIAL_STATE from './config';
 import { withMyTeam } from '../MyTeam/ctx';
 import * as preset from '../../constants/gamePreset';
-import { clone, toSwe, homePitch, afterWinResize } from '../../constants/helperFuncs';
+import { clone, toSwe, homePitch, afterWinResize, shortenName } from '../../constants/helperFuncs';
 import { allClubs } from '../MyTeam/config';
-import { shortenName } from '../MyTeam/helperFuncs';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
@@ -37,8 +36,7 @@ import {
 	ButtonReset,
 	urlLink,
 	SearchFieldWrapper,
-	ArrowWrapper
-
+	ArrowWrapper,
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -102,8 +100,8 @@ class PlayerSearch extends Component {
 						pos,
 						lineupIndex: null,
 						player,
-						ref: null
-					}
+						ref: null,
+					},
 				},
 				() => {
 					switchPlayers();
@@ -120,7 +118,7 @@ class PlayerSearch extends Component {
 	// reset filter & order
 	resetSettings = () => {
 		this.setState({
-			...INITIAL_STATE
+			...INITIAL_STATE,
 		});
 	};
 
@@ -258,7 +256,7 @@ class PlayerSearch extends Component {
 		});
 		return res; */
 		var groupBy = (arr, key) => {
-			return arr.reduce(function(tot, cur) {
+			return arr.reduce(function (tot, cur) {
 				(tot[cur[key]] = tot[cur[key]] || []).push(cur);
 				return tot;
 			}, {});
@@ -278,15 +276,15 @@ class PlayerSearch extends Component {
 		this.setState(ps => ({
 			paginationSettings: {
 				...ps.paginationSettings,
-				pageNumber
-			}
+				pageNumber,
+			},
 		}));
 	};
 
 	// go to first page in search result
 	goToFirstPage = () => {
 		this.setState(ps => ({
-			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 }
+			paginationSettings: { ...ps.paginationSettings, pageNumber: 1 },
 		}));
 	};
 
@@ -310,8 +308,8 @@ class PlayerSearch extends Component {
 				items: [
 					...preset.positions.map((position, nth) => {
 						return { value: `position__${nth}`, label: position };
-					})
-				]
+					}),
+				],
 			},
 			{
 				type: 'group',
@@ -319,9 +317,9 @@ class PlayerSearch extends Component {
 				items: [
 					...clubs.map((club, nth) => {
 						return { value: `club__${nth}`, label: club };
-					})
-				]
-			}
+					}),
+				],
+			},
 		];
 
 		//options for dropdown.
@@ -378,24 +376,24 @@ class PlayerSearch extends Component {
 				{/* temp */}
 				<Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
 				<ArrowWrapper>
-				<Dropdown
-					className="FilterByPosClub dropdown playerserach unmarkable"
-					options={filterOptions}
-					onChange={this.setFilter_posClub}
-					value={posOrClubdefaultOption}
-					placeholder="Select an option"
-				/>
+					<Dropdown
+						className="FilterByPosClub dropdown playerserach unmarkable"
+						options={filterOptions}
+						onChange={this.setFilter_posClub}
+						value={posOrClubdefaultOption}
+						placeholder="Select an option"
+					/>
 					<img src={Arrow} alt="arrow" />
 				</ArrowWrapper>
-		<ArrowWrapper>
-				<Dropdown
-					className="FilterByMaxPrice dropdown playerserach unmarkable"
-					onChange={this.setFilter_maxPrice}
-					value={maxPriceDefaultOption}
-					options={priceOptions}
-					placeholder="Maxpris/spelare"
-				/>
-				<img src={Arrow} alt="arrow" />
+				<ArrowWrapper>
+					<Dropdown
+						className="FilterByMaxPrice dropdown playerserach unmarkable"
+						onChange={this.setFilter_maxPrice}
+						value={maxPriceDefaultOption}
+						options={priceOptions}
+						placeholder="Maxpris/spelare"
+					/>
+					<img src={Arrow} alt="arrow" />
 				</ArrowWrapper>
 				<SearchFieldWrapper>
 					<Input
