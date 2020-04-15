@@ -9,6 +9,7 @@
 		"@testing-library/user-event": "^7.2.1",
 		"antd": "^4.1.1",
 		"assert": "^2.0.0",
+		"axios": "^0.19.2",
 		"core-js": "^3.6.4",
 		"firebase": "^7.13.2",
 		"mongodb": "^3.5.5",
