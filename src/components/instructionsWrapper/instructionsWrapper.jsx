@@ -14,18 +14,19 @@ padding: 10px;
 `
 const InstructionsWrapper = ({ buildStagePage, posOrClub, list, maxPrice }) => {
     //posOrClub = toSwe(posOrClub, 'positions', 'plural')
-    console.log(posOrClub !== 'Alla spelare' ? toSwe(posOrClub, 'positions') : posOrClub)
+    const expr = (numerus) => posOrClub !== 'Alla spelare' ? toSwe(posOrClub, 'positions', numerus).toLowerCase() : 'spelare';
+
     return (
 
         <StyledDiv>
             <StyledP>
                 {buildStagePage === 0 && list.length < 11 ?
                     (
-                        `Du kan inte ha fler ${posOrClub !== 'Alla spelare' ? toSwe(posOrClub, 'positions', 'plural').toLowerCase() : 'spelare'}  på planen`
+                        `Du kan inte ha fler ${expr('plural')}  på planen`
                     ) : (
                         buildStagePage === 1 && list.length < 15 ?
                             (
-                                'Du kan bara ha 1 spelare från varje position till ett värde av max 30 kr.'
+                                `Du kan bara ha en ${expr('singular')} på din bänk`
                             ) : (
                                 `Klicka på vidare för att ta dig till nästa steg.${buildStagePage === 1 ? ' Kolla så att du inte gått över budgeten.' : ''}`
                             )
