@@ -2,6 +2,7 @@ import React from 'react';
 import { withNewTeam } from './ctx';
 import styled from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
+import { toSwe } from '../../constants/helperFuncs';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -36,7 +37,7 @@ const ClearBtn = styled.button`
     outline: none;
     cursor: pointer;
     font-family: 'Avenir';
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 500;
     color: black;
     padding: 5px;
@@ -54,7 +55,7 @@ const BuildInfo = ({ NewTeam, origin }) => {
     const { team, config } = NewTeam.state;
     const { game } = team;
     const { buildStage, limit, mobileSearch } = config;
-    const { key: activeStage } = buildStage;
+    const { key: stageName, index: stageIndex } = buildStage;
     const { delPlayer, openPlayerSearch } = NewTeam.setters;
 
     const maxPlayers = limit[origin].tot;
@@ -94,7 +95,9 @@ const BuildInfo = ({ NewTeam, origin }) => {
                 </InfoP>
             </ChosenPlayers>
 
-            <ClearBtn onClick={clearPlayers}>Radera lag</ClearBtn>
+            {stageIndex <= 1 && (
+                <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
+            )}
 
             {buildStage.key === 'bench' && (
                 <ChosenPlayers>
@@ -103,7 +106,7 @@ const BuildInfo = ({ NewTeam, origin }) => {
                 </ChosenPlayers>
             )}
 
-            {(activeStage === 'pitch' || activeStage === 'bench') && mobileSearch && (
+            {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
                 <AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
             )}
         </Wrapper>

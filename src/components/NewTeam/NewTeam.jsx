@@ -522,9 +522,11 @@ class NewTeam extends Component {
         const updater = prevState => {
             // use clones of curr state
             const { team, config } = prevState;
+            const { key: stageName } = config.buildStage;
 
             player.lineupIndex = team.list.length;
-            player.origin = 'pitch';
+            player.origin = stageName;
+            console.log('player to add', player);
             team.list.push(player);
 
             return { team };
@@ -627,148 +629,32 @@ class NewTeam extends Component {
             return;
         }
 
-        /* 
-			NEXT STAGE IS WIP
-		*/
+        if (stageName === 'bench') {
+            // update marked with target-vals
+            const tempMarked = marked.player && clone(marked.player);
+            const tempTarget = clone(target.player);
 
-        // if marked is empty seat on bench, we only do this
-        const addToBench = () => {
-            const { target } = clone(this.state.config.switchers);
+            team.list.splice(marked.lineupIndex, 1, tempTarget);
+            team.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
+            team.list[marked.lineupIndex].origin = 'bench';
 
-            target.player.origin = 'bench';
-
-            this.setSwitchers({ marked: null, target: null }, () => {
-                this.addPlayer(target.player);
-            });
-        };
-
-        // updater, based on curr state
-        const updater = prevState => {
-            // use clones of curr state for mutation
-            const { team, config } = clone(prevState);
-            const { key: stageName } = config.buildStage;
-
-            const { marked, target } = config.switchers;
-
-            if (stageName === 'pitch') {
-                team.list[marked.lineupIndex].lineupIndex = target.lineupIndex;
-                team.list[target.lineupIndex].lineupIndex = marked.lineupIndex;
-
-                team.list[marked.lineupIndex] = clone(target.player);
-                team.list[target.lineupIndex] = clone(marked.player);
-
-                return {
-                    team
-                };
-            }
-            /*
-             * UPDATE MARKED
-             ****************/
-
-            // if target contains player, marked = target, else del marked
-            //if (target.player) {
-            // update origin
-            target.player.origin = marked.origin;
-
-            // set lineUpIndex
-            target.player.lineupIndex = marked.lineupIndex;
-
-            team[marked.origin][marked.pos][marked.lineupIndex] = target.player;
-
-            /*}  else {
-                team[marked.origin][marked.pos].splice(marked.lineupIndex, 1);
-
-                // update team count, marked origin -1, target origin +1
-                team.count[marked.origin][marked.pos] -= 1;
-                team.count[target.origin][target.pos] += 1;
-            } */
-
-            // if target is listed player
-            if (fromList) {
-                // if marked plupp is empty bench, just add listed player to bench
-                if (!marked.player && marked.origin === 'bench') {
-                    target.player.origin = 'bench';
-                    this.setSwitchers({ marked: null, target: null }, () => {
-                        this.addPlayer(target.player);
-                    });
-
-                    return;
-                }
-
-                //replace in team.list
-                /* team.list.forEach((item, nth) => {
-                    if (item.uid === marked.player.uid) {
-                        team.list[nth] = target.player;
-                    }
-				}); */
-
-                //re-calculate team value (curr val - (diff between old player and new player))
-                if (marked.player.price !== target.player.price) {
-                    team.game.value[marked.origin] -=
-                        Math.round(marked.player.price) - Math.round(target.player.price);
-                }
-
-                //update club-count
-                const markedClub = marked.player.club;
-                const targetClub = target.player.club;
-
-                if (markedClub !== targetClub) {
-                    team.clubs[markedClub] -= 1;
-                    if (team.clubs[markedClub] < 1) {
-                        delete team.clubs[markedClub];
-                    }
-                    team.clubs[targetClub] = team.clubs[targetClub] + 1 || 1;
-                }
-
-                // replace uid in filterKeys
-                config.filterKeys.uid.forEach((uid, nth) => {
-                    if (uid === marked.player.uid) {
-                        config.filterKeys.uid[nth] = target.player.uid;
-                    }
-                });
-            } else {
-                /*
-                 * UPDATE TARGET
-                 ****************/
-                // if marked contains player, target = marked, else del target
-                if (marked.player) {
-                    // update origin
-                    marked.player.origin = target.origin;
-
-                    // set lineUpIndex
-                    marked.player.lineupIndex = target.lineupIndex;
-
-                    team[target.origin][target.pos][target.lineupIndex] = marked.player;
-                } else {
-                    team[target.origin][target.pos].splice(target.lineupIndex, 1);
-
-                    // update team count, marked origin +1, target origin -1
-                    team.count[target.origin][target.pos] -= 1;
-                    team.count[marked.origin][marked.pos] += 1;
-                }
+            // if not from list, vice versa
+            if (!fromList) {
+                team.list.splice(target.lineupIndex, 1, tempMarked);
+                team.list[target.lineupIndex].lineupIndex = target.lineupIndex;
             }
 
-            return {
-                team,
-                config
-            };
-        };
-
-        // if marked was empty seat on bench, just add new player
-        if (!marked.player && marked.origin === 'bench' && fromList) return addToBench();
-
-        // else update state with the switch
-        this.setState(
-            ps => ({ ...updater(ps) }),
-            () => {
+            this.setState({ team }, () => {
                 this.setSwitchers({ marked: null, target: null }, () => {
                     this.updateTeam(() => {
                         this.save();
                         this.updateLimit();
                     });
                 });
-            }
-        );
+            });
+
+            return;
+        }
     };
 
     render() {

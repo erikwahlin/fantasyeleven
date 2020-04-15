@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { withNewTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
-import { firstCap } from '../../../constants/helperFuncs';
+import { firstCap, toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
@@ -90,24 +90,23 @@ const StageNavBtn = styled.button`
     opacity: ${p => (p.disabled ? '.5' : '1')};
 `;
 
-const stageContent = key => {
-    switch (key) {
+const stageContent = stage => {
+    let stageTitle = toSwe(stage, 'stages').toUpperCase();
+
+    switch (stage) {
         case 'pitch':
             return <Pitch />;
 
         case 'bench':
             return (
                 <>
-                    <h2>BÄNK</h2>
+                    <h2>{stageTitle}</h2>
                     <Bench />
                 </>
             );
 
-        case 'powerups':
-            return <Powerups />;
-
         default:
-            return <h2>{firstCap(key)}</h2>;
+            return <h2>{stageTitle}</h2>;
     }
 };
 
@@ -149,9 +148,6 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
                     playerCount === preset.maxPlayers[activeStage] &&
                     team.game.value[activeStage] <= preset.maxPrice[activeStage]
                 );
-
-            case 'powerups':
-                return true;
 
             default:
                 return true;
