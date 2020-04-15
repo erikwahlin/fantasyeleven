@@ -2,31 +2,49 @@ import React from 'react';
 import styled from 'styled-components';
 import { withMyTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
-
+import pitchImg from '../../../media/pitch.png';
 import BuildInfo from '../BuildInfo';
 import { shortenName } from '../../../constants/helperFuncs';
 import Plupp from '../Plupp';
 
+const ContentWrap = styled.div`
+	width:100%;
+	display: flex;
+	align-items:center;
+	justify-content:center;
+`;
+
+const PitchImg = styled.img`
+	max-width: 576px;
+	position: absolute;
+	filter: brightness(70%);
+	opacity: 0.2;
+`;
+
 const Wrapper = styled.div`
 	width: 100%;
-	height: 150px;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items:center;
+	background: none;
+`;
 
+const BenchContainer = styled.div`
+	width: 100%;
+	height: 150px;
 	display: flex;
 	justify-content: space-evenly;
-
 	background: none;
-
-	border-top: 1px solid white;
 `;
 
 const PluppContainer = styled.div`
-	flex: 1;
 	height: 100%;
 	min-height: 100px;
 	flex: 1;
 	position: relative;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: center;
 `;
 
 const PlayerName = styled.span`
@@ -45,8 +63,11 @@ const Bench = props => {
 	return (
 		<div>
 			<BuildInfo playerCount={playerCount} team={team} origin="bench" />
-
+			<ContentWrap>
 			<Wrapper className="Bench unmarkable">
+				<h3>Avbytarbänk</h3>
+				<BenchContainer>
+					<PitchImg src={pitchImg} />
 				{preset.positions.map((pos, nth) => (
 					<PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
 						<Plupp
@@ -58,7 +79,9 @@ const Bench = props => {
 						/>
 					</PluppContainer>
 				))}
+				</BenchContainer>
 			</Wrapper>
+			</ContentWrap>
 		</div>
 	);
 };

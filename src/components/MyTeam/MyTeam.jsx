@@ -23,13 +23,13 @@ import { isMobile, isBrowser } from 'react-device-detect';
 ); */
 
 const ContentWrap = styled.div`
-	width: 100%;
+	width: 576px;
 	height: 100%;
 	margin: 0;
 	display: grid;
 	grid-template-columns: 100%;
 	grid-template-rows: 10% 90%;
-	grid-gap: 0px 20px;
+	grid-gap: 0px 130px;
 
 	@media screen and (min-height: 700px) and (max-width: 500px) {
 		grid-template-rows: 70px 632px;

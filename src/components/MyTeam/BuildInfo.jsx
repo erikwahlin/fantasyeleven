@@ -93,8 +93,6 @@ const BuildInfo = ({ myTeam, origin }) => {
 				</InfoP>
 			</ChosenPlayers>
 
-			<ClearBtn onClick={clearPlayers}>Radera lag</ClearBtn>
-
 			{buildStage.key === 'bench' && (
 				<ChosenPlayers>
 					<InfoTitle className="infoTitle">Budget</InfoTitle>
@@ -105,6 +103,8 @@ const BuildInfo = ({ myTeam, origin }) => {
 			{(activeStage === 'pitch' || activeStage === 'bench') && mobileSearch && (
 				<AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
 			)}
+
+			<ClearBtn onClick={clearPlayers}>Radera lag</ClearBtn>
 		</Wrapper>
 	);
 };

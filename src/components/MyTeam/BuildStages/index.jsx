@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 	grid-template-columns: 100%;
 	grid-template-rows: 80px auto;
 	position: relative; */
-	width: 100%;
+	width: 576px;
 	height: 100%;
 	max-width: 800px;
 	/* margin: auto;
@@ -78,13 +78,12 @@ const StageNav = styled.div`
 const StageNavBtn = styled.button`
 	width: 100px;
 	height: 50px;
-	background: #031e3d;
-	border: 1px solid white;
-	border-radius: 2px;
+	background: rgba(35, 51, 77, 1);
+	border:none;
 	outline: none;
 	cursor: pointer;
 	font-family: 'Avenir';
-	font-size: 0.9em;
+	font-size: 1em;
 	font-weight: bold;
 	color: white;
 	opacity: ${p => (p.disabled ? '.5' : '1')};
@@ -98,7 +97,6 @@ const stageContent = key => {
 		case 'bench':
 			return (
 				<>
-					<h2>BÄNK</h2>
 					<Bench />
 				</>
 			);

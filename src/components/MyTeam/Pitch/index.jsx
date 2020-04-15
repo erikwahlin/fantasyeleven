@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 
 const FieldContainer = styled.div`
 	width: 100%;
-	max-width: 700px;
+	max-width: 576px;
 	height: 100%;
 	position: relative;
 	margin: auto;
@@ -40,7 +40,7 @@ const FieldContainer = styled.div`
 const PitchImg = styled.img`
 	width: 100%;
 	height: 100%;
-	max-width: 700px;
+	max-width: 576px;
 	position: absolute;
 `;
 

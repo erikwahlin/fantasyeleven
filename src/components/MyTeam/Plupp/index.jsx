@@ -60,6 +60,8 @@ const PluppImg = styled.svg`
 	width: 100%;
 	position: relative;
 	z-index: 1;
+	color:white;
+	/* filter: brightness(150%); */
 
 	${p => p.isMarked && 'filter: brightness(.9)'};
 	opacity: ${p => (p.isSwitchable ? '.2' : '1')};
@@ -73,7 +75,7 @@ const PluppImg = styled.svg`
 			? allClubs.find(obj => {
 					return obj.long === props.player.club;
 			  }).color
-			: '#333'};	
+		: 'rgba(206, 206, 206, 1);'};	
  	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
 

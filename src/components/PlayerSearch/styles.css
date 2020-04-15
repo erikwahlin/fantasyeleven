@@ -38,6 +38,13 @@ h2 {
 	margin-bottom: 0.2rem;
 }
 
+h3 {
+	font-family: 'Avenir';
+	font-size: 1.7em;
+	color: white;
+	font-weight: 500;
+}
+
 .infoTitle {
 	font-size: 1em;
 	color: white;
