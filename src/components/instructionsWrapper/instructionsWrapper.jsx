@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { toSwe } from '../../constants/helperFuncs'
 import styled from 'styled-components';
 const StyledDiv = styled.div`
     box-sizing: border-box;
@@ -13,10 +13,21 @@ const StyledDiv = styled.div`
 const StyledP = styled.p`
 padding: 10px;
 `
-const InstructionsWrapper = ({ children }) => (
-    <StyledDiv>
-        <StyledP>{children}</StyledP>
-    </StyledDiv>
-);
+const InstructionsWrapper = ({ buildStagePage, posOrClub, list }) => {
+    //posOrClub = toSwe(posOrClub, 'positions', 'plural')
+    return (
 
+        <StyledDiv>
+            <StyledP>
+                {buildStagePage === 0 && list.length < 11 ?
+                    (
+                        `Du kan inte ha fler ${posOrClub !== 'Alla spelare' ? posOrClub : 'spelare'}  på planen`
+                    ) : (
+                        'Planen är full, gå till nästa sida för att välja din bänk inför helgens omgång.'
+                    )
+                }
+            </StyledP>
+        </StyledDiv>
+    );
+}
 export default InstructionsWrapper

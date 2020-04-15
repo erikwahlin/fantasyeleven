@@ -512,7 +512,7 @@ class PlayerSearch extends Component {
 											<p className="sum">
 												<strong>{clubAbbr(player.club)}</strong>
 										&nbsp; &nbsp;
-										{player.position}
+										{toSwe(player.position, 'positions')}
 											</p>
 										</Player>
 										<PlayerPrice className="PlayerPrice">
@@ -526,21 +526,8 @@ class PlayerSearch extends Component {
 							})}
 						</ResultBox>
 					</React.Fragment>
-
 					:
-					this.props.buildStage.index === 0 ?
-
-						(
-							<InstructionsWrapper>
-								Ditt lag är färdigbyggt! Du kan fortfarande göra ändringar i ding startelva. Gå vidare till nästa sida för att välja vilka spelar du vill ha på bänken.
-							</InstructionsWrapper>
-
-						) : (
-							<InstructionsWrapper>
-								Din bänk är nu vald, gå vidare för att se en överblick och spara ditt lag inför helgens omgång.
-							</InstructionsWrapper>
-						)
-
+					<InstructionsWrapper list={myTeam.state.team.list} buildStagePage={this.props.buildStage.index} posOrClub={posOrClubSelected.label} />
 				}
 
 			</Wrapper>
