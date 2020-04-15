@@ -7,6 +7,7 @@ import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
+import InstructionsWrapper from '../instructionsWrapper/instructionsWrapper'
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
@@ -59,7 +60,7 @@ class PlayerSearch extends Component {
 		this.groupByPosition = this.groupByPosition.bind(this);
 		this.togglePlayerModal = this.togglePlayerModal.bind(this);
 		this.checkIfSlider = this.checkIfSlider.bind(this);
-		this.handleSortClick = this.handleSortClick.bind(this);
+		this.handleSortByClick = this.handleSortByClick.bind(this);
 	}
 
 	componentDidMount = (pp, ps) => {
@@ -121,7 +122,7 @@ class PlayerSearch extends Component {
 			...INITIAL_STATE,
 		});
 	};
-	handleSortClick = e => {
+	handleSortByClick = e => {
 		if (e.target.className.includes('popularity')) {
 			this.setState({ sortBy: 'popularity' })
 		} else {
@@ -437,9 +438,9 @@ class PlayerSearch extends Component {
 
 				<h2
 					className="FilterTitle unmarkable">Sortera efter:
-					<span className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`} onClick={this.handleSortClick} > pris </span>
+					<span className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`} onClick={this.handleSortByClick} > pris </span>
 					-
-					<span className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`} onClick={this.handleSortClick} > popularitet</span>
+					<span className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`} onClick={this.handleSortByClick} > popularitet</span>
 				</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
@@ -465,68 +466,83 @@ class PlayerSearch extends Component {
 				</ButtonReset>
 
 				{/* RESULT */}
-				<Paginate
-					goToPage={this.goToPage}
-					settings={paginationSettings}
-					playerCount={filtered.length}
-					pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
-				/>
-
-				<LabelRow className="unmarkable">
-					<div className="labelPosition">
-						<p> {resultLabel}</p>
-					</div>{'   '}
-					<div className="labelPercentage">
-						<p>%</p>
-					</div>
-					<div className="labelPrice">
-						<p>SEK</p>
-					</div>
-				</LabelRow>
-
 				{paginated.length ?
-					<ResultBox className="ResultBox unmarkable">
-						{paginated.map((player, i) => {
-							return (
-								<PlayerRow key={i} className="PlayerRow">
-									<InfoModal
-										title={player.name}
-										subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-										img="https://source.unsplash.com/random"
-										display={this.state.playerModal}
-										togglePlayerModal={this.togglePlayerModal}
-									>
-										<p>Värde: {player.price} kr</p>
-										<p>
-											<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
-												Hemmaplan
-										</a>
-										</p>
-									</InfoModal>
+					<React.Fragment>
+						<Paginate
+							goToPage={this.goToPage}
+							settings={paginationSettings}
+							playerCount={filtered.length}
+							pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
+						/>
 
-									<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
-										<p className="player">{shortenName(player.name)}</p>
-										<p className="sum">
-											<strong>{clubAbbr(player.club)}</strong>
+						<LabelRow className="unmarkable">
+							<div className="labelPosition">
+								<p> {resultLabel}</p>
+							</div>{'   '}
+							<div className="labelPercentage">
+								<p>%</p>
+							</div>
+							<div className="labelPrice">
+								<p>SEK</p>
+							</div>
+						</LabelRow>
+
+
+						<ResultBox className="ResultBox unmarkable">
+							{paginated.map((player, i) => {
+								return (
+									<PlayerRow key={i} className="PlayerRow">
+										<InfoModal
+											title={player.name}
+											subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+											img="https://source.unsplash.com/random"
+											display={this.state.playerModal}
+											togglePlayerModal={this.togglePlayerModal}
+										>
+											<p>Värde: {player.price} kr</p>
+											<p>
+												<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
+													Hemmaplan
+										</a>
+											</p>
+										</InfoModal>
+
+										<Player className="ListedPlayer" onClick={e => this.playerClickHandler(player)}>
+											<p className="player">{shortenName(player.name)}</p>
+											<p className="sum">
+												<strong>{clubAbbr(player.club)}</strong>
 										&nbsp; &nbsp;
 										{player.position}
-										</p>
-									</Player>
-									<PlayerPrice className="PlayerPrice">
-										<p className="player_price">{player.popularity}</p>
-									</PlayerPrice>
-									<PlayerPrice className="PlayerPrice">
-										<p className="player_price">{Math.round(player.price)}</p>
-									</PlayerPrice>
-								</PlayerRow>
-							);
-						})}
-					</ResultBox>
+											</p>
+										</Player>
+										<PlayerPrice className="PlayerPrice">
+											<p className="player_price">{player.popularity}</p>
+										</PlayerPrice>
+										<PlayerPrice className="PlayerPrice">
+											<p className="player_price">{Math.round(player.price)}</p>
+										</PlayerPrice>
+									</PlayerRow>
+								);
+							})}
+						</ResultBox>
+					</React.Fragment>
 
 					:
-					<div>Ditt lag är färdigbyggt!! <br /> gå vidare till nästa sida</div>}
-				{/* check state which stage player is at, render different messages.
-					in benchpick, check wheter totals pris is over 30 or not - different messages.*/}
+					this.props.buildStage.index === 0 ?
+
+						(
+							<InstructionsWrapper>
+								Ditt lag är färdigbyggt! Du kan fortfarande göra ändringar i ding startelva. Gå vidare till nästa sida för att välja vilka spelar du vill ha på bänken.
+							</InstructionsWrapper>
+
+						) : (
+							<InstructionsWrapper>
+								Din bänk är nu vald, gå vidare för att se en överblick och spara ditt lag inför helgens omgång.
+							</InstructionsWrapper>
+						)
+
+				}
+
 			</Wrapper>
 		);
 	}

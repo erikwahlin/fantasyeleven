@@ -8,6 +8,7 @@ import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
 import BuildStages from './BuildStages';
 import { isMobile, isBrowser } from 'react-device-detect';
+import { compose } from 'recompose';
 
 /* console.log(
 	'browser view',
@@ -176,6 +177,7 @@ export default class MyTeam extends Component {
 		const updater = prevState => {
 			const { config } = clone(prevState);
 			const { filterKeys, buildStage } = config;
+
 			preset.positions.forEach(pos => {
 				// if pitch and bench full - add pos to filter (if filter is not active)
 				if (
@@ -671,7 +673,7 @@ export default class MyTeam extends Component {
 					<BuildStages buildStage={buildStage} />
 					{/* <Pitch /> */}
 
-					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
+					<PlayerSearch buildStage={buildStage} players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 				</ContentWrap>
 			</MyTeamCtx.Provider>
 		);
