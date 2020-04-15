@@ -1,5 +1,5 @@
 import React from 'react';
-import { withMyTeam } from './ctx';
+import { withNewTeam } from './ctx';
 import styled from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
 
@@ -30,8 +30,8 @@ const InfoP = styled.p`
 const ClearBtn = styled.button`
 	width: 100px;
 	height: 35px;
-	background: #5AC5D3;
-	border:none;
+	background: #5ac5d3;
+	border: none;
 	border-radius: 15px;
 	outline: none;
 	cursor: pointer;
@@ -39,7 +39,7 @@ const ClearBtn = styled.button`
 	font-size: 1.1em;
 	font-weight: 500;
 	color: black;
-	padding:5px;
+	padding: 5px;
 `;
 
 const AddPlayerBtn = styled(FaUserPlus)`
@@ -50,11 +50,11 @@ const AddPlayerBtn = styled(FaUserPlus)`
 	cursor: pointer;
 `;
 
-const BuildInfo = ({ myTeam, origin }) => {
-	const { team, config, game } = myTeam.state;
+const BuildInfo = ({ NewTeam, origin }) => {
+	const { team, config, game } = NewTeam.state;
 	const { buildStage, limit, mobileSearch } = config;
 	const { key: activeStage } = buildStage;
-	const { delPlayer, openPlayerSearch } = myTeam.setters;
+	const { delPlayer, openPlayerSearch } = NewTeam.setters;
 
 	const maxPlayers = limit[origin].tot;
 	const maxValue = limit.value[origin];
@@ -85,7 +85,6 @@ const BuildInfo = ({ myTeam, origin }) => {
 				</InfoP>
 			</ChosenPlayers>
 
-
 			<ChosenPlayers>
 				<InfoTitle className="infoTitle">Totalt pris</InfoTitle>
 				<InfoP className="amount" ready={ready} notReady={notReady}>
@@ -109,4 +108,4 @@ const BuildInfo = ({ myTeam, origin }) => {
 	);
 };
 
-export default withMyTeam(BuildInfo);
+export default withNewTeam(BuildInfo);

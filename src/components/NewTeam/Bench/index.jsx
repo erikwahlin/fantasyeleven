@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../ctx';
+import { withNewTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 
 import BuildInfo from '../BuildInfo';
@@ -38,7 +38,7 @@ const PlayerName = styled.span`
 `;
 
 const Bench = props => {
-	const { config, team, game } = props.myTeam.state;
+	const { config, team, game } = props.NewTeam.state;
 	const playerCount = team.list.map(player => player.origin === 'bench').length;
 	const teamValue = game.value;
 
@@ -63,4 +63,4 @@ const Bench = props => {
 	);
 };
 
-export default withMyTeam(Bench);
+export default withNewTeam(Bench);

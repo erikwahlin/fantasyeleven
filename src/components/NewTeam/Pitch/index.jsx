@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../ctx';
+import { withNewTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
@@ -114,9 +114,9 @@ function useWindowSize(ref) {
 } */
 
 const Pitch = props => {
-	const { config, team, game } = props.myTeam.state;
+	const { config, team, game } = props.NewTeam.state;
 	const { mobileSearch } = config;
-	const { togglePlayerSearch, delPlayer } = props.myTeam.setters;
+	const { togglePlayerSearch, delPlayer } = props.NewTeam.setters;
 
 	const playerCount = team.list.map(player => player.origin === 'pitch').length;
 	const teamValue = game.value;
@@ -207,4 +207,4 @@ const Pitch = props => {
 	);
 };
 
-export default withMyTeam(Pitch);
+export default withNewTeam(Pitch);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withMyTeam } from '../ctx';
+import { withNewTeam } from '../ctx';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -25,4 +25,4 @@ const Powerups = props => (
 	</Wrapper>
 );
 
-export default withMyTeam(Powerups);
+export default withNewTeam(Powerups);

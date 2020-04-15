@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { clone } from '../../constants/helperFuncs';
 import * as preset from '../../constants/gamePreset';
-import MyTeamCtx from './ctx';
+import NewTeamCtx from './ctx';
 import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
@@ -54,7 +54,7 @@ const ContentWrap = styled.div`
 	}
 `;
 
-export default class MyTeam extends Component {
+export default class NewTeam extends Component {
 	constructor(props) {
 		super(props);
 		this.state = clone(INITIAL_STATE);
@@ -93,7 +93,7 @@ export default class MyTeam extends Component {
 	toggleMobileSearch = () => {
 		this.setState(
 			ps => ({
-				config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
+				config: { ...ps.config, mobileSearch: !ps.config.mobileSearch },
 			}),
 			() => {
 				if (this.state.config.mobileSearch) {
@@ -108,7 +108,7 @@ export default class MyTeam extends Component {
 	openPlayerSearch = () => {
 		if (!this.state.config.searchOpen) {
 			this.setState(ps => ({
-				config: { ...ps.config, searchOpen: true }
+				config: { ...ps.config, searchOpen: true },
 			}));
 		}
 	};
@@ -116,7 +116,7 @@ export default class MyTeam extends Component {
 	closePlayerSearch = () => {
 		if (this.state.config.searchOpen) {
 			this.setState(ps => ({
-				config: { ...ps.config, searchOpen: false }
+				config: { ...ps.config, searchOpen: false },
 			}));
 		}
 	};
@@ -157,7 +157,7 @@ export default class MyTeam extends Component {
 
 		this.setState(
 			ps => ({
-				config: update(ps.config)
+				config: update(ps.config),
 			}),
 			() => {
 				// optional callback
@@ -274,14 +274,14 @@ export default class MyTeam extends Component {
 			const {
 				Defender: defLimit,
 				Midfielder: midLimit,
-				Forward: forLimit
+				Forward: forLimit,
 			} = INITIAL_STATE.config.limit.pitch;
 
 			// curr pitch count
 			const {
 				Defender: defCount,
 				Midfielder: midCount,
-				Forward: forCount
+				Forward: forCount,
 			} = prevState.team.count.pitch;
 
 			// Mutate config based on scenario
@@ -401,7 +401,7 @@ export default class MyTeam extends Component {
 			return {
 				team,
 				config,
-				game
+				game,
 			};
 		};
 
@@ -462,7 +462,7 @@ export default class MyTeam extends Component {
 			return {
 				team,
 				config,
-				game
+				game,
 			};
 		};
 
@@ -613,7 +613,7 @@ export default class MyTeam extends Component {
 			return {
 				team,
 				config,
-				game
+				game,
 			};
 		};
 
@@ -634,7 +634,7 @@ export default class MyTeam extends Component {
 	render() {
 		const { searchablePlayers, switchers, mobileSearch, buildStage } = this.state.config;
 
-		// MyTeam-funcs in ctx
+		// NewTeam-funcs in ctx
 		const setters = {
 			updateState: this.updateState,
 			addPlayer: this.addPlayer,
@@ -645,7 +645,7 @@ export default class MyTeam extends Component {
 			closePlayerSearch: this.closePlayerSearch,
 			toggleMobileSearch: this.toggleMobileSearch,
 			setStage: this.setStage,
-			updateFilterKeys: this.updateFilterKeys
+			updateFilterKeys: this.updateFilterKeys,
 		};
 
 		const markedMode = switchers.marked && !switchers.target ? true : false;
@@ -653,10 +653,10 @@ export default class MyTeam extends Component {
 		// filter allPlayers before PlayerSearch
 
 		return (
-			<MyTeamCtx.Provider
+			<NewTeamCtx.Provider
 				value={{
 					state: this.state,
-					setters
+					setters,
 				}}
 			>
 				{/* <SlideMenu
@@ -673,7 +673,7 @@ export default class MyTeam extends Component {
 
 					<PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
 				</ContentWrap>
-			</MyTeamCtx.Provider>
+			</NewTeamCtx.Provider>
 		);
 	}
 }

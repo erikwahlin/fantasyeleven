@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../ctx';
+import { withNewTeam } from '../ctx';
 import { shortenName } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
@@ -30,7 +30,7 @@ const Container = styled.div`
 const PlayerName = styled.span`
 	position: absolute;
 	width: 96px;
-	background-color: rgba(57,118,59);
+	background-color: rgba(57, 118, 59);
 	padding: 3px;
 	left: -25px;
 	top: 52px;
@@ -146,7 +146,7 @@ class Plupp extends Component {
 		this.state = {
 			isMarked: false,
 			isSwitchable: false,
-			isQuickSwitchable: false
+			isQuickSwitchable: false,
 		};
 
 		this.del = this.del.bind(this);
@@ -169,7 +169,7 @@ class Plupp extends Component {
 
 	// check if plupp should be marked
 	markedPrivilege = () => {
-		const { marked } = this.props.myTeam.state.config.switchers;
+		const { marked } = this.props.NewTeam.state.config.switchers;
 		const self = this.pluppRef.current;
 
 		if (marked) {
@@ -183,8 +183,8 @@ class Plupp extends Component {
 
 	// check if plupp should be switchable
 	switchablePrivilege = () => {
-		const { player, myTeam, pos, origin } = this.props;
-		const { marked } = myTeam.state.config.switchers;
+		const { player, NewTeam, pos, origin } = this.props;
+		const { marked } = NewTeam.state.config.switchers;
 		const pluppRef = this.pluppRef.current;
 
 		// is switchable if:
@@ -214,8 +214,8 @@ class Plupp extends Component {
 
 		// check if bench/pitch has space for another plupp
 		const { isMarked, isQuickSwitchable } = this.state;
-		const { player, pos, origin, myTeam } = this.props;
-		const { config, team } = myTeam.state;
+		const { player, pos, origin, NewTeam } = this.props;
+		const { config, team } = NewTeam.state;
 
 		const quickSwitchable = () => {
 			const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
@@ -233,8 +233,8 @@ class Plupp extends Component {
 	};
 
 	del = () => {
-		const { myTeam, player } = this.props;
-		const { setSwitchers, delPlayer } = myTeam.setters;
+		const { NewTeam, player } = this.props;
+		const { setSwitchers, delPlayer } = NewTeam.setters;
 
 		// unmark, then clear switchers, then del ref
 		this.setState({ isMarked: false }, () => {
@@ -248,8 +248,8 @@ class Plupp extends Component {
 	handleClickOutside = e => {
 		if (!this.state.isMarked) return;
 
-		const { buildStage } = this.props.myTeam.state.config;
-		const { setSwitchers, closePlayerSearch } = this.props.myTeam.setters;
+		const { buildStage } = this.props.NewTeam.state.config;
+		const { setSwitchers, closePlayerSearch } = this.props.NewTeam.setters;
 
 		// if clicked on switchable plupp on pitch or inside playerSearch, bail
 		const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
@@ -268,14 +268,14 @@ class Plupp extends Component {
 
 	// (runs after click outside)
 	handleClickInside = e => {
-		const { myTeam, player, pos, origin, lineupIndex } = this.props;
-		const { setSwitchers, switchPlayers, openPlayerSearch } = myTeam.setters;
-		const { switchers, buildStage } = myTeam.state.config;
+		const { NewTeam, player, pos, origin, lineupIndex } = this.props;
+		const { setSwitchers, switchPlayers, openPlayerSearch } = NewTeam.setters;
+		const { switchers, buildStage } = NewTeam.state.config;
 		const { marked } = switchers;
 		const ref = this.pluppRef.current;
 
 		/* TEMP */
-		if (myTeam.state.config.mobileSearch) {
+		if (NewTeam.state.config.mobileSearch) {
 			openPlayerSearch();
 		}
 
@@ -290,8 +290,8 @@ class Plupp extends Component {
 					pos,
 					lineupIndex,
 					player,
-					ref
-				}
+					ref,
+				},
 			});
 			// if switchers do have a marked...
 		} else {
@@ -310,8 +310,8 @@ class Plupp extends Component {
 						pos,
 						lineupIndex,
 						player,
-						ref
-					}
+						ref,
+					},
 				},
 				() => {
 					switchPlayers();
@@ -322,10 +322,10 @@ class Plupp extends Component {
 
 	quickSwitch = () => {
 		const ref = this.pluppRef.current;
-		const { player, pos, origin, lineupIndex, myTeam } = this.props;
-		const { setSwitchers, switchPlayers } = myTeam.setters;
+		const { player, pos, origin, lineupIndex, NewTeam } = this.props;
+		const { setSwitchers, switchPlayers } = NewTeam.setters;
 		const targetOrigin = origin === 'pitch' ? 'bench' : 'pitch';
-		const targetIndex = myTeam.state.team[targetOrigin][pos].length;
+		const targetIndex = NewTeam.state.team[targetOrigin][pos].length;
 
 		// else, target this plupp, prepare switch
 		setSwitchers(
@@ -335,15 +335,15 @@ class Plupp extends Component {
 					pos,
 					lineupIndex,
 					player,
-					ref
+					ref,
 				},
 				target: {
 					origin: targetOrigin,
 					pos,
 					lineupIndex: targetIndex,
 					player: null,
-					ref: null
-				}
+					ref: null,
+				},
 			},
 			() => {
 				switchPlayers();
@@ -360,7 +360,7 @@ class Plupp extends Component {
 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>}
 
-{/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
+				{/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
 
 				{isMarked && player && (
@@ -397,4 +397,4 @@ class Plupp extends Component {
 	}
 }
 
-export default withMyTeam(onClickOutside(Plupp));
+export default withNewTeam(onClickOutside(Plupp));

@@ -4,7 +4,7 @@ import '../PlayerSearch/styles.css';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import Styled from 'styled-components';
-import MyTeam from '../MyTeam/index';
+import NewTeam from '../NewTeam/index';
 import Navigation from '../Navigation';
 
 class HomePage extends Component {
@@ -12,14 +12,14 @@ class HomePage extends Component {
 		super(props);
 
 		this.state = {
-			users: null
+			users: null,
 		};
 	}
 
 	componentDidMount() {
 		this.props.firebase.users().on('value', snapshot => {
 			this.setState({
-				users: snapshot.val()
+				users: snapshot.val(),
 			});
 		});
 	}
@@ -32,8 +32,9 @@ class HomePage extends Component {
 		const pathname = this.props.location && this.props.location.pathname;
 		return (
 			<div style={{ height: '100vh' }} className="HomePage">
+				<h1>Home</h1>
 				{/* <Navigation pathname={this.props.location.pathname} /> */}
-				<MyTeam />
+				{/* <NewTeam /> */}
 			</div>
 		);
 	}

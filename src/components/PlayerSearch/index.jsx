@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import INITIAL_STATE from './config';
-import { withMyTeam } from '../MyTeam/ctx';
+import { withNewTeam } from '../NewTeam/ctx';
 import * as preset from '../../constants/gamePreset';
 import { clone, toSwe, homePitch, afterWinResize, shortenName } from '../../constants/helperFuncs';
-import { allClubs } from '../MyTeam/config';
+import { allClubs } from '../NewTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
@@ -71,11 +71,11 @@ class PlayerSearch extends Component {
 
 	// check if playerSearch should slide in
 	checkIfSlider = () => {
-		const { mobileSearch: oldVal } = this.props.myTeam.state.config;
+		const { mobileSearch: oldVal } = this.props.NewTeam.state.config;
 		const newVal = window.innerWidth < 900 ? true : false;
 
 		if (oldVal !== newVal) {
-			this.props.myTeam.setters.toggleMobileSearch();
+			this.props.NewTeam.setters.toggleMobileSearch();
 		}
 	};
 
@@ -87,8 +87,8 @@ class PlayerSearch extends Component {
 	// when clicking on listed player
 	playerClickHandler = player => {
 		const { position: pos } = player;
-		const { markedMode, myTeam } = this.props;
-		const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = myTeam.setters;
+		const { markedMode, NewTeam } = this.props;
+		const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = NewTeam.setters;
 
 		// if a plupp is already marked, prepare switch
 		if (markedMode) {
@@ -290,9 +290,9 @@ class PlayerSearch extends Component {
 
 	render() {
 		const { paginationSettings, posOrClubSelected, searchTerm } = this.state;
-		const { players, myTeam, markedMode } = this.props;
-		const { closePlayerSearch } = myTeam.setters;
-		const { mobileSearch, searchOpen, switchers } = myTeam.state.config;
+		const { players, NewTeam, markedMode } = this.props;
+		const { closePlayerSearch } = NewTeam.setters;
+		const { mobileSearch, searchOpen, switchers } = NewTeam.state.config;
 
 		let resultLabel = markedMode
 			? toSwe(switchers.marked.pos, 'positions', 'plural')
@@ -494,4 +494,4 @@ class PlayerSearch extends Component {
 	}
 }
 
-export default withMyTeam(PlayerSearch);
+export default withNewTeam(PlayerSearch);

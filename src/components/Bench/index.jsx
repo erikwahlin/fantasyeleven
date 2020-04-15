@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withMyTeam } from '../MyTeam/ctx';
+import { withNewTeam } from '../NewTeam/ctx';
 import { shortenName } from '../../constants/helperFuncs';
 import Plupp from '../Plupp';
 
@@ -35,7 +35,7 @@ const PlayerName = styled.span`
 `;
 
 const Bench = props => {
-	const { config, team } = props.myTeam.state;
+	const { config, team } = props.NewTeam.state;
 
 	return (
 		<Wrapper className="Bench unmarkable">
@@ -54,4 +54,4 @@ const Bench = props => {
 	);
 };
 
-export default withMyTeam(Bench);
+export default withNewTeam(Bench);

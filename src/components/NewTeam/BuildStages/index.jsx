@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { withMyTeam } from '../ctx';
+import { withNewTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import { firstCap } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
@@ -111,10 +111,10 @@ const stageContent = key => {
 	}
 };
 
-const BuildStages = ({ buildStage, myTeam, ...props }) => {
-	const { game, team } = myTeam.state;
+const BuildStages = ({ buildStage, NewTeam, ...props }) => {
+	const { game, team } = NewTeam.state;
 	const { list: playerList } = team;
-	const { setStage, updateFilterKeys } = myTeam.setters;
+	const { setStage, updateFilterKeys } = NewTeam.setters;
 
 	const { key: activeStage } = buildStage;
 	const playerCount = playerList.filter(player => player.origin === activeStage).length;
@@ -130,7 +130,7 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 
 		setStage({
 			key: preset.buildStages[index],
-			index: index
+			index: index,
 		});
 
 		updateFilterKeys();
@@ -193,4 +193,4 @@ const BuildStages = ({ buildStage, myTeam, ...props }) => {
 	);
 };
 
-export default withMyTeam(BuildStages);
+export default withNewTeam(BuildStages);
