@@ -8,7 +8,6 @@ const StyledDiv = styled.div`
     font-size: 1.3em;
     width: inherit;
     width: 90%;
-    height: 100%;
     
 `
 const StyledP = styled.p`
