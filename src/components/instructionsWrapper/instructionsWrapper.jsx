@@ -13,7 +13,7 @@ const StyledDiv = styled.div`
 const StyledP = styled.p`
 padding: 10px;
 `
-const InstructionsWrapper = ({ buildStagePage, posOrClub, list }) => {
+const InstructionsWrapper = ({ buildStagePage, posOrClub, list, maxPrice }) => {
     //posOrClub = toSwe(posOrClub, 'positions', 'plural')
     return (
 
@@ -23,7 +23,14 @@ const InstructionsWrapper = ({ buildStagePage, posOrClub, list }) => {
                     (
                         `Du kan inte ha fler ${posOrClub !== 'Alla spelare' ? posOrClub : 'spelare'}  på planen`
                     ) : (
-                        'Planen är full, gå till nästa sida för att välja din bänk inför helgens omgång.'
+                        buildStagePage === 1 && list.length < 15 ? (
+                            'Du kan bara ha 1 spelare från varje position till ett värde av max 30 kr.'
+                        )
+                            :
+                            (
+                                `Klicka på vidare för att ta dig till nästa steg.${buildStagePage === 1 ? ' Kolla så att du inte gått över budgeten.' : ''}`
+                            )
+
                     )
                 }
             </StyledP>
