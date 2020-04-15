@@ -436,9 +436,9 @@ class PlayerSearch extends Component {
 				</SearchFieldWrapper>
 
 				<h2
-					className="FilterTitle unmarkable">Sortera efter
+					className="FilterTitle unmarkable">Sortera efter:
 					<span className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`} onClick={this.handleSortClick} > pris </span>
-					eller
+					-
 					<span className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`} onClick={this.handleSortClick} > popularitet</span>
 				</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
