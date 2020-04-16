@@ -50,7 +50,6 @@ class NewTeam extends Component {
         super(props);
         this.state = clone(ALT_STATE);
 
-        this.updateState = this.updateState.bind(this);
         this.updatesearchablePlayers = this.updatesearchablePlayers.bind(this);
         this.updateLimit = this.updateLimit.bind(this);
         this.updateTeam = this.updateTeam.bind(this);
@@ -81,7 +80,9 @@ class NewTeam extends Component {
         await this.userInit();
     };
 
+    // get curr user
     userInit = async () => {
+        console.log('user init');
         await this.props.firebase.auth.onAuthStateChanged(user => {
             // if logged in, use/load from mongo
             if (user) {
@@ -90,14 +91,24 @@ class NewTeam extends Component {
                 });
             }
 
-            // if not logged in, use/load from client storage
+            // if not logged in, use client storage
             else {
                 console.log('Not logged in. Using client-storage.');
+                // if local data, load, else create
+                if (localStorage.getItem('team')) {
+                    this.load();
+                } else {
+                    this.save();
+                    this.updatesearchablePlayers();
+                }
             }
         });
     };
 
     /*
+     *
+     *
+     *
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
@@ -163,13 +174,24 @@ class NewTeam extends Component {
             .catch(err => console.log(err));
     };
 
-    clientLoad = () =>
-        this.setState({ team: JSON.parse(localStorage.getItem('team')) }, () => {
-            this.updateTeam();
-        });
+    clientLoad = () => {
+        const data = JSON.parse(localStorage.getItem('team'));
+        if (data) {
+            this.setState({ team: data }, () => {
+                this.updateTeam();
+            });
+        }
+    };
 
     clientSave = () => localStorage.setItem('team', JSON.stringify(this.state.team));
 
+    /*
+     *
+     *
+     *
+     *
+     * UPDATE/SYNC STATE
+     * * * * * * * * * * */
     updateTeam = callback => {
         // current state, but initial values on the props to update
 
@@ -215,212 +237,6 @@ class NewTeam extends Component {
                 if (typeof callback === 'function') callback();
             }
         );
-    };
-
-    updateState = (key, val, callback) => {
-        this.setState({ [key]: val }, () => {
-            if (typeof callback === 'function') return callback();
-        });
-    };
-
-    setStage = newStage => {
-        this.setState(ps => ({ config: { ...ps.config, buildStage: newStage } }));
-    };
-
-    toggleMobileSearch = () => {
-        this.setState(
-            ps => ({
-                config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
-            }),
-            () => {
-                if (this.state.config.mobileSearch) {
-                    this.closePlayerSearch();
-                } else {
-                    this.openPlayerSearch();
-                }
-            }
-        );
-    };
-
-    openPlayerSearch = () => {
-        if (!this.state.config.searchOpen) {
-            this.setState(ps => ({
-                config: { ...ps.config, searchOpen: true }
-            }));
-        }
-    };
-
-    closePlayerSearch = () => {
-        if (this.state.config.searchOpen) {
-            this.setState(ps => ({
-                config: { ...ps.config, searchOpen: false }
-            }));
-        }
-    };
-
-    updatesearchablePlayers = callback => {
-        // update clone of curr config in state
-        const update = input => {
-            const res = clone(input);
-            // set new search res
-            res.searchablePlayers = this.applyFilter(allPlayers);
-            return res;
-        };
-
-        this.setState(
-            // use deep clone of curr config in state
-            ps => ({ config: update(ps.config) }),
-            () => {
-                if (typeof callback === 'function') {
-                    return callback();
-                }
-            }
-        );
-    };
-
-    // update switchers plupps (takes in new data as key/val-obj, optional callback)
-    setSwitchers = (data, callback = null) => {
-        // update clone of curr config in state
-        const update = input => {
-            const res = clone(input);
-            // update switchers with given data
-            Object.keys(data).forEach(key => {
-                // give new val
-                res.switchers[key] = data[key];
-            });
-
-            return res;
-        };
-
-        this.setState(
-            ps => ({
-                config: update(ps.config)
-            }),
-            () => {
-                // optional callback
-                this.updatesearchablePlayers(callback);
-            }
-        );
-    };
-
-    checkMarkedMode = () => {
-        const { marked, target } = this.state.config.switchers;
-        return marked && !target ? true : false;
-    };
-
-    updateFilterKeys = callback => {
-        // updater, based on clone of curr state config
-        const updater = prevState => {
-            const { config, team } = clone(prevState);
-            const { filterKeys, buildStage } = config;
-            const { list } = team;
-
-            // filter positions
-            preset.positions.forEach(pos => {
-                // if pitch and bench full - add pos to filter (if filter is not active)
-                if (
-                    (prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
-                        buildStage.key === 'bench') ||
-                    (prevState.team.pitch[pos].length >= config.limit.pitch[pos].max &&
-                        buildStage.key === 'pitch')
-                ) {
-                    if (!filterKeys.position.includes(pos)) {
-                        filterKeys.position.push(pos);
-                    }
-                    // else remove pos from filter (if filter is active)
-                } else {
-                    if (filterKeys.position.includes(pos)) {
-                        const index = filterKeys.position.indexOf(pos);
-                        filterKeys.position.splice(index, 1);
-                    }
-                }
-            });
-
-            // filter clubs
-            Object.keys(prevState.team.clubs).forEach(club => {
-                if (prevState.team.clubs[club] >= 3) {
-                    if (!filterKeys.club.includes(club)) filterKeys.club.push(club);
-                } else {
-                    if (filterKeys.club.includes(club)) {
-                        const index = filterKeys.club.indexOf(club);
-                        filterKeys.club.splice(index, 1);
-                    }
-                }
-            });
-
-            // add to uid-filter
-            list.forEach(player => {
-                const matchIndex = filterKeys.uid.indexOf(player.uid);
-
-                // if exists on pitch but not in filter, add
-                if (matchIndex < 0) {
-                    config.filterKeys.uid.push(player.uid);
-                }
-            });
-
-            // remove from uid-filter
-            const playerUids = list.map(player => player.uid);
-            filterKeys.uid.forEach((uid, nth) => {
-                const matchIndex = playerUids.indexOf(uid);
-
-                // if exists in filter but not on pitch, remove
-                if (matchIndex < 0) {
-                    config.filterKeys.uid.splice(nth, 1);
-                }
-            });
-
-            return config;
-        };
-
-        this.setState(
-            ps => ({ config: updater(ps) }),
-            () => {
-                this.updatesearchablePlayers();
-            }
-        );
-    };
-
-    // filter before playerSearch-result
-    applyFilter = input => {
-        const { team, config } = this.state;
-        const { filterKeys, switchers } = config;
-        const { marked, target } = switchers;
-
-        // marked plupp?
-        const markedMode = marked && !target ? true : false;
-
-        // if 15 players picked and no plupp marked, bail
-        if (team.list.length >= 15 && !markedMode) {
-            return [];
-        }
-
-        // filter func
-        const f = (players, key) => {
-            const res = players.filter(player => {
-                let willReturn = true;
-
-                filterKeys[key].forEach(val => {
-                    if (player[key] === val) {
-                        willReturn = false;
-                    }
-                });
-
-                return willReturn;
-            });
-
-            return res;
-        };
-
-        // we never want uid-duplicates (picked vs unpicked players)
-        const uniqueUids = f(input, 'uid');
-
-        // if marked plupp, return all unpicked players with plupp's pos-prop
-        if (markedMode) {
-            return uniqueUids.filter(player => player.position === marked.pos);
-        }
-
-        // else filter by remaining keys
-        return f(f(uniqueUids, 'club'), 'position');
     };
 
     // update formation rules (limits)
@@ -510,6 +326,222 @@ class NewTeam extends Component {
             ps => ({ config: updater(ps) }),
             () => {
                 this.updateFilterKeys();
+            }
+        );
+    };
+
+    updateFilterKeys = callback => {
+        // updater, based on clone of curr state config
+        const updater = prevState => {
+            const { config, team } = clone(prevState);
+            const { filterKeys, buildStage } = config;
+            const { list } = team;
+
+            // filter positions
+            preset.positions.forEach(pos => {
+                // if pitch and bench full - add pos to filter (if filter is not active)
+                if (
+                    (prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
+                        buildStage.key === 'bench') ||
+                    (prevState.team.pitch[pos].length >= config.limit.pitch[pos].max &&
+                        buildStage.key === 'pitch')
+                ) {
+                    if (!filterKeys.position.includes(pos)) {
+                        filterKeys.position.push(pos);
+                    }
+                    // else remove pos from filter (if filter is active)
+                } else {
+                    if (filterKeys.position.includes(pos)) {
+                        const index = filterKeys.position.indexOf(pos);
+                        filterKeys.position.splice(index, 1);
+                    }
+                }
+            });
+
+            // filter clubs
+            Object.keys(prevState.team.clubs).forEach(club => {
+                if (prevState.team.clubs[club] >= 3) {
+                    if (!filterKeys.club.includes(club)) filterKeys.club.push(club);
+                } else {
+                    if (filterKeys.club.includes(club)) {
+                        const index = filterKeys.club.indexOf(club);
+                        filterKeys.club.splice(index, 1);
+                    }
+                }
+            });
+
+            // add to uid-filter
+            list.forEach(player => {
+                const matchIndex = filterKeys.uid.indexOf(player.uid);
+
+                // if exists on pitch but not in filter, add
+                if (matchIndex < 0) {
+                    config.filterKeys.uid.push(player.uid);
+                }
+            });
+
+            // remove from uid-filter
+            const playerUids = list.map(player => player.uid);
+            filterKeys.uid.forEach((uid, nth) => {
+                const matchIndex = playerUids.indexOf(uid);
+
+                // if exists in filter but not on pitch, remove
+                if (matchIndex < 0) {
+                    config.filterKeys.uid.splice(nth, 1);
+                }
+            });
+
+            return config;
+        };
+
+        this.setState(
+            ps => ({ config: updater(ps) }),
+            () => {
+                this.updatesearchablePlayers();
+            }
+        );
+    };
+
+    updatesearchablePlayers = callback => {
+        // update clone of curr config in state
+        const update = input => {
+            const res = clone(input);
+            // set new search res
+            res.searchablePlayers = this.applyFilter(allPlayers);
+            return res;
+        };
+
+        this.setState(
+            // use deep clone of curr config in state
+            ps => ({ config: update(ps.config) }),
+            () => {
+                if (typeof callback === 'function') {
+                    return callback();
+                }
+            }
+        );
+    };
+
+    // filter before playerSearch-result
+    applyFilter = input => {
+        const { team, config } = this.state;
+        const { filterKeys, switchers } = config;
+        const { marked, target } = switchers;
+
+        // marked plupp?
+        const markedMode = marked && !target ? true : false;
+
+        // if 15 players picked and no plupp marked, bail
+        if (team.list.length >= 15 && !markedMode) {
+            return [];
+        }
+
+        // filter func
+        const f = (players, key) => {
+            const res = players.filter(player => {
+                let willReturn = true;
+
+                filterKeys[key].forEach(val => {
+                    if (player[key] === val) {
+                        willReturn = false;
+                    }
+                });
+
+                return willReturn;
+            });
+
+            return res;
+        };
+
+        // we never want uid-duplicates (picked vs unpicked players)
+        const uniqueUids = f(input, 'uid');
+
+        // if marked plupp, return all unpicked players with plupp's pos-prop
+        if (markedMode) {
+            return uniqueUids.filter(player => player.position === marked.pos);
+        }
+
+        // else filter by remaining keys
+        return f(f(uniqueUids, 'club'), 'position');
+    };
+
+    /*
+     *
+     *
+     *
+     *
+     * INDIRECT DOM INTERACTION
+     * * * * * * * * * * * * * * */
+    setStage = newStage => {
+        this.setState(ps => ({ config: { ...ps.config, buildStage: newStage } }));
+    };
+
+    toggleMobileSearch = () => {
+        this.setState(
+            ps => ({
+                config: { ...ps.config, mobileSearch: !ps.config.mobileSearch }
+            }),
+            () => {
+                if (this.state.config.mobileSearch) {
+                    this.closePlayerSearch();
+                } else {
+                    this.openPlayerSearch();
+                }
+            }
+        );
+    };
+
+    openPlayerSearch = () => {
+        if (!this.state.config.searchOpen) {
+            this.setState(ps => ({
+                config: { ...ps.config, searchOpen: true }
+            }));
+        }
+    };
+
+    closePlayerSearch = () => {
+        if (this.state.config.searchOpen) {
+            this.setState(ps => ({
+                config: { ...ps.config, searchOpen: false }
+            }));
+        }
+    };
+
+    /*
+     *
+     *
+     *
+     *
+     * PLUPP/PLAYER ACTIONS
+     * * * * * * * * * * * * */
+
+    // check if a plupp/player is marked
+    checkMarkedMode = () => {
+        const { marked, target } = this.state.config.switchers;
+        return marked && !target ? true : false;
+    };
+
+    // update switchers (marked/target) plupps (takes in new data as key/val-obj, optional callback)
+    setSwitchers = (data, callback = null) => {
+        // update clone of curr config in state
+        const update = input => {
+            const res = clone(input);
+            // update switchers with given data
+            Object.keys(data).forEach(key => {
+                // give new val
+                res.switchers[key] = data[key];
+            });
+
+            return res;
+        };
+
+        this.setState(
+            ps => ({
+                config: update(ps.config)
+            }),
+            () => {
+                // optional callback
+                this.updatesearchablePlayers(callback);
             }
         );
     };
@@ -662,7 +694,6 @@ class NewTeam extends Component {
 
         // NewTeam-funcs in ctx
         const setters = {
-            updateState: this.updateState,
             addPlayer: this.addPlayer,
             delPlayer: this.delPlayer,
             setSwitchers: this.setSwitchers,
