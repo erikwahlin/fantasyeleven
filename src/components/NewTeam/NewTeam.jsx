@@ -590,6 +590,7 @@ class NewTeam extends Component {
         const updater = prevState => {
             // use clones of curr state for mutation
             const { team, config } = clone(prevState);
+
             const { marked } = config.switchers;
             const { key: stageName } = config.buildStage;
 
@@ -604,7 +605,10 @@ class NewTeam extends Component {
 
                 team.list = clone(lucky);
 
-                return { team };
+                // clear filterKeys
+                config.filterKeys = clone(ALT_STATE.config.filterKeys);
+
+                return { team, config };
             }
 
             team.list.splice([options.index || marked.lineupIndex], 1);
