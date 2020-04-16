@@ -37,6 +37,8 @@ export const clone = (obj, keyName) => {
 
 export const toSwe = (word, chapter, form = 'sing') => LEX[chapter][word][form];
 
+export const toEng = (word, chapter, form = 'singular') => LEX[chapter][word][form];
+
 export const homePitch = club => stadiums[club].url;
 
 export const afterWinResize = (callback, timeout = 300) => {

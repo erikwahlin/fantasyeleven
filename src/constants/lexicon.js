@@ -38,3 +38,10 @@ export const stages = {
         defiteSing: 'översikten'
     }
 };
+
+export const positioner = {
+    Målvakter: { sing: 'Goalkeeper', plur: 'Goalkeepers' },
+    Försvarare: { sing: 'Defender', plur: 'Defenders' },
+    Mittfältare: { sing: 'Midfielder', plur: 'Midfielders' },
+    Anfallare: { sing: 'Forward', plur: 'Forwards' }
+};

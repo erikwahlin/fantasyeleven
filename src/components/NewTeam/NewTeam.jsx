@@ -78,6 +78,7 @@ class NewTeam extends Component {
 
     componentDidMount = async () => {
         await this.userInit();
+        this.updatesearchablePlayers();
     };
 
     // get curr user
@@ -154,7 +155,9 @@ class NewTeam extends Component {
                 );
             })
             .catch(err => {
-                // already catching err from api...
+                // if db unavailable, load from client
+                console.log('DB unavailable, using client storage.');
+                this.clientLoad();
             });
     };
 
@@ -169,9 +172,14 @@ class NewTeam extends Component {
         await apis
             .update(_id, payload)
             .then(res => {
-                console.log(res);
+                //console.log(res);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                // if db unavailable, save to client
+                console.log('DB unavailable, using client storage.');
+                this.clientSave();
+            });
     };
 
     clientLoad = () => {
