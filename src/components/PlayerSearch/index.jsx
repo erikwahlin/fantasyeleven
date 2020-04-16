@@ -171,8 +171,7 @@ class PlayerSearch extends Component {
         const splitVal = res.value.indexOf('__');
         res.value = res.value.substring(0, splitVal);
 
-        res.labelEng =
-            res.value === 'position' ? toEng(res.label, 'positioner', 'sing') : res.label;
+        res.eng = res.value === 'position' ? toEng(res.label, 'positioner', 'sing') : res.label;
 
         // update state
         this.setState({ posOrClubSelected: res }, () => {
@@ -185,11 +184,13 @@ class PlayerSearch extends Component {
         // clone for mutation
         const res = clone(selected);
 
-        // substr for valid data
+        /* // substr for valid data
         const splitLabel = res.label.indexOf(' kr');
         const splitVal = res.value.indexOf('__');
-        res.label = res.label.substring(0, splitLabel);
-        res.value = res.value.substring(0, splitVal);
+
+        //res.value = res.value.substring(0, splitVal);
+        res.number =
+            res.label !== 'Alla prisklasser' ? parseInt(res.value.substring(0, splitVal)) : null; */
 
         // update state
         this.setState({ maxPriceSelected: res }, () => {
@@ -219,19 +220,19 @@ class PlayerSearch extends Component {
         // else, filter
         return playerList.filter(
             player =>
-                player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.labelEng
+                player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.eng
         );
     };
 
     // return players according to max-price-filter
     applyFilter_maxPrice = playerList => {
-        const maxPrice = this.state.maxPriceSelected.label;
+        const maxPrice = this.state.maxPriceSelected.value;
         const noFilter =
             isNaN(maxPrice) ||
             !maxPrice ||
             maxPrice === '' ||
             maxPrice < 1 ||
-            maxPrice.label === 'Högsta pris'
+            maxPrice.label === 'Maxpris'
                 ? true
                 : false;
         if (noFilter || this.props.markedMode) return playerList;
@@ -369,11 +370,14 @@ class PlayerSearch extends Component {
         //options for dropdown.
         const maxPriceDefaultOption = this.state.maxPriceSelected;
 
-        const priceOptions = priceTags
-            .sort((a, b) => b - a)
-            .map((price, nth) => {
-                return { value: `maxPrice__${nth}`, label: price + ' kr' };
-            }); //append kr to price.
+        const priceOptions = [
+            { value: 'maxPrice', label: 'Alla prisklasser' },
+            ...priceTags
+                .sort((a, b) => b - a)
+                .map((price, nth) => {
+                    return { value: `${parseInt(price)}`, label: `max ${price} kr` };
+                }) //append kr to price.
+        ];
 
         //default option for dropdown - All players are shown.
         const posOrClubdefaultOption = this.state.posOrClubSelected;
@@ -438,7 +442,6 @@ class PlayerSearch extends Component {
                         options={filterOptions}
                         onChange={this.setFilter_posClub}
                         value={posOrClubdefaultOption}
-                        placeholder="Select an option"
                     />
                     <img src={Arrow} alt="arrow" />
                 </ArrowWrapper>
@@ -448,7 +451,6 @@ class PlayerSearch extends Component {
                         onChange={this.setFilter_maxPrice}
                         value={maxPriceDefaultOption}
                         options={priceOptions}
-                        placeholder="Maxpris/spelare"
                     />
                     <img src={Arrow} alt="arrow" />
                 </ArrowWrapper>
