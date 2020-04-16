@@ -104,7 +104,7 @@ const BuildInfo = ({ myTeam, origin }) => {
 				<AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
 			)}
 
-			<ClearBtn onClick={clearPlayers}>Radera lag</ClearBtn>
+			<ClearBtn onClick={clearPlayers}></ClearBtn>
 		</Wrapper>
 	);
 };
