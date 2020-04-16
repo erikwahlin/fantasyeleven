@@ -10,6 +10,7 @@ const StyledDiv = styled.div`
     width: 90%;
 `
 const StyledP = styled.p`
+letter-spacing: 1.2px;
 padding: 10px;
 `
 const InstructionsWrapper = ({ buildStagePage, posOrClub, list, maxPrice }) => {
