@@ -221,7 +221,6 @@ class Plupp extends Component {
             const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
             const limit = config.limit[oppOrigin][pos].max;
             const count = team.count[oppOrigin][pos];
-            console.log(origin, oppOrigin, limit, count);
             return count < limit ? true : false;
         };
 

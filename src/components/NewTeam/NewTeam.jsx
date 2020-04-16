@@ -132,6 +132,8 @@ class NewTeam extends Component {
                         }
                     };
 
+                    console.log('loaded team', newUser);
+
                     return await apis
                         .create(newUser)
                         .then(res => {

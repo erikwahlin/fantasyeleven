@@ -81,6 +81,7 @@ const PluppContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
 `;
+
 /* 
 function useWindowSize(ref) {
 	//const isClient = typeof window === 'object';
