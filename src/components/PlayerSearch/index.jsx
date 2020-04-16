@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import INITIAL_STATE from './config';
 import { withMyTeam } from '../MyTeam/ctx';
 import * as preset from '../../constants/gamePreset';
-import { clone, toSwe, homePitch, afterWinResize, shortenName } from '../../constants/helperFuncs';
+import {
+	clone,
+	toSwe,
+	toEng,
+	homePitch,
+	afterWinResize,
+	shortenName,
+} from '../../constants/helperFuncs';
 import { allClubs } from '../MyTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
-import InstructionsWrapper from '../instructionsWrapper/instructionsWrapper'
+import InstructionsWrapper from '../instructionsWrapper/instructionsWrapper';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
@@ -124,15 +131,15 @@ class PlayerSearch extends Component {
 	};
 	handleSortByClick = e => {
 		if (e.target.className.includes('popularity')) {
-			this.setState({ sortBy: 'popularity' })
+			this.setState({ sortBy: 'popularity' });
 		} else {
-			this.setState({ sortBy: 'price' })
+			this.setState({ sortBy: 'price' });
 		}
-	}
+	};
 
 	// sort by (player price) rising/falling
 	handleSort = e => {
-		const { sortBy } = this.state
+		const { sortBy } = this.state;
 		//first check wheter price or pupularity is clicked.
 		//then sort it by falling of rising.
 		// dont update if new val === old val
@@ -162,6 +169,8 @@ class PlayerSearch extends Component {
 		// substr to get valid data
 		const splitVal = res.value.indexOf('__');
 		res.value = res.value.substring(0, splitVal);
+
+		res.labelEng = res.value === 'position' ? toEng(res.label, 'positioner', 'singular') : res.label;
 
 		// update state
 		this.setState({ posOrClubSelected: res }, () => {
@@ -207,7 +216,7 @@ class PlayerSearch extends Component {
 
 		// else, filter
 		return playerList.filter(
-			player => player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.label
+			player => player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.labelEng
 		);
 	};
 
@@ -216,10 +225,10 @@ class PlayerSearch extends Component {
 		const maxPrice = this.state.maxPriceSelected.label;
 		const noFilter =
 			isNaN(maxPrice) ||
-				!maxPrice ||
-				maxPrice === '' ||
-				maxPrice < 1 ||
-				maxPrice.label === 'Högsta pris'
+			!maxPrice ||
+			maxPrice === '' ||
+			maxPrice < 1 ||
+			maxPrice.label === 'Högsta pris'
 				? true
 				: false;
 		if (noFilter || this.props.markedMode) return playerList;
@@ -243,10 +252,12 @@ class PlayerSearch extends Component {
 	 * APPLY SORT-SETTINGS
 	 **********************/
 	sortByPopularity = playerList => {
-		const falling = this.state.priceSort === 'falling'
+		const falling = this.state.priceSort === 'falling';
 
-		return playerList.sort((a, b) => (falling ? b.popularity - a.popularity : a.popularity - b.popularity));
-	}
+		return playerList.sort((a, b) =>
+			falling ? b.popularity - a.popularity : a.popularity - b.popularity
+		);
+	};
 
 	sortByPrice = playerList => {
 		const falling = this.state.priceSort === 'falling' && this.state.sortBy === 'price';
@@ -319,9 +330,7 @@ class PlayerSearch extends Component {
 
 		let resultLabel = markedMode
 			? toSwe(switchers.marked.pos, 'positions', 'plural')
-			: posOrClubSelected.value === 'position'
-				? toSwe(posOrClubSelected.label, 'positions', 'plural')
-				: posOrClubSelected.label;
+			: posOrClubSelected.label;
 
 		if (!players) return <p>Didn't find any players</p>;
 
@@ -336,7 +345,10 @@ class PlayerSearch extends Component {
 				name: '- Positioner - ',
 				items: [
 					...preset.positions.map((position, nth) => {
-						return { value: `position__${nth}`, label: position };
+						return {
+							value: `position__${nth}`,
+							label: toSwe(position, 'positions', 'plural'),
+						};
 					}),
 				],
 			},
@@ -370,7 +382,10 @@ class PlayerSearch extends Component {
 		// Apply order-config
 		//const sorted = this.applySortBy(filtered);
 		//return either sorted by price or popularity
-		const sorted = this.state.sortBy === 'popularity' ? this.sortByPopularity(filtered) : this.sortByPrice(filtered);
+		const sorted =
+			this.state.sortBy === 'popularity'
+				? this.sortByPopularity(filtered)
+				: this.sortByPrice(filtered);
 		// WIP-test. split into result-sections based on sort
 		const paginate = (playersList, pageSize, pageNumber) => {
 			//stores the amount of players / page in variable;
@@ -436,11 +451,23 @@ class PlayerSearch extends Component {
 					<FiSearch />
 				</SearchFieldWrapper>
 
-				<h2
-					className="FilterTitle unmarkable">Sortera efter:
-					<span className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`} onClick={this.handleSortByClick} > pris </span>
+				<h2 className="FilterTitle unmarkable">
+					Sortera efter:
+					<span
+						className={`${this.state.sortBy === 'price' ? 'clicked' : ''} clickable price`}
+						onClick={this.handleSortByClick}
+					>
+						{' '}
+						pris{' '}
+					</span>
 					-
-					<span className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`} onClick={this.handleSortByClick} > popularitet</span>
+					<span
+						className={`${this.state.sortBy === 'popularity' ? 'clicked' : ''} clickable popularity`}
+						onClick={this.handleSortByClick}
+					>
+						{' '}
+						popularitet
+					</span>
 				</h2>
 				<ButtonContainer className="ButtonContainer playersearch">
 					<ButtonDes
@@ -466,7 +493,7 @@ class PlayerSearch extends Component {
 				</ButtonReset>
 
 				{/* RESULT */}
-				{paginated.length ?
+				{paginated.length ? (
 					<React.Fragment>
 						<Paginate
 							goToPage={this.goToPage}
@@ -478,7 +505,8 @@ class PlayerSearch extends Component {
 						<LabelRow className="unmarkable">
 							<div className="labelPosition">
 								<p> {resultLabel}</p>
-							</div>{'   '}
+							</div>
+							{'   '}
 							<div className="labelPercentage">
 								<p>%</p>
 							</div>
@@ -486,7 +514,6 @@ class PlayerSearch extends Component {
 								<p>SEK</p>
 							</div>
 						</LabelRow>
-
 
 						<ResultBox className="ResultBox unmarkable">
 							{paginated.map((player, i) => {
@@ -503,7 +530,7 @@ class PlayerSearch extends Component {
 											<p>
 												<a style={{ color: '#eee', textDecoration: 'none' }} href={homePitch(player.club)}>
 													Hemmaplan
-										</a>
+												</a>
 											</p>
 										</InfoModal>
 
@@ -511,8 +538,8 @@ class PlayerSearch extends Component {
 											<p className="player">{shortenName(player.name)}</p>
 											<p className="sum">
 												<strong>{clubAbbr(player.club)}</strong>
-										&nbsp; &nbsp;
-										{toSwe(player.position, 'positions')}
+												&nbsp; &nbsp;
+												{toSwe(player.position, 'positions')}
 											</p>
 										</Player>
 										<PlayerPrice className="PlayerPrice">
@@ -526,10 +553,13 @@ class PlayerSearch extends Component {
 							})}
 						</ResultBox>
 					</React.Fragment>
-					:
-					<InstructionsWrapper list={myTeam.state.team.list} buildStagePage={this.props.buildStage.index} posOrClub={posOrClubSelected.label} />
-				}
-
+				) : (
+					<InstructionsWrapper
+						list={myTeam.state.team.list}
+						buildStagePage={this.props.buildStage.index}
+						posOrClub={posOrClubSelected}
+					/>
+				)}
 			</Wrapper>
 		);
 	}
