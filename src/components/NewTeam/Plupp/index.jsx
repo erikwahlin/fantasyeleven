@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import { withNewTeam } from '../ctx';
 import { shortenName } from '../../../constants/helperFuncs';
+import { positions } from '../../../constants/gamePreset';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
@@ -266,11 +267,17 @@ class Plupp extends Component {
     // (runs after click outside)
     handleClickInside = e => {
         const { NewTeam, player, pos, origin } = this.props;
-        const { lineupIndex } = player;
+
         const { setSwitchers, switchPlayers, openPlayerSearch } = NewTeam.setters;
         const { switchers, buildStage } = NewTeam.state.config;
         const { marked } = switchers;
         const ref = this.pluppRef.current;
+
+        // set lineupIndex only if player (not empty bench-seat)
+        let lineupIndex = null;
+        if (player) {
+            lineupIndex = player.lineupIndex;
+        }
 
         /* TEMP */
         if (NewTeam.state.config.mobileSearch) {

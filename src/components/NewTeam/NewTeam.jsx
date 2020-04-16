@@ -568,7 +568,6 @@ class NewTeam extends Component {
 
             player.lineupIndex = team.list.length;
             player.origin = stageName;
-            console.log('player to add', player);
             team.list.push(player);
 
             return { team };
@@ -578,9 +577,11 @@ class NewTeam extends Component {
         this.setState(
             ps => ({ ...updater(ps) }),
             () => {
-                this.updateTeam(() => {
-                    this.save();
-                    this.updateLimit();
+                this.setSwitchers({ marked: null, target: null }, () => {
+                    this.updateTeam(() => {
+                        this.save();
+                        this.updateLimit();
+                    });
                 });
             }
         );
@@ -655,7 +656,7 @@ class NewTeam extends Component {
 
             team.list.splice(marked.lineupIndex, 1, tempTarget);
             team.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
-            team.list[marked.lineupIndex].origin = 'pitch';
+            team.list[marked.lineupIndex].origin = stageName;
 
             // if not from list, vice versa
             if (!fromList) {
@@ -680,9 +681,17 @@ class NewTeam extends Component {
             const tempMarked = marked.player && clone(marked.player);
             const tempTarget = clone(target.player);
 
+            // if empty plupp was marked, just add player
+            if (!tempMarked) {
+                tempTarget.origin = stageName;
+                tempTarget.lineupIndex = team.list.length;
+
+                return this.addPlayer(tempTarget);
+            }
+
             team.list.splice(marked.lineupIndex, 1, tempTarget);
             team.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
-            team.list[marked.lineupIndex].origin = 'bench';
+            team.list[marked.lineupIndex].origin = stageName;
 
             // if not from list, vice versa
             if (!fromList) {
