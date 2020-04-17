@@ -229,6 +229,8 @@ class NewTeam extends Component {
             clubs: clone(INITIAL_STATE.team.clubs)
         };
 
+        const { captain, viceCaptain } = newTeam;
+
         // sort list
         newTeam.list.sort((a, b) => a.lineupIndex - b.lineupIndex);
 
