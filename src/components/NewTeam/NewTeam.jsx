@@ -87,8 +87,11 @@ class NewTeam extends Component {
         this.updatesearchablePlayers();
     };
 
-    updateNewTeam = ({ key, val }) => {
-        this.setState(ps => ({ ...ps, [key]: val }));
+    // updater for team-state (+ save)
+    updateNewTeam = newTeam => {
+        this.setState({ team: newTeam }, () => {
+            this.save();
+        });
     };
 
     // get curr user
