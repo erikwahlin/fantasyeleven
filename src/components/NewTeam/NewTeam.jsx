@@ -229,6 +229,8 @@ class NewTeam extends Component {
             clubs: clone(INITIAL_STATE.team.clubs)
         };
 
+        const { captain, viceCaptain } = newTeam;
+
         // sort list
         newTeam.list.sort((a, b) => a.lineupIndex - b.lineupIndex);
 
@@ -237,7 +239,15 @@ class NewTeam extends Component {
             p.lineupIndex = nth;
         });
 
+        // reset captains
+        let newCap = null;
+        let newViceCap = null;
+
         this.state.team.list.forEach(player => {
+            // spot actual captains
+            if (player.uid === captain) newCap = player.uid;
+            if (player.uid === viceCaptain) newViceCap = player.uid;
+
             const { position: pos, origin, club } = player;
             // map player objs
             newTeam[origin][pos].push(player);
@@ -253,6 +263,10 @@ class NewTeam extends Component {
             // clubs
             newTeam.clubs[club] = newTeam.clubs[club] + 1 || 1;
         });
+
+        // set captains
+        newTeam.captain = newCap;
+        newTeam.viceCaptain = newViceCap;
 
         this.setState(
             ps => ({ ...ps, team: newTeam }),
