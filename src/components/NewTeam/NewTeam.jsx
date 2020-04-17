@@ -73,8 +73,11 @@ class NewTeam extends Component {
         this.userInit = this.userInit.bind(this);
         this.load = this.load.bind(this);
         this.save = this.save.bind(this);
+
         this.mongoLoad = this.mongoLoad.bind(this);
-        this.mongoSave = this.mongoSave.bind(this);
+        this.mongoCreate = this.mongoCreate.bind(this);
+        this.mongoUpdate = this.mongoUpdate.bind(this);
+
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
     }
@@ -126,39 +129,23 @@ class NewTeam extends Component {
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
-    save = () =>
-        /* (this.state.user && this.state.appOnline ? this.mongoSave() : */ this.clientSave() /* ) */;
+    save = () => (this.state.user && this.state.appOnline ? this.mongoUpdate() : this.clientSave());
 
-    load = () =>
-        /* (this.state.user && this.state.appOnline ? this.mongoLoad() : */ this.clientLoad() /* ) */;
+    load = () => (this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad());
+
+    // MONGO
 
     mongoLoad = async () => {
-        // user exists in db?
+        // user/team exists?
         await apis
             .get('getById', this.state.user)
             .then(async res => {
-                // if no, save new user
+                // if no, create new user
                 if (!res.data || res.data === '') {
-                    // create user in DB
-                    const newUser = {
-                        _id: this.state.user,
-                        activeTeam: {
-                            ...this.state.team
-                        }
-                    };
-
-                    console.log('loaded team', newUser);
-
-                    return await apis
-                        .create(newUser)
-                        .then(res => {
-                            console.log(res);
-                        })
-                        .catch(err => console.log(err));
+                    return this.mongoCreate();
                 }
 
                 // if yes, load user
-                // load user!
                 const user = res.data.data;
                 this.setState(
                     ps => ({
@@ -166,7 +153,7 @@ class NewTeam extends Component {
                         team: { ...user.activeTeam }
                     }),
                     () => {
-                        console.log('Successfully loaded from mongo.');
+                        console.log('Loaded team from mongo.');
                         this.updateTeam();
                     }
                 );
@@ -178,7 +165,25 @@ class NewTeam extends Component {
             });
     };
 
-    mongoSave = async () => {
+    mongoCreate = async () => {
+        // mongo user-obj
+        const newUser = {
+            _id: this.state.user,
+            activeTeam: {
+                ...this.state.team
+            }
+        };
+
+        // save to mongo
+        await apis
+            .create(newUser)
+            .then(res => {
+                console.log('Created new team in mongo.');
+            })
+            .catch(err => console.log('Failed to create new team in mongo', err));
+    };
+
+    mongoUpdate = async () => {
         const _id = this.state.user;
 
         const payload = {
@@ -194,18 +199,22 @@ class NewTeam extends Component {
             .catch(err => {
                 console.log(err);
                 // if db unavailable, save to client
-                console.log('DB unavailable, using client storage.');
+                console.log('Unable to save to mongo.');
                 this.clientSave();
             });
     };
 
+    // CLIENT
+
     clientLoad = () => {
         const data = JSON.parse(localStorage.getItem('team'));
         if (data) {
-            this.setState({ team: data }, () => {
+            console.log('Loaded team from Client storage.');
+            return this.setState({ team: data }, () => {
                 this.updateTeam();
             });
         }
+        console.log('No team was loaded, starting fresh.');
     };
 
     clientSave = () => localStorage.setItem('team', JSON.stringify(this.state.team));
