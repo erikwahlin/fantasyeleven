@@ -6,6 +6,9 @@ import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 import allClubs from '../../../constants/clubs';
+import { FaInfoCircle } from 'react-icons/fa';
+import InfoModal from '../../InfoModal/index'
+import { toSwe } from '../../../constants/helperFuncs'
 
 const Container = styled.div`
     width: 50px;
@@ -29,6 +32,9 @@ const Container = styled.div`
 
 const PlayerName = styled.span`
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     width: 96px;
     background-color: rgba(57, 118, 59);
     padding: 3px;
@@ -40,6 +46,10 @@ const PlayerName = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
+        & > * {
+            width: 5px;
+            margin-top:3px;
+        }
 `;
 
 const PlayerPrice = styled.span`
@@ -71,8 +81,8 @@ const PluppImg = styled.svg`
 	background: ${props =>
         props.player
             ? allClubs.find(obj => {
-                  return obj.long === props.player.club;
-              }).color
+                return obj.long === props.player.club;
+            }).color
             : '#333'};	
  	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
@@ -138,6 +148,7 @@ const SwitchIcon = styled.div`
         top: unset;
     }
 `;
+
 
 class Plupp extends Component {
     constructor(props) {
@@ -354,10 +365,27 @@ class Plupp extends Component {
         const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
         const { player, pos, origin, lineupIndex } = this.props;
 
+        /* 
+        
+        */
+
         return (
             <Container>
                 {player && (
-                    <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>
+                    <PlayerName className="PlayerName">
+                        <InfoModal
+                            isPitch
+                            title={player.name}
+                            subtitle={`${player.club} - ${toSwe(
+                                player.position,
+                                'positions'
+                            )}`}
+                            img="https://source.unsplash.com/random"
+                            display={this.state.playerModal}
+                            togglePlayerModal={this.togglePlayerModal}
+                        ></InfoModal>
+                        {shortenName(player.name)}
+                    </PlayerName>
                 )}
                 {player && (
                     <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>

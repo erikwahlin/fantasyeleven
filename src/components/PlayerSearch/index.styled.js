@@ -126,6 +126,9 @@ export const ButtonDes = styled.button`
 	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	padding: 3px;
+		&:hover {
+			background: rgba(35, 51, 77, .5)
+		}
 `;
 
 export const ButtonAsc = styled.button`
@@ -138,6 +141,9 @@ export const ButtonAsc = styled.button`
 	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	padding: 3px;
+	&:hover {
+			background: rgba(35, 51, 77, .5)
+		}
 `;
 
 export const ButtonReset = styled.button`
@@ -151,6 +157,10 @@ export const ButtonReset = styled.button`
 	background: rgba(35, 51, 77, 1);
 	cursor: pointer;
 	margin-bottom: 12px;
+	&:hover {
+			background: rgba(35, 51, 77, .5);
+			
+		}
 `;
 
 export const ResultBox = styled.div`

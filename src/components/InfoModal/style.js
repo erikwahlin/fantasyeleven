@@ -26,14 +26,14 @@ export const ModalWrapper = styled.div`
 	/* temp style */
 	flex: 0.8;
 	text-align: center;
-	min-width: 35px;
+	min-width: ${props => props.isPitch ? '15	px' : '35px'}
 `;
 
 export const OpenBtn = styled.button`
 	background: none;
 	border: none;
 	outline: none;
-	width: 100%;
+	width: ${props => props.isPitch ? '50%' : '100%'};
 	height: 100%;
 	cursor: pointer;
 
@@ -41,7 +41,7 @@ export const OpenBtn = styled.button`
 	padding: 0;
 
 	& > * {
-		width: 20px;
+		width: ${props => props.isPitch ? '1px' : '20px'};
 		height: 100%;
 	}
 `;
