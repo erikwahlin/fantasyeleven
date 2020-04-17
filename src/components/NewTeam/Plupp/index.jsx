@@ -7,8 +7,8 @@ import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 import allClubs from '../../../constants/clubs';
 import { FaInfoCircle } from 'react-icons/fa';
-import InfoModal from '../../InfoModal/index'
-import { toSwe } from '../../../constants/helperFuncs'
+import InfoModal from '../../InfoModal/index';
+import { toSwe } from '../../../constants/helperFuncs';
 
 const Container = styled.div`
     width: 50px;
@@ -33,12 +33,10 @@ const Container = styled.div`
 const PlayerName = styled.span`
     position: absolute;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 96px;
+    width: 120px;
     background-color: rgba(57, 118, 59);
     padding: 3px;
-    left: -25px;
+    left: -40px;
     top: 52px;
     font-family: 'Avenir';
     font-weight: bold;
@@ -46,17 +44,17 @@ const PlayerName = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
-        & > * {
-            width: 5px;
-            margin-top:3px;
-        }
+    & > :nth-child(1) {
+        width: 5px;
+        margin: 2px -10px 0 0px;
+    }
 `;
 
 const PlayerPrice = styled.span`
     position: absolute;
-    width: 96px;
+    width: 120px;
     background-color: rgba(51, 170, 51, 0.6);
-    left: -25px;
+    left: -40px;
     top: 77px;
     font-family: 'Avenir';
     font-weight: bold;
@@ -81,8 +79,8 @@ const PluppImg = styled.svg`
 	background: ${props =>
         props.player
             ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color
+                  return obj.long === props.player.club;
+              }).color
             : '#333'};	
  	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
  	`;
@@ -127,6 +125,7 @@ const SubstituteBtn = styled.button`
     color: ${p => (p.origin === 'pitch' ? '#ccc' : '#ccc')};
     font-size: 1em;
 `;
+const ModalAlignment = styled.div``;
 
 const SwitchIcon = styled.div`
     position: absolute;
@@ -148,7 +147,6 @@ const SwitchIcon = styled.div`
         top: unset;
     }
 `;
-
 
 class Plupp extends Component {
     constructor(props) {
@@ -376,14 +374,11 @@ class Plupp extends Component {
                         <InfoModal
                             isPitch
                             title={player.name}
-                            subtitle={`${player.club} - ${toSwe(
-                                player.position,
-                                'positions'
-                            )}`}
+                            subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
                             img="https://source.unsplash.com/random"
                             display={this.state.playerModal}
                             togglePlayerModal={this.togglePlayerModal}
-                        ></InfoModal>
+                        />
                         {shortenName(player.name)}
                     </PlayerName>
                 )}
