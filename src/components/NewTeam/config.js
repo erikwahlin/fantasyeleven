@@ -27,6 +27,9 @@ const INITIAL_STATE = {
 
         list: [],
 
+        captain: null,
+        viceCaptain: null,
+
         pitch: {
             Goalkeeper: [],
             Defender: [],
@@ -75,8 +78,10 @@ const INITIAL_STATE = {
 
     config: {
         buildStage: {
-            key: 'pitch',
-            index: 0
+            /* key: 'pitch',
+            index: 0 */
+            key: 'captain',
+            index: 1
         },
 
         mobileSearch: window.innerWidth < 900 ? true : false,

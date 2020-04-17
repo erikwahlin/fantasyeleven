@@ -51,6 +51,8 @@ class NewTeam extends Component {
         super(props);
         this.state = clone(INITIAL_STATE);
 
+        this.updateNewTeam = this.updateNewTeam.bind(this);
+
         this.updatesearchablePlayers = this.updatesearchablePlayers.bind(this);
         this.updateLimit = this.updateLimit.bind(this);
         this.updateTeam = this.updateTeam.bind(this);
@@ -80,6 +82,10 @@ class NewTeam extends Component {
     componentDidMount = async () => {
         await this.userInit();
         this.updatesearchablePlayers();
+    };
+
+    updateNewTeam = ({ key, val }) => {
+        this.setState(ps => ({ ...ps, [key]: val }));
     };
 
     // get curr user
@@ -120,9 +126,11 @@ class NewTeam extends Component {
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
-    save = () => (this.state.user && this.state.appOnline ? this.mongoSave() : this.clientSave());
+    save = () =>
+        /* (this.state.user && this.state.appOnline ? this.mongoSave() : */ this.clientSave() /* ) */;
 
-    load = () => (this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad());
+    load = () =>
+        /* (this.state.user && this.state.appOnline ? this.mongoLoad() : */ this.clientLoad() /* ) */;
 
     mongoLoad = async () => {
         // user exists in db?
@@ -682,6 +690,8 @@ class NewTeam extends Component {
 
             return;
         }
+        /*         if (stageName === 'captain') {
+        } */
 
         if (stageName === 'bench') {
             // update marked with target-vals
@@ -724,6 +734,7 @@ class NewTeam extends Component {
 
         // NewTeam-funcs in ctx
         const setters = {
+            updateNewTeam: this.updateNewTeam,
             addPlayer: this.addPlayer,
             delPlayer: this.delPlayer,
             setSwitchers: this.setSwitchers,

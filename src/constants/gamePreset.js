@@ -17,4 +17,4 @@ export const maxPrice = {
     bench: 30
 };
 
-export const buildStages = ['pitch', 'bench', 'overview'];
+export const buildStages = ['pitch', 'captain', 'bench', 'overview'];
