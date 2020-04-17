@@ -407,7 +407,7 @@ class Plupp extends Component {
 
         team[role] = player.uid;
 
-        updateNewTeam({ key: 'team', val: team });
+        updateNewTeam(team);
     };
 
     render() {
