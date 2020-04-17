@@ -34,6 +34,7 @@ const Container = styled.div`
 const PlayerName = styled.span`
     position: absolute;
     display: flex;
+    justify-content: center;
     width: 120px;
     background-color: rgba(57, 118, 59);
     padding: 3px;
@@ -46,8 +47,11 @@ const PlayerName = styled.span`
     text-shadow: 0 1px 2px #000;
     color: #eee;
     & > :nth-child(1) {
-        width: 5px;
-        margin: 2px -10px 0 0px;
+        position: absolute;
+        top: 6px;
+        left: -5px;
+    }
+    & > :nth-child(2) {
     }
 `;
 
@@ -448,7 +452,7 @@ class Plupp extends Component {
                             display={this.state.playerModal}
                             togglePlayerModal={this.togglePlayerModal}
                         />
-                        {shortenName(player.name)}
+                        <div>{shortenName(player.name)}</div>
                     </PlayerName>
                 )}
                 {(stageName === 'pitch' || stageName === 'bench') && player && (
