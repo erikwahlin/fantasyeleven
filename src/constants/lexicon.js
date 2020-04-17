@@ -32,6 +32,7 @@ export const origins = {
 
 export const stages = {
     pitch: { sing: 'plan', plur: 'planer', defiteSing: 'planen', defitePlur: 'planerna' },
+    captain: { sing: 'kapten', plur: 'kaptener', defiteSing: 'kaptenen', defitePlur: 'kaptenerna' },
     bench: { sing: 'bänk', plur: 'bänkar', defiteSing: 'bänken', defitePlur: 'bänkarna' },
     overview: {
         sing: 'översikt',

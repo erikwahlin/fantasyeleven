@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
 import Powerups from '../Powerups';
-
+import Captain from '../Captain';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
@@ -76,16 +76,15 @@ const StageNav = styled.div`
 `;
 
 const StageNavBtn = styled.button`
-    width: 100px;
+    width: 120px;
     height: 50px;
-    background: #031e3d;
-    border: 1px solid white;
-    border-radius: 2px;
+    background: rgba(35, 51, 77, 1);
+    border: none;
     outline: none;
     cursor: pointer;
     font-family: 'Avenir';
-    font-size: 0.9em;
-    font-weight: bold;
+    font-size: 1.1em;
+    font-weight: 500;
     color: white;
     opacity: ${p => (p.disabled ? '.5' : '1')};
 `;
@@ -96,6 +95,14 @@ const stageContent = stage => {
     switch (stage) {
         case 'pitch':
             return <Pitch />;
+
+        case 'captain':
+            return (
+                <>
+                    {stageTitle}
+                    <Captain />
+                </>
+            );
 
         case 'bench':
             return (
@@ -112,7 +119,7 @@ const stageContent = stage => {
 
 const BuildStages = ({ buildStage, NewTeam, ...props }) => {
     const { team } = NewTeam.state;
-    const { list: playerList } = team;
+    const { list: playerList, captain, viceCaptain } = team;
     const { setStage, updateFilterKeys } = NewTeam.setters;
 
     const { key: activeStage } = buildStage;
@@ -142,6 +149,9 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
                     playerCount === preset.maxPlayers[activeStage] &&
                     team.game.value[activeStage] <= preset.maxPrice[activeStage]
                 );
+
+            case 'captain':
+                return captain && viceCaptain;
 
             case 'bench':
                 return (

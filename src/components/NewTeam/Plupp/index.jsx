@@ -1,7 +1,8 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
 import { withNewTeam } from '../ctx';
-import { shortenName } from '../../../constants/helperFuncs';
+import { shortenName, clone } from '../../../constants/helperFuncs';
+import { positions } from '../../../constants/gamePreset';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
 import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
@@ -65,25 +66,24 @@ const PlayerPrice = styled.span`
 `;
 
 const PluppImg = styled.svg`
-	width: 100%;
-	position: relative;
-	z-index: 1;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 
-	${p => p.isMarked && 'filter: brightness(.9)'};
-	opacity: ${p => (p.isSwitchable ? '.2' : '1')};
+    ${p => p.isMarked && 'filter: brightness(.9)'};
+    opacity: ${p => (p.isSwitchable ? '.2' : '1')};
 
-	cursor: pointer;
+    cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'bench' ? 'pointer' : 'normal')};
 
-	height: 100%;
-	border-radius: 50%;
-	background: ${props =>
+    height: 100%;
+    border-radius: 50%;
+    background: ${props =>
         props.player
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color
-            : '#333'};	
- 	/*background: ${p => (p.origin === 'bench' && p.player ? '#333' : '#999')};*/
- 	`;
+            : '#333'};
+`;
 
 const Options = styled.div`
     position: absolute;
@@ -114,6 +114,38 @@ const Options = styled.div`
             height: 100%;
         }
     }
+`;
+const Btn = styled.div`
+    color: #222;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: ${p => (p.stageName === 'captain' ? 'pointer' : 'normal')};
+    & > div {
+        height: 25px;
+        width: 25px;
+        color: white;
+        /* padding: 3px; */
+        background-color: grey;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        &:hover {
+            background-color: black;
+        }
+    }
+`;
+
+const CaptainBtn = styled(Btn)``;
+
+const VCaptainBtn = styled(Btn)``;
+
+const PluppRole = styled.span`
+    font-size: 2em;
+    left: 15px;
+    top: 6px;
+    z-index: 1;
+    position: absolute;
+    color: white;
 `;
 
 const DelBtn = styled.button`
@@ -169,6 +201,8 @@ class Plupp extends Component {
         this.delBtn = createRef(null);
         this.pluppRef = createRef(null);
         this.switchRef = createRef(null);
+
+        this.setCap = this.setCap.bind(this);
     }
 
     // on update
@@ -230,7 +264,6 @@ class Plupp extends Component {
             const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
             const limit = config.limit[oppOrigin][pos].max;
             const count = team.count[oppOrigin][pos];
-            console.log(origin, oppOrigin, limit, count);
             return count < limit ? true : false;
         };
 
@@ -256,7 +289,10 @@ class Plupp extends Component {
         if (!this.state.isMarked) return;
 
         const { buildStage } = this.props.NewTeam.state.config;
+        const { key: stageName } = buildStage;
         const { setSwitchers, closePlayerSearch } = this.props.NewTeam.setters;
+
+        if (stageName === 'captain') return;
 
         // if clicked on switchable plupp on pitch or inside playerSearch, bail
         const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
@@ -274,13 +310,21 @@ class Plupp extends Component {
     };
 
     // (runs after click outside)
-    handleClickInside = e => {
+    handleClickInside = (e, stageName) => {
+        if (stageName === 'captain') return;
+
         const { NewTeam, player, pos, origin } = this.props;
-        const { lineupIndex } = player;
+
         const { setSwitchers, switchPlayers, openPlayerSearch } = NewTeam.setters;
         const { switchers, buildStage } = NewTeam.state.config;
         const { marked } = switchers;
         const ref = this.pluppRef.current;
+
+        // set lineupIndex only if player (not empty bench-seat)
+        let lineupIndex = null;
+        if (player) {
+            lineupIndex = player.lineupIndex;
+        }
 
         /* TEMP */
         if (NewTeam.state.config.mobileSearch) {
@@ -359,9 +403,34 @@ class Plupp extends Component {
         );
     };
 
+    setCap = (role = 'captain') => {
+        const { NewTeam, player } = this.props;
+        const team = clone(NewTeam.state.team);
+        const { updateNewTeam } = NewTeam.setters;
+        const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
+
+        // if same player already has a role, clear
+        if (team[otherRole] === player.uid) {
+            team[otherRole] = null;
+        }
+
+        team[role] = player.uid;
+
+        updateNewTeam({ key: 'team', val: team });
+    };
+
     render() {
         const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
-        const { player, pos, origin, lineupIndex } = this.props;
+        const { player, pos, origin, lineupIndex, NewTeam } = this.props;
+        const { captain, viceCaptain } = NewTeam.state.team;
+        const { key: stageName } = NewTeam.state.config.buildStage;
+
+        let isCap = false,
+            isViceCap = false;
+        if (player) {
+            isCap = player.uid === captain ? true : false;
+            isViceCap = player.uid === viceCaptain ? true : false;
+        }
 
         /* 
         
@@ -382,23 +451,37 @@ class Plupp extends Component {
                         {shortenName(player.name)}
                     </PlayerName>
                 )}
-                {player && (
+                {(stageName === 'pitch' || stageName === 'bench') && player && (
                     <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
                 )}
 
                 {/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
 
-                {isMarked && player && (
+                {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
                     <Options>
                         <DelBtn ref={this.delBtn} onClick={this.del}>
                             <FaTrash />
                         </DelBtn>
-                        {/* {isQuickSwitchable && (
-							<SubstituteBtn origin={origin} onClick={this.quickSwitch}>
-								{origin === 'pitch' ? <FaAngleDoubleDown /> : <FaAngleDoubleUp />}
-							</SubstituteBtn>
-						)} */}
+                    </Options>
+                )}
+
+                {stageName === 'captain' && (
+                    <Options>
+                        {!isCap && (
+                            <CaptainBtn onClick={() => this.setCap()} stageName={stageName}>
+                                <div>C</div>
+                            </CaptainBtn>
+                        )}
+
+                        {!isViceCap && (
+                            <VCaptainBtn
+                                onClick={() => this.setCap('viceCaptain')}
+                                stageName={stageName}
+                            >
+                                <div>V</div>
+                            </VCaptainBtn>
+                        )}
                     </Options>
                 )}
 
@@ -409,15 +492,27 @@ class Plupp extends Component {
                     alt={`player-plupp ${origin}`}
                     src={pluppC}
                     isMarked={this.state.isMarked}
-                    onClick={this.handleClickInside}
+                    onClick={e => this.handleClickInside(e, stageName)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}
+                    stageName={stageName}
+                    isCap={isCap}
+                    isViceCap={isViceCap}
                 />
 
-                <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                    <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
-                </SwitchIcon>
+                {(isCap || isViceCap) && <PluppRole>{isCap ? 'C' : 'V'}</PluppRole>}
+
+                {stageName === 'pitch' ||
+                    (stageName === 'bench' && (
+                        <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
+                            <FaExchangeAlt
+                                alt="SwitchIcon"
+                                className="SwitchIcon"
+                                player={player}
+                            />
+                        </SwitchIcon>
+                    ))}
             </Container>
         );
     }

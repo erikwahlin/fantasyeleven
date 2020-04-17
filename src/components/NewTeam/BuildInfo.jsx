@@ -95,9 +95,9 @@ const BuildInfo = ({ NewTeam, origin }) => {
                 </InfoP>
             </ChosenPlayers>
 
-            {stageIndex <= 1 && (
+            {stageName === 'pitch' || stageName === 'bench' ? (
                 <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
-            )}
+            ) : null}
 
             {buildStage.key === 'bench' && (
                 <ChosenPlayers>
