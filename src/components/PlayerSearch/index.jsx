@@ -494,7 +494,11 @@ class PlayerSearch extends Component {
                         className="SortFalling unmarkable"
                         style={
                             this.state.priceSort === 'falling'
-                                ? { fontWeight: 'bold' }
+                                ? {
+                                      fontWeight: 'bold',
+                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                      boxShadow: 'inset 0 0 2px #000000'
+                                  }
                                 : { fontWeight: '500' }
                         }
                         value="falling"
@@ -506,7 +510,11 @@ class PlayerSearch extends Component {
                         className="SortRising unmarkable"
                         style={
                             this.state.priceSort === 'rising'
-                                ? { fontWeight: 'bold' }
+                                ? {
+                                      fontWeight: 'bold',
+                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                      boxShadow: 'inset 0 0 2px #000000'
+                                  }
                                 : { fontWeight: '500' }
                         }
                         value="rising"
