@@ -85,7 +85,7 @@ const PluppImg = styled.svg`
         props.player
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
-              }).color
+              }).color.primary
             : '#333'};
 `;
 
@@ -149,7 +149,12 @@ const PluppRole = styled.span`
     top: 6px;
     z-index: 1;
     position: absolute;
-    color: white;
+    color: ${props =>
+        props.player
+            ? allClubs.find(obj => {
+                  return obj.long === props.player.club;
+              }).color.secondary
+            : '#333'};
 `;
 
 const DelBtn = styled.button`
@@ -505,7 +510,7 @@ class Plupp extends Component {
                     isViceCap={isViceCap}
                 />
 
-                {(isCap || isViceCap) && <PluppRole>{isCap ? 'C' : 'V'}</PluppRole>}
+                {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>}
 
                 {stageName === 'pitch' ||
                     (stageName === 'bench' && (
