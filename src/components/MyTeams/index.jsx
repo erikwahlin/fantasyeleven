@@ -1,64 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { withAuthentication } from '../Session';
-import { withNewTeam } from '../NewTeam/ctx';
+import { withTeam } from '../NewTeam/ctx';
 import apis from '../../constants/api';
 import styled from 'styled-components';
 import ResultCard from './ResultCard';
 
 const Wrapper = styled.div`
     display: flex;
-    flex-direction: column;
-    width: 800px;
-`;
-
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    min-width: 250px;
-    width: ${p => p.width || 100}%;
-`;
-
-const Col = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Row = styled.div`
-    display: flex;
-    margin: 0;
-`;
-
-const P = styled.p`
-    flex: 1;
-    fonst-size: 1em;
-    border: white solid 1px;
-    margin: 0;
-    padding: 5px;
-`;
-
-const Label = styled(P)`
-    font-weight: 100;
-`;
-
-const Val = styled(P)`
-    font-weight: 700;
+    flex-direction: row;
+    flex-wrap: wrap;
 `;
 
 const MyTeams = props => {
     const [loading, setLoading] = useState(false);
-    const [appOnline, setAppOnline] = useState(true);
     const [user, setUser] = useState(null);
     const [result, setResult] = useState(null);
+    const [sum, setSum] = useState('');
+    const round = '666'; // todo: create shared team context
+
+    const calcSum = key => {
+        if (!result) return;
+
+        const res = result.reduce((tot, next) => {
+            return tot + next.points.sum;
+        }, 0);
+
+        setSum(res);
+    };
 
     // get curr user
     const userInit = async () => {
-        /* if (!appOnline) {
-            save();
-            updatesearchablePlayers();
-            return;
-        } */
-
         console.log('user init');
 
         await props.firebase.auth.onAuthStateChanged(user => {
@@ -67,9 +38,24 @@ const MyTeams = props => {
         });
     };
 
+    // run user init once on start
     useEffect(() => {
         userInit();
     }, []);
+
+    // load res after user init/change
+    useEffect(() => {
+        if (!user) return;
+
+        resHandler();
+    }, [user]);
+
+    // load res after user init/change
+    useEffect(() => {
+        if (!result) return;
+
+        calcSum();
+    }, [result]);
 
     const resHandler = async () => {
         if (!user) return;
@@ -97,9 +83,11 @@ const MyTeams = props => {
         <div>
             <h1>My Teams...</h1>
 
-            <button style={{ color: 'black' }} onClick={resHandler}>
-                {!loading ? 'Get result' : 'Cancel'}
-            </button>
+            {!result && (
+                <button style={{ color: 'black' }} onClick={resHandler}>
+                    {!loading ? 'Get result' : 'Cancel'}
+                </button>
+            )}
 
             {loading && (
                 <h2>
@@ -109,7 +97,9 @@ const MyTeams = props => {
 
             {result && (
                 <div>
-                    <h2>Result:</h2>
+                    <h2>
+                        Resultat omgång {round}: <strong>{sum} poäng</strong>
+                    </h2>
                     <Wrapper className="ResultWrapper">
                         {result.map(player => (
                             <ResultCard player={player} width={50} />
@@ -121,4 +111,4 @@ const MyTeams = props => {
     );
 };
 
-export default withAuthentication(withNewTeam(MyTeams));
+export default withAuthentication(withTeam(MyTeams));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNewTeam } from './ctx';
+import { withTeam } from './ctx';
 import styled from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
 import { toSwe } from '../../constants/helperFuncs';
@@ -51,12 +51,12 @@ const AddPlayerBtn = styled(FaUserPlus)`
     cursor: pointer;
 `;
 
-const BuildInfo = ({ NewTeam, origin }) => {
-    const { team, config } = NewTeam.state;
+const BuildInfo = ({ teamContext, origin }) => {
+    const { team, config } = teamContext.state;
     const { game } = team;
     const { buildStage, limit, mobileSearch } = config;
-    const { key: stageName, index: stageIndex } = buildStage;
-    const { delPlayer, openPlayerSearch } = NewTeam.setters;
+    const { stageName } = buildStage;
+    const { delPlayer, openPlayerSearch } = teamContext.setters;
 
     const maxPlayers = limit[origin].tot;
     const maxValue = limit.value[origin];
@@ -65,7 +65,7 @@ const BuildInfo = ({ NewTeam, origin }) => {
     const teamValue = game.value[origin];
 
     const ready =
-        buildStage.key === 'pitch' || buildStage.key === 'bench'
+        buildStage.stageName === 'pitch' || buildStage.stageName === 'bench'
             ? teamValue <= maxValue && playerCount === maxPlayers
             : true;
 
@@ -99,7 +99,7 @@ const BuildInfo = ({ NewTeam, origin }) => {
                 <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
             ) : null}
 
-            {buildStage.key === 'bench' && (
+            {buildStage.stageName === 'bench' && (
                 <ChosenPlayers>
                     <InfoTitle className="infoTitle">Budget</InfoTitle>
                     <InfoP className="amount">{maxValue + ' kr'}</InfoP>
@@ -113,4 +113,4 @@ const BuildInfo = ({ NewTeam, origin }) => {
     );
 };
 
-export default withNewTeam(BuildInfo);
+export default withTeam(BuildInfo);

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withNewTeam } from '../ctx';
+import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
@@ -67,11 +67,6 @@ const PosLineup = styled.div`
     justify-content: space-evenly;
 `;
 
-const BenchContainer = styled.div`
-    flex: 1;
-    background: grey;
-`;
-
 const PluppContainer = styled.div`
     flex: 1;
     height: 100%;
@@ -82,99 +77,11 @@ const PluppContainer = styled.div`
     justify-content: space-evenly;
 `;
 
-/* 
-function useWindowSize(ref) {
-	//const isClient = typeof window === 'object';
-
-	function getRefSize() {
-		if (!ref) return { width: 'not set', height: 'not set' };
-
-		console.log(ref.current);
-		return {
-			width: ref.current ? ref.current.innerWidth : undefined,
-			height: ref.current ? ref.current.innerHeight : undefined
-		};
-	}
-
-	const [windowSize, setWindowSize] = React.useState(getRefSize);
-
-	React.useEffect(() => {
-		if (!ref) {
-			if (!ref) return { width: 'not set', height: 'not set' };
-		}
-
-		function handleResize() {
-			setWindowSize(getRefSize());
-		}
-
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
-	}, []); // Empty array ensures that effect is only run on mount and unmount
-
-	return windowSize;
-} */
-
 const Pitch = props => {
-    const { config, team } = props.NewTeam.state;
-    const { mobileSearch } = config;
-    const { togglePlayerSearch, delPlayer } = props.NewTeam.setters;
+    const { team } = props.teamContext.state;
+    const { togglePlayerSearch } = props.teamContext.setters;
 
     const playerCount = team.list.map(player => player.origin === 'pitch').length;
-    const teamValue = team.game.value;
-
-    /* let pitchRef = React.useRef(null);
-
-	const [pitchSize, setPitchSize] = React.useState(null);
-	const [mounted, setMounted] = React.useState(false);
-
-	React.useEffect(() => {
-		const curSize = getRefSize(pitchRef);
-		if (curSize !== pitchSize) {
-			setPitchSize(getRefSize(pitchRef));
-		}
-	}, [pitchRef]);
-
-	React.useEffect(() => {
-		if (!mounted) {
-			setMounted(true);
-			afterWinResize(() => setPitchSize(getRefSize(pitchRef)), 500);
-		}
-	}, []);
-
-	console.log('pitchsize', pitchSize); */
-
-    const { pitch: pitchLimit } = config.limit;
-
-    const clearPitch = () => {
-        // alla spelare på []
-        const pitchPlayers = team.list.filter(player => player.origin === 'pitch');
-        pitchPlayers.forEach(player => delPlayer(player));
-        // loop, kör delPlayer på []
-    };
-
-    /* 
-	WIPWIPWIP
-	const autoPick = () => {
-		// for each pos, check if limit is reach
-		// while limit is not reach fill with players of that pos
-		// set origin field on player before add
-		preset.positions.forEach(pos => {
-			
-
-			config.searchablePlayers.forEach(player => {
-				let pitchLimit = config.limit.pitch[pos].limit.max;
-				let limitReached = team.count.pitch[pos]
-
-				const add = () => {
-					
-					if (!limitReached) {
-						console.log('fake adding player');
-						
-					}
-				};
-			})
-		});
-	}; */
 
     return (
         <Wrapper className="Pitch" /* pitchSize={pitchSize} */>
@@ -207,4 +114,4 @@ const Pitch = props => {
     );
 };
 
-export default withNewTeam(Pitch);
+export default withTeam(Pitch);

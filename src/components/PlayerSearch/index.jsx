@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import INITIAL_STATE from './config';
-import { withNewTeam } from '../NewTeam/ctx';
+import { withTeam } from '../NewTeam/ctx';
 import * as preset from '../../constants/gamePreset';
 import {
     clone,
@@ -19,9 +19,7 @@ import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
 import Arrow from '../../media/arrow.svg';
-import { BrowserView, MobileView, isBrowser, isMobile, deviceDetect } from 'react-device-detect';
 
-import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 import { FiSearch } from 'react-icons/fi';
 
@@ -38,11 +36,9 @@ import {
     ButtonDes,
     ButtonAsc,
     ResultBox,
-    Section,
     LabelRow,
     PlayerRow,
     ButtonReset,
-    urlLink,
     SearchFieldWrapper,
     ArrowWrapper
 } from './index.styled';
@@ -79,11 +75,11 @@ class PlayerSearch extends Component {
 
     // check if playerSearch should slide in
     checkIfSlider = () => {
-        const { mobileSearch: oldVal } = this.props.NewTeam.state.config;
+        const { mobileSearch: oldVal } = this.props.teamContext.state.config;
         const newVal = window.innerWidth < 900 ? true : false;
 
         if (oldVal !== newVal) {
-            this.props.NewTeam.setters.toggleMobileSearch();
+            this.props.teamContext.setters.toggleMobileSearch();
         }
     };
 
@@ -95,8 +91,8 @@ class PlayerSearch extends Component {
     // when clicking on listed player
     playerClickHandler = player => {
         const { position: pos } = player;
-        const { markedMode, NewTeam } = this.props;
-        const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = NewTeam.setters;
+        const { markedMode, teamContext } = this.props;
+        const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = teamContext.setters;
 
         // if a plupp is already marked, prepare switch
         if (markedMode) {
@@ -271,28 +267,6 @@ class PlayerSearch extends Component {
 
     // group players by position
     groupByPosition = items => {
-        /* const res = [];
-		preset.positions.forEach(pos => res.push([]));
-
-		items.forEach(item => {
-			switch (item.position) {
-				case 'Goalkeeper':
-					res[0].push(item);
-					break;
-				case 'Defender':
-					res[1].push(item);
-					break;
-				case 'Midfielder':
-					res[2].push(item);
-					break;
-				case 'Forward':
-					res[3].push(item);
-					break;
-				default:
-					break;
-			}
-		});
-		return res; */
         var groupBy = (arr, key) => {
             return arr.reduce(function (tot, cur) {
                 (tot[cur[key]] = tot[cur[key]] || []).push(cur);
@@ -328,9 +302,9 @@ class PlayerSearch extends Component {
 
     render() {
         const { paginationSettings, posOrClubSelected, searchTerm } = this.state;
-        const { players, NewTeam, markedMode } = this.props;
-        const { closePlayerSearch } = NewTeam.setters;
-        const { mobileSearch, searchOpen, switchers, buildStage } = NewTeam.state.config;
+        const { players, teamContext, markedMode } = this.props;
+        const { closePlayerSearch } = teamContext.setters;
+        const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
 
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
@@ -542,7 +516,6 @@ class PlayerSearch extends Component {
                             <div className="labelPosition">
                                 <p> {resultLabel}</p>
                             </div>
-                            {'   '}
                             <div className="labelPercentage">
                                 <p>%</p>
                             </div>
@@ -607,8 +580,8 @@ class PlayerSearch extends Component {
                     </React.Fragment>
                 ) : (
                     <InstructionsWrapper
-                        list={NewTeam.state.team.list}
-                        buildStagePage={buildStage.index}
+                        list={teamContext.state.team.list}
+                        buildStagePage={buildStage.stageIndex}
                         posOrClub={posOrClubSelected}
                     />
                 )}
@@ -617,4 +590,4 @@ class PlayerSearch extends Component {
     }
 }
 
-export default withNewTeam(PlayerSearch);
+export default withTeam(PlayerSearch);

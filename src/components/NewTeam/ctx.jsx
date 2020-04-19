@@ -1,9 +1,11 @@
 import React, { createContext } from 'react';
 
-const NewTeamCtx = createContext(null);
+const TeamContext = createContext(null);
 
-export const withNewTeam = Component => props => (
-    <NewTeamCtx.Consumer>{NewTeam => <Component {...props} team={NewTeam} />}</NewTeamCtx.Consumer>
+export const withTeam = Component => props => (
+    <TeamContext.Consumer>
+        {NewTeam => <Component {...props} teamContext={NewTeam} />}
+    </TeamContext.Consumer>
 );
 
-export default NewTeamCtx;
+export default TeamContext;

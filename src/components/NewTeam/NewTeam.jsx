@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { clone } from '../../constants/helperFuncs';
 import * as preset from '../../constants/gamePreset';
-import NewTeamCtx from './ctx';
+import TeamContext from './ctx';
 import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
 import BuildStages from './BuildStages';
-import { isMobile, isBrowser } from 'react-device-detect';
-import { Offline, Online, Detector } from 'react-detect-offline';
+import { Detector } from 'react-detect-offline';
 
 import { withAuthentication } from '../Session';
 
@@ -393,9 +392,9 @@ class NewTeam extends Component {
                 // if pitch and bench full - add pos to filter (if filter is not active)
                 if (
                     (prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
-                        buildStage.key === 'bench') ||
+                        buildStage.stageName === 'bench') ||
                     (prevState.team.pitch[pos].length >= config.limit.pitch[pos].max &&
-                        buildStage.key === 'pitch')
+                        buildStage.stageName === 'pitch')
                 ) {
                     if (!filterKeys.position.includes(pos)) {
                         filterKeys.position.push(pos);
@@ -605,7 +604,7 @@ class NewTeam extends Component {
         const updater = prevState => {
             // use clones of curr state
             const { team, config } = prevState;
-            const { key: stageName } = config.buildStage;
+            const { stageName } = config.buildStage;
 
             player.lineupIndex = team.list.length;
             player.origin = stageName;
@@ -636,7 +635,7 @@ class NewTeam extends Component {
             const { team, config } = clone(prevState);
 
             const { marked } = config.switchers;
-            const { key: stageName } = config.buildStage;
+            const { stageName } = config.buildStage;
 
             // clear all players
             if (options.delAll) {
@@ -676,7 +675,7 @@ class NewTeam extends Component {
     // maybe loop through positions on pitch/bench and update playFromStart?
     switchPlayers = () => {
         const { team, config } = clone(this.state);
-        const { key: stageName } = config.buildStage;
+        const { stageName } = config.buildStage;
 
         const { marked, target } = config.switchers;
         const fromList = target.origin === 'list';
@@ -777,7 +776,7 @@ class NewTeam extends Component {
         // filter allPlayers before PlayerSearch
 
         return (
-            <NewTeamCtx.Provider
+            <TeamContext.Provider
                 value={{
                     state: this.state,
                     setters
@@ -805,7 +804,7 @@ class NewTeam extends Component {
 
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>
-            </NewTeamCtx.Provider>
+            </TeamContext.Provider>
         );
     }
 }
