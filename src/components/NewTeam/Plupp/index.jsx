@@ -86,21 +86,21 @@ const PluppImg = styled.svg`
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.primary
-            : '#333'};
+            : ''};
 `;
 
 const Options = styled.div`
     position: absolute;
     z-index: 1;
     left: -25px;
-    top: -40px;
+    top: -15px;
     width: 100px;
     height: 40px;
     margin: 0;
     padding: 0;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 
     & > button {
         width: 40px;
@@ -129,7 +129,12 @@ const Btn = styled.div`
         width: 25px;
         color: white;
         /* padding: 3px; */
-        background-color: grey;
+        background-color: ${props =>
+            props.player
+                ? allClubs.find(obj => {
+                      return obj.long === props.player.club;
+                  }).color.secondary
+                : ''};
         border-radius: 50%;
         display: inline-block;
         text-align: center;
@@ -154,7 +159,7 @@ const PluppRole = styled.span`
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.secondary
-            : '#333'};
+            : ''};
 `;
 
 const DelBtn = styled.button`
@@ -478,13 +483,18 @@ class Plupp extends Component {
                 {stageName === 'captain' && (
                     <Options>
                         {!isCap && (
-                            <CaptainBtn onClick={() => this.setCap()} stageName={stageName}>
+                            <CaptainBtn
+                                player={player}
+                                onClick={() => this.setCap()}
+                                stageName={stageName}
+                            >
                                 <div>C</div>
                             </CaptainBtn>
                         )}
 
                         {!isViceCap && (
                             <VCaptainBtn
+                                player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
                             >
