@@ -3,23 +3,38 @@ import { withAuthentication } from '../Session';
 import { withNewTeam } from '../NewTeam/ctx';
 import apis from '../../constants/api';
 import styled from 'styled-components';
+import ResultCard from './ResultCard';
 
 const Wrapper = styled.div`
     display: flex;
-    flex-wrap: wrap;
-    width: 80%;
+    flex-direction: column;
+    width: 800px;
 `;
 
 const Card = styled.div`
-    width: 50%;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+    width: ${p => p.width || 100}%;
+`;
+
+const Col = styled.div`
+    flex: 1;
     display: flex;
     flex-direction: column;
 `;
 
+const Row = styled.div`
+    display: flex;
+    margin: 0;
+`;
+
 const P = styled.p`
-    display: inline;
     flex: 1;
     fonst-size: 1em;
+    border: white solid 1px;
+    margin: 0;
+    padding: 5px;
 `;
 
 const Label = styled(P)`
@@ -28,7 +43,6 @@ const Label = styled(P)`
 
 const Val = styled(P)`
     font-weight: 700;
-    margin-left: 20px;
 `;
 
 const MyTeams = props => {
@@ -96,26 +110,9 @@ const MyTeams = props => {
             {result && (
                 <div>
                     <h2>Result:</h2>
-                    <Wrapper>
-                        {result.map(p => (
-                            <Card key={p.uid}>
-                                <Label>{p.name}</Label>
-                                <Label>PRESTATION</Label>
-                                {Object.keys(p.effort).map(key => (
-                                    <div key={key}>
-                                        <Label>{key}</Label>
-                                        <Val>{p.effort[key]}</Val>
-                                    </div>
-                                ))}
-                                <Label>POÄNG</Label>
-                                {Object.keys(p.points).map(key => (
-                                    <div key={key}>
-                                        <Label>{key}</Label>
-                                        <Val>{p.points[key]}</Val>
-                                    </div>
-                                ))}
-                                }
-                            </Card>
+                    <Wrapper className="ResultWrapper">
+                        {result.map(player => (
+                            <ResultCard player={player} width={50} />
                         ))}
                     </Wrapper>
                 </div>
