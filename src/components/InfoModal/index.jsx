@@ -14,7 +14,7 @@ import modalStyle, {
 } from './style';
 
 const InfoModal = props => {
-    const { openBtn, title, subtitle, img, submit } = props;
+    const { openBtn, title, subtitle, img, submit, openBtnStyle } = props;
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fallbackImg, setFallbackImg] = React.useState(null);
@@ -37,7 +37,12 @@ const InfoModal = props => {
 
     return (
         <ModalWrapper className="ModalWrapper playerModal">
-            <OpenBtn isPitch={props.isPitch} className="ModalOpenBtn" onClick={openModal}>
+            <OpenBtn
+                customStyle={openBtnStyle}
+                isPitch={props.isPitch}
+                className="ModalOpenBtn"
+                onClick={openModal}
+            >
                 {' '}
                 {openBtn ? openBtn : <FaInfoCircle />}{' '}
             </OpenBtn>

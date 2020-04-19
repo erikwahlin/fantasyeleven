@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withNewTeam } from '../ctx';
+import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
-import BuildInfo from '../BuildInfo';
 
 const Wrapper = styled.div`
     grid-row: 2;
@@ -78,15 +77,9 @@ const PluppContainer = styled.div`
 `;
 
 const Captain = props => {
-    const { config, team } = props.NewTeam.state;
+    const { team } = props.teamContext.state;
     const { captain, viceCaptain } = team;
-    const { mobileSearch } = config;
-    const { togglePlayerSearch, delPlayer } = props.NewTeam.setters;
-
-    const playerCount = team.list.map(player => player.origin === 'pitch').length;
-    const teamValue = team.game.value;
-
-    const { pitch: pitchLimit } = config.limit;
+    const { togglePlayerSearch } = props.teamContext.setters;
 
     const capObj = team.list.filter(p => p.uid === captain)[0];
     const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
@@ -127,4 +120,4 @@ const Captain = props => {
     );
 };
 
-export default withNewTeam(Captain);
+export default withTeam(Captain);

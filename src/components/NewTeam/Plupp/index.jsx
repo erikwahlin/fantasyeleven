@@ -1,13 +1,11 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components';
-import { withNewTeam } from '../ctx';
+import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
-import { positions } from '../../../constants/gamePreset';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
-import { FaTrash, FaExchangeAlt, FaAngleDoubleDown, FaAngleDoubleUp } from 'react-icons/fa';
+import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import allClubs from '../../../constants/clubs';
-import { FaInfoCircle } from 'react-icons/fa';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
 
@@ -17,19 +15,6 @@ const Container = styled.div`
     align-self: center;
     position: relative;
 `;
-
-/* const PlayerName = styled.span`
-	position: absolute;
-	width: 100px;
-	left: -25px;
-	top: -22px;
-	font-family: 'Avenir';
-	font-weight: bold;
-	font-size: 0.8em;
-	text-align: center;
-	text-shadow: 0 1px 2px #000;
-	color: #eee;
-`; */
 
 const PlayerName = styled.span`
     position: absolute;
@@ -162,12 +147,6 @@ const DelBtn = styled.button`
     font-size: 1em;
 `;
 
-const SubstituteBtn = styled.button`
-    color: ${p => (p.origin === 'pitch' ? '#ccc' : '#ccc')};
-    font-size: 1em;
-`;
-const ModalAlignment = styled.div``;
-
 const SwitchIcon = styled.div`
     position: absolute;
     left: 0;
@@ -221,7 +200,7 @@ class Plupp extends Component {
 
     // check if plupp should be marked
     markedPrivilege = () => {
-        const { marked } = this.props.NewTeam.state.config.switchers;
+        const { marked } = this.props.teamContext.state.config.switchers;
         const self = this.pluppRef.current;
 
         if (marked) {
@@ -235,8 +214,8 @@ class Plupp extends Component {
 
     // check if plupp should be switchable
     switchablePrivilege = () => {
-        const { player, NewTeam, pos, origin } = this.props;
-        const { marked } = NewTeam.state.config.switchers;
+        const { player, teamContext, pos, origin } = this.props;
+        const { marked } = teamContext.state.config.switchers;
         const pluppRef = this.pluppRef.current;
 
         // is switchable if:
@@ -266,8 +245,8 @@ class Plupp extends Component {
 
         // check if bench/pitch has space for another plupp
         const { isMarked, isQuickSwitchable } = this.state;
-        const { player, pos, origin, NewTeam } = this.props;
-        const { config, team } = NewTeam.state;
+        const { player, pos, origin, teamContext } = this.props;
+        const { config, team } = teamContext.state;
 
         const quickSwitchable = () => {
             const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
@@ -284,8 +263,8 @@ class Plupp extends Component {
     };
 
     del = () => {
-        const { NewTeam, player } = this.props;
-        const { setSwitchers, delPlayer } = NewTeam.setters;
+        const { teamContext, player } = this.props;
+        const { delPlayer } = teamContext.setters;
 
         // unmark, then clear switchers, then del ref
         this.setState({ isMarked: false }, () => {
@@ -297,9 +276,9 @@ class Plupp extends Component {
     handleClickOutside = e => {
         if (!this.state.isMarked) return;
 
-        const { buildStage } = this.props.NewTeam.state.config;
-        const { key: stageName } = buildStage;
-        const { setSwitchers, closePlayerSearch } = this.props.NewTeam.setters;
+        const { setSwitchers, closePlayerSearch } = this.props.teamContext.setters;
+        const { buildStage } = this.props.teamContext.state.config;
+        const { stageName } = buildStage;
 
         if (stageName === 'captain') return;
 
@@ -322,10 +301,9 @@ class Plupp extends Component {
     handleClickInside = (e, stageName) => {
         if (stageName === 'captain') return;
 
-        const { NewTeam, player, pos, origin } = this.props;
-
-        const { setSwitchers, switchPlayers, openPlayerSearch } = NewTeam.setters;
-        const { switchers, buildStage } = NewTeam.state.config;
+        const { teamContext, player, pos, origin } = this.props;
+        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
+        const { switchers, buildStage } = teamContext.state.config;
         const { marked } = switchers;
         const ref = this.pluppRef.current;
 
@@ -336,7 +314,7 @@ class Plupp extends Component {
         }
 
         /* TEMP */
-        if (NewTeam.state.config.mobileSearch) {
+        if (teamContext.state.config.mobileSearch) {
             openPlayerSearch();
         }
 
@@ -361,7 +339,7 @@ class Plupp extends Component {
                 return setSwitchers({ marked: null, target: null });
             }
 
-            if (buildStage.key !== 'pitch') return;
+            if (buildStage.stageName !== 'pitch') return;
 
             // else, target this plupp, prepare switch
             setSwitchers(
@@ -383,10 +361,10 @@ class Plupp extends Component {
 
     quickSwitch = () => {
         const ref = this.pluppRef.current;
-        const { player, pos, origin, lineupIndex, NewTeam } = this.props;
-        const { setSwitchers, switchPlayers } = NewTeam.setters;
+        const { player, pos, origin, lineupIndex, teamContext } = this.props;
+        const { setSwitchers, switchPlayers } = teamContext.setters;
         const targetOrigin = origin === 'pitch' ? 'bench' : 'pitch';
-        const targetIndex = NewTeam.state.team[targetOrigin][pos].length;
+        const targetIndex = teamContext.state.team[targetOrigin][pos].length;
 
         // else, target this plupp, prepare switch
         setSwitchers(
@@ -413,9 +391,9 @@ class Plupp extends Component {
     };
 
     setCap = (role = 'captain') => {
-        const { NewTeam, player } = this.props;
-        const team = clone(NewTeam.state.team);
-        const { updateNewTeam } = NewTeam.setters;
+        const { teamContext, player } = this.props;
+        const team = clone(teamContext.state.team);
+        const { updateNewTeam } = teamContext.setters;
         const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
 
         // if same player already has a role, clear
@@ -429,10 +407,10 @@ class Plupp extends Component {
     };
 
     render() {
-        const { isMarked, isSwitchable, isQuickSwitchable } = this.state;
-        const { player, pos, origin, lineupIndex, NewTeam } = this.props;
-        const { captain, viceCaptain } = NewTeam.state.team;
-        const { key: stageName } = NewTeam.state.config.buildStage;
+        const { isMarked, isSwitchable } = this.state;
+        const { player, pos, origin, lineupIndex, teamContext } = this.props;
+        const { captain, viceCaptain } = teamContext.state.team;
+        const { stageName } = teamContext.state.config.buildStage;
 
         let isCap = false,
             isViceCap = false;
@@ -527,4 +505,4 @@ class Plupp extends Component {
     }
 }
 
-export default withNewTeam(onClickOutside(Plupp));
+export default withTeam(onClickOutside(Plupp));
