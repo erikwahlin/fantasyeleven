@@ -1,7 +1,5 @@
 // short taken from http://liaison.reuters.com/tools/sports-team-codes
 
-import { FaRegBell } from 'react-icons/fa';
-
 const allClubs = [
     {
         long: 'Arsenal',

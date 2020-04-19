@@ -301,7 +301,7 @@ class PlayerSearch extends Component {
     };
 
     render() {
-        const { paginationSettings, posOrClubSelected, searchTerm } = this.state;
+        const { paginationSettings, posOrClubSelected } = this.state;
         const { players, teamContext, markedMode } = this.props;
         const { closePlayerSearch } = teamContext.setters;
         const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
@@ -385,7 +385,7 @@ class PlayerSearch extends Component {
             paginationSettings.pageNumber
         );
         //const result = markedMode ? sorted : this.groupByPosition(paginated);
-        const result = this.groupByPosition(paginated);
+        //const result = this.groupByPosition(paginated);
         //const result = paginated
         // get short club name (according to reuter)
         const clubAbbr = club => {

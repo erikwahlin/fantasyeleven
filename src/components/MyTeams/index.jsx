@@ -102,7 +102,7 @@ const MyTeams = props => {
                     </h2>
                     <Wrapper className="ResultWrapper">
                         {result.map(player => (
-                            <ResultCard player={player} width={50} />
+                            <ResultCard key={player.uid} player={player} width={50} />
                         ))}
                     </Wrapper>
                 </div>

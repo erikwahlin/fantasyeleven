@@ -9,7 +9,6 @@ import modalStyle, {
     Subtitle,
     Content,
     Img,
-    ImgFallback,
     Submit
 } from './style';
 
@@ -18,8 +17,6 @@ const InfoModal = props => {
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fallbackImg, setFallbackImg] = React.useState(null);
-
-    let titleRef, subtitleRef, imgRef, submitRef;
 
     function openModal() {
         setFallbackImg('https://source.unsplash.com/random');
@@ -55,17 +52,11 @@ const InfoModal = props => {
                 contentLabel="InfoModal"
             >
                 <ContentWrapper className="ContentWrapper playerModal unmarkable">
-                    {title && <Title ref={self => (titleRef = self)}>{title}</Title>}
-                    {subtitle && <Subtitle ref={self => (subtitleRef = self)}>{subtitle}</Subtitle>}
-                    <Img
-                        className="Img"
-                        src={img ? img : fallbackImg}
-                        ref={self => (imgRef = self)}
-                    />
+                    {title && <Title>{title}</Title>}
+                    {subtitle && <Subtitle>{subtitle}</Subtitle>}
+                    <Img className="Img" src={img ? img : fallbackImg} />
                     <Content className="Content playerModal unmarkable">{props.children}</Content>
-                    <Submit onClick={closeModal} ref={self => (submitRef = self)}>
-                        {submit || 'Stäng'}
-                    </Submit>
+                    <Submit onClick={closeModal}>{submit || 'Stäng'}</Submit>
                 </ContentWrapper>
             </Modal>
         </ModalWrapper>
