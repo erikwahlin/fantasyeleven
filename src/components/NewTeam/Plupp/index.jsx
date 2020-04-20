@@ -93,7 +93,7 @@ const Options = styled.div`
     position: absolute;
     z-index: 1;
     left: -25px;
-    top: ${props => (props.stageName === 'pitch' ? '-35px' : '-15px')};
+    top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')};
     width: ${props => (props.stageName === 'pitch' ? '100px' : '90px')};
     height: 40px;
     margin: 0;
@@ -127,11 +127,11 @@ const Btn = styled.div`
 `;
 
 const CaptainBtn = styled(Btn)`
-    left: 10px;
+    left: 18px;
 `;
 
 const VCaptainBtn = styled(Btn)`
-    right: 0px;
+    right: 8px;
 `;
 
 const PluppRole = styled.span`
