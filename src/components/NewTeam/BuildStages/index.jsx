@@ -145,17 +145,19 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
         switch (key) {
             case 'pitch':
                 return (
-                    playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName]
+/*                     playerCount === preset.maxPlayers[stageName] &&
+                    team.game.value[stageName] <= preset.maxPrice[stageName] */
+                    true
                 );
 
             case 'captain':
-                return captain && viceCaptain;
+                return true /* captain && viceCaptain; */
 
             case 'bench':
                 return (
-                    playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName]
+/*                     playerCount === preset.maxPlayers[stageName] &&
+                    team.game.value[stageName] <= preset.maxPrice[stageName] */
+                    true
                 );
 
             default:

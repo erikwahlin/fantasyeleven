@@ -95,9 +95,7 @@ const BuildInfo = ({ teamContext, origin }) => {
                 </InfoP>
             </ChosenPlayers>
 
-            {stageName === 'pitch' || stageName === 'bench' ? (
-                <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
-            ) : null}
+     
 
             {buildStage.stageName === 'bench' && (
                 <ChosenPlayers>
@@ -105,6 +103,10 @@ const BuildInfo = ({ teamContext, origin }) => {
                     <InfoP className="amount">{maxValue + ' kr'}</InfoP>
                 </ChosenPlayers>
             )}
+
+            {stageName === 'pitch' || stageName === 'bench' ? (
+                <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
+            ) : null}
 
             {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
                 <AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
