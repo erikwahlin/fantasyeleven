@@ -1,5 +1,17 @@
-import players from '../../constants/players';
-import clubs from '../../constants/clubs';
+// TEMP referance
+
+const teams = [
+	// a team obj
+	{
+		user: '', // user uid from firebase
+		players: [
+			{
+				/*player objects*/
+			},
+		],
+		registrered: true, // if it's registrered
+	},
+];
 
 const INITIAL_STATE = {
 	team: {
@@ -11,13 +23,13 @@ const INITIAL_STATE = {
 			Goalkeeper: [],
 			Defender: [],
 			Midfielder: [],
-			Forward: []
+			Forward: [],
 		},
 		bench: {
 			Goalkeeper: [],
 			Defender: [],
 			Midfielder: [],
-			Forward: []
+			Forward: [],
 		},
 
 		clubs: {},
@@ -27,21 +39,21 @@ const INITIAL_STATE = {
 				Goalkeeper: 0,
 				Defender: 0,
 				Midfielder: 0,
-				Forward: 0
+				Forward: 0,
 			},
 			pitch: {
 				Goalkeeper: 0,
 				Defender: 0,
 				Midfielder: 0,
-				Forward: 0
+				Forward: 0,
 			},
 			bench: {
 				Goalkeeper: 0,
 				Defender: 0,
 				Midfielder: 0,
-				Forward: 0
-			}
-		}
+				Forward: 0,
+			},
+		},
 	},
 
 	game: {
@@ -49,15 +61,15 @@ const INITIAL_STATE = {
 		value: {
 			pitch: 0,
 			bench: 0,
-			tot: 0
+			tot: 0,
 		},
-		round: 666
+		round: 666,
 	},
 
 	config: {
 		buildStage: {
 			key: 'pitch',
-			index: 0
+			index: 0,
 		},
 
 		mobileSearch: window.innerWidth < 900 ? true : false,
@@ -66,7 +78,7 @@ const INITIAL_STATE = {
 		filterKeys: {
 			uid: [],
 			position: [],
-			club: []
+			club: [],
 		},
 		searchablePlayers: [],
 
@@ -77,39 +89,27 @@ const INITIAL_STATE = {
 				Defender: { min: 3, max: 5 },
 				Midfielder: { min: 2, max: 5 },
 				Forward: { min: 1, max: 3 },
-				tot: 11
+				tot: 11,
 			},
 			bench: {
 				Goalkeeper: { min: 1, max: 1 },
 				Defender: { min: 1, max: 1 },
 				Midfielder: { min: 1, max: 1 },
 				Forward: { min: 1, max: 1 },
-				tot: 4
+				tot: 4,
 			},
 			club: { max: 3 },
 			value: {
 				pitch: Infinity,
-				bench: 30
-			}
+				bench: 30,
+			},
 		},
 
 		//positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
 
 		switchers: {
 			marked: null,
-			target: null
-		}
-	}
+			target: null,
+		},
+	},
 };
-
-// allplayers with rounded prices
-export const allPlayers = players.map(player => ({
-	...player,
-	price: Math.round(parseFloat(player.price))
-}));
-
-// all clubs
-export const allClubs = clubs;
-
-// my team initial state
-export default INITIAL_STATE;
