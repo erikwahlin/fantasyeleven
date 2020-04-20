@@ -70,6 +70,7 @@ const PlayerPrice = styled.span`
 `;
 
 const PluppImg = styled.svg`
+    box-shadow: ${p => (p.stageName === 'captain' ? '0px -1px 4px black' : '')};
     width: 100%;
     position: relative;
     z-index: 1;
