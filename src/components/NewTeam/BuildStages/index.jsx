@@ -1,11 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { withNewTeam } from '../ctx';
+import React from 'react';
+import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import { firstCap, toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
-import Powerups from '../Powerups';
 import Captain from '../Captain';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
@@ -117,26 +116,26 @@ const stageContent = stage => {
     }
 };
 
-const BuildStages = ({ buildStage, NewTeam, ...props }) => {
-    const { team } = NewTeam.state;
+const BuildStages = ({ buildStage, teamContext, ...props }) => {
+    const { setStage, updateFilterKeys } = teamContext.setters;
+    const { team } = teamContext.state;
     const { list: playerList, captain, viceCaptain } = team;
-    const { setStage, updateFilterKeys } = NewTeam.setters;
 
-    const { key: activeStage } = buildStage;
-    const playerCount = playerList.filter(player => player.origin === activeStage).length;
+    const { stageName, stageIndex } = buildStage;
+    const playerCount = playerList.filter(player => player.origin === stageName).length;
 
     const callback = key => {
         console.log('tab change callback...');
     };
 
     const navHandler = input => {
-        let index = buildStage.index + input;
+        let index = stageIndex + input;
 
         if (index < 0 || index > preset.buildStages.length - 1) return;
 
         setStage({
-            key: preset.buildStages[index],
-            index: index
+            stageName: preset.buildStages[index],
+            stageIndex: index
         });
 
         updateFilterKeys();
@@ -146,8 +145,8 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
         switch (key) {
             case 'pitch':
                 return (
-                    playerCount === preset.maxPlayers[activeStage] &&
-                    team.game.value[activeStage] <= preset.maxPrice[activeStage]
+                    playerCount === preset.maxPlayers[stageName] &&
+                    team.game.value[stageName] <= preset.maxPrice[stageName]
                 );
 
             case 'captain':
@@ -155,8 +154,8 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
 
             case 'bench':
                 return (
-                    playerCount === preset.maxPlayers[activeStage] &&
-                    team.game.value[activeStage] <= preset.maxPrice[activeStage]
+                    playerCount === preset.maxPlayers[stageName] &&
+                    team.game.value[stageName] <= preset.maxPrice[stageName]
                 );
 
             default:
@@ -167,7 +166,7 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
     return (
         <Wrapper className="BuildStages unmarkable">
             <TabContainer
-                activeKey={activeStage}
+                activeKey={stageName}
                 defaultActiveKey={preset.buildStages[0]}
                 onChange={callback}
             >
@@ -182,7 +181,7 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
                 <StageNavBtn
                     className="StageNavBtn prev"
                     onClick={e => navHandler(-1)}
-                    disabled={buildStage.index < 1}
+                    disabled={buildStage.stageIndex < 1}
                 >
                     Tillbaka
                 </StageNavBtn>
@@ -190,13 +189,13 @@ const BuildStages = ({ buildStage, NewTeam, ...props }) => {
                 <StageNavBtn
                     className="StageNavBtn next"
                     onClick={e => navHandler(1)}
-                    disabled={!stageCondition(activeStage)}
+                    disabled={!stageCondition(stageName)}
                 >
-                    {buildStage.key === 'overview' ? 'Lämna in lag!' : 'Vidare'}
+                    {buildStage.stageName === 'overview' ? 'Lämna in lag!' : 'Vidare'}
                 </StageNavBtn>
             </StageNav>
         </Wrapper>
     );
 };
 
-export default withNewTeam(BuildStages);
+export default withTeam(BuildStages);

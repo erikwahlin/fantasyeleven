@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
 
 const modalStyle = {
@@ -43,6 +43,11 @@ export const OpenBtn = styled.button`
     & > svg {
         width: ${props => (props.isPitch ? '13px' : '20px')};
         height: 100%;
+        ${p =>
+            p.customStyle &&
+            css`
+                ${p.customStyle}
+            `};
     }
 `;
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withNewTeam } from '../ctx';
+import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 
 import BuildInfo from '../BuildInfo';
-import { shortenName } from '../../../constants/helperFuncs';
 import Plupp from '../Plupp';
 
 const Wrapper = styled.div`
@@ -29,18 +28,9 @@ const PluppContainer = styled.div`
     justify-content: space-evenly;
 `;
 
-const PlayerName = styled.span`
-    position: absolute;
-    top: 8px;
-    font-size: 0.6em;
-    text-align: center;
-    color: white;
-`;
-
 const Bench = props => {
-    const { config, team } = props.NewTeam.state;
+    const { team } = props.teamContext.state;
     const playerCount = team.list.map(player => player.origin === 'bench').length;
-    const teamValue = team.game.value;
 
     return (
         <div>
@@ -63,4 +53,4 @@ const Bench = props => {
     );
 };
 
-export default withNewTeam(Bench);
+export default withTeam(Bench);
