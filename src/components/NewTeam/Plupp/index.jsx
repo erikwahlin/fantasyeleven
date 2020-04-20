@@ -58,6 +58,7 @@ const PluppImg = styled.svg`
     width: 100%;
     position: relative;
     z-index: 1;
+    background: white;
 
     ${p => p.isMarked && 'filter: brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
@@ -71,7 +72,7 @@ const PluppImg = styled.svg`
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.primary
-            : '#333'};
+            : '#a6afb6'};
 `;
 
 const Options = styled.div`
@@ -139,7 +140,7 @@ const PluppRole = styled.span`
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.secondary
-            : '#333'};
+            : '#bfbfbf'};
 `;
 
 const DelBtn = styled.button`

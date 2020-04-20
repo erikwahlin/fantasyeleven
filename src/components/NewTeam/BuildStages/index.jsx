@@ -106,7 +106,7 @@ const stageContent = stage => {
         case 'bench':
             return (
                 <>
-                    <h2>{stageTitle}</h2>
+                    {/* <h2>{stageTitle}</h2> */}
                     <Bench />
                 </>
             );
@@ -145,17 +145,17 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
         switch (key) {
             case 'pitch':
                 return (
-/*                     playerCount === preset.maxPlayers[stageName] &&
+                    /*                     playerCount === preset.maxPlayers[stageName] &&
                     team.game.value[stageName] <= preset.maxPrice[stageName] */
                     true
                 );
 
             case 'captain':
-                return true /* captain && viceCaptain; */
+                return true; /* captain && viceCaptain; */
 
             case 'bench':
                 return (
-/*                     playerCount === preset.maxPlayers[stageName] &&
+                    /*                     playerCount === preset.maxPlayers[stageName] &&
                     team.game.value[stageName] <= preset.maxPrice[stageName] */
                     true
                 );

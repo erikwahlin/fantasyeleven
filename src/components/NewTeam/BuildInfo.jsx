@@ -62,7 +62,9 @@ const BuildInfo = ({ teamContext, origin }) => {
     const maxValue = limit.value[origin];
 
     const playerCount = team.list.filter(player => player.origin === origin).length;
-    const teamValue = game.value[origin];
+    const teamValue = game.value[origin]; // adding bench tot price to state
+
+    let budgetLeft = maxValue - teamValue; //rendering budget left
 
     const ready =
         buildStage.stageName === 'pitch' || buildStage.stageName === 'bench'
@@ -88,19 +90,23 @@ const BuildInfo = ({ teamContext, origin }) => {
                 </InfoP>
             </ChosenPlayers>
 
-            <ChosenPlayers>
-                <InfoTitle className="infoTitle">Totalt pris</InfoTitle>
-                <InfoP className="amount" ready={ready} notReady={notReady}>
-                    {teamValue + ' kr'}
-                </InfoP>
-            </ChosenPlayers>
-
-     
-
+            {stageName === 'pitch' && (
+                <ChosenPlayers>
+                    <InfoTitle className="infoTitle">Totalt pris</InfoTitle>
+                    <InfoP className="amount" ready={ready} notReady={notReady}>
+                        {teamValue + ' kr'}
+                    </InfoP>
+                </ChosenPlayers>
+            )}
             {buildStage.stageName === 'bench' && (
                 <ChosenPlayers>
-                    <InfoTitle className="infoTitle">Budget</InfoTitle>
-                    <InfoP className="amount">{maxValue + ' kr'}</InfoP>
+                    <InfoTitle className="infoTitle">Återstående Budget</InfoTitle>
+                    <InfoP
+                        style={budgetLeft <= 0 ? { color: 'red' } : { color: 'green' }}
+                        className="amount"
+                    >
+                        {budgetLeft + ' kr'}
+                    </InfoP>
                 </ChosenPlayers>
             )}
 

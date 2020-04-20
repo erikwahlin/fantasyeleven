@@ -4,7 +4,7 @@
 } need to fix import-bug */
 
 body {
-    background-color: #101d33;
+    background-color: /* #101d33; */ #001c3e;
     font-family: 'Avenir';
     color: white;
 }
@@ -43,10 +43,17 @@ h2 {
 }
 
 h3 {
-	font-family: 'Avenir';
-	font-size: 1.7em;
-	color: white;
-	font-weight: 500;
+    font-family: 'Avenir';
+    font-size: 1.7em;
+    color: white;
+    font-weight: 500;
+}
+
+h4 {
+    font-family: 'Avenir';
+    font-size: 1.8em;
+    color: white;
+    font-weight: 500;
 }
 
 .infoTitle {
