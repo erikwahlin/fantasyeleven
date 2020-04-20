@@ -70,7 +70,7 @@ const PlayerPrice = styled.span`
 `;
 
 const PluppImg = styled.svg`
-    box-shadow: ${p => (p.stageName === 'captain' ? '0px -1px 4px black' : '')};
+    box-shadow: ${p => (p.stageName === 'captain' ? '0px -.5px 4px black' : '')};
     width: 100%;
     position: relative;
     z-index: 1;
@@ -122,7 +122,18 @@ const Btn = styled.div`
         display: table-cell;
         vertical-align: middle;
         &:hover {
-            background-color: black;
+            background-color: ${props =>
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.primary
+                    : ''};
+            color: ${props =>
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.secondary
+                    : ''};
         }
     }
 `;
@@ -487,9 +498,7 @@ class Plupp extends Component {
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
                             >
-                                <div>
-                                    <span>C</span>
-                                </div>
+                                <div>C</div>
                             </CaptainBtn>
                         )}
 
@@ -499,9 +508,7 @@ class Plupp extends Component {
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
                             >
-                                <div>
-                                    <span>V</span>
-                                </div>
+                                <div>V</div>
                             </VCaptainBtn>
                         )}
                     </Options>
