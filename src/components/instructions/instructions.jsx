@@ -12,8 +12,14 @@ const StyledP = styled.p`
     letter-spacing: 1.2px;
     padding: 10px;
 `;
-const InstructionsWrapper = ({ buildStagePage, posOrClub, list, maxPrice }) => {
+const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, list }) => {
     //posOrClub = toSwe(posOrClub, 'positions', 'plural')
+
+    const countPlayers = arrOfObj => {
+        let count = 0;
+        Object.values(arrOfObj).forEach(elem => (count += elem.length));
+        return count;
+    };
     const expr = numerus =>
         posOrClub.label === 'Alla spelare'
             ? 'spelare'
@@ -24,15 +30,17 @@ const InstructionsWrapper = ({ buildStagePage, posOrClub, list, maxPrice }) => {
     return (
         <StyledDiv className="unmarkable">
             <StyledP>
-                {buildStagePage === 0 && list.length < 11
+                {buildStagePage === 'pitch' && countPlayers(pitchPlayers) < 11
                     ? `Du kan inte ha fler ${expr('plural')} på planen`
-                    : buildStagePage === 1 && list.length < 15
+                    : buildStagePage === 'bench' && countPlayers(benchPlayers) < 4
                     ? `Du kan inte ha fler ${expr('singular')} på din bänk`
                     : `Klicka på vidare för att ta dig till nästa steg.${
-                          buildStagePage === 1 ? ' Kolla så att du inte gått över budgeten.' : ''
+                          buildStagePage === 'bench'
+                              ? ' Kolla så att du inte gått över budgeten.'
+                              : ''
                       }`}
             </StyledP>
         </StyledDiv>
     );
 };
-export default InstructionsWrapper;
+export default Instructions;

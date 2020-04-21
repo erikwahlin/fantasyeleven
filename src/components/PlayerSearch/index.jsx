@@ -14,7 +14,7 @@ import { allClubs } from '../NewTeam/config';
 import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
-import InstructionsWrapper from '../instructionsWrapper/instructionsWrapper';
+import Instructions from '../instructions/instructions';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
@@ -579,9 +579,10 @@ class PlayerSearch extends Component {
                         </ResultBox>
                     </React.Fragment>
                 ) : (
-                    <InstructionsWrapper
-                        list={teamContext.state.team.list}
-                        buildStagePage={buildStage.stageIndex}
+                    <Instructions
+                        benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
+                        pitchPlayers={teamContext.state.team.pitch}
+                        buildStagePage={buildStage.stageName}
                         posOrClub={posOrClubSelected}
                     />
                 )}
