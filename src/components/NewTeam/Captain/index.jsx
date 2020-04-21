@@ -89,8 +89,8 @@ const Captain = props => {
             {/* <BuildInfo playerCount={playerCount} team={team} origin="pitch" /> */}
 
             <div className="buildInfo">
-                <p>Kapten: {capObj && capObj.name}</p>
-                <p>Vice kapten: {viceObj && viceObj.name}</p>
+                <p className="Cap">Kapten: {capObj && capObj.name}</p>
+                <p className="Cap">Vice kapten: {viceObj && viceObj.name}</p>
             </div>
 
             <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>

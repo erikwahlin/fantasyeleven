@@ -20,7 +20,7 @@ nav {
 }
 
 p {
-    color: white;
+    font-size:0.9em;
 }
 
 nav li {
@@ -75,8 +75,17 @@ h4 {
 }
 
 .player_price {
-    font-size: 0.8em;
+    font-size: 0.9em;
     font-weight: bold;
+}
+
+.player_popularity {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.Cap {
+    color:white;
 }
 
 .info {
@@ -104,6 +113,7 @@ h4 {
 .labelPercentage p {
     margin: 0;
     margin-left: 4rem;
+   
 }
 .amount {
     font-size: 1.5rem;
