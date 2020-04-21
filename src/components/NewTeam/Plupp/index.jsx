@@ -55,6 +55,7 @@ const PlayerPrice = styled.span`
 `;
 
 const PluppImg = styled.svg`
+    box-shadow: ${p => (p.stageName === 'captain' ? '0px -.5px 4px black' : '')};
     width: 100%;
     position: relative;
     z-index: 1;
@@ -79,34 +80,15 @@ const Options = styled.div`
     position: absolute;
     z-index: 1;
     left: -25px;
-    top: -40px;
-    width: 100px;
+    top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')};
+    width: ${props => (props.stageName === 'pitch' ? '100px' : '90px')};
     height: 40px;
     margin: 0;
     padding: 0;
-
-    display: flex;
-    justify-content: space-between;
-
-    & > button {
-        width: 40px;
-        height: 100%;
-        margin: 0 5px;
-        cursor: pointer;
-        outline: none;
-        border: none;
-
-        border-radius: 3px;
-        background: none;
-
-        & > * {
-            width: 100%;
-            height: 100%;
-        }
-    }
 `;
 const Btn = styled.div`
     color: #222;
+    position: absolute;
     font-size: 1em;
     font-weight: bold;
     cursor: ${p => (p.stageName === 'captain' ? 'pointer' : 'normal')};
@@ -115,19 +97,40 @@ const Btn = styled.div`
         width: 25px;
         color: white;
         /* padding: 3px; */
-        background-color: grey;
+        background-color: ${props =>
+            props.player
+                ? allClubs.find(obj => {
+                      return obj.long === props.player.club;
+                  }).color.secondary
+                : ''};
         border-radius: 50%;
-        display: inline-block;
         text-align: center;
+        display: table-cell;
+        vertical-align: middle;
         &:hover {
-            background-color: black;
+            background-color: ${props =>
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.primary
+                    : ''};
+            color: ${props =>
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.secondary
+                    : ''};
         }
     }
 `;
 
-const CaptainBtn = styled(Btn)``;
+const CaptainBtn = styled(Btn)`
+    left: 18px;
+`;
 
-const VCaptainBtn = styled(Btn)``;
+const VCaptainBtn = styled(Btn)`
+    right: 8px;
+`;
 
 const PluppRole = styled.span`
     font-size: 2em;
@@ -144,8 +147,20 @@ const PluppRole = styled.span`
 `;
 
 const DelBtn = styled.button`
+    width: 40px;
+    height: 100%;
+    margin: 0 5px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    background: none;
     color: #222;
     font-size: 1em;
+    & > * {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 const SwitchIcon = styled.div`
@@ -447,7 +462,7 @@ class Plupp extends Component {
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
 
                 {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
-                    <Options>
+                    <Options stageName={stageName}>
                         <DelBtn ref={this.delBtn} onClick={this.del}>
                             <FaTrash />
                         </DelBtn>
@@ -455,15 +470,20 @@ class Plupp extends Component {
                 )}
 
                 {stageName === 'captain' && (
-                    <Options>
+                    <Options stageName={stageName}>
                         {!isCap && (
-                            <CaptainBtn onClick={() => this.setCap()} stageName={stageName}>
+                            <CaptainBtn
+                                player={player}
+                                onClick={() => this.setCap()}
+                                stageName={stageName}
+                            >
                                 <div>C</div>
                             </CaptainBtn>
                         )}
 
                         {!isViceCap && (
                             <VCaptainBtn
+                                player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
                             >
