@@ -15,6 +15,7 @@ import Dropdown from 'react-dropdown';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
 import Instructions from '../instructions/instructions';
+import CaptainCard from '../CaptainCard/CaptainCard';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
@@ -430,189 +431,210 @@ class PlayerSearch extends Component {
                 {/* FILTER */}
                 {/* (FILTER) <br />  */}
                 {/* temp */}
-                <Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
-                <ArrowWrapper>
-                    <Dropdown
-                        className="FilterByPosClub dropdown playerserach unmarkable"
-                        options={filterOptions}
-                        onChange={this.setFilter_posClub}
-                        value={posOrClubdefaultOption}
-                    />
-                    <img src={Arrow} alt="arrow" />
-                </ArrowWrapper>
-                <ArrowWrapper>
-                    <Dropdown
-                        className="FilterByMaxPrice dropdown playerserach unmarkable"
-                        onChange={this.setFilter_maxPrice}
-                        value={maxPriceDefaultOption}
-                        options={priceOptions}
-                    />
-                    <img src={Arrow} alt="arrow" />
-                </ArrowWrapper>
-                <SearchFieldWrapper>
-                    <Input
-                        type="text"
-                        name="name"
-                        className="FilterByName unmarkable"
-                        onChange={this.setFilter_name}
-                        placeholder="Sök spelare"
-                        onFocus={e => (e.target.placeholder = '')}
-                        onBlur={e => (e.target.placeholder = 'Sök spelare')}
-                    ></Input>
-                    <FiSearch />
-                </SearchFieldWrapper>
-
-                <h2 className="FilterTitle unmarkable">
-                    Sortera efter:
-                    <span
-                        className={`${
-                            this.state.sortBy === 'price' ? 'clicked' : ''
-                        } clickable price`}
-                        onClick={this.handleSortByClick}
-                    >
-                        {' '}
-                        pris{' '}
-                    </span>
-                    -
-                    <span
-                        className={`${
-                            this.state.sortBy === 'popularity' ? 'clicked' : ''
-                        } clickable popularity`}
-                        onClick={this.handleSortByClick}
-                    >
-                        {' '}
-                        popularitet
-                    </span>
-                </h2>
-                <ButtonContainer className="ButtonContainer playersearch">
-                    <ButtonDes
-                        className="SortFalling unmarkable"
-                        style={
-                            this.state.priceSort === 'falling'
-                                ? {
-                                      fontWeight: 'bold',
-                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
-                                      boxShadow: 'inset 0 0 2px #000000'
-                                  }
-                                : { fontWeight: '500' }
-                        }
-                        value="falling"
-                        onClick={this.handleSort}
-                    >
-                        Fallande
-                    </ButtonDes>
-                    <ButtonAsc
-                        className="SortRising unmarkable"
-                        style={
-                            this.state.priceSort === 'rising'
-                                ? {
-                                      fontWeight: 'bold',
-                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
-                                      boxShadow: 'inset 0 0 2px #000000'
-                                  }
-                                : { fontWeight: '500' }
-                        }
-                        value="rising"
-                        onClick={this.handleSort}
-                    >
-                        Stigande
-                    </ButtonAsc>
-                </ButtonContainer>
-
-                <ButtonReset onClick={this.resetSettings} className="ResetFilter unmarkable">
-                    <strong>Återställ filter</strong>
-                </ButtonReset>
-
-                {/* RESULT */}
-                {paginated.length ? (
-                    <React.Fragment>
-                        <Paginate
-                            goToPage={this.goToPage}
-                            settings={paginationSettings}
-                            playerCount={filtered.length}
-                            pageCount={Math.ceil(filtered.length / paginationSettings.pageSize)}
-                        />
-
-                        <LabelRow className="unmarkable">
-                            <div className="labelPosition">
-                                <p> {resultLabel}</p>
-                            </div>
-                            <div
-                                onClick={e => this.handleListClickSort(e, 'popularity')}
-                                className="tooltip labelPercentage"
-                            >
-                                %<span className="tooltiptext">Popularitet</span>
-                            </div>
-                            <div
-                                onClick={e => this.handleListClickSort(e, 'price')}
-                                className="tooltip labelPrice"
-                            >
-                                SEK{' '}
-                                <span className="tooltiptext">Pris/spelare i svenska kronor</span>
-                            </div>
-                        </LabelRow>
-
-                        <ResultBox className="ResultBox unmarkable">
-                            {paginated.map((player, i) => {
-                                return (
-                                    <PlayerRow key={i} className="PlayerRow">
-                                        <InfoModal
-                                            title={player.name}
-                                            subtitle={`${player.club} - ${toSwe(
-                                                player.position,
-                                                'positions'
-                                            )}`}
-                                            img="https://source.unsplash.com/random"
-                                            display={this.state.playerModal}
-                                            togglePlayerModal={this.togglePlayerModal}
-                                        >
-                                            <p>Värde: {player.price} kr</p>
-                                            <p>
-                                                <a
-                                                    style={{
-                                                        color: '#eee',
-                                                        textDecoration: 'none'
-                                                    }}
-                                                    href={homePitch(player.club)}
-                                                >
-                                                    Hemmaplan
-                                                </a>
-                                            </p>
-                                        </InfoModal>
-
-                                        <Player
-                                            className="ListedPlayer"
-                                            onClick={e => this.playerClickHandler(player)}
-                                        >
-                                            <p className="player">{shortenName(player.name)}</p>
-                                            <p className="sum">
-                                                <strong>{clubAbbr(player.club)}</strong>
-                                                &nbsp; &nbsp;
-                                                {toSwe(player.position, 'positions')}
-                                            </p>
-                                        </Player>
-
-                                        <PlayerPrice className="PlayerPopularity">
-                                            <p className="player_popularity">{player.popularity}</p>
-                                        </PlayerPrice>
-
-                                        <PlayerPrice className="PlayerPrice">
-                                            <p className="player_price">
-                                                {Math.round(player.price)}
-                                            </p>
-                                        </PlayerPrice>
-                                    </PlayerRow>
-                                );
-                            })}
-                        </ResultBox>
-                    </React.Fragment>
+                {buildStage.stageName === 'captain' ? (
+                    <>
+                        <Title className="SearchPlayer-Title unmarkable">Välj Kaptener</Title>
+                        <CaptainCard>Kapten</CaptainCard>
+                        <CaptainCard>Vice Kapten</CaptainCard>
+                    </>
                 ) : (
-                    <Instructions
-                        benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
-                        pitchPlayers={teamContext.state.team.pitch}
-                        buildStagePage={buildStage.stageName}
-                        posOrClub={posOrClubSelected}
-                    />
+                    <>
+                        <Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
+                        <ArrowWrapper>
+                            <Dropdown
+                                className="FilterByPosClub dropdown playerserach unmarkable"
+                                options={filterOptions}
+                                onChange={this.setFilter_posClub}
+                                value={posOrClubdefaultOption}
+                            />
+                            <img src={Arrow} alt="arrow" />
+                        </ArrowWrapper>
+                        <ArrowWrapper>
+                            <Dropdown
+                                className="FilterByMaxPrice dropdown playerserach unmarkable"
+                                onChange={this.setFilter_maxPrice}
+                                value={maxPriceDefaultOption}
+                                options={priceOptions}
+                            />
+                            <img src={Arrow} alt="arrow" />
+                        </ArrowWrapper>
+                        <SearchFieldWrapper>
+                            <Input
+                                type="text"
+                                name="name"
+                                className="FilterByName unmarkable"
+                                onChange={this.setFilter_name}
+                                placeholder="Sök spelare"
+                                onFocus={e => (e.target.placeholder = '')}
+                                onBlur={e => (e.target.placeholder = 'Sök spelare')}
+                            ></Input>
+                            <FiSearch />
+                        </SearchFieldWrapper>
+
+                        <h2 className="FilterTitle unmarkable">
+                            Sortera efter:
+                            <span
+                                className={`${
+                                    this.state.sortBy === 'price' ? 'clicked' : ''
+                                } clickable price`}
+                                onClick={this.handleSortByClick}
+                            >
+                                {' '}
+                                pris{' '}
+                            </span>
+                            -
+                            <span
+                                className={`${
+                                    this.state.sortBy === 'popularity' ? 'clicked' : ''
+                                } clickable popularity`}
+                                onClick={this.handleSortByClick}
+                            >
+                                {' '}
+                                popularitet
+                            </span>
+                        </h2>
+                        <ButtonContainer className="ButtonContainer playersearch">
+                            <ButtonDes
+                                className="SortFalling unmarkable"
+                                style={
+                                    this.state.priceSort === 'falling'
+                                        ? {
+                                              fontWeight: 'bold',
+                                              backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                              boxShadow: 'inset 0 0 2px #000000'
+                                          }
+                                        : { fontWeight: '500' }
+                                }
+                                value="falling"
+                                onClick={this.handleSort}
+                            >
+                                Fallande
+                            </ButtonDes>
+                            <ButtonAsc
+                                className="SortRising unmarkable"
+                                style={
+                                    this.state.priceSort === 'rising'
+                                        ? {
+                                              fontWeight: 'bold',
+                                              backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                              boxShadow: 'inset 0 0 2px #000000'
+                                          }
+                                        : { fontWeight: '500' }
+                                }
+                                value="rising"
+                                onClick={this.handleSort}
+                            >
+                                Stigande
+                            </ButtonAsc>
+                        </ButtonContainer>
+
+                        <ButtonReset
+                            onClick={this.resetSettings}
+                            className="ResetFilter unmarkable"
+                        >
+                            <strong>Återställ filter</strong>
+                        </ButtonReset>
+
+                        {/* RESULT */}
+                        {paginated.length ? (
+                            <React.Fragment>
+                                <Paginate
+                                    goToPage={this.goToPage}
+                                    settings={paginationSettings}
+                                    playerCount={filtered.length}
+                                    pageCount={Math.ceil(
+                                        filtered.length / paginationSettings.pageSize
+                                    )}
+                                />
+
+                                <LabelRow className="unmarkable">
+                                    <div className="labelPosition">
+                                        <p> {resultLabel}</p>
+                                    </div>
+                                    <div
+                                        onClick={e => this.handleListClickSort(e, 'popularity')}
+                                        className="tooltip labelPercentage"
+                                    >
+                                        %<span className="tooltiptext">Popularitet</span>
+                                    </div>
+                                    <div
+                                        onClick={e => this.handleListClickSort(e, 'price')}
+                                        className="tooltip labelPrice"
+                                    >
+                                        SEK{' '}
+                                        <span className="tooltiptext">
+                                            Pris/spelare i svenska kronor
+                                        </span>
+                                    </div>
+                                </LabelRow>
+
+                                <ResultBox className="ResultBox unmarkable">
+                                    {paginated.map((player, i) => {
+                                        return (
+                                            <PlayerRow key={i} className="PlayerRow">
+                                                <InfoModal
+                                                    title={player.name}
+                                                    subtitle={`${player.club} - ${toSwe(
+                                                        player.position,
+                                                        'positions'
+                                                    )}`}
+                                                    img="https://source.unsplash.com/random"
+                                                    display={this.state.playerModal}
+                                                    togglePlayerModal={this.togglePlayerModal}
+                                                >
+                                                    <p>Värde: {player.price} kr</p>
+                                                    <p>
+                                                        <a
+                                                            style={{
+                                                                color: '#eee',
+                                                                textDecoration: 'none'
+                                                            }}
+                                                            href={homePitch(player.club)}
+                                                        >
+                                                            Hemmaplan
+                                                        </a>
+                                                    </p>
+                                                </InfoModal>
+
+                                                <Player
+                                                    className="ListedPlayer"
+                                                    onClick={e => this.playerClickHandler(player)}
+                                                >
+                                                    <p className="player">
+                                                        {shortenName(player.name)}
+                                                    </p>
+                                                    <p className="sum">
+                                                        <strong>{clubAbbr(player.club)}</strong>
+                                                        &nbsp; &nbsp;
+                                                        {toSwe(player.position, 'positions')}
+                                                    </p>
+                                                </Player>
+
+                                                <PlayerPrice className="PlayerPopularity">
+                                                    <p className="player_popularity">
+                                                        {player.popularity}
+                                                    </p>
+                                                </PlayerPrice>
+
+                                                <PlayerPrice className="PlayerPrice">
+                                                    <p className="player_price">
+                                                        {Math.round(player.price)}
+                                                    </p>
+                                                </PlayerPrice>
+                                            </PlayerRow>
+                                        );
+                                    })}
+                                </ResultBox>
+                            </React.Fragment>
+                        ) : (
+                            <Instructions
+                                benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
+                                pitchPlayers={teamContext.state.team.pitch}
+                                buildStagePage={buildStage.stageName}
+                                posOrClub={posOrClubSelected}
+                            />
+                        )}
+                    </>
                 )}
             </Wrapper>
         );
