@@ -20,7 +20,7 @@ const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, l
         Object.values(arrOfObj).forEach(elem => (count += elem.length));
         return count;
     };
-    const expr = numerus =>
+    const expr = () =>
         posOrClub.label === 'Alla spelare'
             ? 'spelare'
             : posOrClub.value === 'position'
@@ -31,9 +31,9 @@ const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, l
         <StyledDiv className="unmarkable">
             <StyledP>
                 {buildStagePage === 'pitch' && countPlayers(pitchPlayers) < 11
-                    ? `Du kan inte ha fler ${expr('plural')} på planen`
+                    ? `Du kan inte ha fler ${expr()} på planen`
                     : buildStagePage === 'bench' && countPlayers(benchPlayers) < 4
-                    ? `Du kan inte ha fler ${expr('singular')} på din bänk`
+                    ? `Du kan inte ha fler ${expr()} på din bänk`
                     : `Klicka på vidare för att ta dig till nästa steg.${
                           buildStagePage === 'bench'
                               ? ' Kolla så att du inte gått över budgeten.'
