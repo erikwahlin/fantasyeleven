@@ -64,6 +64,8 @@ class PlayerSearch extends Component {
         this.togglePlayerModal = this.togglePlayerModal.bind(this);
         this.checkIfSlider = this.checkIfSlider.bind(this);
         this.handleSortByClick = this.handleSortByClick.bind(this);
+
+        this.handleListClickSort = this.handleListClickSort.bind(this);
     }
 
     componentDidMount = (pp, ps) => {
@@ -126,10 +128,29 @@ class PlayerSearch extends Component {
         });
     };
 
+    handleListClickSort = (e, type) => {
+        const { sortBy, priceSort } = this.state;
+        if (sortBy !== type) {
+            this.setState({ sortBy: type });
+        }
+        if (priceSort === 'falling') {
+            this.setState({ priceSort: 'rising' });
+        } else if (priceSort === 'rising') {
+            this.setState({ priceSort: 'falling' });
+        }
+    };
+    /*     handleSEKClick = e => {
+        const { sortBy, priceSort } = this.state;
+
+        console.log(e.target);
+    }; */
+
     handleSortByClick = e => {
-        if (e.target.className.includes('popularity')) {
+        let cName = cName => e.target.className.includes(cName);
+        if (cName('popularity')) {
             this.setState({ sortBy: 'popularity' });
-        } else {
+        }
+        if (cName('price')) {
             this.setState({ sortBy: 'price' });
         }
     };
@@ -516,11 +537,18 @@ class PlayerSearch extends Component {
                             <div className="labelPosition">
                                 <p> {resultLabel}</p>
                             </div>
-                            <div className="labelPercentage">
-                                <p>%</p>
+                            <div
+                                onClick={e => this.handleListClickSort(e, 'popularity')}
+                                className="tooltip labelPercentage"
+                            >
+                                %<span className="tooltiptext">Popularitet</span>
                             </div>
-                            <div className="labelPrice">
-                                <p>SEK</p>
+                            <div
+                                onClick={e => this.handleListClickSort(e, 'price')}
+                                className="tooltip labelPrice"
+                            >
+                                SEK{' '}
+                                <span className="tooltiptext">Pris/spelare i svenska kronor</span>
                             </div>
                         </LabelRow>
 
