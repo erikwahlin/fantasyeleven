@@ -41,7 +41,7 @@ export const OpenBtn = styled.button`
     padding: 0;
 
     & > svg {
-        width: ${props => (props.isPitch ? '13px' : '20px')};
+        width: ${props => (props.isPitch ? '13px' : '18px')};
         height: 100%;
         ${p =>
             p.customStyle &&

@@ -20,7 +20,7 @@ const ContentWrap = styled.div`
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 10% 90%;
-    grid-gap: 0px 20px;
+    grid-gap: 0px 75px;
 
     @media screen and (min-height: 700px) and (max-width: 500px) {
         grid-template-rows: 70px 632px;

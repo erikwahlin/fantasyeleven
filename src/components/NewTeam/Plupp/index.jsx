@@ -4,7 +4,9 @@ import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
+import Delete from '../../../media/delW.svg';
 import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
+import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
@@ -79,8 +81,9 @@ const PluppImg = styled.svg`
 const Options = styled.div`
     position: absolute;
     z-index: 1;
-    left: -25px;
-    top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')};
+    left: -30px;
+    top: ${props => (props.stageName === 'pitch' ? '-23px' : '-13px')};
+    /* top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')}; */
     width: ${props => (props.stageName === 'pitch' ? '100px' : '90px')};
     height: 40px;
     margin: 0;
@@ -153,14 +156,21 @@ const DelBtn = styled.button`
     cursor: pointer;
     outline: none;
     border: none;
-    border-radius: 3px;
+    border-radius: 50%;
     background: none;
-    color: #222;
+    color: red;
     font-size: 1em;
     & > * {
         width: 100%;
         height: 100%;
     }
+`;
+
+const DelImg = styled.img`
+ /*    width: 100%;
+    height: 100%;
+    max-width: 700px;
+    position: absolute; */
 `;
 
 const SwitchIcon = styled.div`
@@ -464,7 +474,7 @@ class Plupp extends Component {
                 {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
                     <Options stageName={stageName}>
                         <DelBtn ref={this.delBtn} onClick={this.del}>
-                            <FaTrash />
+                            <DelImg src={Delete} />
                         </DelBtn>
                     </Options>
                 )}

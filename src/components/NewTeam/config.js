@@ -78,8 +78,8 @@ const INITIAL_STATE = {
 
     config: {
         buildStage: {
-            stageName: 'bench',
-            stageIndex: 2
+            stageName: 'pitch',
+            stageIndex: 0
         },
 
         mobileSearch: window.innerWidth < 900 ? true : false,
