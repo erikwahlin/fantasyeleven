@@ -33,6 +33,7 @@ const InfoModal = props => {
     }
 
     return (
+        
         <ModalWrapper className="ModalWrapper playerModal">
             <OpenBtn
                 customStyle={openBtnStyle}
@@ -60,6 +61,7 @@ const InfoModal = props => {
                 </ContentWrapper>
             </Modal>
         </ModalWrapper>
+        
     );
 };
 
