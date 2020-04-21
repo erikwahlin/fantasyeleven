@@ -327,6 +327,12 @@ class PlayerSearch extends Component {
         const { players, teamContext, markedMode } = this.props;
         const { closePlayerSearch } = teamContext.setters;
         const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
+        const { team } = teamContext.state;
+        const { captain, viceCaptain } = team;
+
+        //captain and viceCaptain
+        const capObj = team.list.filter(p => p.uid === captain)[0];
+        const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
 
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
@@ -434,8 +440,8 @@ class PlayerSearch extends Component {
                 {buildStage.stageName === 'captain' ? (
                     <>
                         <Title className="SearchPlayer-Title unmarkable">Välj Kaptener</Title>
-                        <CaptainCard>Kapten</CaptainCard>
-                        <CaptainCard>Vice Kapten</CaptainCard>
+                        <CaptainCard cap={capObj && capObj.name}>Kapten: </CaptainCard>
+                        <CaptainCard cap={viceObj && viceObj.name}>Vice Kapten: </CaptainCard>
                     </>
                 ) : (
                     <>

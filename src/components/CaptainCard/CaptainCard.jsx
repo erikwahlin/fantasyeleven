@@ -3,18 +3,23 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
     margin-top: 10px;
-    width: 90%;
-    background-color: green;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 `;
 
-const CaptainCard = ({ children, captain }) => (
+const Captain = styled.div`
+    font-size: 2em;
+    border-top: 1px solid white;
+    color: white;
+`;
+const Title = styled.div`
+    font-size: 1.3em;
+    color: white;
+`;
+
+const CaptainCard = ({ children, cap }) => (
     <Wrapper>
-        <div>{children}</div>
+        <Title>{children}</Title>
         <hr></hr>
-        <div>{'aubameyang'}</div>
+        <Captain>{cap && cap}</Captain>
     </Wrapper>
 );
 
