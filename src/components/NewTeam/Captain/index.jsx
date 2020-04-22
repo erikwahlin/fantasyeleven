@@ -100,7 +100,7 @@ const Captain = props => {
             {/* <BuildInfo playerCount={playerCount} team={team} origin="pitch" /> */}
 
             <TitleWrap>
-                <Title className="SearchPlayer-Title unmarkable">Välj kapten</Title>
+                <Title className="SearchPlayer-Title unmarkable">Välj {!captain ? 'Kapten' : 'Vice kapten'}</Title>
             </TitleWrap>
 
             <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
