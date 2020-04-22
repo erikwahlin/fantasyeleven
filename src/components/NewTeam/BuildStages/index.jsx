@@ -157,7 +157,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
 
     return (
         <Wrapper className="BuildStages">
-            <div className="steps-content">{stageContent(stageName)}</div>
+            <div className="fade-in steps-content">{stageContent(stageName)}</div>
             <StepContainer stageName={stageName} current={stageIndex}>
                 {preset.buildStages.map((stage, nth) => (
                     <Step key={stage} title={stage}></Step>
