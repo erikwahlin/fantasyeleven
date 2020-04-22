@@ -130,7 +130,7 @@ const Btn = styled.div`
 `;
 
 const CaptainBtn = styled(Btn)`
-    left: 18px;
+    left: 10px;
 `;
 
 const VCaptainBtn = styled(Btn)`
@@ -429,7 +429,11 @@ class Plupp extends Component {
             team[otherRole] = null;
         }
 
-        team[role] = player.uid;
+        if(player.uid === team[role]){
+            team[role] = null;
+  }else{
+            team[role] = player.uid;
+  }
 
         updateNewTeam(team);
     };
