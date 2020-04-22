@@ -208,3 +208,7 @@ export const PlayerPrice = styled.div`
     /* padding: 5px; */
     align-items: flex-end;
 `;
+
+export const CapWrap = styled.div`
+    margin-top:7rem;
+`;

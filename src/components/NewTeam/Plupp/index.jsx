@@ -4,6 +4,8 @@ import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
+import Cap from '../../../media/Cap.svg';
+import ViceCap from '../../../media/Cap.svg';
 import Delete from '../../../media/delW.svg';
 import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import { TiDelete } from 'react-icons/ti';
@@ -486,8 +488,9 @@ class Plupp extends Component {
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
+                                
                             >
-                                <div>C</div>
+                                <img src={Cap} alt="Captain" />
                             </CaptainBtn>
                         )}
 
@@ -496,8 +499,9 @@ class Plupp extends Component {
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
+                                
                             >
-                                <div>V</div>
+                                <img src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
                         )}
                     </Options>
@@ -510,7 +514,8 @@ class Plupp extends Component {
                     alt={`player-plupp ${origin}`}
                     src={pluppC}
                     isMarked={this.state.isMarked}
-                    onClick={e => this.handleClickInside(e, stageName)}
+                    /* onClick={e => this.handleClickInside(e, stageName)} */
+                    onClick={stageName === 'captain' ? () => this.setCap() : e => this.handleClickInside(e, stageName)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}
