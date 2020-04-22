@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import { firstCap, toSwe } from '../../../constants/helperFuncs';
@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
 import Captain from '../Captain';
-import './index.css';
-import { Steps, Button, message } from 'antd';
+import { Tabs } from 'antd';
+import { Steps } from 'antd';
 
-const { Step } = Steps;
+const { TabPane } = Tabs;
 
 const Wrapper = styled.div`
     grid-row: 2;
@@ -22,6 +22,7 @@ const Wrapper = styled.div`
     max-width: 800px;
     /* margin: auto;
     margin-top: 0; */
+
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -31,18 +32,49 @@ const Wrapper = styled.div`
     }
 `;
 
-const StepContainer = styled(Steps)`
-    margin-top: ${props => (props.stageName !== 'bench' ? '20px' : '200px')};
+const TabContainer = styled(Tabs)`
     flex: 1;
+
     display: flex;
-    & * {
-        color: white;
+    flex-direction: column-reverse;
+
+    & .tablist {
+        width: 100%;
+    }
+
+    & .ant-tabs-nav-container-scrolling {
+        padding: 0;
+    }
+
+    & .ant-tabs-nav-scroll {
+        width: 100%;
+    }
+
+    & .ant-tabs-nav {
+        width: 100%;
+        & > div {
+            width: 100%;
+            display: flex;
+        }
+    }
+
+    & .ant-tabs-tab {
+        flex: 1;
+        margin: 0;
+    }
+
+    & .ant-tabs-content {
+        flex: 1;
     }
 `;
+const StepContainer = styled(Steps)`
+    flex: 0;
+    display: flex;
+`;
+const Tab = styled(TabPane)``;
 
 const StageNav = styled.div`
     margin-top: 20px;
-
     display: flex;
     justify-content: space-around;
 `;
@@ -140,30 +172,22 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
                 return true;
         }
     };
-    const steps = [
-        {
-            title: 'First',
-            content: 'First-content'
-        },
-        {
-            title: 'Second',
-            content: 'Second-content'
-        },
-        {
-            title: 'Last',
-            content: 'Last-content'
-        }
-    ];
 
     return (
-        <Wrapper className="BuildStages">
-            <div className="steps-content">{stageContent(stageName)}</div>
-            <StepContainer stageName={stageName} current={stageIndex}>
-                {preset.buildStages.map((stage, nth) => (
-                    <Step key={stage} title={stage}></Step>
-                    /* title should change depending on stage. */
-                ))}
-            </StepContainer>
+        <Wrapper className="BuildStages unmarkable">
+            {
+                <TabContainer
+                    activeKey={stageName}
+                    defaultActiveKey={preset.buildStages[0]}
+                    onChange={callback}
+                >
+                    {preset.buildStages.map((stage, nth) => (
+                        <Tab tab={firstCap(stage)} key={stage} disabled>
+                            {stageContent(stage)}
+                        </Tab>
+                    ))}
+                </TabContainer>
+            }
 
             <StageNav className="StageNav">
                 <StageNavBtn
