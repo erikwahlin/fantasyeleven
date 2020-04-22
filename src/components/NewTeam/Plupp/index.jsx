@@ -63,7 +63,7 @@ const PluppImg = styled.svg`
     z-index: 1;
     background: white;
 
-    ${p => p.isMarked && 'filter: brightness(.9)'};
+    filter: ${p => p.isMarked && 'brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
 
     cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'bench' ? 'pointer' : 'normal')};
@@ -146,7 +146,7 @@ const PluppRole = styled.span`
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.secondary
-            : '#bfbfbf'};
+            : ''};
 `;
 
 const DelBtn = styled.button`
@@ -167,7 +167,7 @@ const DelBtn = styled.button`
 `;
 
 const DelImg = styled.img`
- /*    width: 100%;
+    /*    width: 100%;
     height: 100%;
     max-width: 700px;
     position: absolute; */
@@ -448,7 +448,7 @@ class Plupp extends Component {
         /* 
         
         */
-
+        console.log(stageName, isSwitchable);
         return (
             <Container>
                 {player && (
@@ -506,7 +506,7 @@ class Plupp extends Component {
                 <PluppImg
                     ref={this.pluppRef}
                     id={`switch-${origin}-${pos}-${lineupIndex}`}
-                    className={`${isSwitchable ? 'Switchable' : ''}Plupp`}
+                    className={`${isSwitchable && 'Switchable'} Plupp`}
                     alt={`player-plupp ${origin}`}
                     src={pluppC}
                     isMarked={this.state.isMarked}
@@ -521,16 +521,12 @@ class Plupp extends Component {
 
                 {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>}
 
-                {stageName === 'pitch' ||
-                    (stageName === 'bench' && (
-                        <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                            <FaExchangeAlt
-                                alt="SwitchIcon"
-                                className="SwitchIcon"
-                                player={player}
-                            />
-                        </SwitchIcon>
-                    ))}
+                {((isSwitchable && stageName === 'pitch') ||
+                    (isSwitchable && stageName === 'bench')) && (
+                    <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
+                        <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
+                    </SwitchIcon>
+                )}
             </Container>
         );
     }
