@@ -32,12 +32,13 @@ const Wrapper = styled.div`
 `;
 
 const StepContainer = styled(Steps)`
-    margin-top: ${props => (props.stageName !== 'bench' ? '20px' : '200px')};
+    margin-top: 20px;
+`;
+
+const Content = styled.div`
     flex: 1;
     display: flex;
-    & * {
-        color: white;
-    }
+    flex-direction: column;
 `;
 
 const StageNav = styled.div`
@@ -157,7 +158,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
 
     return (
         <Wrapper className="BuildStages">
-            <div className="fade-in steps-content">{stageContent(stageName)}</div>
+            <Content className="fade-in steps-content">{stageContent(stageName)}</Content>
             <StepContainer stageName={stageName} current={stageIndex}>
                 {preset.buildStages.map((stage, nth) => (
                     <Step key={stage} title={stage}></Step>

@@ -506,7 +506,7 @@ class Plupp extends Component {
                 <PluppImg
                     ref={this.pluppRef}
                     id={`switch-${origin}-${pos}-${lineupIndex}`}
-                    className={`${isSwitchable && 'Switchable'} Plupp`}
+                    className={`${isSwitchable && 'Switchable'}Plupp`}
                     alt={`player-plupp ${origin}`}
                     src={pluppC}
                     isMarked={this.state.isMarked}
@@ -521,8 +521,7 @@ class Plupp extends Component {
 
                 {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>}
 
-                {((isSwitchable && stageName === 'pitch') ||
-                    (isSwitchable && stageName === 'bench')) && (
+                {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
                         <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
                     </SwitchIcon>
