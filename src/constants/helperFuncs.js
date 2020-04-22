@@ -2,6 +2,8 @@ import * as LEX from './lexicon';
 import stadiums from './stadiums';
 
 export const shortenName = fullName => {
+    if (fullName.split(' ')[1] === undefined) return fullName;
+
     const afterSpace = fullName.indexOf(' ') + 1;
 
     let lastName = fullName.substring(afterSpace);
