@@ -167,7 +167,7 @@ const DelBtn = styled.button`
 `;
 
 const DelImg = styled.img`
- /*    width: 100%;
+    /*    width: 100%;
     height: 100%;
     max-width: 700px;
     position: absolute; */
@@ -521,16 +521,11 @@ class Plupp extends Component {
 
                 {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>}
 
-                {stageName === 'pitch' ||
-                    (stageName === 'bench' && (
-                        <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                            <FaExchangeAlt
-                                alt="SwitchIcon"
-                                className="SwitchIcon"
-                                player={player}
-                            />
-                        </SwitchIcon>
-                    ))}
+                {(stageName === 'pitch' || stageName === 'bench') && (
+                    <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
+                        <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
+                    </SwitchIcon>
+                )}
             </Container>
         );
     }
