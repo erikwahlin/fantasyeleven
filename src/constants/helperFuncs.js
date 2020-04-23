@@ -1,6 +1,13 @@
 import * as LEX from './lexicon';
 import stadiums from './stadiums';
 
+//counting players in team.pitch or team.bench
+export const countPlayers = arrOfObj => {
+    let count = 0;
+    Object.values(arrOfObj).forEach(elem => (count += elem.length));
+    return count;
+};
+
 export const shortenName = fullName => {
     if (fullName.split(' ')[1] === undefined) return fullName;
 

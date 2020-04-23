@@ -2,7 +2,7 @@ import React from 'react';
 import { withTeam } from './ctx';
 import styled from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
-import { toSwe } from '../../constants/helperFuncs';
+import { toSwe, countPlayers } from '../../constants/helperFuncs';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -111,7 +111,12 @@ const BuildInfo = ({ teamContext, origin }) => {
             )}
 
             {stageName === 'pitch' || stageName === 'bench' ? (
-                <ClearBtn onClick={clearPlayers}>Nollställ {toSwe(stageName, 'origins')}</ClearBtn>
+                <ClearBtn onClick={clearPlayers}>
+                    {(stageName === 'pitch' && countPlayers(team.pitch) === 0) ||
+                    (stageName === 'bench' && countPlayers(team.bench) === 0)
+                        ? 'Autofyll'
+                        : `Nollställ ${toSwe(stageName, 'origins')}`}
+                </ClearBtn>
             ) : null}
 
             {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
