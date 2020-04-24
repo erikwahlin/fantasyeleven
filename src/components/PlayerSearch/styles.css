@@ -23,6 +23,12 @@ p {
     font-size:0.9em;
 }
 
+.capInfo {
+    font-size:1.1em;
+    font-weight:500;
+    margin-top:3rem;
+}
+
 nav li {
     display: inline-block;
     margin-right: 2rem;

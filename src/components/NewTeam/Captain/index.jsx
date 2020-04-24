@@ -5,6 +5,12 @@ import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
 
+import {
+
+    Title,
+
+} from '../../PlayerSearch/index.styled';
+
 const Wrapper = styled.div`
     grid-row: 2;
     display: grid;
@@ -20,6 +26,11 @@ const Wrapper = styled.div`
     @media screen and (min-width: 900px) {
         grid-column: 2;
     }
+`;
+
+const TitleWrap = styled.div`
+display:flex;
+justify-content:center;
 `;
 
 const FieldContainer = styled.div`
@@ -88,10 +99,9 @@ const Captain = props => {
         <Wrapper className="Pitch" /* pitchSize={pitchSize} */>
             {/* <BuildInfo playerCount={playerCount} team={team} origin="pitch" /> */}
 
-            <div className="buildInfo">
-                <p className="Cap">Kapten: {capObj && capObj.name}</p>
-                <p className="Cap">Vice kapten: {viceObj && viceObj.name}</p>
-            </div>
+            <TitleWrap>
+                <Title className="SearchPlayer-Title unmarkable">Välj {!captain ? 'Kapten' : 'Vice kapten'}</Title>
+            </TitleWrap>
 
             <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
                 <PitchImg src={pitchImg} />

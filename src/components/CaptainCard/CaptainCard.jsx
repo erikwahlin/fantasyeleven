@@ -6,13 +6,16 @@ const Wrapper = styled.div`
 `;
 
 const Captain = styled.div`
-    font-size: 2em;
-    border-top: 1px solid white;
+    font-size: 1.4em;
     color: white;
+    font-weight:500;
+    margin-left:2rem;
+    margin-bottom:1rem;
 `;
 const Title = styled.div`
-    font-size: 1.3em;
+    font-size: 1.6em;
     color: white;
+    font-weight:600;
 `;
 
 const CaptainCard = ({ children, cap }) => (

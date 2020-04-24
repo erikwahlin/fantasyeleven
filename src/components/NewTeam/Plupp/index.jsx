@@ -4,6 +4,8 @@ import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
+import cap from '../../../media/Cap.svg';
+import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
 import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import { TiDelete } from 'react-icons/ti';
@@ -73,8 +75,8 @@ const PluppImg = styled.svg`
     background: ${props =>
         props.player
             ? allClubs.find(obj => {
-                  return obj.long === props.player.club;
-              }).color.primary
+                return obj.long === props.player.club;
+            }).color.primary
             : '#a6afb6'};
 `;
 
@@ -101,38 +103,48 @@ const Btn = styled.div`
         color: white;
         /* padding: 3px; */
         background-color: ${props =>
-            props.player
-                ? allClubs.find(obj => {
-                      return obj.long === props.player.club;
-                  }).color.secondary
-                : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.secondary
+            : ''};
         border-radius: 50%;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
         &:hover {
             background-color: ${props =>
-                props.player
-                    ? allClubs.find(obj => {
-                          return obj.long === props.player.club;
-                      }).color.primary
-                    : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.primary
+            : ''};
             color: ${props =>
-                props.player
-                    ? allClubs.find(obj => {
-                          return obj.long === props.player.club;
-                      }).color.secondary
-                    : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.secondary
+            : ''};
         }
     }
 `;
 
 const CaptainBtn = styled(Btn)`
-    left: 18px;
+    right: -6px;
+`;
+
+const Cap = styled.img`
+width:22px;
+height:22px;
+`;
+
+const Vcap = styled.img`
+width:22px;
+height:22px;
 `;
 
 const VCaptainBtn = styled(Btn)`
-    right: 8px;
+    right: -6px;
 `;
 
 const PluppRole = styled.span`
@@ -144,9 +156,9 @@ const PluppRole = styled.span`
     color: ${props =>
         props.player
             ? allClubs.find(obj => {
-                  return obj.long === props.player.club;
-              }).color.secondary
-            : ''};
+                return obj.long === props.player.club;
+            }).color.secondary
+            : '#bfbfbf'};
 `;
 
 const DelBtn = styled.button`
@@ -427,7 +439,11 @@ class Plupp extends Component {
             team[otherRole] = null;
         }
 
-        team[role] = player.uid;
+        if(player.uid === team[role]){
+            team[role] = null;
+  }else{
+            team[role] = player.uid;
+  }
 
         updateNewTeam(team);
     };
@@ -481,23 +497,25 @@ class Plupp extends Component {
 
                 {stageName === 'captain' && (
                     <Options stageName={stageName}>
-                        {!isCap && (
+                        {isCap && (
                             <CaptainBtn
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
+
                             >
-                                <div>C</div>
+                                <Cap src={cap} alt="Captain" />
                             </CaptainBtn>
                         )}
 
-                        {!isViceCap && (
+                        {isViceCap && (
                             <VCaptainBtn
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
+
                             >
-                                <div>V</div>
+                                <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
                         )}
                     </Options>
@@ -510,7 +528,10 @@ class Plupp extends Component {
                     alt={`player-plupp ${origin}`}
                     src={pluppC}
                     isMarked={this.state.isMarked}
-                    onClick={e => this.handleClickInside(e, stageName)}
+                    /* onClick={e => this.handleClickInside(e, stageName)} */
+                    onClick={stageName === 'captain' ? () => this.setCap(!captain || this.props.player.uid === captain
+                        ? 'captain'
+                        : 'viceCaptain') : e => this.handleClickInside(e, stageName)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}
@@ -519,7 +540,7 @@ class Plupp extends Component {
                     isViceCap={isViceCap}
                 />
 
-                {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>}
+                {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
 
                 {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>

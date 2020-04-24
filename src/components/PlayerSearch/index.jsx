@@ -20,6 +20,8 @@ import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
 import Arrow from '../../media/arrow.svg';
+import Cap from '../../media/Cap.svg';
+import ViceCap from '../../media/ViceCap.svg';
 
 import { GiCancel } from 'react-icons/gi';
 import { FiSearch } from 'react-icons/fi';
@@ -41,7 +43,8 @@ import {
     PlayerRow,
     ButtonReset,
     SearchFieldWrapper,
-    ArrowWrapper
+    ArrowWrapper,
+    CapWrap
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -438,11 +441,11 @@ class PlayerSearch extends Component {
                 {/* (FILTER) <br />  */}
                 {/* temp */}
                 {buildStage.stageName === 'captain' ? (
-                    <>
-                        <Title className="SearchPlayer-Title unmarkable">Välj Kaptener</Title>
-                        <CaptainCard cap={capObj && capObj.name}>Kapten: </CaptainCard>
-                        <CaptainCard cap={viceObj && viceObj.name}>Vice Kapten: </CaptainCard>
-                    </>
+                    <CapWrap>
+                        <CaptainCard cap={capObj && capObj.name}><img src={Cap} alt="Captain" /> Kapten: </CaptainCard>
+                        <CaptainCard cap={viceObj && viceObj.name}><img src={ViceCap} alt="Vice Captain" /> Vice Kapten: </CaptainCard>
+                        <p className="capInfo">Din kapten får dubbla poäng, lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas convallis rhoncus sem, vitae tristique mauris ullamcorper eu.</p>
+                    </CapWrap>
                 ) : (
                     <>
                         <Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
