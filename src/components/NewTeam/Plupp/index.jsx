@@ -138,8 +138,13 @@ width:22px;
 height:22px;
 `;
 
+const Vcap = styled.img`
+width:22px;
+height:22px;
+`;
+
 const VCaptainBtn = styled(Btn)`
-    right: 8px;
+    right: -6px;
 `;
 
 const PluppRole = styled.span`
@@ -510,7 +515,7 @@ class Plupp extends Component {
                                 stageName={stageName}
 
                             >
-                                <img src={ViceCap} alt="Vice Captain" />
+                                <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
                         )}
                     </Options>
