@@ -4,7 +4,7 @@ import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
 import pluppC from '../../../media/pluppC.svg';
-import Cap from '../../../media/Cap.svg';
+import cap from '../../../media/Cap.svg';
 import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
 import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
@@ -130,7 +130,12 @@ const Btn = styled.div`
 `;
 
 const CaptainBtn = styled(Btn)`
-    left: 10px;
+    right: -6px;
+`;
+
+const Cap = styled.img`
+width:22px;
+height:22px;
 `;
 
 const VCaptainBtn = styled(Btn)`
@@ -494,7 +499,7 @@ class Plupp extends Component {
                                 stageName={stageName}
 
                             >
-                                <img src={Cap} alt="Captain" />
+                                <Cap src={cap} alt="Captain" />
                             </CaptainBtn>
                         )}
 
@@ -519,7 +524,9 @@ class Plupp extends Component {
                     src={pluppC}
                     isMarked={this.state.isMarked}
                     /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={stageName === 'captain' ? () => this.setCap(!captain ? 'captain' : 'viceCaptain') : e => this.handleClickInside(e, stageName)}
+                    onClick={stageName === 'captain' ? () => this.setCap(!captain || this.props.player.uid === captain
+                        ? 'captain'
+                        : 'viceCaptain') : e => this.handleClickInside(e, stageName)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}
