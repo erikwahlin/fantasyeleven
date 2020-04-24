@@ -254,7 +254,7 @@ class NewTeam extends Component {
         let newCap = null;
         let newViceCap = null;
 
-        this.state.team.list.forEach(player => {
+        newTeam.list.forEach(player => {
             // spot actual captains
             if (player.uid === captain) newCap = player.uid;
             if (player.uid === viceCaptain) newViceCap = player.uid;
