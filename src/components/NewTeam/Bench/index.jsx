@@ -8,7 +8,7 @@ import Plupp from '../Plupp';
 import Position from './position';
 
 const Wrap = styled.div`
-    margin-top: 130px;
+    /* margin-top: 130px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,6 +31,7 @@ const PitchImg = styled.img`
     max-height: 500px;
     max-width: 700px;
     position: absolute;
+    z-index: -1;
     opacity: 0.1;
     filter: brightness(70%);
 `;
@@ -51,10 +52,10 @@ const Bench = props => {
     return (
         <>
             <BuildInfo playerCount={playerCount} team={team} origin="bench" />
-            <PitchImg src={pitchImg} />
-            <Wrap>
+            <Wrap className="Bench OuterWrapper">
                 <h4>Avbytarbänk</h4>
-                <Wrapper className="Bench unmarkable">
+                <PitchImg src={pitchImg} />
+                <Wrapper className="Bench unmarkable InnerWrapper">
                     {preset.positions.map((pos, nth) => (
                         <PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
                             <Plupp

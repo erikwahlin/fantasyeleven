@@ -18,13 +18,18 @@ const Container = styled.div`
     height: 50px;
     align-self: center;
     position: relative;
+
+    @media all and (max-width: 480px) {
+        width: 10vw;
+        height: 10vw;
+    }
 `;
 
 const PlayerName = styled.span`
     position: absolute;
     display: flex;
     justify-content: center;
-    width: 120px;
+    width: 27vw;
     background-color: rgba(57, 118, 59);
     padding: 3px;
     left: -40px;
@@ -42,11 +47,33 @@ const PlayerName = styled.span`
     }
     & > :nth-child(2) {
     }
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+        font-size: 3vw;
+        left: -5vw;
+        top: 10vw;
+        z-index: 1;
+
+        & .ModalWrapper {
+            min-width: unset;
+            left: 0vw;
+            top: 6.1vw;
+        }
+
+        & .ModalOpenBtn {
+            width: 4vw;
+            height: 4vw;
+            & > svg {
+                /* width: 3.8vw; */
+            }
+        }
+    }
 `;
 
 const PlayerPrice = styled.span`
     position: absolute;
-    width: 120px;
+    width: 27vw;
     background-color: rgba(51, 170, 51, 0.6);
     left: -40px;
     top: 77px;
@@ -56,6 +83,13 @@ const PlayerPrice = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+        font-size: 2.5vw;
+        left: -5vw;
+        top: 16vw;
+    }
 `;
 
 const PluppImg = styled.svg`
@@ -75,8 +109,8 @@ const PluppImg = styled.svg`
     background: ${props =>
         props.player
             ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.primary
+                  return obj.long === props.player.club;
+              }).color.primary
             : '#a6afb6'};
 `;
 
@@ -90,6 +124,11 @@ const Options = styled.div`
     height: 40px;
     margin: 0;
     padding: 0;
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+     
+    }
 `;
 const Btn = styled.div`
     color: #222;
@@ -103,28 +142,28 @@ const Btn = styled.div`
         color: white;
         /* padding: 3px; */
         background-color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
-            : ''};
+            props.player
+                ? allClubs.find(obj => {
+                      return obj.long === props.player.club;
+                  }).color.secondary
+                : ''};
         border-radius: 50%;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
         &:hover {
             background-color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.primary
-            : ''};
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.primary
+                    : ''};
             color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
-            : ''};
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.secondary
+                    : ''};
         }
     }
 `;
@@ -134,13 +173,13 @@ const CaptainBtn = styled(Btn)`
 `;
 
 const Cap = styled.img`
-width:22px;
-height:22px;
+    width: 22px;
+    height: 22px;
 `;
 
 const Vcap = styled.img`
-width:22px;
-height:22px;
+    width: 22px;
+    height: 22px;
 `;
 
 const VCaptainBtn = styled(Btn)`
@@ -156,8 +195,8 @@ const PluppRole = styled.span`
     color: ${props =>
         props.player
             ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
+                  return obj.long === props.player.club;
+              }).color.secondary
             : '#bfbfbf'};
 `;
 
@@ -439,11 +478,11 @@ class Plupp extends Component {
             team[otherRole] = null;
         }
 
-        if(player.uid === team[role]){
+        if (player.uid === team[role]) {
             team[role] = null;
-  }else{
+        } else {
             team[role] = player.uid;
-  }
+        }
 
         updateNewTeam(team);
     };
@@ -495,14 +534,13 @@ class Plupp extends Component {
                     </Options>
                 )}
 
-                {stageName === 'captain' && (
-                    <Options stageName={stageName}>
+                {(stageName === 'captain' || stageName === 'bench') && (
+                    <Options stageName={stageName} className="Options">
                         {isCap && (
                             <CaptainBtn
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
-
                             >
                                 <Cap src={cap} alt="Captain" />
                             </CaptainBtn>
@@ -513,7 +551,6 @@ class Plupp extends Component {
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
-
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
@@ -529,9 +566,16 @@ class Plupp extends Component {
                     src={pluppC}
                     isMarked={this.state.isMarked}
                     /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={stageName === 'captain' ? () => this.setCap(!captain || this.props.player.uid === captain
-                        ? 'captain'
-                        : 'viceCaptain') : e => this.handleClickInside(e, stageName)}
+                    onClick={
+                        stageName === 'captain'
+                            ? () =>
+                                  this.setCap(
+                                      !captain || this.props.player.uid === captain
+                                          ? 'captain'
+                                          : 'viceCaptain'
+                                  )
+                            : e => this.handleClickInside(e, stageName)
+                    }
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}

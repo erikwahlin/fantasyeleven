@@ -4,18 +4,15 @@ import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
+import BuildInfo from '../BuildInfo';
 
-import {
-
-    Title,
-
-} from '../../PlayerSearch/index.styled';
+import { Title } from '../../PlayerSearch/index.styled';
 
 const Wrapper = styled.div`
     grid-row: 2;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 80px auto;
+    grid-template-rows: 80px 80px auto;
     position: relative;
     width: 100%;
     height: 100%;
@@ -29,8 +26,8 @@ const Wrapper = styled.div`
 `;
 
 const TitleWrap = styled.div`
-display:flex;
-justify-content:center;
+    display: flex;
+    justify-content: center;
 `;
 
 const FieldContainer = styled.div`
@@ -97,11 +94,13 @@ const Captain = props => {
 
     return (
         <Wrapper className="Pitch" /* pitchSize={pitchSize} */>
-            {/* <BuildInfo playerCount={playerCount} team={team} origin="pitch" /> */}
-
             <TitleWrap>
-                <Title className="SearchPlayer-Title unmarkable">Välj {!captain ? 'Kapten' : 'Vice kapten'}</Title>
+                <Title className="SearchPlayer-Title unmarkable">
+                    Välj {!captain ? 'Kapten' : 'Vice kapten'}
+                </Title>
             </TitleWrap>
+
+            <div>TEMP BUILDINFO</div>
 
             <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
                 <PitchImg src={pitchImg} />
