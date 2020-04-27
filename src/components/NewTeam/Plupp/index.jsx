@@ -18,8 +18,10 @@ const Container = styled.div`
     height: 50px;
     align-self: center;
     position: relative;
+    margin: 5px 0;
 
     @media all and (max-width: 480px) {
+        margin: unset;
         width: 10vw;
         height: 10vw;
     }
@@ -29,10 +31,10 @@ const PlayerName = styled.span`
     position: absolute;
     display: flex;
     justify-content: center;
-    width: 27vw;
+    width: 92px;
     background-color: rgba(57, 118, 59);
     padding: 3px;
-    left: -40px;
+    left: -21px;
     top: 52px;
     font-family: 'Avenir';
     font-weight: bold;
@@ -40,12 +42,14 @@ const PlayerName = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
-    & > :nth-child(1) {
+
+    & > .ModalWrapper {
         position: absolute;
-        top: 6px;
-        left: -5px;
+        top: 26px;
+        left: -10px;
+        z-index: 1;
     }
-    & > :nth-child(2) {
+    & > .ModalOpenBtn {
     }
 
     @media all and (max-width: 480px) {
@@ -73,9 +77,9 @@ const PlayerName = styled.span`
 
 const PlayerPrice = styled.span`
     position: absolute;
-    width: 27vw;
+    width: 92px;
     background-color: rgba(51, 170, 51, 0.6);
-    left: -40px;
+    left: -21px;
     top: 77px;
     font-family: 'Avenir';
     font-weight: bold;

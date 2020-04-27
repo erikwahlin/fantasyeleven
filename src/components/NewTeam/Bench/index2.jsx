@@ -20,7 +20,12 @@ const Wrapper = styled.div`
     margin: auto;
     margin-top: 0;
 
-    @media all and (max-width: 480px) {
+    @media screen and (min-width: 900px) {
+        grid-column: 2;
+    }
+
+    @media all and (max-width: 899px) {
+        /* pre 480 */
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -28,10 +33,6 @@ const Wrapper = styled.div`
         @media all and (max-height: 700px) {
             justify-content: flex-start;
         }
-    }
-
-    @media screen and (min-width: 900px) {
-        grid-column: 2;
     }
 `;
 
@@ -47,7 +48,8 @@ const Title = styled.h2`
     margin-bottom: 12px;
     font-weight: 600;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         font-size: 24px;
         line-height: unset;
     }
@@ -64,7 +66,14 @@ const FieldContainer = styled.div`
     position: relative;
     margin: 0;
 
+    @media all and (max-width: 899px) {
+        margin: 0 auto;
+        width: 480px;
+        height: 432px;
+    }
+
     @media all and (max-width: 480px) {
+        width: 100vw;
         height: 90vw;
     }
 
@@ -112,19 +121,31 @@ const PluppContainer = styled.div`
     min-height: 115px;
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         min-height: unset;
     }
+`;
+
+const PluppContainerBench = styled(PluppContainer)`
+    justify-content: flex-start;
 `;
 
 const BenchContainer = styled.div`
     display: flex;
 
+    height: 150px;
+    width: 480px;
+    margin: 0 auto;
+    padding: 5px 0;
+
     @media all and (max-width: 480px) {
         margin: 10px 0;
-        /* flex: 1; */
+        padding: 0;
+        width: 100vw;
         height: 28vw;
     }
 `;
@@ -172,7 +193,11 @@ const Bench = props => {
 
             <BenchContainer className="BenchContainer">
                 {preset.positions.map((pos, nth) => (
-                    <PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
+                    <PluppContainerBench
+                        key={`pos-${nth}`}
+                        className={`PluppContainerBench ${pos}`}
+                    >
+                        <Position pos={toSwe(pos, 'positions')} />
                         <Plupp
                             pos={pos}
                             player={team.bench[pos][0]}
@@ -180,8 +205,7 @@ const Bench = props => {
                             lineupIndex={0}
                             origin="bench"
                         />
-                        <Position pos={toSwe(pos, 'positions')} />
-                    </PluppContainer>
+                    </PluppContainerBench>
                 ))}
             </BenchContainer>
         </Wrapper>

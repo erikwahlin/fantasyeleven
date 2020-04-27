@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { Steps } from 'antd';
 
 const StepContainer = styled(Steps)`
-    margin: 5px 0;
     height: auto;
     max-height: 30px;
+
+    max-width: 490px;
+    margin: 0px auto 40px;
 
     &
         .ant-steps-item-wait
@@ -24,6 +26,7 @@ const StepContainer = styled(Steps)`
     }
 
     @media all and (max-width: 480px) {
+        margin: 5px 0;
         display: flex;
         flex-direction: row !important;
 

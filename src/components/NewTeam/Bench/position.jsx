@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 const Positiondiv = styled.div`
-    position: absolute;
-    width: 27vw;
+    position: relative;
+
     background-color: rgba(51, 170, 51, 0.6);
 
-    top: 20px;
-    left: 40px;
+    width: 92px;
+    margin: 0 auto;
     font-family: 'Avenir';
     font-weight: bold;
     font-size: 1em;
@@ -17,8 +17,7 @@ const Positiondiv = styled.div`
     @media all and (max-width: 480px) {
         width: 19vw;
         font-size: 3vw;
-        left: 2.5vw;
-        top: 0vw;
+        top: -1vw;
         z-index: 1;
     }
 `;

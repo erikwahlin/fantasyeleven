@@ -14,18 +14,19 @@ const { Step } = Steps;
 
 const Wrapper = styled.div`
     grid-row: 1;
-    /* display: flex;
-	grid-template-columns: 100%;
-	grid-template-rows: 80px auto;
-	position: relative; */
+
     width: 100%;
     height: 100%;
     max-width: 800px;
-    /* margin: auto;
-    margin-top: 0; */
+    margin: 0 auto;
+
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
+    justify-content: flex-start;
+
+    @media all and (min-height: 830px) {
+        justify-content: space-around;
+    }
 
     @media all and (max-width: 480px) {
         display: flex;

@@ -14,38 +14,23 @@ import { withAuthentication } from '../Session';
 import apis from '../../constants/api';
 
 const ContentWrap = styled.div`
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 100%;
-    grid-gap: 0px 75px;
+    @media screen and (min-width: 900px) {
+        margin: 0;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-gap: 0px 75px;
+        grid-template-columns: auto 550px 300px auto;
 
-    /* @media screen and (min-height: 700px) and (max-width: 500px) {
-        grid-template-rows: 70px 632px;
-    } */
-
-    @media all and (max-width: 480px) {
-        height: 100vh;
+        @media screen and (min-width: 1000px) {
+            grid-template-columns: auto 650px 300px auto;
+        }
     }
 
-    @media screen and (min-width: 501px) {
-        @media screen and (max-height: 600px) {
-            grid-template-rows: 70px 550px;
-        }
+    @media all and (max-width: 899px) {
+        /* prev 480 */
 
-        @media screen and (min-height: 765px) {
-            grid-template-rows: 70px 700px;
-        }
-
-        @media screen and (min-width: 900px) {
-            grid-template-columns: auto 550px 300px auto;
-
-            @media screen and (min-width: 1000px) {
-                grid-template-columns: auto 650px 300px auto;
-            }
-        }
+        width: 100%;
+        height: 100%;
     }
 `;
 

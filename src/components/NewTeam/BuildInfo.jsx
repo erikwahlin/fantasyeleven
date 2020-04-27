@@ -13,8 +13,8 @@ const Wrapper = styled.div`
     justify-content: space-around;
     text-align: center;
 
-    @media all and (max-width: 480px) {
-        & > * {
+    & > * {
+        @media all and (max-width: 480px) {
             max-width: 22%;
             justify-content: space-evenly;
         }
@@ -31,7 +31,8 @@ const InfoTitle = styled.h2`
     margin: 0;
     margin-bottom: 0.2rem;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         font-size: 14px;
     }
 
@@ -43,7 +44,8 @@ const InfoTitle = styled.h2`
 const InfoP = styled.p`
     color: ${p => (p.notReady ? 'red' : p.ready ? '#35892A' : 'white')};
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         font-size: 24px;
         margin-bottom: 0;
     }
@@ -68,15 +70,15 @@ const ClearBtn = styled.button`
     padding: 5px;
     align-self: center;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         width: auto;
-        height: 41px;
+        height: auto;
         padding: 7px;
         font-size: 18px;
     }
 
     @media all and (max-width: 350px) {
-        height: 50%;
         padding: 2vw;
         font-size: 5vw;
     }
@@ -90,7 +92,8 @@ const AddPlayerBtn = styled(FaUserPlus)`
 
     cursor: pointer;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 899px) {
+        /* prev 480 */
         width: 47px;
     }
 
