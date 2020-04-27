@@ -15,15 +15,16 @@ import apis from '../../constants/api';
 
 const ContentWrap = styled.div`
     @media screen and (min-width: 900px) {
-        margin: 0;
-        display: grid;
+        /* display: grid;
         grid-template-rows: 100%;
         grid-gap: 0px 75px;
-        grid-template-columns: auto 550px 300px auto;
-
-        @media screen and (min-width: 1000px) {
+        grid-template-columns: auto 550px 300px auto; */
+        /* @media screen and (min-width: 1000px) {
             grid-template-columns: auto 650px 300px auto;
-        }
+        } */
+
+        margin: 0;
+        display: flex;
     }
 
     @media all and (max-width: 899px) {
