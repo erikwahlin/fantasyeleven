@@ -4,8 +4,9 @@ import * as preset from '../../../constants/gamePreset';
 import { firstCap, toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
 import PitchStage from '../PitchStage';
-import BenchStage from '../BenchStage';
 import CaptainStage from '../CaptainStage';
+import BenchStage from '../BenchStage';
+import OverviewStage from '../OverviewStage';
 import './index.css';
 import { Steps, Button, message } from 'antd';
 import StepContainer from './StepContainer';
@@ -103,6 +104,13 @@ const stageContent = stage => {
                 <>
                     {/* <h2>{stageTitle}</h2> */}
                     <BenchStage />
+                </>
+            );
+        case 'overview':
+            return (
+                <>
+                    {/* <h2>{stageTitle}</h2> */}
+                    <OverviewStage />
                 </>
             );
 

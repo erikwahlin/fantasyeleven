@@ -2,39 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { withTeam } from '../ctx';
 
-import BuildInfo from '../BuildInfo';
+import StageInfo from '../StageInfo';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
-
-const Wrapper = styled.div`
-    /* grid-row: 2;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: auto auto auto;
-    position: relative; */
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    max-width: 800px;
-    margin: auto;
-    margin-top: 0;
-
-    @media screen and (min-width: 900px) {
-        grid-column: 2;
-    }
-
-    @media all and (max-width: 899px) {
-        /* pre 480 */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-
-        @media all and (max-height: 700px) {
-            justify-content: flex-start;
-        }
-    }
-`;
+import StageTemplate from '../StageTemplate';
 
 const TitleWrap = styled.div`
     display: flex;
@@ -147,59 +118,11 @@ const BenchStage = props => {
     const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
 
     return (
-        <Wrapper className="BenchStage Wrapper" /* pitchSize={pitchSize} */>
-            <TitleWrap className="TitleWrap">
-                <Title className="Title unmarkable">Avbytarbänk</Title>
-            </TitleWrap>
-
-            <BuildInfo playerCount={playerCount} team={team} origin="bench" />
-
-            {/* <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
-                <PitchImg src={pitchImg} />
-                <FormationContainer className="FormationContainer" bg={pitchImg}>
-                    {preset.positions.map((pos, nth) => (
-                        <PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
-                            {team.pitch[pos].map((player, nth) => (
-                                <PluppContainer
-                                    key={player.uid}
-                                    className={`PluppContainer ${pos} unmarkable`}
-                                    player={player}
-                                >
-                                    <Plupp
-                                        origin="pitch"
-                                        player={player}
-                                        pos={player.position}
-                                        lineupCount={team.pitch[pos].length}
-                                    />
-                                </PluppContainer>
-                            ))}
-                        </PosLineup>
-                    ))}
-                </FormationContainer>
-            </FieldContainer> */}
-
+        <StageTemplate className="BenchStage StageWrapper">
             <Pitch />
 
             <Bench />
-
-            {/* <BenchContainer className="BenchContainer">
-                {preset.positions.map((pos, nth) => (
-                    <PluppContainerBench
-                        key={`pos-${nth}`}
-                        className={`PluppContainerBench ${pos}`}
-                    >
-                        <Position pos={toSwe(pos, 'positions')} />
-                        <Plupp
-                            pos={pos}
-                            player={team.bench[pos][0]}
-                            lineupCount={team.bench[pos].length}
-                            lineupIndex={0}
-                            origin="bench"
-                        />
-                    </PluppContainerBench>
-                ))}
-            </BenchContainer> */}
-        </Wrapper>
+        </StageTemplate>
     );
 };
 

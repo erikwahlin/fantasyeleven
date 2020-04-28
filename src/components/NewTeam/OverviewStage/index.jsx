@@ -10,23 +10,6 @@ import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
 import StageInfo from '../StageInfo';
 
-const Wrapper = styled.div`
-    grid-row: 2;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 80px 80px auto;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 800px;
-    margin: auto;
-    margin-top: 0;
-
-    @media screen and (min-width: 900px) {
-        grid-column: 2;
-    }
-`;
-
 const FieldContainer = styled.div`
     width: 100%;
     max-width: 700px;
@@ -88,7 +71,7 @@ const PitchStage = props => {
     const playerCount = team.list.map(player => player.origin === 'pitch').length;
 
     return (
-        <StageTemplate className="PitchStage Wrapper">
+        <StageTemplate className="OverviewStage Wrapper">
             <Pitch />
 
             <Bench />

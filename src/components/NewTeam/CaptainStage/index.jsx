@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
+import StageTemplate from '../StageTemplate';
+
 import Pitch from '../Pitch';
 import Bench from '../Bench';
 
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
-import BuildInfo from '../BuildInfo';
-
-import { Title } from '../../PlayerSearch/index.styled';
+import StageInfo from '../StageInfo';
 
 const Wrapper = styled.div`
     grid-row: 2;
@@ -31,6 +31,24 @@ const Wrapper = styled.div`
 const TitleWrap = styled.div`
     display: flex;
     justify-content: center;
+`;
+
+const Title = styled.h2`
+    font-size: 2em;
+    line-height: 30px; /* in line with titles above pitch */
+    margin: 0;
+    margin-bottom: 12px;
+    font-weight: 600;
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        font-size: 24px;
+        line-height: unset;
+    }
+
+    @media all and (max-width: 350px) {
+        font-size: 7vw;
+    }
 `;
 
 const FieldContainer = styled.div`
@@ -90,46 +108,13 @@ const PluppContainer = styled.div`
 const CaptainStage = props => {
     const { team } = props.teamContext.state;
     const { captain } = team;
-    const { togglePlayerSearch } = props.teamContext.setters;
 
     return (
-        <Wrapper className="CaptainStage Wrapper" /* pitchSize={pitchSize} */>
-            <TitleWrap>
-                <Title className="SearchPlayer-Title unmarkable">
-                    Välj {!captain ? 'Kapten' : 'Vice kapten'}
-                </Title>
-            </TitleWrap>
-
-            <div>TEMP BUILDINFO</div>
-
+        <StageTemplate className="CaptainStage Wrapper">
             <Pitch />
 
             <Bench />
-
-            {/* <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
-                <PitchImg src={pitchImg} />
-                <FormationContainer className="FormationContainer" bg={pitchImg}>
-                    {preset.positions.map((pos, nth) => (
-                        <PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
-                            {team.pitch[pos].map((player, nth) => (
-                                <PluppContainer
-                                    key={player.uid}
-                                    className={`PluppContainer ${pos} unmarkable`}
-                                    player={player}
-                                >
-                                    <Plupp
-                                        origin="pitch"
-                                        player={player}
-                                        pos={player.position}
-                                        lineupCount={team.pitch[pos].length}
-                                    />
-                                </PluppContainer>
-                            ))}
-                        </PosLineup>
-                    ))}
-                </FormationContainer>
-            </FieldContainer> */}
-        </Wrapper>
+        </StageTemplate>
     );
 };
 
