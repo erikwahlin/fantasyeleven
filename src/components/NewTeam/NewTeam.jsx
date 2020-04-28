@@ -27,6 +27,9 @@ const ContentWrap = styled.div`
         display: flex;
     }
 
+    width: 100%;
+    height: 100%;
+
     @media all and (max-width: 899px) {
         /* prev 480 */
 
@@ -776,13 +779,6 @@ class NewTeam extends Component {
                     render={({ online }) => null}
                     onChange={online => this.setState({ appOnline: online })}
                 />
-                {/* <SlideMenu
-					active={this.state.slideMenuActive}
-					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
-					reactRouter={false}
-					closeMenu={this.togglePlayerSearch}
-					extraComponent={<div>ej</div>}
-				> */}
 
                 <ContentWrap
                     className="ContentWrap"
@@ -790,7 +786,6 @@ class NewTeam extends Component {
                     mobileSearch={mobileSearch}
                 >
                     <BuildStages buildStage={buildStage} />
-                    {/* <Pitch /> */}
 
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>

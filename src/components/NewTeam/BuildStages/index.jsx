@@ -3,9 +3,9 @@ import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import { firstCap, toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
-import Pitch from '../Pitch';
-import Bench from '../Bench/index2';
-import Captain from '../Captain';
+import PitchStage from '../PitchStage';
+import BenchStage from '../BenchStage';
+import CaptainStage from '../CaptainStage';
 import './index.css';
 import { Steps, Button, message } from 'antd';
 import StepContainer from './StepContainer';
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
     width: 100%;
     height: 100%;
-    max-width: 800px;
+    max-width: 650px;
     margin: 0 auto;
 
     display: flex;
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
     }
 
     @media screen and (min-width: 900px) {
-        grid-column: 2;
+        margin: 0 0 0 auto;
     }
 `;
 
@@ -73,7 +73,7 @@ const StageNavBtn = styled.button`
         bottom: 0;
         width: 50vw;
         height: 7vh;
-        border: 1px solid white;
+        /* border: 1px solid white; */
     }
 `;
 
@@ -89,12 +89,12 @@ const stageContent = stage => {
 
     switch (stage) {
         case 'pitch':
-            return <Pitch />;
+            return <PitchStage />;
 
         case 'captain':
             return (
                 <>
-                    <Captain />
+                    <CaptainStage />
                 </>
             );
 
@@ -102,7 +102,7 @@ const stageContent = stage => {
             return (
                 <>
                     {/* <h2>{stageTitle}</h2> */}
-                    <Bench />
+                    <BenchStage />
                 </>
             );
 

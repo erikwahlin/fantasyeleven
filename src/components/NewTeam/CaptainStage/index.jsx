@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
+import Pitch from '../Pitch';
+import Bench from '../Bench';
+
 import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
 import BuildInfo from '../BuildInfo';
@@ -84,16 +87,13 @@ const PluppContainer = styled.div`
     justify-content: space-evenly;
 `;
 
-const Captain = props => {
+const CaptainStage = props => {
     const { team } = props.teamContext.state;
-    const { captain, viceCaptain } = team;
+    const { captain } = team;
     const { togglePlayerSearch } = props.teamContext.setters;
 
-    const capObj = team.list.filter(p => p.uid === captain)[0];
-    const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
-
     return (
-        <Wrapper className="Pitch" /* pitchSize={pitchSize} */>
+        <Wrapper className="CaptainStage Wrapper" /* pitchSize={pitchSize} */>
             <TitleWrap>
                 <Title className="SearchPlayer-Title unmarkable">
                     Välj {!captain ? 'Kapten' : 'Vice kapten'}
@@ -102,7 +102,11 @@ const Captain = props => {
 
             <div>TEMP BUILDINFO</div>
 
-            <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
+            <Pitch />
+
+            <Bench />
+
+            {/* <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
                 <PitchImg src={pitchImg} />
                 <FormationContainer className="FormationContainer" bg={pitchImg}>
                     {preset.positions.map((pos, nth) => (
@@ -124,9 +128,9 @@ const Captain = props => {
                         </PosLineup>
                     ))}
                 </FormationContainer>
-            </FieldContainer>
+            </FieldContainer> */}
         </Wrapper>
     );
 };
 
-export default withTeam(Captain);
+export default withTeam(CaptainStage);

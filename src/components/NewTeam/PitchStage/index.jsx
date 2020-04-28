@@ -1,0 +1,128 @@
+import React from 'react';
+import styled from 'styled-components';
+import { withTeam } from '../ctx';
+import * as preset from '../../../constants/gamePreset';
+import Pitch from '../Pitch';
+import Bench from '../Bench';
+
+import Plupp from '../Plupp';
+import pitchImg from '../../../media/pitch.png';
+import BuildInfo from '../BuildInfo';
+
+const Wrapper = styled.div`
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 80px 80px auto;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 0;
+
+    @media screen and (min-width: 900px) {
+        grid-column: 2;
+    }
+`;
+
+const FieldContainer = styled.div`
+    width: 100%;
+    max-width: 700px;
+    height: 100%;
+    position: relative;
+    margin: auto;
+
+    & > {
+        @media screen and (max-height: 665px) and (max-width: 500px) {
+            height: 70vh;
+        }
+    }
+`;
+
+const PitchImg = styled.img`
+    width: 100%;
+    height: 100%;
+    max-width: 700px;
+    position: absolute;
+`;
+
+const FormationContainer = styled.div`
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	/* ${p => p.bg && 'background: url(' + p.bg + ')'};
+	background-size: 100% 100%;
+	background-repeat: no-repeat; */
+`;
+
+const PosLineup = styled.div`
+    width: 100%;
+    height: 100px;
+    /* min-height: 117px; */
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+`;
+
+const PluppContainer = styled.div`
+    flex: 1;
+    height: 100%;
+    min-height: 115px;
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+`;
+
+const PitchStage = props => {
+    const { team } = props.teamContext.state;
+    const { togglePlayerSearch } = props.teamContext.setters;
+
+    const playerCount = team.list.map(player => player.origin === 'pitch').length;
+
+    return (
+        <Wrapper className="PitchStage Wrapper" /* pitchSize={pitchSize} */>
+            <div>
+                <h2>TEMP TITLE</h2>
+            </div>
+
+            <BuildInfo playerCount={playerCount} team={team} origin="pitch" />
+
+            <Pitch />
+
+            <Bench />
+
+            {/* <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
+                <PitchImg src={pitchImg} />
+                <FormationContainer className="FormationContainer" bg={pitchImg}>
+                    {preset.positions.map((pos, nth) => (
+                        <PosLineup key={`lineup-${nth}`} className={`PosLineup ${pos}`}>
+                            {team.pitch[pos].map((player, nth) => (
+                                <PluppContainer
+                                    key={player.uid}
+                                    className={`PluppContainer ${pos} unmarkable`}
+                                    player={player}
+                                >
+                                    <Plupp
+                                        origin="pitch"
+                                        player={player}
+                                        pos={player.position}
+                                        lineupCount={team.pitch[pos].length}
+                                    />
+                                </PluppContainer>
+                            ))}
+                        </PosLineup>
+                    ))}
+                </FormationContainer>
+            </FieldContainer> */}
+        </Wrapper>
+    );
+};
+
+export default withTeam(PitchStage);

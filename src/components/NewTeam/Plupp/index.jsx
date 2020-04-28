@@ -530,13 +530,13 @@ class Plupp extends Component {
                 {/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
 				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
 
-                {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
-                    <Options stageName={stageName}>
+                {/* {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
+                    <Options stageName={stageName} className="">
                         <DelBtn ref={this.delBtn} onClick={this.del}>
                             <DelImg src={Delete} />
                         </DelBtn>
                     </Options>
-                )}
+                )} */}
 
                 {(stageName === 'captain' || stageName === 'bench') && (
                     <Options stageName={stageName} className="Options">
@@ -558,6 +558,14 @@ class Plupp extends Component {
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
+                        )}
+
+                        {isMarked && player && (
+                            <Options stageName={stageName} className="">
+                                <DelBtn ref={this.delBtn} onClick={this.del}>
+                                    <DelImg src={Delete} />
+                                </DelBtn>
+                            </Options>
                         )}
                     </Options>
                 )}

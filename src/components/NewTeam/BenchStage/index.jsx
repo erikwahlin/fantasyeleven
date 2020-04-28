@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withTeam } from '../ctx';
-import * as preset from '../../../constants/gamePreset';
-import Plupp from '../Plupp';
-import pitchImg from '../../../media/pitch.png';
+
 import BuildInfo from '../BuildInfo';
-import Position from './position';
-import { toSwe } from '../../../constants/helperFuncs';
+import Pitch from '../Pitch';
+import Bench from '../Bench';
 
 const Wrapper = styled.div`
-    grid-row: 2;
+    /* grid-row: 2;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: auto auto auto;
-    position: relative;
+    position: relative; */
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     max-width: 800px;
@@ -60,27 +60,14 @@ const Title = styled.h2`
 `;
 
 const FieldContainer = styled.div`
-    width: 100%;
-    max-width: 700px;
-    height: 100%;
     position: relative;
-    margin: 0;
-
-    @media all and (max-width: 899px) {
-        margin: 0 auto;
-        width: 480px;
-        height: 432px;
-    }
+    width: 480px;
+    height: 432px;
+    margin: 0 auto;
 
     @media all and (max-width: 480px) {
         width: 100vw;
         height: 90vw;
-    }
-
-    & > {
-        @media screen and (max-height: 665px) and (max-width: 500px) {
-            height: 70vh;
-        }
     }
 `;
 
@@ -150,7 +137,7 @@ const BenchContainer = styled.div`
     }
 `;
 
-const Bench = props => {
+const BenchStage = props => {
     const { team } = props.teamContext.state;
     const { captain, viceCaptain } = team;
     const { togglePlayerSearch } = props.teamContext.setters;
@@ -160,14 +147,14 @@ const Bench = props => {
     const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
 
     return (
-        <Wrapper className="Bench Wrapper" /* pitchSize={pitchSize} */>
+        <Wrapper className="BenchStage Wrapper" /* pitchSize={pitchSize} */>
             <TitleWrap className="TitleWrap">
                 <Title className="Title unmarkable">Avbytarbänk</Title>
             </TitleWrap>
 
             <BuildInfo playerCount={playerCount} team={team} origin="bench" />
 
-            <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
+            {/* <FieldContainer className="FieldContainer" bg={pitchImg} onClick={togglePlayerSearch}>
                 <PitchImg src={pitchImg} />
                 <FormationContainer className="FormationContainer" bg={pitchImg}>
                     {preset.positions.map((pos, nth) => (
@@ -189,9 +176,13 @@ const Bench = props => {
                         </PosLineup>
                     ))}
                 </FormationContainer>
-            </FieldContainer>
+            </FieldContainer> */}
 
-            <BenchContainer className="BenchContainer">
+            <Pitch />
+
+            <Bench />
+
+            {/* <BenchContainer className="BenchContainer">
                 {preset.positions.map((pos, nth) => (
                     <PluppContainerBench
                         key={`pos-${nth}`}
@@ -207,9 +198,9 @@ const Bench = props => {
                         />
                     </PluppContainerBench>
                 ))}
-            </BenchContainer>
+            </BenchContainer> */}
         </Wrapper>
     );
 };
 
-export default withTeam(Bench);
+export default withTeam(BenchStage);

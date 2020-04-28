@@ -1,11 +1,27 @@
 import styled, { css } from 'styled-components';
 
-//import '../fonts/MrEavesXLModNarOT-Reg.ttf';
-
 export const OuterWrapper = styled.div`
     width: 100%;
     height: 100vh;
     min-width: 420px;
+    margin: 0;
+
+    @media all and (max-width: 899px) {
+        position: fixed;
+        z-index: 1;
+        opacity: 1;
+        left: 110vw;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: #011931;
+    }
+
+    @media all and (min-width: 900px) {
+        margin: 0 auto 0 0;
+        max-width: 550px;
+        height: 825px;
+    }
 `;
 
 export const InnerWrapper = styled.div`
@@ -157,11 +173,14 @@ export const ButtonReset = styled(StyledBtn)`
     width: 100%;
 `;
 
-export const ResultContainer = styled.div``;
+export const ResultContainer = styled.div`
+    overflow-y: hidden;
+`;
 
 export const ResultBox = styled.div`
     background: rgba(35, 51, 77, 1);
     width: 100%;
+    height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;

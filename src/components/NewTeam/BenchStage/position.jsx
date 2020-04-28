@@ -23,7 +23,7 @@ const Positiondiv = styled.div`
 `;
 
 const Position = ({ pos }) => {
-    return <Positiondiv className="Position">{pos}</Positiondiv>;
+    return <Positiondiv>{pos}</Positiondiv>;
 };
 
 export default Position;
