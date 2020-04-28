@@ -10,8 +10,8 @@
 }
 .group .form-input {
     background: none;
-    background-color: #001c3e;
-    color: grey;
+    background-color: #001c3e !important;
+    color: grey !important;
     font-size: 18px;
     padding: 10px 10px 10px 5px;
     display: block;
