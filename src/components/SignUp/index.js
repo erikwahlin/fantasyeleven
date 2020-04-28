@@ -3,61 +3,15 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-import styled from 'styled-components';
 import FormInput from '../FormInput/FormInput';
+import {
+    Form,
+    Button,
+    StyledH1,
+    OuterWrap,
+    InnerWrap
+} from '../../general-form-styled/form-styling';
 
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-`;
-
-const Button = styled.button`
-    width: 120px;
-    height: 60px;
-    align-self: flex-end;
-    color: white;
-    background-color: ${props => (props.disabled === false ? '#001c3e' : 'lightgrey')};
-    border: 1px solid white;
-    &:hover {
-        cursor: ${props => (props.disabled === false ? 'pointer' : 'normal')};
-        background-color: ${props => (props.disabled === false ? 'white' : '')};
-        color: ${props => (props.disabled === false ? 'black' : '')};
-    }
-
-    @media all and (max-width: 480px) {
-        width: 100vw;
-    }
-`;
-const StyledH1 = styled.h1`
-    text-align: center;
-    /* margin-top: 20px; */
-    font-size: 3em;
-`;
-const OuterWrap = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-`;
-const InnerWrap = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    /* border-radius: 10px; */
-    border: 1px solid #001233;
-    width: 40%;
-    background-color: #001c3e;
-
-    @media all and (max-width: 480px) {
-        width: 100vw;
-        box-shadow: none;
-        justify-content: space-between;
-        height: 100vh;
-    }
-    @media all and (min-width: 481px) and (max-width: 1200px) {
-        width: 70vw;
-    }
-`;
 const SignUpPage = () => (
     <OuterWrap>
         <InnerWrap>
