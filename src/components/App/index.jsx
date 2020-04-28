@@ -82,6 +82,10 @@ const AppContainer = styled.div`
         width: 100vw;
         height: 100vh;
     }
+
+    @media all and (max-width: 1900px) {
+        height: 100vh;
+    }
 `;
 
 const App = () => (

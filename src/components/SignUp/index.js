@@ -14,7 +14,7 @@ const Form = styled.form`
 const Button = styled.button`
     width: 120px;
     height: 60px;
-    /* align-self: flex-end; */
+    align-self: flex-end;
     color: white;
     background-color: ${props => (props.disabled === false ? '#001c3e' : 'lightgrey')};
     border: 1px solid white;
@@ -33,32 +33,38 @@ const StyledH1 = styled.h1`
     /* margin-top: 20px; */
     font-size: 3em;
 `;
-
-const Wrapper = styled.div`
-    border-radius: 10px;
-    box-shadow: 0px 1px 30px -6px rgba(255, 255, 255, 0.91);
-    margin: 0 auto;
+const OuterWrap = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+`;
+const InnerWrap = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* border-radius: 10px; */
+    border: 1px solid #001233;
     width: 40%;
     background-color: #001c3e;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
+
     @media all and (max-width: 480px) {
         width: 100vw;
         box-shadow: none;
         justify-content: space-between;
         height: 100vh;
-        /* bottom: 0; */
     }
     @media all and (min-width: 481px) and (max-width: 1200px) {
-        width: 80vw;
+        width: 70vw;
     }
 `;
 const SignUpPage = () => (
-    <Wrapper>
-        <StyledH1>Skapa ett konto</StyledH1>
-        <SignUpForm />
-    </Wrapper>
+    <OuterWrap>
+        <InnerWrap>
+            <StyledH1>Skapa ett konto</StyledH1>
+            <SignUpForm />
+        </InnerWrap>
+    </OuterWrap>
 );
 
 const INITIAL_STATE = {
