@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { toSwe } from '../../../constants/helperFuncs';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
@@ -35,16 +35,29 @@ const Wrapper = styled.div`
         width: 100vw;
         height: 28vw;
     }
+
+    ${p =>
+        p.stageName !== 'bench' &&
+        p.stageName !== 'overview' &&
+        css`
+            opacity: 0.2;
+            filter: grayscale(1);
+        `};
 `;
 
 const Bench = props => {
-    const { team } = props.teamContext.state;
+    const { team, config } = props.teamContext.state;
+    const { stageName } = config.buildStage;
+
+    console.log('stageName', stageName);
 
     return (
-        <Wrapper className="Bench Wrapper">
+        <Wrapper className="Bench Wrapper" stageName={stageName}>
             {preset.positions.map((pos, nth) => (
                 <PlayerContainer key={`pos-${nth}`} className={`PlayerContainer ${pos}`}>
-                    <Position pos={toSwe(pos, 'positions')} />
+                    {(stageName === 'bench' || stageName === 'overview') && (
+                        <Position pos={toSwe(pos, 'positions')} />
+                    )}
                     <Plupp
                         pos={pos}
                         player={team.bench[pos][0]}

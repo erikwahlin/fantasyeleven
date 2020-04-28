@@ -2,6 +2,7 @@ import React from 'react';
 import { withTeam } from '../ctx';
 import styled from 'styled-components';
 import { toSwe } from '../../../constants/helperFuncs';
+import * as preset from '../../../constants/gamePreset';
 
 const Wrapper = styled.div`
     display: flex;
@@ -31,7 +32,7 @@ const StageTitle = ({ teamContext }) => {
 
     return (
         <Wrapper>
-            <Title>{toSwe(stageName, 'stages')}</Title>
+            <Title>{preset.stageTitles[stageName]}</Title>
         </Wrapper>
     );
 };

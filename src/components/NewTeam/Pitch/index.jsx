@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
@@ -15,6 +15,13 @@ const Wrapper = styled.div`
         width: 100vw;
         height: 90vw;
     }
+
+    ${p =>
+        p.stageName === 'bench' &&
+        css`
+            opacity: 0.3;
+            filter: grayscale(1);
+        `};
 `;
 
 const PitchImg = styled.img`
@@ -22,6 +29,12 @@ const PitchImg = styled.img`
     height: 100%;
     max-width: 700px;
     position: absolute;
+
+    ${p =>
+        p.stageName === 'bench' &&
+        css`
+            opacity: 0.2;
+        `};
 `;
 
 const FormationContainer = styled.div`
@@ -60,12 +73,18 @@ const PlayerContainer = styled.div`
 `;
 
 const Pitch = props => {
-    const { team } = props.teamContext.state;
+    const { team, config } = props.teamContext.state;
+    const { stageName } = config.buildStage;
     const { togglePlayerSearch } = props.teamContext.setters;
 
     return (
-        <Wrapper className="Pitch Wrapper" bg={pitchImg} onClick={togglePlayerSearch}>
-            <PitchImg src={pitchImg} className="PitchImg" />
+        <Wrapper
+            className="Pitch Wrapper"
+            bg={pitchImg}
+            onClick={togglePlayerSearch}
+            stageName={stageName}
+        >
+            <PitchImg src={pitchImg} className="PitchImg" stageName={stageName} />
             <FormationContainer className="FormationContainer">
                 {preset.positions.map((pos, nth) => (
                     <PositionContainer key={`lineup-${nth}`} className={`PositionContainer ${pos}`}>

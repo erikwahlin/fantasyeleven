@@ -3,10 +3,13 @@ import { withTeam } from '../ctx';
 import styled from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
 import { toSwe, countPlayers } from '../../../constants/helperFuncs';
+import CaptainCard from '../../CaptainCard/CaptainCard';
+import CapImg from '../../../media/Cap.svg';
+import ViceImg from '../../../media/ViceCap.svg';
 
 const Wrapper = styled.div`
     width: 100%;
-    max-height: 85px;
+    height: 85px;
     max-width: 900px;
     display: flex;
     flex-direction: row;
@@ -105,7 +108,9 @@ const AddPlayerBtn = styled(FaUserPlus)`
 
 const StageInfo = ({ teamContext }) => {
     const { team, config } = teamContext.state;
-    const { game } = team;
+    const { game, captain, viceCaptain } = team;
+    const capObj = team.list.filter(p => p.uid === captain)[0];
+    const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
     const { buildStage, limit, mobileSearch } = config;
     const { stageName } = buildStage;
     const { delPlayer, openPlayerSearch } = teamContext.setters;
@@ -175,15 +180,19 @@ const StageInfo = ({ teamContext }) => {
             )}
 
             {stageName === 'captain' && (
-                <ChosenPlayers>
-                    <InfoTitle className="infoTitle">Kapten...</InfoTitle>
-                    <InfoP
-                        style={budgetLeft <= 0 ? { color: 'red' } : { color: 'green' }}
-                        className="amount"
-                    >
-                        Namn...
-                    </InfoP>
-                </ChosenPlayers>
+                <>
+                    <ChosenPlayers>
+                        <CaptainCard cap={capObj && capObj.name}>
+                            <img src={CapImg} alt="Captain" /> Kapten:{' '}
+                        </CaptainCard>
+                    </ChosenPlayers>
+
+                    <ChosenPlayers>
+                        <CaptainCard cap={viceObj && viceObj.name}>
+                            <img src={ViceImg} alt="Vice Captain" /> Vice Kapten:{' '}
+                        </CaptainCard>
+                    </ChosenPlayers>
+                </>
             )}
 
             {stageName === 'overview' && (

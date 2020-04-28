@@ -22,7 +22,7 @@ const Positiondiv = styled.div`
     }
 `;
 
-const Position = ({ pos }) => {
+const Position = ({ pos = '' }) => {
     return <Positiondiv className="Position">{pos}</Positiondiv>;
 };
 
