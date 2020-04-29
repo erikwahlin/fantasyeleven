@@ -34,7 +34,8 @@ const PlayerName = styled.span`
     display: flex;
     justify-content: center;
     width: 92px;
-    background-color: rgba(57, 118, 59);
+    /* background-color: rgba(57, 118, 59); */
+    background-color: rgba(0, 28, 62, 0.4);
     padding: 3px;
     left: -21px;
     top: 52px;
@@ -51,7 +52,14 @@ const PlayerName = styled.span`
         left: -10px;
         z-index: 1;
     }
-    & > .ModalOpenBtn {
+
+    & .ModalOpenBtn {
+        & > svg {
+            height: auto;
+            width: auto;
+            box-shadow: 0px 0 2px #444;
+            border-radius: 50%;
+        }
     }
 
     @media all and (max-width: 480px) {
@@ -60,6 +68,7 @@ const PlayerName = styled.span`
         left: -5vw;
         top: 10vw;
         z-index: 1;
+        padding: 0.7vw;
 
         & .ModalWrapper {
             min-width: unset;
@@ -71,7 +80,7 @@ const PlayerName = styled.span`
             width: 4vw;
             height: 4vw;
             & > svg {
-                /* width: 3.8vw; */
+                box-shadow: 0px 0 0.5vw #444;
             }
         }
     }
@@ -80,7 +89,8 @@ const PlayerName = styled.span`
 const PlayerPrice = styled.span`
     position: absolute;
     width: 92px;
-    background-color: rgba(51, 170, 51, 0.6);
+    /* background-color: rgba(51, 170, 51, 0.6); */
+    background-color: rgba(250, 250, 250, 0.3);
     left: -21px;
     top: 77px;
     font-family: 'Avenir';
@@ -99,7 +109,7 @@ const PlayerPrice = styled.span`
 `;
 
 const PluppImg = styled.svg`
-    box-shadow: ${p => (p.stageName === 'captain' ? '0px -.5px 4px black' : '')};
+    box-shadow: 0px -0.5px 4px black;
     width: 100%;
     position: relative;
     z-index: 1;
@@ -223,8 +233,9 @@ const PluppRole = styled.span`
 `;
 
 const OptionsBtn = styled.button`
-    width: 40px;
+    width: 30px;
     margin: 0 5px;
+    padding: 0;
     cursor: pointer;
     outline: none;
     border: none;
@@ -240,6 +251,7 @@ const OptionsBtn = styled.button`
 
     @media all and (max-width: 480px) {
         width: 8.4vw;
+        height: 8.4vw;
         margin: 0 1vw;
     }
 `;
@@ -249,6 +261,7 @@ const OptionsBottomBtn = styled(OptionsBtn)`
     height: 30px;
     margin: 0 2px;
     background: #fff;
+    padding: 6px;
 
     box-shadow: 0 0 5px #222;
     border-radius: 50%;
@@ -259,10 +272,10 @@ const OptionsBottomBtn = styled(OptionsBtn)`
     }
 
     @media all and (max-width: 480px) {
-        width: 8.4vw;
+        width: 6.4vw;
         margin: 0.5vw;
-        padding: 1vw;
-        height: 9vw;
+        padding: 0.5vw 0;
+        height: 6.4vw;
 
         & > svg {
             padding: 1vw;
@@ -439,7 +452,6 @@ class Plupp extends Component {
 
         // if plupp origin and stageName doesn't match, bail
         // if on pitchStage and plupp origin isn't pitch or captain, bail
-        console.log('origin', origin, 'stageName', stageName);
         if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
 
         if (stageName === 'captain') {
@@ -467,6 +479,9 @@ class Plupp extends Component {
 
         // if switchers dont have a marked, mark this plupp
         if (!marked) {
+            if (!player && stageName === 'bench') {
+                openPlayerSearch();
+            }
             // set as marked, then update switchers
             setSwitchers({
                 marked: {
@@ -558,8 +573,10 @@ class Plupp extends Component {
     render() {
         const { isMarked, isSwitchable } = this.state;
         const { player, pos, origin, lineupIndex, teamContext } = this.props;
-        const { captain, viceCaptain } = teamContext.state.team;
-        const { stageName } = teamContext.state.config.buildStage;
+        const { config, team } = teamContext.state;
+        const { captain, viceCaptain } = team;
+        const { buildStage, mobileSearch } = config;
+        const { stageName } = buildStage;
 
         let isCap = false,
             isViceCap = false;
@@ -631,17 +648,19 @@ class Plupp extends Component {
                             <GiCrossMark color="red" alt="DelIcon" className="DelIcon" />
                         </OptionsBottomBtn>
 
-                        <OptionsBottomBtn
-                            className="OptionsBottomBtn"
-                            ref={this.SwitchBtn}
-                            onClick={this.props.teamContext.setters.openPlayerSearch}
-                        >
-                            <GiBodySwapping
-                                color="#14521D"
-                                alt="SwitchIcon"
-                                className="SwitchIcon"
-                            />
-                        </OptionsBottomBtn>
+                        {mobileSearch && (
+                            <OptionsBottomBtn
+                                className="OptionsBottomBtn"
+                                ref={this.SwitchBtn}
+                                onClick={this.props.teamContext.setters.openPlayerSearch}
+                            >
+                                <GiBodySwapping
+                                    color="#14521D"
+                                    alt="SwitchIcon"
+                                    className="SwitchIcon"
+                                />
+                            </OptionsBottomBtn>
+                        )}
                     </OptionsBottom>
                 )}
 
@@ -664,7 +683,7 @@ class Plupp extends Component {
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
                 {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                        <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
+                        <GiBodySwapping alt="SwitchIcon" className="SwitchIcon" player={player} />
                     </SwitchIcon>
                 )}
             </Container>
