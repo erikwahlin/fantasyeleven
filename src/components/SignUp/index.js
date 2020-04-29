@@ -3,45 +3,85 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Form = styled.form`
 	margin: 0 auto;
 	width: 50%;
-	display: flex;
+	display:flex;	
 	flex-direction: column;
-`;
+	min-height: 100vh;
+	display:flex;
+	justify-content: center;
+`
 const InputWrap = styled.div`
-	color: white;
-	display: flex;
-	flex-direction: column;
-	margin-top: 10px;
-`;
-const Button = styled.button`
-	width: 90px;
-	height: 40px;
-	align-self: flex-end;
-	color: white;
-	background-color: ;
-`;
+color: white;
+display:flex;
+flex-direction: row;
+align-items: center;
+margin: 5px;
+`
+
 const Input = styled.input`
-	background-color: rgba(2, 31, 61, 1);
+background-color: white;
+outline: none;
+height: 1.9em;
+width: 90%;
+font-size: 1.0em;
+
+border-radius: 0 4px 4px 0;
+border: 1px solid lightgray;
+
+`
+const Placeholder = styled.span`
+background: rgb(5, 66, 122);
+color: white;
+border-radius: 4px 0 0 4px;
+height: 2.2em;
+width: 10em;
+font-size: 1.0em;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: center;
+
+`
+
+const SubmitButton = styled.button`
+	padding: 12px;
+	background-color: rgb(5, 66, 122);
+	border-radius: 4px;
 	color: white;
-	outline: none;
-	height: 1.9em;
-	font-size: 1em;
-	border: none;
-	border-bottom: 1px solid white;
+	font-weight: bold;
+	font-size: 1.0em;
+	cursor: pointer;
+	margin-top: 40px;
+	border:none;
+	width: 60%;
+	display: flex;
+	align-self: center;
+	justify-content: center;
+
+
+`
+const Admin = styled.label`
+color: white;
 `;
+
+const ErrorMessage = styled.a`
+text-decoration: none;
+background-color: white;
+`
+
 const Wrapper = styled.div`
-	background-color: rgba(2, 31, 61, 1);
-`;
+background-color: rgba(2,31,61,1)
+`
 const SignUpPage = () => (
 	<Wrapper>
-		<h1>Börja spela</h1>
 		<SignUpForm />
 	</Wrapper>
 );
+
 
 const INITIAL_STATE = {
 	username: '',
@@ -122,31 +162,58 @@ class SignUpFormBase extends Component {
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<InputWrap>
-					Namn
-					<Input name="username" value={username} onChange={this.onChange} type="text" />
+				<Placeholder>Namn</Placeholder>
+				<Input
+					name='username'
+					value={username}
+					onChange={this.onChange}
+					type='text'
+				/>
 				</InputWrap>
 				<InputWrap>
-					Email
-					<Input name="email" value={email} onChange={this.onChange} type="text" />
+				<Placeholder>E-postadress</Placeholder>
+				<Input
+					name='email'
+					value={email}
+					onChange={this.onChange}
+						type='text'
+				/>
 				</InputWrap>
 				<InputWrap>
-					Lösenord
-					<Input name="passwordOne" value={passwordOne} onChange={this.onChange} type="password" />
+				<Placeholder>Lösenord</Placeholder>
+				<Input
+					name='passwordOne'
+					value={passwordOne}
+					onChange={this.onChange}
+					type='password'
+
+				/>
 				</InputWrap>
 				<InputWrap>
-					Lösenord igen
-					<Input name="passwordTwo" value={passwordTwo} onChange={this.onChange} type="password" />
+				<Placeholder>Lösenord igen</Placeholder>
+				<Input
+					name='passwordTwo'
+					value={passwordTwo}
+					onChange={this.onChange}
+					type='password'
+				/>
 				</InputWrap>
-				<label>
+				<Admin>
 					Admin:
-					<input name="isAdmin" type="checkbox" checked={isAdmin} onChange={this.onChangeCheckbox} />
-				</label>
-				<Button disabled={isInvalid} type="submit">
+					<input
+						name='isAdmin'
+						type='checkbox'
+						checked={isAdmin}
+						onChange={this.onChangeCheckbox}
+					/>
+				</Admin>
+				<SubmitButton disabled={isInvalid} type='submit'>
 					Registrera
-				</Button>
+				</SubmitButton>
 
 				{error && <p>{error.message}</p>}
 			</Form>
+		
 		);
 	}
 }
