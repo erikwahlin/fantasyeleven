@@ -18,3 +18,10 @@ export const maxPrice = {
 };
 
 export const buildStages = ['pitch', 'captain', 'bench', 'overview'];
+
+export const stageTitles = {
+    pitch: 'Välj dina 11 spelare',
+    captain: 'Välj kapten/vice kapten',
+    bench: 'Välj 4 reserver',
+    overview: 'Ditt lag'
+};

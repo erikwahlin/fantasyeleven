@@ -1,16 +1,38 @@
 import styled, { css } from 'styled-components';
 
-//import '../fonts/MrEavesXLModNarOT-Reg.ttf';
+export const OuterWrapper = styled.div`
+    width: 100%;
+    height: 100vh;
+    min-width: 420px;
+    margin: 0;
 
-export const Wrapper = styled.div`
+    @media all and (max-width: 899px) {
+        position: fixed;
+        z-index: 1;
+        opacity: 1;
+        left: 110vw;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: #011931;
+    }
+
+    @media all and (min-width: 900px) {
+        margin: 0 auto 0 0;
+        max-width: 550px;
+        height: 825px;
+    }
+`;
+
+export const InnerWrapper = styled.div`
     display: flex;
 
-    width: 100%;
+    width: 90%;
     height: 100%;
+    max-width: 500px;
     flex-direction: column;
     position: relative;
-    grid-row: 2;
-    grid-column: 3;
+    margin: 0 auto;
 
     ${p =>
         p.mobileSearch &&
@@ -27,6 +49,12 @@ export const Wrapper = styled.div`
         `}
 
     transition: all .5s;
+
+    @media all and (min-width: 900px) {
+        & > * {
+            width: 100%;
+        }
+    }
 `;
 
 export const CancelBtn = styled.button`
@@ -64,7 +92,7 @@ export const ArrowWrapper = styled.div`
     & > img {
         position: absolute;
         right: 50px;
-        top: 22px;
+        top: 14px;
         font-size: 1.5em;
         cursor: pointer;
     }
@@ -79,7 +107,7 @@ export const Title = styled.h2`
 `;
 
 export const Input = styled.input`
-    width: 90%;
+    width: 100%;
     margin-bottom: 6px;
     /* position: relative; */
     font-family: 'Avenir';
@@ -101,7 +129,7 @@ export const Input = styled.input`
 `;
 
 export const ButtonContainer = styled.div`
-    width: 90%;
+    width: 100%;
     height: 40px;
     font-family: 'Avenir';
     font-size: 1.1em;
@@ -111,11 +139,20 @@ export const ButtonContainer = styled.div`
     margin-bottom: 6px;
 
     & > button {
-        width: 49%;
+        margin: 0;
+        padding: 0;
+
+        &:nth-child(1) {
+            margin-right: 2px;
+        }
+        &:nth-child(2) {
+            margin-left: 2px;
+        }
+        min-width: 40%;
+        flex: 1;
     }
 `;
 export const StyledBtn = styled.button`
-    margin-right: auto;
     height: 40px;
     font-family: 'Avenir';
     font-size: 1em;
@@ -133,12 +170,17 @@ export const ButtonDes = styled(StyledBtn)``;
 export const ButtonAsc = styled(StyledBtn)``;
 export const ButtonReset = styled(StyledBtn)`
     margin-bottom: 12px;
-    width: 90%;
+    width: 100%;
+`;
+
+export const ResultContainer = styled.div`
+    overflow-y: hidden;
 `;
 
 export const ResultBox = styled.div`
     background: rgba(35, 51, 77, 1);
-    width: 90%;
+    width: 100%;
+    height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -154,7 +196,7 @@ export const Section = styled.div`
 `;
 
 export const LabelRow = styled.div`
-    width: 90%;
+    width: 100%;
     /* height: 30px !important; */
     display: flex;
     justify-content: space-around;
@@ -210,5 +252,5 @@ export const PlayerPrice = styled.div`
 `;
 
 export const CapWrap = styled.div`
-    margin-top:7rem;
+    margin-top: 7rem;
 `;

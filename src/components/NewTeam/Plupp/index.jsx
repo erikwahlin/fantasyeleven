@@ -18,16 +18,23 @@ const Container = styled.div`
     height: 50px;
     align-self: center;
     position: relative;
+    margin: 5px 0;
+
+    @media all and (max-width: 480px) {
+        margin: unset;
+        width: 10vw;
+        height: 10vw;
+    }
 `;
 
 const PlayerName = styled.span`
     position: absolute;
     display: flex;
     justify-content: center;
-    width: 120px;
+    width: 92px;
     background-color: rgba(57, 118, 59);
     padding: 3px;
-    left: -40px;
+    left: -21px;
     top: 52px;
     font-family: 'Avenir';
     font-weight: bold;
@@ -35,20 +42,44 @@ const PlayerName = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
-    & > :nth-child(1) {
+
+    & > .ModalWrapper {
         position: absolute;
-        top: 6px;
-        left: -5px;
+        top: 26px;
+        left: -10px;
+        z-index: 1;
     }
-    & > :nth-child(2) {
+    & > .ModalOpenBtn {
+    }
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+        font-size: 3vw;
+        left: -5vw;
+        top: 10vw;
+        z-index: 1;
+
+        & .ModalWrapper {
+            min-width: unset;
+            left: 0vw;
+            top: 6.1vw;
+        }
+
+        & .ModalOpenBtn {
+            width: 4vw;
+            height: 4vw;
+            & > svg {
+                /* width: 3.8vw; */
+            }
+        }
     }
 `;
 
 const PlayerPrice = styled.span`
     position: absolute;
-    width: 120px;
+    width: 92px;
     background-color: rgba(51, 170, 51, 0.6);
-    left: -40px;
+    left: -21px;
     top: 77px;
     font-family: 'Avenir';
     font-weight: bold;
@@ -56,6 +87,13 @@ const PlayerPrice = styled.span`
     text-align: center;
     text-shadow: 0 1px 2px #000;
     color: #eee;
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+        font-size: 2.5vw;
+        left: -5vw;
+        top: 16vw;
+    }
 `;
 
 const PluppImg = styled.svg`
@@ -68,15 +106,15 @@ const PluppImg = styled.svg`
     filter: ${p => p.isMarked && 'brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
 
-    cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'bench' ? 'pointer' : 'normal')};
+    cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'captain' ? 'pointer' : 'normal')};
 
     height: 100%;
     border-radius: 50%;
     background: ${props =>
         props.player
             ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.primary
+                  return obj.long === props.player.club;
+              }).color.primary
             : '#a6afb6'};
 `;
 
@@ -90,6 +128,11 @@ const Options = styled.div`
     height: 40px;
     margin: 0;
     padding: 0;
+
+    @media all and (max-width: 480px) {
+        width: 19vw;
+     
+    }
 `;
 const Btn = styled.div`
     color: #222;
@@ -103,28 +146,28 @@ const Btn = styled.div`
         color: white;
         /* padding: 3px; */
         background-color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
-            : ''};
+            props.player
+                ? allClubs.find(obj => {
+                      return obj.long === props.player.club;
+                  }).color.secondary
+                : ''};
         border-radius: 50%;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
         &:hover {
             background-color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.primary
-            : ''};
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.primary
+                    : ''};
             color: ${props =>
-        props.player
-            ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
-            : ''};
+                props.player
+                    ? allClubs.find(obj => {
+                          return obj.long === props.player.club;
+                      }).color.secondary
+                    : ''};
         }
     }
 `;
@@ -134,13 +177,13 @@ const CaptainBtn = styled(Btn)`
 `;
 
 const Cap = styled.img`
-width:22px;
-height:22px;
+    width: 22px;
+    height: 22px;
 `;
 
 const Vcap = styled.img`
-width:22px;
-height:22px;
+    width: 22px;
+    height: 22px;
 `;
 
 const VCaptainBtn = styled(Btn)`
@@ -156,8 +199,8 @@ const PluppRole = styled.span`
     color: ${props =>
         props.player
             ? allClubs.find(obj => {
-                return obj.long === props.player.club;
-            }).color.secondary
+                  return obj.long === props.player.club;
+              }).color.secondary
             : '#bfbfbf'};
 `;
 
@@ -253,14 +296,18 @@ class Plupp extends Component {
     // check if plupp should be switchable
     switchablePrivilege = () => {
         const { player, teamContext, pos, origin } = this.props;
-        const { marked } = teamContext.state.config.switchers;
+        const { buildStage, switchers } = teamContext.state.config;
+        const { marked } = switchers;
+        const { stageName } = buildStage;
         const pluppRef = this.pluppRef.current;
 
         // is switchable if:
         // another plupp is marked, it contains a player or is on bench
-        if ((player || origin === 'bench') && marked) {
-            if (pos === marked.pos && pluppRef !== marked.ref) {
-                return true;
+        if (origin === stageName) {
+            if ((player || origin === 'bench') && marked) {
+                if (pos === marked.pos && pluppRef !== marked.ref) {
+                    return true;
+                }
             }
         }
         return false;
@@ -336,12 +383,24 @@ class Plupp extends Component {
     };
 
     // (runs after click outside)
-    handleClickInside = (e, stageName) => {
-        if (stageName === 'captain') return;
-
+    handleClickInside = e => {
         const { teamContext, player, pos, origin } = this.props;
-        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
         const { switchers, buildStage } = teamContext.state.config;
+        const { captain } = this.props.teamContext.state.team;
+        const { stageName } = buildStage;
+
+        // if plupp origin and stageName doesn't match, bail
+        // if on pitchStage and plupp origin isn't pitch or captain, bail
+        console.log('origin', origin, 'stageName', stageName);
+        if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
+
+        if (stageName === 'captain') {
+            this.setCap(!captain || this.props.player.uid === captain ? 'captain' : 'viceCaptain');
+
+            return;
+        }
+
+        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
         const { marked } = switchers;
         const ref = this.pluppRef.current;
 
@@ -439,11 +498,11 @@ class Plupp extends Component {
             team[otherRole] = null;
         }
 
-        if(player.uid === team[role]){
+        if (player.uid === team[role]) {
             team[role] = null;
-  }else{
+        } else {
             team[role] = player.uid;
-  }
+        }
 
         updateNewTeam(team);
     };
@@ -469,40 +528,33 @@ class Plupp extends Component {
             <Container>
                 {player && (
                     <PlayerName className="PlayerName">
-                        <InfoModal
-                            isPitch
-                            title={player.name}
-                            subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-                            img="https://source.unsplash.com/random"
-                            display={this.state.playerModal}
-                            togglePlayerModal={this.togglePlayerModal}
-                        />
+                        {(stageName === 'pitch' ||
+                            stageName === 'bench' ||
+                            stageName === 'overview') && (
+                            <InfoModal
+                                isPitch
+                                title={player.name}
+                                subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+                                img="https://source.unsplash.com/random"
+                                display={this.state.playerModal}
+                                togglePlayerModal={this.togglePlayerModal}
+                            />
+                        )}
                         <div>{shortenName(player.name)}</div>
                     </PlayerName>
                 )}
-                {(stageName === 'pitch' || stageName === 'bench') && player && (
-                    <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
-                )}
+                {(stageName === 'pitch' || stageName === 'bench' || stageName === 'overview') &&
+                    player && (
+                        <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
+                    )}
 
-                {/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
-				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
-
-                {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
-                    <Options stageName={stageName}>
-                        <DelBtn ref={this.delBtn} onClick={this.del}>
-                            <DelImg src={Delete} />
-                        </DelBtn>
-                    </Options>
-                )}
-
-                {stageName === 'captain' && (
-                    <Options stageName={stageName}>
+                {(stageName === 'captain' || stageName === 'bench') && (
+                    <Options stageName={stageName} className="Options">
                         {isCap && (
                             <CaptainBtn
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
-
                             >
                                 <Cap src={cap} alt="Captain" />
                             </CaptainBtn>
@@ -513,10 +565,17 @@ class Plupp extends Component {
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
-
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
+                        )}
+
+                        {isMarked && player && (
+                            <Options stageName={stageName} className="">
+                                <DelBtn ref={this.delBtn} onClick={this.del}>
+                                    <DelImg src={Delete} />
+                                </DelBtn>
+                            </Options>
                         )}
                     </Options>
                 )}
@@ -529,9 +588,7 @@ class Plupp extends Component {
                     src={pluppC}
                     isMarked={this.state.isMarked}
                     /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={stageName === 'captain' ? () => this.setCap(!captain || this.props.player.uid === captain
-                        ? 'captain'
-                        : 'viceCaptain') : e => this.handleClickInside(e, stageName)}
+                    onClick={e => this.handleClickInside(e)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}

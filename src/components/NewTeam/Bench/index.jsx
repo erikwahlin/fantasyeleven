@@ -1,75 +1,73 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { toSwe } from '../../../constants/helperFuncs';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
-import pitchImg from '../../../media/pitch.png';
-import BuildInfo from '../BuildInfo';
 import Plupp from '../Plupp';
 import Position from './position';
 
-const Wrap = styled.div`
-    margin-top: 130px;
+const PlayerContainer = styled.div`
+    flex: 1;
+    height: 100%;
+    min-height: 115px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    justify-content: flex-start;
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        min-height: unset;
+    }
 `;
 
 const Wrapper = styled.div`
-    width: 100%;
+    display: flex;
+
     height: 150px;
-    display: flex;
-    justify-content: center;
-    background: none;
+    width: 480px;
+    margin: 0 auto;
+    padding: 5px 0;
 
-    /* border-top: 1px solid white; */
-`;
+    @media all and (max-width: 480px) {
+        margin: 10px 0;
+        padding: 0;
+        width: 100vw;
+        height: 28vw;
+    }
 
-const PitchImg = styled.img`
-    width: 100%;
-    max-height: 500px;
-    max-width: 700px;
-    position: absolute;
-    opacity: 0.1;
-    filter: brightness(70%);
-`;
-
-const PluppContainer = styled.div`
-    height: 100%;
-    min-height: 100px;
-    flex: 1;
-    position: relative;
-    display: flex;
-    justify-content: space-evenly;
+    ${p =>
+        p.stageName !== 'bench' &&
+        p.stageName !== 'overview' &&
+        css`
+            opacity: 0.2;
+            filter: grayscale(1);
+        `};
 `;
 
 const Bench = props => {
-    const { team } = props.teamContext.state;
-    const playerCount = team.list.map(player => player.origin === 'bench').length;
+    const { team, config } = props.teamContext.state;
+    const { stageName } = config.buildStage;
+
+    console.log('stageName', stageName);
 
     return (
-        <>
-            <BuildInfo playerCount={playerCount} team={team} origin="bench" />
-            <PitchImg src={pitchImg} />
-            <Wrap>
-                <h4>Avbytarbänk</h4>
-                <Wrapper className="Bench unmarkable">
-                    {preset.positions.map((pos, nth) => (
-                        <PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
-                            <Plupp
-                                pos={pos}
-                                player={team.bench[pos][0]}
-                                lineupCount={team.bench[pos].length}
-                                lineupIndex={0}
-                                origin="bench"
-                            />
-                            <Position pos={pos} />
-                        </PluppContainer>
-                    ))}
-                </Wrapper>
-            </Wrap>
-        </>
+        <Wrapper className="Bench Wrapper" stageName={stageName}>
+            {preset.positions.map((pos, nth) => (
+                <PlayerContainer key={`pos-${nth}`} className={`PlayerContainer ${pos}`}>
+                    {(stageName === 'bench' || stageName === 'overview') && (
+                        <Position pos={toSwe(pos, 'positions')} />
+                    )}
+                    <Plupp
+                        pos={pos}
+                        player={team.bench[pos][0]}
+                        lineupCount={team.bench[pos].length}
+                        lineupIndex={0}
+                        origin="bench"
+                    />
+                </PlayerContainer>
+            ))}
+        </Wrapper>
     );
 };
 

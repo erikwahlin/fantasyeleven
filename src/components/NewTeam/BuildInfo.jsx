@@ -6,11 +6,19 @@ import { toSwe, countPlayers } from '../../constants/helperFuncs';
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     max-width: 900px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    text-align: center;
+
+    & > * {
+        @media all and (max-width: 480px) {
+            max-width: 22%;
+            justify-content: space-evenly;
+        }
+    }
 `;
 
 const ChosenPlayers = styled.div`
@@ -22,10 +30,29 @@ const ChosenPlayers = styled.div`
 const InfoTitle = styled.h2`
     margin: 0;
     margin-bottom: 0.2rem;
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        font-size: 14px;
+    }
+
+    @media all and (max-width: 350px) {
+        font-size: 4vw;
+    }
 `;
 
 const InfoP = styled.p`
     color: ${p => (p.notReady ? 'red' : p.ready ? '#35892A' : 'white')};
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    @media all and (max-width: 350px) {
+        font-size: 7vw;
+    }
 `;
 
 const ClearBtn = styled.button`
@@ -41,14 +68,38 @@ const ClearBtn = styled.button`
     font-weight: 500;
     color: black;
     padding: 5px;
+    align-self: center;
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        width: auto;
+        height: auto;
+        padding: 7px;
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 350px) {
+        padding: 2vw;
+        font-size: 5vw;
+    }
 `;
 
 const AddPlayerBtn = styled(FaUserPlus)`
     width: 65px;
     height: 100%;
     color: white;
+    align-self: center;
 
     cursor: pointer;
+
+    @media all and (max-width: 899px) {
+        /* prev 480 */
+        width: 47px;
+    }
+
+    @media all and (max-width: 350px) {
+        width: 14vw;
+    }
 `;
 
 const BuildInfo = ({ teamContext, origin }) => {

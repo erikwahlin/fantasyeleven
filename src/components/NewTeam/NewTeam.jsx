@@ -14,34 +14,31 @@ import { withAuthentication } from '../Session';
 import apis from '../../constants/api';
 
 const ContentWrap = styled.div`
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 90%;
-    grid-gap: 0px 75px;
+    @media screen and (min-width: 900px) {
+        /* display: grid;
+        grid-template-rows: 100%;
+        grid-gap: 0px 75px;
+        grid-template-columns: auto 550px 300px auto; */
+        /* @media screen and (min-width: 1000px) {
+            grid-template-columns: auto 650px 300px auto;
+        } */
 
-    @media screen and (min-height: 700px) and (max-width: 500px) {
-        grid-template-rows: 70px 632px;
+        margin: 0;
+        display: flex;
     }
 
-    @media screen and (min-width: 501px) {
-        @media screen and (max-height: 600px) {
-            grid-template-rows: 70px 550px;
-        }
+    width: 100%;
+    height: 100%;
 
-        @media screen and (min-height: 765px) {
-            grid-template-rows: 70px 700px;
-        }
+    @media all and (max-width: 899px) {
+        /* prev 480 */
 
-        @media screen and (min-width: 900px) {
-            grid-template-columns: auto 550px 300px auto;
+        width: 100%;
+        height: 100%;
+    }
 
-            @media screen and (min-width: 1000px) {
-                grid-template-columns: auto 650px 300px auto;
-            }
-        }
+    @media all and (max-width: 480px) {
+        height: auto;
     }
 `;
 
@@ -786,13 +783,6 @@ class NewTeam extends Component {
                     render={({ online }) => null}
                     onChange={online => this.setState({ appOnline: online })}
                 />
-                {/* <SlideMenu
-					active={this.state.slideMenuActive}
-					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
-					reactRouter={false}
-					closeMenu={this.togglePlayerSearch}
-					extraComponent={<div>ej</div>}
-				> */}
 
                 <ContentWrap
                     className="ContentWrap"
@@ -800,7 +790,6 @@ class NewTeam extends Component {
                     mobileSearch={mobileSearch}
                 >
                     <BuildStages buildStage={buildStage} />
-                    {/* <Pitch /> */}
 
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>
