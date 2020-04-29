@@ -12,8 +12,8 @@ import pitchPrev from '../../../media/pitchAnim/pitchPrev.gif';
 
 const Wrapper = styled.div`
     position: relative;
-    width: 480px;
-    height: 432px;
+    width: 576px; /* 480px; */
+    height: 522px; /* 432px; */
     margin: 0 auto;
 
     @media all and (max-width: 480px) {

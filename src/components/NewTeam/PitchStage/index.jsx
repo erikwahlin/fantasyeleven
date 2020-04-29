@@ -91,7 +91,7 @@ const PitchStage = props => {
         <StageTemplate className="PitchStage Wrapper">
             <Pitch />
 
-            <Bench />
+            {/* <Bench /> */}
         </StageTemplate>
     );
 };
