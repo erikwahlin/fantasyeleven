@@ -36,10 +36,11 @@ const PageNumber = styled.div`
     line-height: 30px;
 `;
 
-const Paginate = props => {
-    const { settings, playerCount, goToPage, pageCount } = props;
+const Paginate = ({ settings, playerCount, goToPage, pageCount, mobileSearch }) => {
     const { pageNumber, pageSize } = settings;
     const lastPage = Math.ceil(playerCount / pageSize);
+
+    console.log(mobileSearch);
 
     //go to page according to cName
     const newPage = (cName, newPage) => {
@@ -74,27 +75,37 @@ const Paginate = props => {
 
     //angle right - left
     //angle double right - left
-    return (
-        <Wrapper className="Paginate unmarkable">
-            <Btn className="firstPage paginationBtn" onClick={clickHandler}>
-                <FaAngleDoubleLeft />
-            </Btn>
+    {
+        if (!mobileSearch) {
+            return (
+                <Wrapper className="Paginate unmarkable">
+                    <Btn className="firstPage paginationBtn" onClick={clickHandler}>
+                        <FaAngleDoubleLeft />
+                    </Btn>
 
-            <Btn className="backward paginationBtn" onClick={clickHandler}>
-                <FaAngleLeft />
-            </Btn>
+                    <Btn className="backward paginationBtn" onClick={clickHandler}>
+                        <FaAngleLeft />
+                    </Btn>
 
-            {<PageNumber>{pageNumber + '/' + Math.ceil(playerCount / pageSize)}</PageNumber>}
+                    {
+                        <PageNumber>
+                            {pageNumber + '/' + Math.ceil(playerCount / pageSize)}
+                        </PageNumber>
+                    }
 
-            <Btn className="forward paginationBtn" onClick={clickHandler}>
-                <FaAngleRight />
-            </Btn>
+                    <Btn className="forward paginationBtn" onClick={clickHandler}>
+                        <FaAngleRight />
+                    </Btn>
 
-            <Btn className="lastPage paginationBtn" onClick={clickHandler}>
-                <FaAngleDoubleRight />
-            </Btn>
-        </Wrapper>
-    );
+                    <Btn className="lastPage paginationBtn" onClick={clickHandler}>
+                        <FaAngleDoubleRight />
+                    </Btn>
+                </Wrapper>
+            );
+        } else {
+            return <></>;
+        }
+    }
 };
 
 export default Paginate;

@@ -43,7 +43,9 @@ export const InnerWrapper = styled.div`
             opacity: ${p.searchOpen ? '1' : '0'};
             right: ${p.searchOpen ? '0' : '-100vw'};
             top: 0;
+            box-shadow: -4px 0px 5px -1px rgba(0, 0, 0, 0.51);
             height: 100%;
+
             width: 100%;
             background: #011931;
         `}
@@ -102,6 +104,7 @@ export const Title = styled.h2`
     font-size: 2em;
     line-height: 30px; /* in line with titles above pitch */
     margin: 0;
+    padding: 6px;
     margin-bottom: 12px;
     font-weight: 600;
 `;
@@ -175,12 +178,19 @@ export const ButtonReset = styled(StyledBtn)`
 
 export const ResultContainer = styled.div`
     overflow-y: hidden;
+
+    @media all and (max-width: 900px) {
+        display: flex;
+        flex-direction: column;
+        &:first-child {
+            order: 3 !important; /* DOESN'T WORK?? */
+        }
+    }
 `;
 
 export const ResultBox = styled.div`
     background: rgba(35, 51, 77, 1);
     width: 100%;
-    height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
