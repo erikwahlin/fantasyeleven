@@ -29,7 +29,7 @@ export const InnerWrapper = styled.div`
 
     width: 90%;
     height: 100%;
-    max-width: 500px;
+    max-width: 330px;
     flex-direction: column;
     position: relative;
     margin: 0 auto;

@@ -66,9 +66,9 @@ const InfoP = styled.p`
 const ClearBtn = styled.button`
     width: 100px;
     height: 35px;
-    background: #fff;
-    color: #001c3e;
-    border: #fff solid 2px;
+    background: #23334d;
+    color: white;
+    border: #23334d solid 2px;
     border-radius: 1px;
     outline: none;
     cursor: pointer;

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { withTeam } from '../ctx';
 import { shortenName, clone } from '../../../constants/helperFuncs';
 import onClickOutside from 'react-onclickoutside';
-import pluppC from '../../../media/pluppC.svg';
+/* import pluppC from '../../../media/pluppC.svg'; */
+import pluppC from '../../../media/profile.png';
 import cap from '../../../media/Cap.svg';
 import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
@@ -32,7 +33,7 @@ const PlayerName = styled.span`
     display: flex;
     justify-content: center;
     width: 92px;
-    background-color: rgba(57, 118, 59);
+    background-color: #1e5820;
     padding: 3px;
     left: -21px;
     top: 52px;
@@ -78,7 +79,7 @@ const PlayerName = styled.span`
 const PlayerPrice = styled.span`
     position: absolute;
     width: 92px;
-    background-color: rgba(51, 170, 51, 0.6);
+    background-color: #3e812f;
     left: -21px;
     top: 77px;
     font-family: 'Avenir';
@@ -96,12 +97,12 @@ const PlayerPrice = styled.span`
     }
 `;
 
-const PluppImg = styled.svg`
+const PluppImg = styled.img`
     box-shadow: ${p => (p.stageName === 'captain' ? '0px -.5px 4px black' : '')};
     width: 100%;
     position: relative;
     z-index: 1;
-    background: white;
+    background: #fcfcfc;
 
     filter: ${p => p.isMarked && 'brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
@@ -110,12 +111,12 @@ const PluppImg = styled.svg`
 
     height: 100%;
     border-radius: 50%;
-    background: ${props =>
+/*     background: ${props =>
         props.player
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.primary
-            : '#a6afb6'};
+            : '#a6afb6'}; */
 `;
 
 const Options = styled.div`

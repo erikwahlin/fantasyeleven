@@ -8,6 +8,7 @@ import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
 import BuildStages from './BuildStages';
 import { Detector } from 'react-detect-offline';
+import Navigation from '../Navigation';
 
 import { withAuthentication } from '../Session';
 
@@ -23,7 +24,7 @@ const ContentWrap = styled.div`
             grid-template-columns: auto 650px 300px auto;
         } */
 
-        margin: 0;
+        margin-top:50px;
         display: flex;
     }
 
@@ -773,6 +774,7 @@ class NewTeam extends Component {
         // filter allPlayers before PlayerSearch
 
         return (
+
             <TeamContext.Provider
                 value={{
                     state: this.state,
