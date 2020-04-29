@@ -41,7 +41,7 @@ export const InnerWrapper = styled.div`
             position: fixed;
             z-index: 1;
             opacity: ${p.searchOpen ? '1' : '0'};
-            left: ${p.searchOpen ? '0' : '110vw'};
+            right: ${p.searchOpen ? '0' : '-100vw'};
             top: 0;
             height: 100%;
             width: 100%;
@@ -184,7 +184,8 @@ export const ResultBox = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-
+    max-height: 430px;
+    /* 430px */
     /* max-height: 478px; */ /* temp */
     overflow-y: scroll;
 `;
