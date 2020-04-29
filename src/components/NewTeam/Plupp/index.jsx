@@ -106,7 +106,7 @@ const PluppImg = styled.svg`
     filter: ${p => p.isMarked && 'brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
 
-    cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'bench' ? 'pointer' : 'normal')};
+    cursor: ${p => (p.stageName === 'pitch' || p.stageName === 'captain' ? 'pointer' : 'normal')};
 
     height: 100%;
     border-radius: 50%;
@@ -296,14 +296,18 @@ class Plupp extends Component {
     // check if plupp should be switchable
     switchablePrivilege = () => {
         const { player, teamContext, pos, origin } = this.props;
-        const { marked } = teamContext.state.config.switchers;
+        const { buildStage, switchers } = teamContext.state.config;
+        const { marked } = switchers;
+        const { stageName } = buildStage;
         const pluppRef = this.pluppRef.current;
 
         // is switchable if:
         // another plupp is marked, it contains a player or is on bench
-        if ((player || origin === 'bench') && marked) {
-            if (pos === marked.pos && pluppRef !== marked.ref) {
-                return true;
+        if (origin === stageName) {
+            if ((player || origin === 'bench') && marked) {
+                if (pos === marked.pos && pluppRef !== marked.ref) {
+                    return true;
+                }
             }
         }
         return false;
@@ -379,12 +383,24 @@ class Plupp extends Component {
     };
 
     // (runs after click outside)
-    handleClickInside = (e, stageName) => {
-        if (stageName === 'captain') return;
-
+    handleClickInside = e => {
         const { teamContext, player, pos, origin } = this.props;
-        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
         const { switchers, buildStage } = teamContext.state.config;
+        const { captain } = this.props.teamContext.state.team;
+        const { stageName } = buildStage;
+
+        // if plupp origin and stageName doesn't match, bail
+        // if on pitchStage and plupp origin isn't pitch or captain, bail
+        console.log('origin', origin, 'stageName', stageName);
+        if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
+
+        if (stageName === 'captain') {
+            this.setCap(!captain || this.props.player.uid === captain ? 'captain' : 'viceCaptain');
+
+            return;
+        }
+
+        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
         const { marked } = switchers;
         const ref = this.pluppRef.current;
 
@@ -512,31 +528,25 @@ class Plupp extends Component {
             <Container>
                 {player && (
                     <PlayerName className="PlayerName">
-                        <InfoModal
-                            isPitch
-                            title={player.name}
-                            subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-                            img="https://source.unsplash.com/random"
-                            display={this.state.playerModal}
-                            togglePlayerModal={this.togglePlayerModal}
-                        />
+                        {(stageName === 'pitch' ||
+                            stageName === 'bench' ||
+                            stageName === 'overview') && (
+                            <InfoModal
+                                isPitch
+                                title={player.name}
+                                subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+                                img="https://source.unsplash.com/random"
+                                display={this.state.playerModal}
+                                togglePlayerModal={this.togglePlayerModal}
+                            />
+                        )}
                         <div>{shortenName(player.name)}</div>
                     </PlayerName>
                 )}
-                {(stageName === 'pitch' || stageName === 'bench') && player && (
-                    <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
-                )}
-
-                {/* 				{player && <PlayerName className="PlayerName">{shortenName(player.name)}</PlayerName>}
-				{player && <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>} */}
-
-                {(stageName === 'pitch' || stageName === 'bench') && isMarked && player && (
-                    <Options stageName={stageName}>
-                        <DelBtn ref={this.delBtn} onClick={this.del}>
-                            <DelImg src={Delete} />
-                        </DelBtn>
-                    </Options>
-                )}
+                {(stageName === 'pitch' || stageName === 'bench' || stageName === 'overview') &&
+                    player && (
+                        <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
+                    )}
 
                 {(stageName === 'captain' || stageName === 'bench') && (
                     <Options stageName={stageName} className="Options">
@@ -559,6 +569,14 @@ class Plupp extends Component {
                                 <Vcap src={ViceCap} alt="Vice Captain" />
                             </VCaptainBtn>
                         )}
+
+                        {isMarked && player && (
+                            <Options stageName={stageName} className="">
+                                <DelBtn ref={this.delBtn} onClick={this.del}>
+                                    <DelImg src={Delete} />
+                                </DelBtn>
+                            </Options>
+                        )}
                     </Options>
                 )}
 
@@ -570,16 +588,7 @@ class Plupp extends Component {
                     src={pluppC}
                     isMarked={this.state.isMarked}
                     /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={
-                        stageName === 'captain'
-                            ? () =>
-                                  this.setCap(
-                                      !captain || this.props.player.uid === captain
-                                          ? 'captain'
-                                          : 'viceCaptain'
-                                  )
-                            : e => this.handleClickInside(e, stageName)
-                    }
+                    onClick={e => this.handleClickInside(e)}
                     isSwitchable={isSwitchable}
                     origin={origin}
                     player={player}

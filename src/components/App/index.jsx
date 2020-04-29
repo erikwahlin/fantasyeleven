@@ -81,6 +81,10 @@ const AppContainer = styled.div`
     @media all and (max-width: 899px) {
         width: 100vw;
         height: 100vh;
+        overflow: hidden;
+    }
+    @media all and (max-width: 899px) {
+        height: auto;
     }
 
     @media all and (max-width: 1900px) {
