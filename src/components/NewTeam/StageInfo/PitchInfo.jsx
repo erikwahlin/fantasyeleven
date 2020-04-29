@@ -46,7 +46,7 @@ const PitchInfo = ({ teamContext }) => {
                 </Button>
             </Section>
 
-            {mobileSearch && (
+            {mobileSearch && playerCount > 0 && (
                 <Section className="Section">
                     <AddPlayerIcon className="AddPlayerIcon icon" onClick={openPlayerSearch} />
                 </Section>

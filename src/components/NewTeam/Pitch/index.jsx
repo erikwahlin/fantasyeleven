@@ -5,6 +5,7 @@ import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 
 import pitchImg from '../../../media/pitch.png';
+import { AddPlayerIcon } from '../StageInfo/template';
 
 import pitchInitial from '../../../media/pitchAnim/pitchInitial.gif';
 import pitchNext from '../../../media/pitchAnim/pitchNext.gif';
@@ -77,12 +78,34 @@ const PlayerContainer = styled.div`
     }
 `;
 
+const AddContainer = styled.div`
+    position: absolute;
+    width: 100%;
+    top: 48%;
+    display: flex;
+    justify-content: center;
+
+    & > svg {
+        width: 47px;
+        position: relative;
+        left: 5px;
+    }
+
+    @media all and (max-width: 480px) {
+        top: 43.5vw;
+        & > svg {
+            width: 9.7vw;
+            left: 1.5vw;
+        }
+    }
+`;
+
 const Pitch = props => {
     const { team, config } = props.teamContext.state;
-    //let pitchAnim = config.pitch;
-    const { stageName } = config.buildStage;
-    const { togglePlayerSearch } = props.teamContext.setters;
-
+    const { mobileSearch, buildStage } = config;
+    const { stageName } = buildStage;
+    const { togglePlayerSearch, openPlayerSearch } = props.teamContext.setters;
+    const playerCount = team.list.filter(p => p.origin === 'pitch').length;
     /* const anims = {
         initial: pitchInitial,
         next: pitchNext,
@@ -123,6 +146,12 @@ const Pitch = props => {
                         ))}
                     </PositionContainer>
                 ))}
+
+                {playerCount < 1 && mobileSearch && (
+                    <AddContainer>
+                        <AddPlayerIcon onClick={openPlayerSearch} />
+                    </AddContainer>
+                )}
             </FormationContainer>
         </Wrapper>
     );
