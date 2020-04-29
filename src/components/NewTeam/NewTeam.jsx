@@ -785,7 +785,7 @@ class NewTeam extends Component {
                 />
 
                 <ContentWrap
-                    className="ContentWrap"
+                    className="NewTeam Wrapper ContentWrap"
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
                 >
