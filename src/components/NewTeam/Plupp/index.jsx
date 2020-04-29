@@ -7,6 +7,7 @@ import pluppC from '../../../media/pluppC.svg';
 import cap from '../../../media/Cap.svg';
 import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
+import Switch from '../../../media/switchIcon.png';
 import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
@@ -204,7 +205,7 @@ const PluppRole = styled.span`
             : '#bfbfbf'};
 `;
 
-const DelBtn = styled.button`
+const OptionsBtn = styled.button`
     width: 40px;
     height: 100%;
     margin: 0 5px;
@@ -221,7 +222,7 @@ const DelBtn = styled.button`
     }
 `;
 
-const DelImg = styled.img`
+const OptionsImg = styled.img`
     /*    width: 100%;
     height: 100%;
     max-width: 700px;
@@ -267,7 +268,8 @@ class Plupp extends Component {
         this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
         this.quickSwitch = this.quickSwitch.bind(this);
 
-        this.delBtn = createRef(null);
+        this.DelBtn = createRef(null);
+        this.SwitchBtn = createRef(null);
         this.pluppRef = createRef(null);
         this.switchRef = createRef(null);
 
@@ -411,9 +413,9 @@ class Plupp extends Component {
         }
 
         /* TEMP */
-        if (teamContext.state.config.mobileSearch) {
+        /* if (teamContext.state.config.mobileSearch) {
             openPlayerSearch();
-        }
+        } */
 
         /* TEMP */
 
@@ -548,7 +550,7 @@ class Plupp extends Component {
                         <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
                     )}
 
-                {(stageName === 'captain' || stageName === 'bench') && (
+                {(stageName === 'pitch' || stageName === 'captain' || stageName === 'bench') && (
                     <Options stageName={stageName} className="Options">
                         {isCap && (
                             <CaptainBtn
@@ -571,11 +573,18 @@ class Plupp extends Component {
                         )}
 
                         {isMarked && player && (
-                            <Options stageName={stageName} className="">
-                                <DelBtn ref={this.delBtn} onClick={this.del}>
-                                    <DelImg src={Delete} />
-                                </DelBtn>
-                            </Options>
+                            <>
+                                <OptionsBtn ref={this.DelBtn} onClick={this.del}>
+                                    <OptionsImg src={Delete} />
+                                </OptionsBtn>
+
+                                <OptionsBtn
+                                    ref={this.SwitchBtn}
+                                    onClick={this.props.teamContext.setters.openPlayerSearch}
+                                >
+                                    <OptionsImg src={Switch} />
+                                </OptionsBtn>
+                            </>
                         )}
                     </Options>
                 )}
