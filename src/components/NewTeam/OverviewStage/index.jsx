@@ -65,7 +65,7 @@ const PluppContainer = styled.div`
 `;
 
 const PitchStage = props => {
-    const { team } = props.teamContext.state;
+    const { team, game } = props.teamContext.state;
     const { togglePlayerSearch } = props.teamContext.setters;
 
     const playerCount = team.list.map(player => player.origin === 'pitch').length;

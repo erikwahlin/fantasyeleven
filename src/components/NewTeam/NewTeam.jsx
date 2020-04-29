@@ -784,12 +784,21 @@ class NewTeam extends Component {
                     onChange={online => this.setState({ appOnline: online })}
                 />
 
+                {/* <SlideMenu
+					active={this.state.slideMenuActive}
+					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
+					reactRouter={false}
+					closeMenu={this.togglePlayerSearch}
+					extraComponent={<div>ej</div>}
+				> */}
+
                 <ContentWrap
                     className="ContentWrap"
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
                 >
                     <BuildStages buildStage={buildStage} />
+                    {/* <Pitch /> */}
 
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>
