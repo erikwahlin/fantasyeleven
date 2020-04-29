@@ -33,6 +33,8 @@ const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        justify-content: flex-start;
+        height: auto;
     }
 
     @media screen and (min-width: 900px) {
@@ -45,7 +47,7 @@ const Content = styled.div`
     flex-direction: column;
 
     @media all and (max-width: 480px) {
-        flex: 1;
+        /*  flex: 1; */
     }
 `;
 
@@ -120,7 +122,7 @@ const stageContent = stage => {
 };
 
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
-    const { setStage, updateFilterKeys } = teamContext.setters;
+    const { setStage, updateFilterKeys, updatePitchAnim } = teamContext.setters;
     const { team } = teamContext.state;
     const { list: playerList, captain, viceCaptain } = team;
 

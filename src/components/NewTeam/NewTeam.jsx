@@ -36,6 +36,10 @@ const ContentWrap = styled.div`
         width: 100%;
         height: 100%;
     }
+
+    @media all and (max-width: 480px) {
+        height: auto;
+    }
 `;
 
 class NewTeam extends Component {

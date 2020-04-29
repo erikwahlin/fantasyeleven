@@ -106,9 +106,6 @@ const PluppContainer = styled.div`
 `;
 
 const CaptainStage = props => {
-    const { team } = props.teamContext.state;
-    const { captain } = team;
-
     return (
         <StageTemplate className="CaptainStage Wrapper">
             <Pitch />

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     text-align: center;
 
     @media all and (max-width: 480px) {
-        height: 23vw;
+        height: 16vw;
         & > * {
             max-width: 22%;
             justify-content: space-evenly;
@@ -40,8 +40,8 @@ const InfoTitle = styled.h2`
         font-size: 14px;
     }
 
-    @media all and (max-width: 350px) {
-        font-size: 4vw;
+    @media all and (max-width: 480px) {
+        font-size: 3vw;
     }
 `;
 
@@ -54,23 +54,27 @@ const InfoP = styled.p`
         margin-bottom: 0;
     }
 
+    @media all and (max-width: 480px) {
+        font-size: 18px;
+    }
+
     @media all and (max-width: 350px) {
-        font-size: 7vw;
+        font-size: 5vw;
     }
 `;
 
 const ClearBtn = styled.button`
     width: 100px;
     height: 35px;
-    background: #5ac5d3;
-    border: none;
-    border-radius: 15px;
+    background: #fff;
+    color: #001c3e;
+    border: #fff solid 2px;
+    border-radius: 1px;
     outline: none;
     cursor: pointer;
     font-family: 'Avenir';
     font-size: 1em;
     font-weight: 500;
-    color: black;
     padding: 5px;
     align-self: center;
 
@@ -82,9 +86,11 @@ const ClearBtn = styled.button`
         font-size: 18px;
     }
 
-    @media all and (max-width: 350px) {
-        padding: 2vw;
-        font-size: 5vw;
+    @media all and (max-width: 480px) {
+        font-size: 3.3vw;
+        padding: 0;
+        width: 100%;
+        height: 60%;
     }
 `;
 
