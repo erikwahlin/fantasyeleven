@@ -19,10 +19,8 @@ const Wrap = styled.div`
 const Wrapper = styled.div`
     width: 100%;
     height: 150px;
-
     display: flex;
     justify-content: center;
-
     background: none;
 
     /* border-top: 1px solid white; */
@@ -38,7 +36,6 @@ const PitchImg = styled.img`
 `;
 
 const PluppContainer = styled.div`
-    flex: 1;
     height: 100%;
     min-height: 100px;
     flex: 1;
@@ -52,7 +49,7 @@ const Bench = props => {
     const playerCount = team.list.map(player => player.origin === 'bench').length;
 
     return (
-        <div>
+        <>
             <BuildInfo playerCount={playerCount} team={team} origin="bench" />
             <PitchImg src={pitchImg} />
             <Wrap>
@@ -72,7 +69,7 @@ const Bench = props => {
                     ))}
                 </Wrapper>
             </Wrap>
-        </div>
+        </>
     );
 };
 

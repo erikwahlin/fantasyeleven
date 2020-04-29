@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { countPlayers } from '../../constants/helperFuncs';
 const StyledDiv = styled.div`
     box-sizing: border-box;
     background-color: #23324d;
@@ -15,11 +16,6 @@ const StyledP = styled.p`
 const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, list }) => {
     //posOrClub = toSwe(posOrClub, 'positions', 'plural')
 
-    const countPlayers = arrOfObj => {
-        let count = 0;
-        Object.values(arrOfObj).forEach(elem => (count += elem.length));
-        return count;
-    };
     const expr = () =>
         posOrClub.label === 'Alla spelare'
             ? 'spelare'
