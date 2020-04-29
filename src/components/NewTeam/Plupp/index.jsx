@@ -8,7 +8,8 @@ import cap from '../../../media/Cap.svg';
 import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
 import Switch from '../../../media/switchIcon.png';
-import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
+import { FaTrash, FaExchangeAlt, FaCross, FaX } from 'react-icons/fa';
+import { GiCrossMark, GiBodySwapping } from 'react-icons/gi';
 import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
@@ -119,28 +120,44 @@ const PluppImg = styled.svg`
             : '#a6afb6'};
 `;
 
-const Options = styled.div`
+const OptionsTop = styled.div`
     position: absolute;
     z-index: 1;
-    left: -30px;
-    top: ${props => (props.stageName === 'pitch' ? '-23px' : '-13px')};
-    /* top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')}; */
-    width: ${props => (props.stageName === 'pitch' ? '100px' : '90px')};
+    left: -21px;
+    top: -13px;
+    width: 92px;
     height: 40px;
     margin: 0;
     padding: 0;
 
+    display: flex;
+    justify-content: flex-end;
+
     @media all and (max-width: 480px) {
         width: 19vw;
-     
+        left: -5vw;
+        top: -3vw;
+        height: 7vw;
     }
 `;
+
+const OptionsBottom = styled(OptionsTop)`
+    top: 52px;
+    justify-content: center;
+
+    @media all and (max-width: 480px) {
+        height: 10vw;
+        top: 10vw;
+    }
+`;
+
 const Btn = styled.div`
     color: #222;
     position: absolute;
     font-size: 1em;
     font-weight: bold;
     cursor: ${p => (p.stageName === 'captain' ? 'pointer' : 'normal')};
+
     & > div {
         height: 25px;
         width: 25px;
@@ -207,7 +224,6 @@ const PluppRole = styled.span`
 
 const OptionsBtn = styled.button`
     width: 40px;
-    height: 100%;
     margin: 0 5px;
     cursor: pointer;
     outline: none;
@@ -216,17 +232,47 @@ const OptionsBtn = styled.button`
     background: none;
     color: red;
     font-size: 1em;
+
     & > * {
         width: 100%;
         height: 100%;
     }
+
+    @media all and (max-width: 480px) {
+        width: 8.4vw;
+        margin: 0 1vw;
+    }
+`;
+
+const OptionsBottomBtn = styled(OptionsBtn)`
+    width: 30px;
+    height: 30px;
+    margin: 0 2px;
+    background: #fff;
+
+    box-shadow: 0 0 5px #222;
+    border-radius: 50%;
+
+    & > svg {
+        color: #000;
+        margin: 0;
+    }
+
+    @media all and (max-width: 480px) {
+        width: 8.4vw;
+        margin: 0.5vw;
+        padding: 1vw;
+        height: 9vw;
+
+        & > svg {
+            padding: 1vw;
+        }
+    }
 `;
 
 const OptionsImg = styled.img`
-    /*    width: 100%;
-    height: 100%;
-    max-width: 700px;
-    position: absolute; */
+    box-shadow: 0 0 10px black;
+    border-radius: 50%;
 `;
 
 const SwitchIcon = styled.div`
@@ -528,7 +574,7 @@ class Plupp extends Component {
         console.log(stageName, isSwitchable);
         return (
             <Container>
-                {player && (
+                {player && !isMarked && (
                     <PlayerName className="PlayerName">
                         {(stageName === 'pitch' ||
                             stageName === 'bench' ||
@@ -546,47 +592,57 @@ class Plupp extends Component {
                     </PlayerName>
                 )}
                 {(stageName === 'pitch' || stageName === 'bench' || stageName === 'overview') &&
-                    player && (
+                    player &&
+                    !isMarked && (
                         <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
                     )}
-
                 {(stageName === 'pitch' || stageName === 'captain' || stageName === 'bench') && (
-                    <Options stageName={stageName} className="Options">
+                    <OptionsTop stageName={stageName} className="OptionsTop">
                         {isCap && (
-                            <CaptainBtn
+                            <OptionsBtn
+                                className="OptionsBtn"
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
                             >
                                 <Cap src={cap} alt="Captain" />
-                            </CaptainBtn>
+                            </OptionsBtn>
                         )}
 
                         {isViceCap && (
-                            <VCaptainBtn
+                            <OptionsBtn
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />
-                            </VCaptainBtn>
+                            </OptionsBtn>
                         )}
+                    </OptionsTop>
+                )}
+                {isMarked && player && (
+                    <OptionsBottom className="OptionsBottom">
+                        <OptionsBottomBtn
+                            className="OptionsBottomBtn"
+                            ref={this.DelBtn}
+                            onClick={this.del}
+                        >
+                            {/* <OptionsImg className="OptionsImg" src={Delete} /> */}
+                            <GiCrossMark color="red" alt="DelIcon" className="DelIcon" />
+                        </OptionsBottomBtn>
 
-                        {isMarked && player && (
-                            <>
-                                <OptionsBtn ref={this.DelBtn} onClick={this.del}>
-                                    <OptionsImg src={Delete} />
-                                </OptionsBtn>
-
-                                <OptionsBtn
-                                    ref={this.SwitchBtn}
-                                    onClick={this.props.teamContext.setters.openPlayerSearch}
-                                >
-                                    <OptionsImg src={Switch} />
-                                </OptionsBtn>
-                            </>
-                        )}
-                    </Options>
+                        <OptionsBottomBtn
+                            className="OptionsBottomBtn"
+                            ref={this.SwitchBtn}
+                            onClick={this.props.teamContext.setters.openPlayerSearch}
+                        >
+                            <GiBodySwapping
+                                color="#14521D"
+                                alt="SwitchIcon"
+                                className="SwitchIcon"
+                            />
+                        </OptionsBottomBtn>
+                    </OptionsBottom>
                 )}
 
                 <PluppImg
@@ -605,9 +661,7 @@ class Plupp extends Component {
                     isCap={isCap}
                     isViceCap={isViceCap}
                 />
-
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
-
                 {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
                         <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
