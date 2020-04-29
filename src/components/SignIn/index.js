@@ -143,8 +143,7 @@ const INITIAL_STATE = {
 	error: null
 };
 
-const ERROR_CODE_ACCOUNT_EXISTS =
-	'auth/account-exists-with-different-credential';
+const ERROR_CODE_ACCOUNT_EXISTS = 'auth/account-exists-with-different-credential';
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with an E-Mail address to

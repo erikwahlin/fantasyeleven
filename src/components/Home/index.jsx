@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-
+import '../PlayerSearch/styles.css';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import Styled from 'styled-components';
+import NewTeam from '../NewTeam/index';
+import Navigation from '../Navigation';
 
 class HomePage extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			users: null
+			users: null,
 		};
 	}
 
 	componentDidMount() {
 		this.props.firebase.users().on('value', snapshot => {
 			this.setState({
-				users: snapshot.val()
+				users: snapshot.val(),
 			});
 		});
 	}
@@ -26,12 +29,12 @@ class HomePage extends Component {
 	}
 
 	render() {
+		const pathname = this.props.location && this.props.location.pathname;
 		return (
-			<div>
-				<h1>Home Page</h1>
-				<p>
-					<i>(You are logged in)</i>
-				</p>
+			<div style={{ height: '100vh' }} className="HomePage">
+				<h1>Home</h1>
+				{/* <Navigation pathname={this.props.location.pathname} /> */}
+				{/* <NewTeam /> */}
 			</div>
 		);
 	}

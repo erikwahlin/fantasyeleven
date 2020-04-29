@@ -1,0 +1,212 @@
+/* @font-face {
+	font-family: 'MrEavesXL';
+	src: local('MrEavesXL'), url(../fonts/MrEavesXLModNarOT-Reg.ttf) format('truetype');
+} need to fix import-bug */
+
+body {
+    background-color: /* #101d33; */ #001c3e;
+    font-family: 'Avenir';
+    color: white;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #092139;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size:0.9em;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 2rem;
+}
+
+h1 {
+    font-family: 'Avenir';
+    font-size: 1.5em;
+    color: white;
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 1.3em;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+h3 {
+    font-family: 'Avenir';
+    font-size: 1.7em;
+    color: white;
+    font-weight: 500;
+}
+
+h4 {
+    font-family: 'Avenir';
+    font-size: 1.8em;
+    color: white;
+    font-weight: 500;
+}
+
+.infoTitle {
+    font-size: 1em;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.player {
+    font-size: 1em !important;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sum {
+    font-size: 0.8em;
+    margin-top: -0.6rem;
+}
+
+.player_price {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.player_popularity {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.Cap {
+    color:white;
+}
+
+.info {
+    width: 20px;
+}
+
+.labelPosition {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.labelPosition p {
+    margin: 0;
+}
+
+.labelPrice {
+    margin-left: 0.1rem;
+    margin-right: 1rem;
+}
+
+.labelPrice p {
+    margin: 0;
+}
+.labelPercentage div {
+    margin: 0;
+    margin-left: 4rem;
+   
+}
+.amount {
+    font-size: 1.5rem;
+    color: #a0a0a0;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.block {
+    display:flex;
+    width:10px;
+    height:10px;
+    background:white;
+    border-radius:50%;
+    flex: 0.8;
+    text-align: center;
+    min-width: 35px;
+}
+
+.bench {
+    display: block;
+
+    margin: 0;
+}
+
+.logotype {
+    width: 200px;
+}
+
+.SwitchIcon {
+    font-size: 0.5em;
+}
+
+.clicked {
+    font-weight: 900;
+}
+
+.clickable:hover {
+    cursor: pointer;
+    color: lightgrey;
+    font-weight: 900;
+}
+
+/************************* TOOLTIP*************************/
+/* Tooltip container */
+.tooltip {
+    margin-left: 40px; /*dunno bout this*/
+    position: relative;
+    display: inline-block;
+    color: white;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.tooltip:hover {
+    cursor: pointer;
+}
+
+/************************************************************/
