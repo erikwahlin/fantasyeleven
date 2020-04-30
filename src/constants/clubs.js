@@ -84,7 +84,7 @@ const allClubs = [
     {
         long: 'Tottenham',
         short: 'TOT',
-        color: { primary: 'rgb(255,255,255)', secondary: 'rgb(0,0,0)' }
+        color: { primary:  /* 'rgb(255,255,255)'  */'rgb(10,28,86)', secondary: 'rgb(0,0,0)' }
     },
     {
         long: 'Watford',

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
-
+import { IoIosShirt } from 'react-icons/io';
 import pitchImg from '../../../media/pitch.png';
 
 import pitchInitial from '../../../media/pitchAnim/pitchInitial.gif';

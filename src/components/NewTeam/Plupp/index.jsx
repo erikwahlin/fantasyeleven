@@ -14,6 +14,7 @@ import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
 
+
 const Container = styled.div`
     width: 50px;
     height: 50px;
@@ -102,7 +103,7 @@ const PluppImg = styled.img`
     width: 100%;
     position: relative;
     z-index: 1;
-    background: #fcfcfc;
+    background: #f5f5f5;
 
     filter: ${p => p.isMarked && 'brightness(.9)'};
     opacity: ${p => (p.isSwitchable ? '.2' : '1')};
@@ -111,12 +112,13 @@ const PluppImg = styled.img`
 
     height: 100%;
     border-radius: 50%;
-/*     background: ${props =>
+    border: 2px solid;
+    border-bottom-color: ${props =>
         props.player
             ? allClubs.find(obj => {
                   return obj.long === props.player.club;
               }).color.primary
-            : '#a6afb6'}; */
+            : '#a6afb6'};
 `;
 
 const Options = styled.div`
@@ -597,6 +599,8 @@ class Plupp extends Component {
                     isCap={isCap}
                     isViceCap={isViceCap}
                 />
+
+        
 
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
 

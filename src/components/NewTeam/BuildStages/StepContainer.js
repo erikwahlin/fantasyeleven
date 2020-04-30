@@ -16,6 +16,11 @@ const StepContainer = styled(Steps)`
         color: white;
     }
 
+& .ant-steps-item-icon {
+    background:#adadad;
+    opacity:0.7;
+}
+
     & .ant-steps-item-finish .ant-steps-item-icon {
         background-color: green;
         border: none;
@@ -24,6 +29,10 @@ const StepContainer = styled(Steps)`
     & .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
         color: white;
     }
+
+    & .ant-steps-item-process .ant-steps-item-icon {
+    background: #24344e;
+    border:none;}
 
     @media all and (max-width: 480px) {
         margin: 5px 0;
