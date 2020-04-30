@@ -13,6 +13,8 @@ import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
+import { IoIosShirt } from 'react-icons/io';
+import { IconContext } from "react-icons";
 
 
 const Container = styled.div`
@@ -116,8 +118,8 @@ const PluppImg = styled.img`
     border-bottom-color: ${props =>
         props.player
             ? allClubs.find(obj => {
-                  return obj.long === props.player.club;
-              }).color.primary
+                return obj.long === props.player.club;
+            }).color.primary
             : '#a6afb6'};
 `;
 
@@ -149,28 +151,28 @@ const Btn = styled.div`
         color: white;
         /* padding: 3px; */
         background-color: ${props =>
-            props.player
-                ? allClubs.find(obj => {
-                      return obj.long === props.player.club;
-                  }).color.secondary
-                : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.secondary
+            : ''};
         border-radius: 50%;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
         &:hover {
             background-color: ${props =>
-                props.player
-                    ? allClubs.find(obj => {
-                          return obj.long === props.player.club;
-                      }).color.primary
-                    : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.primary
+            : ''};
             color: ${props =>
-                props.player
-                    ? allClubs.find(obj => {
-                          return obj.long === props.player.club;
-                      }).color.secondary
-                    : ''};
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.secondary
+            : ''};
         }
     }
 `;
@@ -202,8 +204,8 @@ const PluppRole = styled.span`
     color: ${props =>
         props.player
             ? allClubs.find(obj => {
-                  return obj.long === props.player.club;
-              }).color.secondary
+                return obj.long === props.player.club;
+            }).color.secondary
             : '#bfbfbf'};
 `;
 
@@ -510,6 +512,9 @@ class Plupp extends Component {
         updateNewTeam(team);
     };
 
+
+
+
     render() {
         const { isMarked, isSwitchable } = this.state;
         const { player, pos, origin, lineupIndex, teamContext } = this.props;
@@ -523,10 +528,22 @@ class Plupp extends Component {
             isViceCap = player.uid === viceCaptain ? true : false;
         }
 
-        /* 
-        
-        */
-        console.log(stageName, isSwitchable);
+        const style = {
+            cursor: `${stageName === 'pitch' || stageName === 'captain' ? 'pointer' : 'normal'}`,
+            width: '100%', fontSize: '4rem', position: 'relative', height: '100%',
+            zIndex: '1',
+            /* filter: `${isMarked ? 'brightness(.9)' : ''}`, */
+            opacity: `${isSwitchable ? '.2' : '1'} `,
+            color: `${
+                player
+                    ? allClubs.find(obj => {
+                        return obj.long === player.club;
+                    }).color.primary
+                    : '#a6afb6'
+                } `
+        }
+
+        console.log('stageName, isswitchable, isMarked', stageName, isSwitchable, isMarked);
         return (
             <Container>
                 {player && (
@@ -534,15 +551,15 @@ class Plupp extends Component {
                         {(stageName === 'pitch' ||
                             stageName === 'bench' ||
                             stageName === 'overview') && (
-                            <InfoModal
-                                isPitch
-                                title={player.name}
-                                subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-                                img="https://source.unsplash.com/random"
-                                display={this.state.playerModal}
-                                togglePlayerModal={this.togglePlayerModal}
-                            />
-                        )}
+                                <InfoModal
+                                    isPitch
+                                    title={player.name}
+                                    subtitle={`${player.club} - ${toSwe(player.position, 'positions')} `}
+                                    img="https://source.unsplash.com/random"
+                                    display={this.state.playerModal}
+                                    togglePlayerModal={this.togglePlayerModal}
+                                />
+                            )}
                         <div>{shortenName(player.name)}</div>
                     </PlayerName>
                 )}
@@ -583,24 +600,51 @@ class Plupp extends Component {
                     </Options>
                 )}
 
-                <PluppImg
-                    ref={this.pluppRef}
-                    id={`switch-${origin}-${pos}-${lineupIndex}`}
-                    className={`${isSwitchable && 'Switchable'}Plupp`}
-                    alt={`player-plupp ${origin}`}
-                    src={pluppC}
-                    isMarked={this.state.isMarked}
-                    /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={e => this.handleClickInside(e)}
-                    isSwitchable={isSwitchable}
-                    origin={origin}
-                    player={player}
-                    stageName={stageName}
-                    isCap={isCap}
-                    isViceCap={isViceCap}
-                />
+                {/* <IconContext.Provider value={{
 
-        
+                    style: {
+                        cursor: `${ p => (p.stageName === 'pitch' || p.stageName === 'captain' ? 'pointer' : 'normal') } `,
+                        width: '100%', fontSize: '4rem', position: 'relative', height: '100%',
+                        zIndex: '1',
+                        filter: `${ p => p.isMarked && 'brightness(.9)' } `,
+                        opacity: `${ p => (p.isSwitchable ? '.2' : '1') } `,
+                        color: `${
+    props =>
+        props.player
+            ? allClubs.find(obj => {
+                return obj.long === props.player.club;
+            }).color.primary
+            : '#a6afb6'
+} `
+
+                    }
+
+
+                }}> */}
+
+                <div>
+                    <IoIosShirt
+                        ref={this.pluppRef}
+                        id={`switch-${origin}-${pos} -${lineupIndex} `}
+                        className={`${isSwitchable && 'Switchable'} Plupp`}
+                        alt={`player - plupp ${origin} `}
+                        /* src={pluppC} */
+                        isMarked={this.state.isMarked}
+                        /* onClick={e => this.handleClickInside(e, stageName)} */
+                        onClick={e => this.handleClickInside(e)}
+                        isSwitchable={isSwitchable}
+                        origin={origin}
+                        player={player}
+                        stageName={stageName}
+                        isCap={isCap}
+                        isViceCap={isViceCap}
+                        style={style}
+                    />
+                </div>
+                {/* </IconContext.Provider> */}
+
+
+
 
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
 
