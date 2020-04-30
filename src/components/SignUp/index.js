@@ -154,20 +154,10 @@ class SignUpFormBase extends Component {
 	};
 
 	render() {
-		const {
-			username,
-			email,
-			passwordOne,
-			passwordTwo,
-			isAdmin,
-			error
-		} = this.state;
+		const { username, email, passwordOne, passwordTwo, isAdmin, error } = this.state;
 
 		const isInvalid =
-			passwordOne !== passwordTwo ||
-			passwordOne === '' ||
-			email === '' ||
-			username === '';
+			passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
 
 		return (
 			<Form onSubmit={this.onSubmit}>
