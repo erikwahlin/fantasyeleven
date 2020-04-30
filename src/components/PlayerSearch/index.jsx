@@ -562,7 +562,8 @@ class PlayerSearch extends Component {
 
                             {/* RESULT */}
                             {paginated.length && (
-                                <ResultContainer className="ResultContainer">
+                                <>
+                                    {/* <ResultContainer className="ResultContainer"> */}
                                     <Paginate
                                         mobileSearch={mobileSearch}
                                         className="Paginate"
@@ -654,7 +655,8 @@ class PlayerSearch extends Component {
                                             );
                                         })}
                                     </ResultBox>
-                                </ResultContainer>
+                                    {/* </ResultContainer> */}
+                                </>
                             )}
 
                             {!paginated.length && (

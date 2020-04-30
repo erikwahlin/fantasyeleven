@@ -194,10 +194,15 @@ export const ResultBox = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    max-height: 430px;
+    /* max-height: 430px; */
     /* 430px */
     /* max-height: 478px; */ /* temp */
     overflow-y: scroll;
+    height: 100%;
+
+    @media all and (max-width: 899px) {
+        padding-bottom: 365px;
+    }
 `;
 
 export const Section = styled.div`
