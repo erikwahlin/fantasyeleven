@@ -40,7 +40,7 @@ export const InnerWrap = styled.div`
     /* border-radius: 10px; */
     border: 1px solid #001233;
     width: 40%;
-    background-color: #001c3e;
+    /* background-color: #001c3e; */
 
     @media all and (max-width: 480px) {
         width: 100vw;
