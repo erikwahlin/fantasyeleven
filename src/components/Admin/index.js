@@ -66,6 +66,7 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
+                defaultActiveKey="1"
             >
                 <Tab tab="Resultat" key="0">
                     <TabTitle>Resultat</TabTitle>

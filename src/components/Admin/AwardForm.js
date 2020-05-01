@@ -4,7 +4,7 @@ import './form.css';
 
 import { formTemplate } from './template';
 
-const { FormContainer, FormGroup } = formTemplate;
+const { FormContainer, FormField } = formTemplate;
 
 const initialState = {
     ready: false,
@@ -17,10 +17,26 @@ const initialState = {
 const AwardForm = () => {
     const [state, setState] = useState({ ...initialState });
 
-    const autosave = (key, val) => {
-        const newState = clone(state);
+    const setShrink = () => {};
 
-        newState[key] = val;
+    const autosave = (key, val, type) => {
+        const newState = clone(state);
+        console.log('vaaal', val);
+
+        let formatted = val;
+
+        if (type === 'number' || type === 'percent') {
+            const empty = isNaN(val) || val === '0' || val < 1;
+            if (empty) {
+                formatted = '';
+            }
+        }
+
+        if (type === 'percent') {
+            if (val > 100) formatted = 100;
+        }
+
+        newState[key] = formatted;
 
         setState({ ...newState });
     };
@@ -28,7 +44,7 @@ const AwardForm = () => {
     const submit = e => {
         e.preventDefault();
 
-        alert('award hej!');
+        //alert('award hej!');
     };
 
     return (
@@ -38,7 +54,7 @@ const AwardForm = () => {
             onSubmit={submit}
             submitVal="Skapa"
         >
-            <FormGroup
+            <FormField
                 state={state}
                 stateKey="round"
                 label="Omgång"
@@ -46,28 +62,34 @@ const AwardForm = () => {
                 type="text"
             />
 
-            <FormGroup
+            <FormField
                 state={state}
                 stateKey="first"
                 label="Förstaplatsen %"
-                autosave={(key, val) => autosave(key, parseInt(val))}
-                type="percent"
+                autosave={(key, val) => autosave(key, val, 'percent')}
+                type="number"
+                min={0}
+                max={100}
             />
 
-            <FormGroup
+            <FormField
                 state={state}
                 stateKey="second"
                 label="Andraplatsen %"
-                autosave={autosave}
-                type="percent"
+                autosave={(key, val) => autosave(key, val, 'percent')}
+                type="number"
+                min={0}
+                max={100}
             />
 
-            <FormGroup
+            <FormField
                 state={state}
                 stateKey="third"
                 label="Tredjeplatsen %"
-                autosave={autosave}
-                type="percent"
+                autosave={(key, val) => autosave(key, val, 'percent')}
+                type="number"
+                min={0}
+                max={100}
             />
         </FormContainer>
     );

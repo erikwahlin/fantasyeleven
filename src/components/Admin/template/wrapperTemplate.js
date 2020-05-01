@@ -9,7 +9,6 @@ export const Wrapper = styled.div`
     max-width: 600px;
     height: 100%;
     margin: 0 auto 50px;
-    border-radius: 10px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -18,5 +17,4 @@ export const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 10px #eee;
-    border-radius: 10px 10px 0 0;
 `;

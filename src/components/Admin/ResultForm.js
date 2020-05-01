@@ -4,7 +4,7 @@ import './form.css';
 
 import { formTemplate } from './template';
 
-const { FormContainer, FormGroup } = formTemplate;
+const { FormContainer, FormField } = formTemplate;
 
 const initialState = {
     ready: false,
@@ -26,7 +26,7 @@ const ResultForm = () => {
     const submit = e => {
         e.preventDefault();
 
-        alert('new result!');
+        //alert('new result!');
     };
 
     return (
@@ -36,7 +36,7 @@ const ResultForm = () => {
             onSubmit={submit}
             submitVal="Skapa"
         >
-            <FormGroup
+            <FormField
                 state={state}
                 stateKey="round"
                 label="Omgång"

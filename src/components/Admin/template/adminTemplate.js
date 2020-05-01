@@ -33,6 +33,10 @@ export const Wrapper = styled.div`
                 padding: 0 10px;
             `};
     }
+
+    & .ant-tabs-ink-bar {
+        background: #1890ff;
+    }
 `;
 
 export const Sel = styled(Select)``;

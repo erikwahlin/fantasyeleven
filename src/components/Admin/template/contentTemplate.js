@@ -63,7 +63,7 @@ const Box = styled.div`
         `};
 `;
 
-export const FlexList = ({ title, items, children }) => {
+export const Content = ({ title, items, children }) => {
     return (
         <Wrapper className="Wrapper FlexList">
             <ContentWrapper className="Content">
