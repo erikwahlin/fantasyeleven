@@ -1,6 +1,7 @@
 import * as adminTemplate from './adminTemplate';
 import * as formTemplate from './formTemplate';
-import * as listTemplate from './contentTemplate';
+import ContentTemplate from './ContentTemplate';
 import * as wrapperTemplate from './wrapperTemplate';
+import Result from './resultTemplate';
 
-export { wrapperTemplate, adminTemplate, formTemplate, listTemplate };
+export { wrapperTemplate, adminTemplate, formTemplate, ContentTemplate, Result };

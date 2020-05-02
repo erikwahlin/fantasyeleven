@@ -4,7 +4,7 @@ import './form.css';
 
 import { formTemplate } from './template';
 
-const { FormContainer, FormField } = formTemplate;
+const { FormContainer, InputTemplate } = formTemplate;
 
 const initialState = {
     ready: false,
@@ -54,7 +54,7 @@ const AwardForm = () => {
             onSubmit={submit}
             submitVal="Skapa"
         >
-            <FormField
+            <InputTemplate
                 state={state}
                 stateKey="round"
                 label="Omgång"
@@ -62,7 +62,7 @@ const AwardForm = () => {
                 type="text"
             />
 
-            <FormField
+            <InputTemplate
                 state={state}
                 stateKey="first"
                 label="Förstaplatsen %"
@@ -72,7 +72,7 @@ const AwardForm = () => {
                 max={100}
             />
 
-            <FormField
+            <InputTemplate
                 state={state}
                 stateKey="second"
                 label="Andraplatsen %"
@@ -82,7 +82,7 @@ const AwardForm = () => {
                 max={100}
             />
 
-            <FormField
+            <InputTemplate
                 state={state}
                 stateKey="third"
                 label="Tredjeplatsen %"

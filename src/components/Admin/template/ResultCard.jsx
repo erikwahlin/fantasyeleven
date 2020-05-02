@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { toSwe } from '../../constants/helperFuncs';
-import InfoModal from '../InfoModal';
+import { toSwe } from '../../../constants/helperFuncs';
+import InfoModal from '../../InfoModal';
 
 const Card = styled.div`
     display: flex;
@@ -9,7 +9,10 @@ const Card = styled.div`
     min-width: 250px;
     width: ${p => p.width || 300}px;
     margin: 20px;
-    box-shadow: 0 0 10px black;
+    /* box-shadow: 0 0 10px black; */
+    overflow-y: hidden;
+    height: fit-content;
+    cursor: pointer;
 `;
 
 const Col = styled.div`
@@ -21,6 +24,14 @@ const Col = styled.div`
 const Row = styled.div`
     display: flex;
     margin: 0;
+`;
+
+const CardHeader = styled(Row)`
+    height: fit-content;
+`;
+
+const Content = styled(Row)`
+    display: ${p => (p.cardOpen ? 'flex' : 'none')};
 `;
 
 const P = styled.p`
@@ -48,32 +59,61 @@ const Val = styled(P)`
     font-weight: 700;
 `;
 
+const PlayerInfo = styled(InfoModal)`
+    & .ModalOpenBtn {
+        width: unset;
+        height: unset;
+
+        & > svg {
+            position: relative;
+            top: 5px;
+        }
+    }
+`;
+
 const ResultCard = ({ player, width }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [cardOpen, setCardOpen] = useState(false);
 
-    /* const toggleModal = () => {
-        setModalOpen;
-    }; */
+    const cardClickHandler = e => {
+        if (e.target.classList.contains('infoIcon') || e.target.closest('.infoIcon')) {
+            return;
+        }
+
+        if (!cardOpen) {
+            setCardOpen(true);
+        } else {
+            setCardOpen(false);
+        }
+    };
 
     return (
-        <Card key={player.uid} className="ResultCard" width={width}>
-            <Row className="ResultRow name">
-                <LabelStrong flex={3} className="ResultLabel name">
+        <Card
+            key={player.uid}
+            className="ResultCard unmarkable"
+            width={width}
+            cardOpen={cardOpen}
+            onClick={cardClickHandler}
+        >
+            <CardHeader className="CardHeader" viewport>
+                <LabelStrong flex={3} className="name">
                     {player.name}
                 </LabelStrong>
-                <LabelStrong>{player.points.sum}p.</LabelStrong>
-                <InfoModal
+
+                <LabelStrong className="points">{player.points.sum}p.</LabelStrong>
+
+                <PlayerInfo
+                    modalStyle={{ background: '#40a9ff' }}
                     openBtnStyle={`width: 28px; height: 28px;`}
-                    isPitch
+                    iconStyle="position: relative; top: 5px; fill: #40a9ff;"
+                    isPitch={false}
                     title={player.name}
                     subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
                     img="https://source.unsplash.com/random"
-                    /* display={this.state.playerModal}
-                    togglePlayerModal={this.togglePlayerModal} */
                 />
-            </Row>
+            </CardHeader>
 
-            <Row className="ResultRow container">
+            <Content className="ResultRow container" cardOpen={cardOpen}>
                 <Col className="ResultCol effort">
                     <Row className="ResultRow title">
                         <Label className="ResultLabel effort">PRESTATION</Label>
@@ -100,7 +140,7 @@ const ResultCard = ({ player, width }) => {
                             )
                     )}
                 </Col>
-            </Row>
+            </Content>
         </Card>
     );
 };

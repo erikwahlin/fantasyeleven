@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const clickedClass = (e, duration = 1000, className = 'clicked') => {
+    const target = e.target.classList.contains('UnderlayContainer')
+        ? e.target
+        : e.target.closest('.UnderlayContainer');
+
+    target.classList.add(className);
+
+    setTimeout(() => {
+        target.classList.remove(className);
+    }, duration);
+};
+
 export const Underlay = styled.div`
     -webkit-transition: ${p => p.duration || '0.3s'};
     -moz-transition: ${p => p.duration || '0.3s'};

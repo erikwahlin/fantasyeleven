@@ -4,82 +4,33 @@ import styled, { css } from 'styled-components';
 import { Wrapper, ContentWrapper } from './wrapperTemplate';
 
 const Box = styled.div`
-    width: ${p => p.width || '100%'};
-    ${p =>
-        p.minWidth &&
-        css`
-            min-width: ${p.minWidth};
-        `};
-    ${p =>
-        p.maxWidth &&
-        css`
-            max-width: ${p.maxWidth};
-        `};
+    display: flex;
 
     ${p =>
-        p.height &&
+        p.customStyle &&
         css`
-            height: ${p.height};
-        `};
-    ${p =>
-        p.minHeight &&
-        css`
-            min-height: ${p.minHeight};
-        `};
-    ${p =>
-        p.maxHeight &&
-        css`
-            max-height: ${p.maxHeight};
-        `};
-
-    display: ${p => p.display || 'flex'};
-
-    ${p =>
-        p.flexDirection &&
-        css`
-            flex-direction: ${p.flexDirection};
-        `};
-    ${p =>
-        p.justifyContent &&
-        css`
-            justify-content: ${p.justifyContent};
-        `};
-
-    ${p =>
-        p.flex &&
-        css`
-            flex: ${p.flex};
-        `};
-    ${p =>
-        p.alignSelf &&
-        css`
-            align-self: ${p.alignSelf};
-        `};
-
-    ${p =>
-        p.display &&
-        css`
-            display: ${p.display};
+            ${p.customStyle}
         `};
 `;
 
-export const Content = ({ title, items, children }) => {
+const Row = styled(Box)`
+    flex-direction: row;
+    flex-wrap: wrap;
+`;
+
+const Col = styled(Box)`
+    flex-direction: column;
+
+    min-width: 25%;
+`;
+
+const ContentTemplate = ({ className, title, children }) => {
     return (
-        <Wrapper className="Wrapper FlexList">
-            <ContentWrapper className="Content">
-                <Box className="Results" flexDirection="column">
-                    {items.map((item, nth) => (
-                        <Box
-                            key={`result-${nth + 1}`}
-                            className={`result-${nth + 1}`}
-                            flexDirection="column"
-                            flex="1"
-                        >
-                            result {nth}
-                        </Box>
-                    ))}
-                </Box>
-            </ContentWrapper>
+        <Wrapper className={`${className} Wrapper FlexList`}>
+            <h2>{title}</h2>
+            <ContentWrapper className="Content">{children}</ContentWrapper>
         </Wrapper>
     );
 };
+
+export default ContentTemplate;

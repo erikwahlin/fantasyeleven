@@ -3,9 +3,15 @@ import styled, { css } from 'styled-components';
 import { Wrapper } from './wrapperTemplate';
 import { InputNumber } from 'antd';
 
-import { hej } from 'react-icons';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import { UnderlayContainer, Underlay, AppearOnHover, DisappearOnHover } from './underlay';
+import {
+    clickedClass,
+    UnderlayContainer,
+    Underlay,
+    AppearOnHover,
+    DisappearOnHover
+} from './underlay';
 
 export const FormTitle = styled.h1`
     text-align: center;
@@ -35,7 +41,8 @@ export const Input = styled.input`
     font-size: 18px;
     padding: 10px 10px 10px 5px;
     display: block;
-    width: 100%;
+    min-width: 150px;
+    flex: 1;
     border: none;
     border-radius: 0;
 
@@ -102,16 +109,41 @@ export const Submit = styled.input`
     font-weight: 700;
 `;
 
-export const FormField = ({ state, stateKey, label = stateKey, type, autosave, ...props }) => {
-    const handlePercent = val => {
-        const formatted = !val || isNaN(val) ? 0 : val;
-        autosave(stateKey, formatted);
+const NumberTicks = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-width: 50px;
+    margin: 0;
+    padding: 0 10px;
+
+    & > * {
+        cursor: pointer;
+        flex: 1;
+        width: 100%;
+    }
+`;
+
+export const InputTemplate = ({ state, stateKey, label = stateKey, type, autosave, ...props }) => {
+    const ticksHandler = (e, dir, interval = 1) => {
+        const num = parseInt(state[stateKey]);
+
+        const val = isNaN(num) ? 0 : num;
+
+        let newVal = dir === 'inc' ? val + 1 : val - 1;
+
+        if (props.max && newVal > props.max) {
+            newVal = props.max;
+        } else if (props.min && newVal < props.min) {
+            newVal = props.min;
+        }
+
+        autosave(stateKey, newVal);
     };
 
     const value = state[stateKey];
 
     return (
-        <Field className="field">
+        <Field className="InputContainer">
             <Input
                 {...props}
                 type={type}
@@ -121,6 +153,35 @@ export const FormField = ({ state, stateKey, label = stateKey, type, autosave, .
                     autosave(stateKey, e.target.value);
                 }}
             />
+            {type === 'number' && (
+                <NumberTicks className="NumberTicks">
+                    <UnderlayContainer
+                        className="UnderlayContainer numberticks"
+                        margin="0"
+                        onClick={e => ticksHandler(e, 'inc')}
+                    >
+                        <IoIosArrowUp />
+
+                        <AppearOnHover
+                            className="underlay appear"
+                            boxShadow="0px -1px 8px -4px #ccc"
+                        />
+                    </UnderlayContainer>
+
+                    <UnderlayContainer
+                        className="UnderlayContainer numberticks"
+                        margin="0"
+                        onClick={e => ticksHandler(e, 'dec')}
+                    >
+                        <IoIosArrowDown />
+
+                        <AppearOnHover
+                            className="underlay appear"
+                            boxShadow="0px 2px 8px -3px #ccc"
+                        />
+                    </UnderlayContainer>
+                </NumberTicks>
+            )}
 
             <Label className={`form-input-label`}>{label}</Label>
         </Field>
@@ -128,21 +189,10 @@ export const FormField = ({ state, stateKey, label = stateKey, type, autosave, .
 };
 
 // add and remove anim-class for submit-btn
-const submitAnim = (e, className = 'clicked') => {
-    const target = e.target.classList.contains('UnderlayContainer')
-        ? e.target
-        : e.target.closest('.UnderlayContainer');
-
-    target.classList.add(className);
-
-    setTimeout(() => {
-        target.classList.remove(className);
-    }, 1000);
-};
 
 export const FormContainer = ({ title, children, ready = true, submitVal, onSubmit }) => {
     const submitHandler = e => {
-        submitAnim(e);
+        clickedClass(e);
         onSubmit(e);
     };
 
@@ -152,7 +202,7 @@ export const FormContainer = ({ title, children, ready = true, submitVal, onSubm
             <Form onSubmit={onSubmit} className="Form">
                 {children}
 
-                <UnderlayContainer className="UnderlayContainer" onClick={submitHandler}>
+                <UnderlayContainer className="UnderlayContainer submit" onClick={submitHandler}>
                     <Submit
                         className="Submit"
                         disabled={!ready}

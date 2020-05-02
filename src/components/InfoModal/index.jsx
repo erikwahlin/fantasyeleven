@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { FaInfoCircle } from 'react-icons/fa';
-import modalStyle, {
+
+import customStyle, {
     ModalWrapper,
     OpenBtn,
+    Icon,
     ContentWrapper,
     Title,
     Subtitle,
@@ -13,7 +14,18 @@ import modalStyle, {
 } from './style';
 
 const InfoModal = props => {
-    const { openBtn, title, subtitle, img, submit, openBtnStyle } = props;
+    let {
+        openBtn,
+        title,
+        subtitle,
+        img,
+        submit,
+        modalStyle,
+        openBtnStyle,
+        iconStyle,
+        className
+    } = props;
+    className = className || '';
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fallbackImg, setFallbackImg] = React.useState(null);
@@ -33,23 +45,21 @@ const InfoModal = props => {
     }
 
     return (
-        
-        <ModalWrapper className="ModalWrapper playerModal">
+        <ModalWrapper className={`ModalWrapper playerModal ${className}`}>
             <OpenBtn
                 customStyle={openBtnStyle}
                 isPitch={props.isPitch}
-                className="ModalOpenBtn"
+                className="ModalOpenBtn playerinfo"
                 onClick={openModal}
             >
-                {' '}
-                {openBtn ? openBtn : <FaInfoCircle />}{' '}
+                {openBtn ? openBtn : <Icon customStyle={iconStyle} className="infoIcon" />}
             </OpenBtn>
 
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
-                style={modalStyle}
+                style={customStyle(modalStyle)}
                 contentLabel="InfoModal"
             >
                 <ContentWrapper className="ContentWrapper playerModal unmarkable">
@@ -61,7 +71,6 @@ const InfoModal = props => {
                 </ContentWrapper>
             </Modal>
         </ModalWrapper>
-        
     );
 };
 

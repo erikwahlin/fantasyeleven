@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { clone } from '../../constants/helperFuncs';
 import './form.css';
 
-import { listTemplate } from './template';
-
-const { Content } = listTemplate;
+import { Result } from './template';
 
 const initialState = {
     ready: false,
@@ -12,8 +10,10 @@ const initialState = {
     result: null
 };
 
-const ResultList = () => {
-    return <Content title="Befintliga resultat" items={[1, 2, 3, 4, 5, 6, 7, 8, 9]} />;
+const ResultList = props => {
+    // crud results from db later
+    const results = [];
+    return <Result />;
 };
 
 export default ResultList;

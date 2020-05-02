@@ -4,7 +4,7 @@ import './form.css';
 
 import { formTemplate } from './template';
 
-const { FormContainer, FormField } = formTemplate;
+const { FormContainer, InputTemplate } = formTemplate;
 
 const initialState = {
     ready: false,
@@ -36,7 +36,7 @@ const ResultForm = () => {
             onSubmit={submit}
             submitVal="Skapa"
         >
-            <FormField
+            <InputTemplate
                 state={state}
                 stateKey="round"
                 label="Omgång"

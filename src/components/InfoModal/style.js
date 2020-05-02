@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaInfoCircle } from 'react-icons/fa';
 
-const modalStyle = {
+const customStyle = customContent => ({
     overlay: {
         zIndex: '1'
     },
@@ -16,11 +16,12 @@ const modalStyle = {
         minHeight: '50vh',
         background: '#011931',
         color: '#eee',
-        borderRadius: '10px'
+        borderRadius: '10px',
+        ...customContent
     }
-};
+});
 
-export default modalStyle;
+export default customStyle;
 
 export const ModalWrapper = styled.div`
     /* temp style */
@@ -49,6 +50,14 @@ export const OpenBtn = styled.button`
                 ${p.customStyle}
             `};
     }
+`;
+
+export const Icon = styled(FaInfoCircle)`
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `}
 `;
 
 export const ContentWrapper = styled.div`

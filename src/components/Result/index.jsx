@@ -83,29 +83,29 @@ const MyTeams = props => {
         <div>
             <h1>My Teams...</h1>
 
+            {loading && (
+                <h3>
+                    <i>Laddar resultat...</i>
+                </h3>
+            )}
+
             {!result && (
                 <button style={{ color: 'black' }} onClick={resHandler}>
-                    {!loading ? 'Get result' : 'Cancel'}
+                    {!loading ? 'Hämta igen' : 'Avbryt'}
                 </button>
             )}
 
-            {loading && (
-                <h2>
-                    <i>loading...</i>
-                </h2>
-            )}
-
             {result && (
-                <div>
-                    <h2>
+                <>
+                    <h3>
                         Resultat omgång {round}: <strong>{sum} poäng</strong>
-                    </h2>
+                    </h3>
                     <Wrapper className="ResultWrapper">
                         {result.map(player => (
                             <ResultCard key={player.uid} player={player} width={50} />
                         ))}
                     </Wrapper>
-                </div>
+                </>
             )}
         </div>
     );
