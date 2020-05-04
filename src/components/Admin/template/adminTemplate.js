@@ -5,14 +5,14 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 export const Wrapper = styled.div`
-    background: #fff;
+    background: #182231;
 
     width: 100vw;
     height: 100%;
     min-height: 100vh;
 
     & * {
-        color: #000;
+        color: #d3d6dc;
         background: none;
     }
 
@@ -20,6 +20,9 @@ export const Wrapper = styled.div`
     & a,
     & input[type='submit'] {
         cursor: pointer;
+    }
+
+    & .ant-tabs-tab {
     }
 
     &input[type='text'] {

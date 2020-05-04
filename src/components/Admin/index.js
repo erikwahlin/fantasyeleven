@@ -10,6 +10,7 @@ import { afterWinResize } from '../../constants/helperFuncs';
 import ResultForm from './ResultForm';
 import ResultList from './ResultList';
 import AwardForm from './AwardForm';
+import Players from './Players';
 
 import { adminTemplate } from './template/';
 
@@ -66,7 +67,7 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
-                defaultActiveKey="0"
+                defaultActiveKey="5"
             >
                 <Tab tab="Resultat" key="0">
                     <TabTitle>Resultat</TabTitle>
@@ -75,22 +76,29 @@ const AdminPage = ({ location }) => {
 
                     <ResultList />
                 </Tab>
+
                 <Tab tab="Utdelningsmodell" key="1">
                     <TabTitle>Utdelningsmodell</TabTitle>
 
                     <AwardForm />
                 </Tab>
+
                 <Tab tab="Användarstatistik" key="2">
                     <TabTitle>Användarstatistik</TabTitle>
                 </Tab>
+
                 <Tab tab="Användarhantering" key="3">
                     <TabTitle>Användarhantering</TabTitle>
                 </Tab>
+
                 <Tab tab="Innehåll" key="4">
                     <TabTitle>Innehåll</TabTitle>
                 </Tab>
+
                 <Tab tab="Spelare" key="5">
                     <TabTitle>Spelare</TabTitle>
+
+                    <Players />
                 </Tab>
             </TabContainer>
         </Wrapper>

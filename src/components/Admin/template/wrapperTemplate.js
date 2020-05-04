@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
+    background: #23334d;
     width: 100%;
     padding: 10px;
     display: flex;
@@ -22,5 +23,5 @@ export const ContentWrapper = styled.div`
         `}
 
     flex-wrap: wrap;
-    box-shadow: 0 0 10px #eee;
+    /* box-shadow: 0 0 10px #eee; */
 `;
