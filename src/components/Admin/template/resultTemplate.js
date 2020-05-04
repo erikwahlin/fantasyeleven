@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withAuthentication } from '../../Session';
 import { withTeam } from '../../NewTeam/ctx';
 import apis from '../../../constants/api';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
     UnderlayContainer,
     Underlay,
@@ -25,10 +25,28 @@ const ResultHeader = styled.div`
     justify-content: space-between;
 `;
 
+const OptionContainer = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
+`;
+
 const ToggleBtn = styled.button`
     outline: none;
     border: none;
     margin: 0;
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `}
 `;
 
 const ResultContent = styled.div`
@@ -141,23 +159,20 @@ const Result = props => {
                             <h2>{`Resultat omgång ${round}: ${sum} poäng`}</h2>
                             <UnderlayContainer
                                 className="UnderlayContainer toggle"
-                                onClick={toggleHandler}
+                                onClick={() => setOpen(!open)}
                                 customStyle="margin: 0; height: auto; cursor: pointer;"
                             >
                                 <ToggleBtn className="ToggleBtn">
                                     {open ? 'Göm' : 'Visa'} spelare
                                 </ToggleBtn>
 
-                                <Underlay
-                                    className="underlay"
-                                    boxShadow="-8px -8px 4px -8px #eee"
-                                    opacity="1"
-                                />
-
-                                <Underlay
-                                    className="underlay appearOnClick"
-                                    boxShadow="inset 8px 8px 6px -10px #aaa"
-                                />
+                                {open && (
+                                    <Underlay
+                                        className="underlay"
+                                        boxShadow="-8px -8px 4px -8px #eee"
+                                        opacity="1"
+                                    />
+                                )}
                             </UnderlayContainer>
                         </ResultHeader>
 
@@ -165,14 +180,14 @@ const Result = props => {
                             {result.map(player => (
                                 <ResultCard key={player.uid} player={player} width={50} />
                             ))}
-                            <div style={{ flex: '1' }}>
+                            <OptionContainer>
                                 <ToggleBtn
                                     onClick={() => setOpen(!open)}
-                                    style={{ float: 'right' }}
+                                    customStyle="font-size: 1.2em; box-shadow: 8px 8px 4px -8px #eee"
                                 >
-                                    Stäng
+                                    Stäng resultat
                                 </ToggleBtn>
-                            </div>
+                            </OptionContainer>
                         </ResultContent>
                     </Wrapper>
                 </>

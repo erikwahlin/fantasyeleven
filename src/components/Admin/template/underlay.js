@@ -49,6 +49,8 @@ export const UnderlayContainer = styled.div`
     height: 50px;
     padding: 0;
 
+    cursor: ${p => p.cursor || 'pointer'};
+
     @media all and (max-width: 480px) {
         width: 100vw;
     }
