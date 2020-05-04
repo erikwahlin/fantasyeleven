@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const clickedClass = (e, duration = 1000, className = 'clicked') => {
+export const clickedClass = (e, duration = 300, className = 'clicked') => {
     const target = e.target.classList.contains('UnderlayContainer')
         ? e.target
         : e.target.closest('.UnderlayContainer');
@@ -61,7 +61,7 @@ export const UnderlayContainer = styled.div`
         opacity: 0;
     }
 
-    margin: ${p => p.margin || '40px 0 0'};
+    margin: 40px 0 0;
 
     &[class*='clicked'] .underlay {
         opacity: 0 !important;
@@ -70,4 +70,10 @@ export const UnderlayContainer = styled.div`
     &[class*='clicked'] .underlay.appearOnClick {
         opacity: 1 !important;
     }
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
 `;

@@ -3,18 +3,32 @@ import { withAuthentication } from '../../Session';
 import { withTeam } from '../../NewTeam/ctx';
 import apis from '../../../constants/api';
 import styled from 'styled-components';
-import ContentTemplate from './ContentTemplate';
+import {
+    UnderlayContainer,
+    Underlay,
+    AppearOnHover,
+    DisappearOnHover,
+    clickedClass
+} from './underlay';
 import { Wrapper } from './wrapperTemplate';
 import ResultCard from './ResultCard';
 
 const ResultHeader = styled.div`
-    cursor: pointer;
     width: 100%;
     margin: 10px;
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
 
     box-shadow: ${p => (p.open ? 'none' : '0 0 10px #eee')};
+
+    display: flex;
+    justify-content: space-between;
+`;
+
+const ToggleBtn = styled.button`
+    outline: none;
+    border: none;
+    margin: 0;
 `;
 
 const ResultContent = styled.div`
@@ -101,6 +115,11 @@ const Result = props => {
         calcSum();
     }, [result]);
 
+    const toggleHandler = e => {
+        setOpen(!open);
+        clickedClass(e);
+    };
+
     return (
         <div className="Result">
             {loading && (
@@ -118,17 +137,42 @@ const Result = props => {
             {result && (
                 <>
                     <Wrapper className="Result">
-                        <ResultHeader
-                            className="ResultHeader"
-                            onClick={() => setOpen(!open)}
-                            open={open}
-                        >
+                        <ResultHeader className="ResultHeader" open={open}>
                             <h2>{`Resultat omgång ${round}: ${sum} poäng`}</h2>
+                            <UnderlayContainer
+                                className="UnderlayContainer toggle"
+                                onClick={toggleHandler}
+                                customStyle="margin: 0; height: auto; cursor: pointer;"
+                            >
+                                <ToggleBtn className="ToggleBtn">
+                                    {open ? 'Göm' : 'Visa'} spelare
+                                </ToggleBtn>
+
+                                <Underlay
+                                    className="underlay"
+                                    boxShadow="-8px -8px 4px -8px #eee"
+                                    opacity="1"
+                                />
+
+                                <Underlay
+                                    className="underlay appearOnClick"
+                                    boxShadow="inset 8px 8px 6px -10px #aaa"
+                                />
+                            </UnderlayContainer>
                         </ResultHeader>
+
                         <ResultContent className="ResultContent" open={open}>
                             {result.map(player => (
                                 <ResultCard key={player.uid} player={player} width={50} />
                             ))}
+                            <div style={{ flex: '1' }}>
+                                <ToggleBtn
+                                    onClick={() => setOpen(!open)}
+                                    style={{ float: 'right' }}
+                                >
+                                    Stäng
+                                </ToggleBtn>
+                            </div>
                         </ResultContent>
                     </Wrapper>
                 </>

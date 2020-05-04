@@ -210,19 +210,15 @@ export const FormContainer = ({ title, children, ready = true, submitVal, onSubm
                         value={submitVal}
                     ></Submit>
 
-                    <DisappearOnHover
-                        className="underlay disappear"
+                    <Underlay
+                        className="underlay"
                         boxShadow="-8px -8px 4px -8px #eee"
-                    />
-
-                    <AppearOnHover
-                        className="underlay appear"
-                        boxShadow="-8px -8px 4px -8px #ccc"
+                        opacity="1"
                     />
 
                     <Underlay
                         className="underlay appearOnClick"
-                        boxShadow="inset 7px 8px 8px -8px #ddd"
+                        boxShadow="inset 8px 8px 6px -10px #aaa"
                     />
                 </UnderlayContainer>
             </Form>
