@@ -110,7 +110,7 @@ const App = () => (
 
                 <Route path={'/home'} exact component={HomePage} />
 
-                <Route path={ROUTES.MYTEAMS} exact component={MyTeams} />
+                {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
                 <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
                 <Route path={ROUTES.ACCOUNT} component={AccountPage} />
