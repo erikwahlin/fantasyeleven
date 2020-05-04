@@ -99,7 +99,7 @@ export const ArrowWrapper = styled.div`
 `;
 
 export const Title = styled.h2`
-    font-size: 2em;
+    font-size: 1em;
     line-height: 30px; /* in line with titles above pitch */
     margin: 0;
     margin-bottom: 12px;
@@ -111,7 +111,7 @@ export const Input = styled.input`
     margin-bottom: 6px;
     /* position: relative; */
     font-family: 'Avenir';
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: 500;
     color: white;
     padding: 13px 52px 13px 12px;
@@ -169,8 +169,13 @@ export const StyledBtn = styled.button`
 export const ButtonDes = styled(StyledBtn)``;
 export const ButtonAsc = styled(StyledBtn)``;
 export const ButtonReset = styled(StyledBtn)`
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     width: 100%;
+    border: 1px solid #2f3e55;
+    padding:10px;
+      &:hover {
+        background: #2b3854;
+    }
 `;
 
 export const ResultContainer = styled.div`
@@ -196,12 +201,12 @@ export const Section = styled.div`
 `;
 
 export const LabelRow = styled.div`
-    width: 100%;
+    width: 83%;
     /* height: 30px !important; */
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    background: purple;
+    background: none;
     color: black;
     font-weight: 700;
     font-size: 1em;

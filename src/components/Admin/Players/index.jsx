@@ -19,7 +19,7 @@ import Paginate from '../../PlayerSearch/Paginate';
 import DropDown from 'react-dropdown';
 /* import CaptainCard from '../CaptainCard/CaptainCard'; */
 import 'react-dropdown/style.css';
-import '../../PlayerSearch/dropdown.css';
+import './dropdown_admin.css';
 import '../../PlayerSearch/styles.css';
 import Arrow from '../../../media/arrow.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
@@ -31,6 +31,8 @@ import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
+
+
 
 import {
     OuterWrapper,
@@ -56,7 +58,7 @@ import {
 const Players = props => {
     return (
         <div>
-            <h3>Admin Players</h3>
+            {/* <h3>Admin Players</h3> */}
 
             <PlayerSearch players={players} /* markedMode={this.checkMarkedMode()} */ />
             <EditPlayer />
@@ -487,7 +489,7 @@ class PlayerSearch extends Component {
                                     <FiSearch />
                                 </SearchFieldWrapper>
 
-                                <h2 className="FilterTitle unmarkable">
+{/*                                 <h2 className="FilterTitle unmarkable">
                                     Sortera efter:
                                     <span
                                         className={`${
@@ -508,8 +510,8 @@ class PlayerSearch extends Component {
                                         {' '}
                                         popularitet
                                     </span>
-                                </h2>
-                                <ButtonContainer className="ButtonContainer playersearch">
+                                </h2> */}
+{/*                                 <ButtonContainer className="ButtonContainer playersearch">
                                     <ButtonDes
                                         className="SortFalling unmarkable"
                                         style={
@@ -542,7 +544,7 @@ class PlayerSearch extends Component {
                                     >
                                         Stigande
                                     </ButtonAsc>
-                                </ButtonContainer>
+                                </ButtonContainer> */}
 
                                 <ButtonReset
                                     onClick={this.resetSettings}

@@ -7,7 +7,7 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
-import MyTeams from '../MyTeams';
+/* import MyTeams from '../MyTeams'; */
 import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';

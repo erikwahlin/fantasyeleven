@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { compose } from 'recompose';
 import Navigation from '../Navigation';
-
 import { withAuthorization } from '../Session';
-
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { afterWinResize } from '../../constants/helperFuncs';
@@ -11,6 +9,9 @@ import ResultForm from './ResultForm';
 import ResultList from './ResultList';
 import AwardForm from './AwardForm';
 import Players from './Players';
+import { BarChartOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
+import { SkinOutlined } from '@ant-design/icons';
 
 import { adminTemplate } from './template/';
 
@@ -61,7 +62,6 @@ const AdminPage = ({ location }) => {
 
     return (
         <Wrapper className="Admin unmarkable" tabPos={tabPos} winW={winW}>
-            <MainTitle>Admin</MainTitle>
 
             <TabContainer
                 tabPosition={tabPos}
@@ -69,6 +69,8 @@ const AdminPage = ({ location }) => {
                 className="TabContainer unmarkable"
                 defaultActiveKey="5"
             >
+                
+                
                 <Tab tab="Resultat" key="0">
                     <TabTitle>Resultat</TabTitle>
 
@@ -77,17 +79,27 @@ const AdminPage = ({ location }) => {
                     <ResultList />
                 </Tab>
 
-                <Tab tab="Utdelningsmodell" key="1">
+                <Tab tab="Utdelningsmodell" key="1" >
                     <TabTitle>Utdelningsmodell</TabTitle>
 
                     <AwardForm />
-                </Tab>
+                </Tab> 
 
-                <Tab tab="Användarstatistik" key="2">
+
+                
+                <Tab tab={
+                    <span>
+                        <BarChartOutlined />
+                    Användarstatistik</span>
+                } key="2">
                     <TabTitle>Användarstatistik</TabTitle>
                 </Tab>
-
-                <Tab tab="Användarhantering" key="3">
+                
+                <Tab tab={
+                    <span>
+                        <UserOutlined />
+                    Användarhantering</span>
+                } key="3">
                     <TabTitle>Användarhantering</TabTitle>
                 </Tab>
 
@@ -95,11 +107,16 @@ const AdminPage = ({ location }) => {
                     <TabTitle>Innehåll</TabTitle>
                 </Tab>
 
-                <Tab tab="Spelare" key="5">
+                <Tab tab={
+                    <span>
+                        <SkinOutlined />
+                    Spelare</span>
+                } key="5">
                     <TabTitle>Spelare</TabTitle>
-
                     <Players />
                 </Tab>
+
+
             </TabContainer>
         </Wrapper>
     );
