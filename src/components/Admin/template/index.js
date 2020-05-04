@@ -1,6 +1,6 @@
 import * as adminTemplate from './adminTemplate';
 import * as formTemplate from './formTemplate';
-import ContentTemplate from './ContentTemplate';
+import ContentTemplate from './contentTemplate';
 import * as wrapperTemplate from './wrapperTemplate';
 import * as underlayTemplate from './underlay';
 
