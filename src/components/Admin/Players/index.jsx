@@ -59,7 +59,6 @@ const Players = props => {
             <h3>Admin Players</h3>
 
             <PlayerSearch players={players} /* markedMode={this.checkMarkedMode()} */ />
-            <EditPlayer />
         </div>
     );
 };
@@ -81,7 +80,14 @@ const INITIAL_STATE = {
     result: [],
     playerModal: false,
 
-    pickedPlayer: null
+    pickedPlayer: null,
+    playerConfig: {
+        uid: '',
+        name: '',
+        price: '',
+        position: '',
+        club: ''
+    }
 };
 
 class PlayerSearch extends Component {
@@ -106,6 +112,8 @@ class PlayerSearch extends Component {
         this.handleSortByClick = this.handleSortByClick.bind(this);
 
         this.handleListClickSort = this.handleListClickSort.bind(this);
+
+        this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
     componentDidMount = (pp, ps) => {
@@ -115,25 +123,16 @@ class PlayerSearch extends Component {
         }, 300);
     };
 
-    // check if playerSearch should slide in
-    /* checkIfSlider = () => {
-        const { mobileSearch: oldVal } = this.props.teamContext.state.config;
-        const newVal = window.innerWidth < 900 ? true : false;
-
-        if (oldVal !== newVal) {
-            this.props.teamContext.setters.toggleMobileSearch();
-        }
-    }; */
-
-    // player info modal
-    /* togglePlayerModal = () => {
-        this.setState(ps => ({ playerModal: !ps.playerModal }));
-    }; */
-
     // when clicking on listed player
+    onChangeHandler = event => {
+        const { playerConfig } = this.state;
+        this.setState({ [event.target.name]: event.target.name });
+        console.log(playerConfig);
+    };
     playerClickHandler = player => {
-        this.setState({ pickedPlayer: player });
-        //find id of player, send as props to some component 'editPlayer'
+        this.setState({
+            pickedPlayer: player
+        });
     };
 
     // reset filter & order
@@ -189,8 +188,6 @@ class PlayerSearch extends Component {
     };
 
     /*
-     *
-     *
      * SET FILTERS
      **************/
 
@@ -215,15 +212,6 @@ class PlayerSearch extends Component {
     setFilter_maxPrice = selected => {
         // clone for mutation
         const res = clone(selected);
-
-        /* // substr for valid data
-        const splitLabel = res.label.indexOf(' kr');
-        const splitVal = res.value.indexOf('__');
-
-        //res.value = res.value.substring(0, splitVal);
-        res.number =
-            res.label !== 'Alla prisklasser' ? parseInt(res.value.substring(0, splitVal)) : null; */
-
         // update state
         this.setState({ maxPriceSelected: res }, () => {
             this.goToFirstPage();
@@ -237,8 +225,6 @@ class PlayerSearch extends Component {
     }
 
     /*
-     *
-     *
      * APPLY FILTERS
      ****************/
 
@@ -283,8 +269,6 @@ class PlayerSearch extends Component {
         });
     };
     /*
-     *
-     *
      * APPLY SORT-SETTINGS
      **********************/
     sortByPopularity = playerList => {
@@ -314,8 +298,6 @@ class PlayerSearch extends Component {
     };
 
     /*
-     *
-     *
      * PAGINATION
      **************/
 
@@ -339,14 +321,6 @@ class PlayerSearch extends Component {
     render() {
         const { paginationSettings, posOrClubSelected } = this.state;
         const { players, markedMode } = this.props;
-        //const { closePlayerSearch } = teamContext.setters;
-        //const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
-        //const { team } = teamContext.state;
-        //const { captain, viceCaptain } = team;
-
-        //captain and viceCaptain
-        //const capObj = team.list.filter(p => p.uid === captain)[0];
-        //const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
 
         let resultLabel = posOrClubSelected.label;
 
@@ -424,9 +398,6 @@ class PlayerSearch extends Component {
             paginationSettings.pageSize,
             paginationSettings.pageNumber
         );
-        //const result = markedMode ? sorted : this.groupByPosition(paginated);
-        //const result = this.groupByPosition(paginated);
-        //const result = paginated
         // get short club name (according to reuter)
         const clubAbbr = club => {
             return allClubs.filter(item => item.long === club)[0].short;
@@ -444,11 +415,6 @@ class PlayerSearch extends Component {
                             /* mobileSearch={mobileSearch} */
                             /* searchOpen={searchOpen} */
                         >
-                            {/* {mobileSearch && (
-                        <CancelBtn onClick={closePlayerSearch} className="CancelBtn">
-                            <GiCancel />
-                        </CancelBtn>
-                    )} */}
                             {/* FILTER */}
                             {/* (FILTER) <br />  */}
                             {/* temp */}
@@ -591,30 +557,6 @@ class PlayerSearch extends Component {
                                             {paginated.map((player, i) => {
                                                 return (
                                                     <PlayerRow key={i} className="PlayerRow">
-                                                        {/* <InfoModal
-                                                    title={player.name}
-                                                    subtitle={`${player.club} - ${toSwe(
-                                                        player.position,
-                                                        'positions'
-                                                    )}`}
-                                                    img="https://source.unsplash.com/random"
-                                                    display={this.state.playerModal}
-                                                    togglePlayerModal={this.togglePlayerModal}
-                                                >
-                                                    <p>Värde: {player.price} kr</p>
-                                                    <p>
-                                                        <a
-                                                            style={{
-                                                                color: '#eee',
-                                                                textDecoration: 'none'
-                                                            }}
-                                                            href={homePitch(player.club)}
-                                                        >
-                                                            Hemmaplan
-                                                        </a>
-                                                    </p>
-                                                </InfoModal>
- */}
                                                         <Player
                                                             className="ListedPlayer"
                                                             onClick={e =>
@@ -636,12 +578,6 @@ class PlayerSearch extends Component {
                                                             </p>
                                                         </Player>
 
-                                                        {/* <PlayerPrice className="PlayerPopularity">
-                                                            <p className="player_popularity">
-                                                                {player.popularity}
-                                                            </p>
-                                                        </PlayerPrice> */}
-
                                                         <PlayerPrice className="PlayerPrice">
                                                             <p className="player_price">
                                                                 {Math.round(player.price)}
@@ -653,19 +589,18 @@ class PlayerSearch extends Component {
                                         </ResultBox>
                                     </ResultContainer>
                                 )}
-
-                                {/* {!paginated.length && (
-                                    <Instructions
-                                        benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
-                                        pitchPlayers={teamContext.state.team.pitch}
-                                        buildStagePage={buildStage.stageName}
-                                        posOrClub={posOrClubSelected}
-                                    />
-                                )} */}
                             </>
                         </InnerWrapper>
                     </OuterWrapper>
                 </ContentWrapper>
+
+                {this.state.pickedPlayer && (
+                    <EditPlayer
+                        playerState={this.state.playerConfig}
+                        handleChange={this.onChangeHandler}
+                        player={this.state.pickedPlayer}
+                    />
+                )}
             </Wrapper>
         );
     }
