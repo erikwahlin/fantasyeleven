@@ -24,7 +24,7 @@ const Col = styled(Box)`
     min-width: 25%;
 `;
 
-const ContentTemplate = ({ className, title, children }) => {
+const contentTemplate = ({ className, title, children }) => {
     return (
         <Wrapper className={`${className} Wrapper FlexList`}>
             <h2>{title}</h2>
@@ -33,4 +33,4 @@ const ContentTemplate = ({ className, title, children }) => {
     );
 };
 
-export default ContentTemplate;
+export default contentTemplate;
