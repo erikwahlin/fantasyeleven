@@ -8,7 +8,7 @@ import players from '../../../constants/players';
 //get all positions
 
 //change of name
-const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit }) => {
+const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
     const { club, name, position, price } = pickedPlayer;
 
     const unique = property => {
@@ -68,6 +68,7 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit }) => {
                 </select>
                 <button type="submit">spara</button>
             </form>
+            <button onClick={() => onClick(pickedPlayer)}>ta bort Spelare</button>
         </div>
     );
 };

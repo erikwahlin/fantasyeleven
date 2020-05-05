@@ -85,7 +85,7 @@ const INITIAL_STATE = {
     pickedPlayer: null,
     updatedPlayer: false,
     isNewPlayerClicked: false,
-    deletePlayer: null // set to uid ?
+    deletePlayer: null
 };
 
 class PlayerSearch extends Component {
@@ -112,7 +112,6 @@ class PlayerSearch extends Component {
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         /* this.onChangeHandler = this.onChangeHandler.bind(this); */
-        this.deletePlayerHandler = this.deletePlayerHandler.bind(this);
     }
 
     componentDidMount = (pp, ps) => {
@@ -122,12 +121,9 @@ class PlayerSearch extends Component {
         }, 300);
     };
 
-    deletePlayerHandler = player => {
-        this.setState({ deletePlayer: player.uid }, () => {
-            this.goToFirstPage();
-        });
+    deletePlayer = pickedPlayer => {
+        this.setState({ deletePlayer: pickedPlayer.uid });
     };
-
     onSubmitEditPlayer = (event, playerList, pickedPlayer) => {
         event.preventDefault();
         console.log(pickedPlayer);
@@ -520,64 +516,6 @@ class PlayerSearch extends Component {
                                     ></Input>
                                     <FiSearch />
                                 </SearchFieldWrapper>
-
-                                {/*                                 <h2 className="FilterTitle unmarkable">
-                                    Sortera efter:
-                                    <span
-                                        className={`${
-                                            this.state.sortBy === 'price' ? 'clicked' : ''
-                                        } clickable price`}
-                                        onClick={this.handleSortByClick}
-                                    >
-                                        {' '}
-                                        pris{' '}
-                                    </span>
-                                    -
-                                    <span
-                                        className={`${
-                                            this.state.sortBy === 'popularity' ? 'clicked' : ''
-                                        } clickable popularity`}
-                                        onClick={this.handleSortByClick}
-                                    >
-                                        {' '}
-                                        popularitet
-                                    </span>
-                                </h2> */}
-                                {/*                                 <ButtonContainer className="ButtonContainer playersearch">
-                                    <ButtonDes
-                                        className="SortFalling unmarkable"
-                                        style={
-                                            this.state.priceSort === 'falling'
-                                                ? {
-                                                      fontWeight: 'bold',
-                                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
-                                                      boxShadow: 'inset 0 0 2px #000000'
-                                                  }
-                                                : { fontWeight: '500' }
-                                        }
-                                        value="falling"
-                                        onClick={this.handleSort}
-                                    >
-                                        Fallande
-                                    </ButtonDes>
-                                    <ButtonAsc
-                                        className="SortRising unmarkable"
-                                        style={
-                                            this.state.priceSort === 'rising'
-                                                ? {
-                                                      fontWeight: 'bold',
-                                                      backgroundColor: 'rgba(35, 51, 77, 0.5)',
-                                                      boxShadow: 'inset 0 0 2px #000000'
-                                                  }
-                                                : { fontWeight: '500' }
-                                        }
-                                        value="rising"
-                                        onClick={this.handleSort}
-                                    >
-                                        Stigande
-                                    </ButtonAsc>
-                                </ButtonContainer> */}
-
                                 <ButtonReset
                                     onClick={this.resetSettings}
                                     className="ResetFilter unmarkable"
@@ -636,18 +574,6 @@ class PlayerSearch extends Component {
                                                                     'positions'
                                                                 )}
                                                             </p>
-                                                            <div
-                                                                onClick={player =>
-                                                                    this.setState(
-                                                                        {
-                                                                            deletePlayer: player.uid
-                                                                        },
-                                                                        () => this.goToFirstPage()
-                                                                    )
-                                                                }
-                                                            >
-                                                                <AiFillDelete />
-                                                            </div>
                                                         </Player>
 
                                                         <PlayerPrice className="PlayerPrice">
@@ -673,6 +599,7 @@ class PlayerSearch extends Component {
                         {this.state.updatedPlayer && <div>Du lyckades uppdatera en spelare</div>}
                         {this.state.pickedPlayer && (
                             <EditPlayer
+                                onClick={this.deletePlayer}
                                 onSubmit={this.onSubmitEditPlayer}
                                 pickedPlayer={this.state.pickedPlayer}
                             />
