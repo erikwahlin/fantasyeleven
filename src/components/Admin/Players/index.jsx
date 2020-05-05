@@ -628,15 +628,19 @@ class PlayerSearch extends Component {
                         </InnerWrapper>
                     </OuterWrapper>
                 </ContentWrapper>
-                {this.state.updatedPlayer && <div>'du lyckades uppdatera en spelare'</div>}
-                {this.state.pickedPlayer && (
-                    <EditPlayer
-                        onSubmit={this.onSubmitEditPlayer}
-                        playerConfig={this.state.playerConfig}
-                        /*  handleChange={this.onChangeHandler} */
-                        pickedPlayer={this.state.pickedPlayer}
-                    />
-                )}
+                <Wrapper>
+                    <ContentWrapper>
+                        {this.state.updatedPlayer && <div>Du lyckades uppdatera en spelare</div>}
+                        {this.state.pickedPlayer && (
+                            <EditPlayer
+                                onSubmit={this.onSubmitEditPlayer}
+                                playerConfig={this.state.playerConfig}
+                                /*  handleChange={this.onChangeHandler} */
+                                pickedPlayer={this.state.pickedPlayer}
+                            />
+                        )}
+                    </ContentWrapper>
+                </Wrapper>
             </Wrapper>
         );
     }
