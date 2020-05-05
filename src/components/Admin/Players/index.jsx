@@ -81,13 +81,7 @@ const INITIAL_STATE = {
     playerModal: false,
 
     pickedPlayer: null,
-    playerConfig: {
-        uid: '',
-        name: '',
-        price: '',
-        position: '',
-        club: ''
-    }
+    updatedPlayer: false
 };
 
 class PlayerSearch extends Component {
@@ -110,10 +104,9 @@ class PlayerSearch extends Component {
         /* this.togglePlayerModal = this.togglePlayerModal.bind(this); */
         /* this.checkIfSlider = this.checkIfSlider.bind(this); */
         this.handleSortByClick = this.handleSortByClick.bind(this);
-
         this.handleListClickSort = this.handleListClickSort.bind(this);
-
-        this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
+        /* this.onChangeHandler = this.onChangeHandler.bind(this); */
     }
 
     componentDidMount = (pp, ps) => {
@@ -123,16 +116,58 @@ class PlayerSearch extends Component {
         }, 300);
     };
 
-    // when clicking on listed player
-    onChangeHandler = event => {
-        const { playerConfig } = this.state;
-        this.setState({ [event.target.name]: event.target.name });
-        console.log(playerConfig);
+    onSubmitEditPlayer = (event, playerList, pickedPlayer) => {
+        event.preventDefault();
+        console.log(pickedPlayer);
+        console.log(playerList);
+        const config = {
+            name: 0,
+            price: 1,
+            club: 2,
+            position: 3
+        };
+
+        const { name, price, club, position } = config;
+        const newProp = config => event.target[config].value;
+        const newName = newProp(name);
+        if (newProp(name) !== pickedPlayer.name) {
+            pickedPlayer.name = newName;
+        }
+        if (newProp(club) !== pickedPlayer.club) {
+            pickedPlayer.club = newProp(club);
+        }
+        if (newProp(position) !== pickedPlayer.position) {
+            pickedPlayer.position = newProp(position);
+        }
+        if (newProp(price) !== pickedPlayer.price) {
+            pickedPlayer.price = newProp(price);
+        }
+        pickedPlayer.updatedAt = Date.now();
+        console.log(pickedPlayer);
+        this.setState({ updatedPlayer: !this.state.updatedPlayer });
     };
+    // when clicking on listed player
+    /*     onChangeHandler = event => {
+        const { pickedPlayer } = this.state;
+        console.log(event.target.name);
+        
+        this.setState({ [pickedPlayer[event.target.name]]: event.target.name });
+    }; */
+
     playerClickHandler = player => {
-        this.setState({
-            pickedPlayer: player
-        });
+        const { pickedPlayer } = this.state;
+        this.setState({ updatedPlayer: false });
+        if (pickedPlayer) {
+            this.setState({ pickedPlayer: null }, () => {
+                this.setState({
+                    pickedPlayer: player
+                });
+            });
+        } else {
+            this.setState({
+                pickedPlayer: player
+            });
+        }
     };
 
     // reset filter & order
@@ -593,12 +628,13 @@ class PlayerSearch extends Component {
                         </InnerWrapper>
                     </OuterWrapper>
                 </ContentWrapper>
-
+                {this.state.updatedPlayer && <div>'du lyckades uppdatera en spelare'</div>}
                 {this.state.pickedPlayer && (
                     <EditPlayer
-                        playerState={this.state.playerConfig}
-                        handleChange={this.onChangeHandler}
-                        player={this.state.pickedPlayer}
+                        onSubmit={this.onSubmitEditPlayer}
+                        playerConfig={this.state.playerConfig}
+                        /*  handleChange={this.onChangeHandler} */
+                        pickedPlayer={this.state.pickedPlayer}
                     />
                 )}
             </Wrapper>
