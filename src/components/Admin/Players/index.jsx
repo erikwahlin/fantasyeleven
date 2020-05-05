@@ -568,7 +568,7 @@ class PlayerSearch extends Component {
 
                                         <LabelRow className="LabelRow unmarkable">
                                             <div className="labelPosition">
-                                                <p> {resultLabel}</p>
+                                                <p style={{color:'white'}}> {resultLabel}</p>
                                             </div>
                                             {/* <div
                                                 onClick={e =>

@@ -10,8 +10,15 @@ import ResultList from './ResultList';
 import AwardForm from './AwardForm';
 import Players from './Players';
 import { BarChartOutlined } from '@ant-design/icons';
+import { TeamOutlined } from '@ant-design/icons';
 import { UserOutlined } from '@ant-design/icons';
 import { SkinOutlined } from '@ant-design/icons';
+import { DollarCircleOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
+import { AreaChartOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
+import FLogo from '../../components/Landing/fantasy11-white-logo.png'
+
 
 import { adminTemplate } from './template/';
 
@@ -62,6 +69,7 @@ const AdminPage = ({ location }) => {
 
     return (
         <Wrapper className="Admin unmarkable" tabPos={tabPos} winW={winW}>
+            
 
             <TabContainer
                 tabPosition={tabPos}
@@ -70,26 +78,51 @@ const AdminPage = ({ location }) => {
                 defaultActiveKey="5"
             >
                 
+
+  {/*               <Tab tab="Resultat" key="0">
+                    <TabTitle>Resultat</TabTitle>
+
+                    <ResultForm />
+
+                    <ResultList />
+                </Tab> */}
+
+
+                <Tab tab={
+                    <span >
+                        <img src={FLogo} style={{width:'110px', marginLeft:'15px', marginTop:'10px'}}/>
+                        </span>
+                } key="0">
+                    {/* <TabTitle>Resultat</TabTitle> */}
+
+                </Tab>
                 
-                <Tab tab="Resultat" key="0">
+                <Tab tab={
+                    <span>
+                        <AreaChartOutlined style={{ color: '#5ac5d4' }} />
+                    Resultat</span>
+                } key="0">
                     <TabTitle>Resultat</TabTitle>
 
                     <ResultForm />
 
                     <ResultList />
                 </Tab>
+                
 
-                <Tab tab="Utdelningsmodell" key="1" >
+                <Tab tab={
+                    <span>
+                        <DollarCircleOutlined style={{ color: '#5ac5d4' }} />
+                    Utdelningsmodell</span>
+                } key="1">
                     <TabTitle>Utdelningsmodell</TabTitle>
 
                     <AwardForm />
-                </Tab> 
+                </Tab>
 
-
-                
                 <Tab tab={
                     <span>
-                        <BarChartOutlined />
+                        <BarChartOutlined style={{ color: '#5ac5d4' }} />
                     Användarstatistik</span>
                 } key="2">
                     <TabTitle>Användarstatistik</TabTitle>
@@ -97,22 +130,30 @@ const AdminPage = ({ location }) => {
                 
                 <Tab tab={
                     <span>
-                        <UserOutlined />
+                        <TeamOutlined style={{ color: '#5ac5d4' }} />
                     Användarhantering</span>
                 } key="3">
                     <TabTitle>Användarhantering</TabTitle>
                 </Tab>
 
-                <Tab tab="Innehåll" key="4">
+                <Tab tab={
+                    <span>
+                        <FormOutlined style={{ color: '#5ac5d4' }} />
+                    Innehåll</span>
+                } key="4">
                     <TabTitle>Innehåll</TabTitle>
                 </Tab>
 
                 <Tab tab={
                     <span>
-                        <SkinOutlined />
+                        <SkinOutlined style={{ color: '#5ac5d4' }} />
                     Spelare</span>
                 } key="5">
-                    <TabTitle>Spelare</TabTitle>
+                    {/* <TabTitle>Spelare</TabTitle> */}
+                    <MainTitle>
+                        {/* <SettingOutlined style={{ color: '#5ac5d4' }} /> */}
+                        <span style={{ fontFamily: 'Avenir', fontSize: '14px' }}><UserOutlined style={{ color: '#5ac5d4' }} /><span>&nbsp;</span>Viktor Lager</span>
+                    </MainTitle>
                     <Players />
                 </Tab>
 

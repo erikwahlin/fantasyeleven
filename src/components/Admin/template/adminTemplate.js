@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
     min-height: 100vh;
 
     & * {
-        color: #d3d6dc;
+        /* color: #d3d6dc; */
         background: none;
     }
 
@@ -48,17 +48,21 @@ export const Wrapper = styled.div`
         border-right: 1px solid #2f3e55;
     }
 
+    & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+    text-align: left; 
+}
+
       & .ant-tabs .ant-tabs-left-content {
     padding-left: 24px;
     border-left: 1px solid #2f3e55;
 }
 
     & .hqLjmv .ant-tabs-ink-bar {
-    background: #5ac5d3;
+    background: /* #5ac5d3 */ red;
 }
 
     & .ant-tabs-ink-bar {
-        background: #1890ff;
+        background: /* #1890ff */ #5ac5d4;
     }
 `;
 
@@ -78,7 +82,7 @@ export const Tab = styled(TabPane)`
 
 export const MainTitle = styled.h1`
     background:#182231; 
-    text-align: center;
+    text-align: right;
     padding: 20px;
     margin-bottom:20px;
     border-bottom:1px solid #2f3e55;
