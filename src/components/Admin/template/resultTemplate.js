@@ -93,7 +93,7 @@ const ResultTemplate = ({ season, round, players }) => {
         <div className="Result">
             {sortedPlayers && (
                 <>
-                    <Wrapper className="Result">
+                    <Wrapper className="Result" margin="0 auto">
                         <ResultHeader className="ResultHeader" open={open} onClick={toggleHandler}>
                             <ResultTitle>
                                 Säsong <span>{season}</span> - omgång <span>{round}</span>

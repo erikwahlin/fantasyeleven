@@ -17,8 +17,7 @@ export const Wrapper = styled.div`
     }
 
     & button,
-    & a,
-    & input[type='submit'] {
+    & a {
         cursor: pointer;
     }
 

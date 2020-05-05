@@ -9,11 +9,12 @@ import '../form.css';
 import { ResultTemplate } from '../template';
 
 const ResultList = ({ playerResult }) => {
-    const { active, season, round, players } = playerResult; // todo: create shared team context
+    // reverse, sort later...
+    const list = playerResult.reverse();
 
     return (
         <>
-            {playerResult.map(item => (
+            {list.map(item => (
                 <ResultTemplate
                     key={item._id}
                     season={item.season}

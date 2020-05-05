@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     width: 100%;
     max-width: 600px;
     height: fit-content;
-    margin: 0 auto 50px;
+    margin: ${p => p.margin || '0 auto 50px'};
 `;
 
 export const ContentWrapper = styled.div`

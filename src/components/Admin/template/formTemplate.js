@@ -24,7 +24,6 @@ export const Form = styled.div`
     display: flex;
     flex-direction: column;
     background: #23334d;
-    /* box-shadow: 0 0 10px #eee; */
 `;
 
 export const Field = styled.div`
@@ -68,6 +67,16 @@ export const Input = styled.input`
 
     &[type='password'] {
         letter-spacing: 0.3em;
+    }
+
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &[type='number'] {
+        -moz-appearance: textfield;
     }
 `;
 
@@ -117,6 +126,8 @@ export const Submit = styled.input`
     border: none;
     background: none;
     font-weight: 700;
+
+    cursor: ${p => (p.disabled ? 'not-allowed' : 'pointer')};
 
     ${p =>
         p.disabled &&

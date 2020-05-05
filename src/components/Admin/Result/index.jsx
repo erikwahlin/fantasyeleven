@@ -15,6 +15,8 @@ class Result extends Component {
         this.state = initial_state;
 
         this.contextState = this.contextState.bind(this);
+        this.setPlayerResult = this.setPlayerResult.bind(this);
+
         this.getPlayerResult = this.getPlayerResult.bind(this);
     }
 
@@ -26,12 +28,20 @@ class Result extends Component {
         this.setState({ [key]: val });
     };
 
+    setPlayerResult = newRes => {
+        console.log('updating playerRes', newRes);
+        this.setState({ playerResult: newRes });
+    };
+
     getPlayerResult = async () => {
+        console.log('getplayer res...');
         await apis
             .get('getResult', 'all')
             .then(async res => {
                 console.log('Got player result', res.data.data);
                 this.setState({ playerResult: res.data.data });
+
+                console.log('got player res');
             })
             .catch(err => {
                 //setLoading(false);
@@ -42,6 +52,7 @@ class Result extends Component {
     render() {
         const setters = {
             contextState: this.contextState,
+            setPlayerResult: this.setPlayerResult,
             getPlayerResult: this.getPlayerResult
         };
 

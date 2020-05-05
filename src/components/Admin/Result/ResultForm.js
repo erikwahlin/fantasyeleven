@@ -18,7 +18,7 @@ const initialState = {
 
 const ResultForm = props => {
     const [state, setState] = useState(clone(initialState));
-    const { getPlayerResult } = props.resultContext.setters;
+    const { contextState } = props.resultContext.setters;
 
     const autosave = (key, val) => {
         const newState = clone(state);
@@ -33,14 +33,19 @@ const ResultForm = props => {
         await apis
             .create('createResult', { season, round })
             .then(async res => {
-                console.log('Created new player result!', res);
+                if (!res) return console.log('Failed to get back a post response.');
 
+                const newRes = res.data.data;
+                console.log('Created new player result!', newRes);
+
+                // update result state with post response
+                contextState('playerResult', newRes);
+
+                // empty form
                 setState(clone(initialState));
-
-                await getPlayerResult();
             })
+
             .catch(err => {
-                //setLoading(false);
                 console.log('Failed to create new player result.', err);
             });
     };
