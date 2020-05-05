@@ -25,6 +25,14 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit }) => {
                     type="text"
                     /* label="Name" */
                 />
+                <input
+                    onSubmit={onSubmit}
+                    name="price"
+                    defaultValue={price}
+                    type="text"
+                    /* label="Name" */
+                />
+                {/* 
                 <select defaultValue={price} name="price" id="price">
                     {unique('price').map((priceTag, id) => {
                         return (
@@ -34,7 +42,7 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit }) => {
                         );
                     })}
                 </select>
-
+ */}
                 <select name="club" id="club" defaultValue={club}>
                     {unique('club').map(clubs => {
                         return (

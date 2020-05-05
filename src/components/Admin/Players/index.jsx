@@ -4,6 +4,7 @@ import EditPlayer from './editPlayer';
 /* import INITIAL_STATE from './config'; */
 /* import { withTeam } from '../NewTeam/ctx'; */
 import * as preset from '../../../constants/gamePreset';
+import NewPlayer from './newPlayer';
 import {
     clone,
     toSwe,
@@ -31,8 +32,6 @@ import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 import { FiSearch } from 'react-icons/fi';
 
 //import '../fonts/MrEavesXLModNarOT-Reg.ttf';
-
-
 
 import {
     OuterWrapper,
@@ -83,7 +82,8 @@ const INITIAL_STATE = {
     playerModal: false,
 
     pickedPlayer: null,
-    updatedPlayer: false
+    updatedPlayer: false,
+    isNewPlayerClicked: false
 };
 
 class PlayerSearch extends Component {
@@ -107,6 +107,7 @@ class PlayerSearch extends Component {
         /* this.checkIfSlider = this.checkIfSlider.bind(this); */
         this.handleSortByClick = this.handleSortByClick.bind(this);
         this.handleListClickSort = this.handleListClickSort.bind(this);
+        this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         /* this.onChangeHandler = this.onChangeHandler.bind(this); */
     }
@@ -147,6 +148,44 @@ class PlayerSearch extends Component {
         pickedPlayer.updatedAt = Date.now();
         console.log(pickedPlayer);
         this.setState({ updatedPlayer: !this.state.updatedPlayer });
+    };
+    onSubmitNewPlayer = (event, playersList) => {
+        event.preventDefault();
+        const config = {
+            name: 0,
+            price: 1,
+            position: 2,
+            club: 3
+        };
+        const { name, price, club, position } = config;
+        const newProp = config => event.target[config].value;
+        const newName = newProp(name);
+        const newPrice = newProp(price);
+        const newPosition = newProp(position);
+        const newClub = newProp(club);
+        console.log('newname: ' + newName);
+        console.log('nwepos: ' + newPosition);
+        console.log('newtem: ' + newClub);
+        console.log('newprice: ' + newPrice);
+
+        /*
+                name: 'Bernd Leno',
+        position: 'Goalkeeper',
+        price: '5.0',
+        club: 'Arsenal',
+        uid: '-M3QcYkDw8jrP415N0Ql'
+        */
+        //create a new player obj.
+        let newPlayer = {
+            name: newName,
+            position: newPosition,
+            club: newClub,
+            price: newPrice,
+            createdAt: Date.now(),
+            uid: Date.now()
+        };
+        playersList.push(newPlayer);
+        console.log(playersList);
     };
     // when clicking on listed player
     /*     onChangeHandler = event => {
@@ -446,6 +485,13 @@ class PlayerSearch extends Component {
         return (
             <Wrapper>
                 <ContentWrapper>
+                    <button
+                        onClick={() =>
+                            this.setState({ isNewPlayerClicked: !this.state.isNewPlayerClicked })
+                        }
+                    >
+                        lägg till spelare
+                    </button>
                     <OuterWrapper className="OuterWrapper PlayerSearch">
                         <InnerWrapper
                             className="InnerWrapper PlayerSearch"
@@ -490,7 +536,7 @@ class PlayerSearch extends Component {
                                     <FiSearch />
                                 </SearchFieldWrapper>
 
-{/*                                 <h2 className="FilterTitle unmarkable">
+                                {/*                                 <h2 className="FilterTitle unmarkable">
                                     Sortera efter:
                                     <span
                                         className={`${
@@ -512,7 +558,7 @@ class PlayerSearch extends Component {
                                         popularitet
                                     </span>
                                 </h2> */}
-{/*                                 <ButtonContainer className="ButtonContainer playersearch">
+                                {/*                                 <ButtonContainer className="ButtonContainer playersearch">
                                     <ButtonDes
                                         className="SortFalling unmarkable"
                                         style={
@@ -569,7 +615,7 @@ class PlayerSearch extends Component {
 
                                         <LabelRow className="LabelRow unmarkable">
                                             <div className="labelPosition">
-                                                <p style={{color:'white'}}> {resultLabel}</p>
+                                                <p style={{ color: 'white' }}> {resultLabel}</p>
                                             </div>
                                             {/* <div
                                                 onClick={e =>
@@ -632,12 +678,13 @@ class PlayerSearch extends Component {
                 </ContentWrapper>
                 <Wrapper>
                     <ContentWrapper>
+                        {this.state.isNewPlayerClicked && (
+                            <NewPlayer onSubmit={this.onSubmitNewPlayer} players={players} />
+                        )}
                         {this.state.updatedPlayer && <div>Du lyckades uppdatera en spelare</div>}
                         {this.state.pickedPlayer && (
                             <EditPlayer
                                 onSubmit={this.onSubmitEditPlayer}
-                                playerConfig={this.state.playerConfig}
-                                /*  handleChange={this.onChangeHandler} */
                                 pickedPlayer={this.state.pickedPlayer}
                             />
                         )}
