@@ -5,6 +5,7 @@ import EditPlayer from './editPlayer';
 /* import { withTeam } from '../NewTeam/ctx'; */
 import * as preset from '../../../constants/gamePreset';
 import NewPlayer from './newPlayer';
+import { AiFillDelete } from 'react-icons/ai';
 import {
     clone,
     toSwe,
@@ -83,7 +84,8 @@ const INITIAL_STATE = {
 
     pickedPlayer: null,
     updatedPlayer: false,
-    isNewPlayerClicked: false
+    isNewPlayerClicked: false,
+    deletePlayer: null // set to uid ?
 };
 
 class PlayerSearch extends Component {
@@ -110,6 +112,7 @@ class PlayerSearch extends Component {
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
         /* this.onChangeHandler = this.onChangeHandler.bind(this); */
+        this.deletePlayerHandler = this.deletePlayerHandler.bind(this);
     }
 
     componentDidMount = (pp, ps) => {
@@ -117,6 +120,12 @@ class PlayerSearch extends Component {
         afterWinResize(() => {
             this.checkIfSlider();
         }, 300);
+    };
+
+    deletePlayerHandler = player => {
+        this.setState({ deletePlayer: player.uid }, () => {
+            this.goToFirstPage();
+        });
     };
 
     onSubmitEditPlayer = (event, playerList, pickedPlayer) => {
@@ -127,20 +136,20 @@ class PlayerSearch extends Component {
             name: 0,
             price: 1,
             club: 2,
-            position: 3
+            pos: 3
         };
 
-        const { name, price, club, position } = config;
+        const { name, price, club, pos } = config;
         const newProp = config => event.target[config].value;
-        const newName = newProp(name);
+
         if (newProp(name) !== pickedPlayer.name) {
-            pickedPlayer.name = newName;
+            pickedPlayer.name = newProp(name);
         }
         if (newProp(club) !== pickedPlayer.club) {
             pickedPlayer.club = newProp(club);
         }
-        if (newProp(position) !== pickedPlayer.position) {
-            pickedPlayer.position = newProp(position);
+        if (newProp(pos) !== pickedPlayer.position) {
+            pickedPlayer.position = newProp(pos);
         }
         if (newProp(price) !== pickedPlayer.price) {
             pickedPlayer.price = newProp(price);
@@ -154,46 +163,22 @@ class PlayerSearch extends Component {
         const config = {
             name: 0,
             price: 1,
-            position: 2,
+            pos: 2,
             club: 3
         };
-        const { name, price, club, position } = config;
+        const { name, price, club, pos } = config;
         const newProp = config => event.target[config].value;
-        const newName = newProp(name);
-        const newPrice = newProp(price);
-        const newPosition = newProp(position);
-        const newClub = newProp(club);
-        console.log('newname: ' + newName);
-        console.log('nwepos: ' + newPosition);
-        console.log('newtem: ' + newClub);
-        console.log('newprice: ' + newPrice);
 
-        /*
-                name: 'Bernd Leno',
-        position: 'Goalkeeper',
-        price: '5.0',
-        club: 'Arsenal',
-        uid: '-M3QcYkDw8jrP415N0Ql'
-        */
-        //create a new player obj.
         let newPlayer = {
-            name: newName,
-            position: newPosition,
-            club: newClub,
-            price: newPrice,
+            name: newProp(name),
+            position: newProp(pos),
+            club: newProp(club),
+            price: newProp(price),
             createdAt: Date.now(),
             uid: Date.now()
         };
         playersList.push(newPlayer);
-        console.log(playersList);
     };
-    // when clicking on listed player
-    /*     onChangeHandler = event => {
-        const { pickedPlayer } = this.state;
-        console.log(event.target.name);
-        
-        this.setState({ [pickedPlayer[event.target.name]]: event.target.name });
-    }; */
 
     playerClickHandler = player => {
         const { pickedPlayer } = this.state;
@@ -617,14 +602,6 @@ class PlayerSearch extends Component {
                                             <div className="labelPosition">
                                                 <p style={{ color: 'white' }}> {resultLabel}</p>
                                             </div>
-                                            {/* <div
-                                                onClick={e =>
-                                                    this.handleListClickSort(e, 'popularity')
-                                                }
-                                                className="tooltip labelPercentage"
-                                            >
-                                                %<span className="tooltiptext">Popularitet</span>
-                                            </div> */}
                                             <div
                                                 onClick={e => this.handleListClickSort(e, 'price')}
                                                 className="tooltip labelPrice"
@@ -659,6 +636,18 @@ class PlayerSearch extends Component {
                                                                     'positions'
                                                                 )}
                                                             </p>
+                                                            <div
+                                                                onClick={player =>
+                                                                    this.setState(
+                                                                        {
+                                                                            deletePlayer: player.uid
+                                                                        },
+                                                                        () => this.goToFirstPage()
+                                                                    )
+                                                                }
+                                                            >
+                                                                <AiFillDelete />
+                                                            </div>
                                                         </Player>
 
                                                         <PlayerPrice className="PlayerPrice">
