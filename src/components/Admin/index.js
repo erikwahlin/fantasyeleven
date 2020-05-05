@@ -7,8 +7,7 @@ import { withAuthorization } from '../Session';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { afterWinResize } from '../../constants/helperFuncs';
-import ResultForm from './ResultForm';
-import ResultList from './ResultList';
+import Result from './Result';
 import AwardForm from './AwardForm';
 import Players from './Players';
 
@@ -67,14 +66,12 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
-                defaultActiveKey="5"
+                defaultActiveKey="0"
             >
                 <Tab tab="Resultat" key="0">
                     <TabTitle>Resultat</TabTitle>
 
-                    <ResultForm />
-
-                    <ResultList />
+                    <Result />
                 </Tab>
 
                 <Tab tab="Utdelningsmodell" key="1">

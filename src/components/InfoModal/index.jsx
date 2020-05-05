@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-import customStyle, {
+import customstyle, {
     ModalWrapper,
     OpenBtn,
     Icon,
@@ -23,7 +23,9 @@ const InfoModal = props => {
         modalStyle,
         openBtnStyle,
         iconStyle,
-        className
+        className,
+        openCallback,
+        closeCallback
     } = props;
     className = className || '';
 
@@ -33,6 +35,8 @@ const InfoModal = props => {
     function openModal() {
         setFallbackImg('https://source.unsplash.com/random');
         setIsOpen(true);
+
+        if (typeof openCallback === 'function') openCallback();
     }
 
     function afterOpenModal() {
@@ -42,24 +46,26 @@ const InfoModal = props => {
     function closeModal() {
         setFallbackImg(null);
         setIsOpen(false);
+
+        if (typeof closeCallback === 'function') closeCallback();
     }
 
     return (
         <ModalWrapper className={`ModalWrapper playerModal ${className}`}>
             <OpenBtn
-                customStyle={openBtnStyle}
+                customstyle={openBtnStyle}
                 isPitch={props.isPitch}
                 className="ModalOpenBtn playerinfo"
                 onClick={openModal}
             >
-                {openBtn ? openBtn : <Icon customStyle={iconStyle} className="infoIcon" />}
+                {openBtn ? openBtn : <Icon customstyle={iconStyle} className="infoIcon" />}
             </OpenBtn>
 
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
-                style={customStyle(modalStyle)}
+                style={customstyle(modalStyle)}
                 contentLabel="InfoModal"
             >
                 <ContentWrapper className="ContentWrapper playerModal unmarkable">
@@ -67,7 +73,9 @@ const InfoModal = props => {
                     {subtitle && <Subtitle>{subtitle}</Subtitle>}
                     <Img className="Img" src={img ? img : fallbackImg} />
                     <Content className="Content playerModal unmarkable">{props.children}</Content>
-                    <Submit onClick={closeModal}>{submit || 'Stäng'}</Submit>
+                    <Submit className="closeBtn playerinfo" onClick={closeModal}>
+                        {submit || 'Stäng'}
+                    </Submit>
                 </ContentWrapper>
             </Modal>
         </ModalWrapper>

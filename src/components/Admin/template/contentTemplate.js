@@ -7,9 +7,9 @@ const Box = styled.div`
     display: flex;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 

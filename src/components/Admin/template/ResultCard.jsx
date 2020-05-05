@@ -76,7 +76,11 @@ const ResultCard = ({ player, width }) => {
     const [cardOpen, setCardOpen] = useState(false);
 
     const cardClickHandler = e => {
-        if (e.target.classList.contains('infoIcon') || e.target.closest('.infoIcon')) {
+        if (
+            e.target.classList.contains('playerinfo') ||
+            e.target.closest('.playerinfo') ||
+            modalOpen
+        ) {
             return;
         }
 
@@ -102,45 +106,53 @@ const ResultCard = ({ player, width }) => {
 
                 <LabelStrong className="points">{player.points.sum}p.</LabelStrong>
 
-                <PlayerInfo
-                    modalStyle={{ background: '#40a9ff' }}
-                    openBtnStyle={`width: 28px; height: 28px;`}
-                    iconStyle="position: relative; top: 5px; fill: #40a9ff;"
-                    isPitch={false}
-                    title={player.name}
-                    subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-                    img="https://source.unsplash.com/random"
-                />
+                {cardOpen && (
+                    <PlayerInfo
+                        modalStyle={{ background: '#40a9ff' }}
+                        openBtnStyle={`width: 28px; height: 28px;`}
+                        iconStyle="position: relative; top: 5px; fill: #40a9ff;"
+                        isPitch={false}
+                        title={player.name}
+                        subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+                        img="https://source.unsplash.com/random"
+                        openCallback={() => setModalOpen(true)}
+                        closeCallback={() => setModalOpen(false)}
+                    />
+                )}
             </CardHeader>
 
-            <Content className="ResultRow container" cardOpen={cardOpen}>
-                <Col className="ResultCol effort">
-                    <Row className="ResultRow title">
-                        <Label className="ResultLabel effort">PRESTATION</Label>
-                    </Row>
-                    {Object.keys(player.effort).map(key => (
-                        <Row key={key} className={`ResultRow ${key}`}>
-                            <Label className={`ResultLabel ${key}`}>{key}</Label>
-                            <Val className={`ResultVal ${key}`}>{player.effort[key]}</Val>
+            {cardOpen && (
+                <Content className="ResultRow container" cardOpen={cardOpen}>
+                    <Col className="ResultCol effort">
+                        <Row className="ResultRow title">
+                            <Label className="ResultLabel effort">PRESTATION</Label>
                         </Row>
-                    ))}
-                </Col>
+                        {Object.keys(player.effort).map(key => (
+                            <Row key={key} className={`ResultRow ${key}`}>
+                                <Label className={`ResultLabel ${key}`}>{key}</Label>
+                                <Val className={`ResultVal ${key}`}>{player.effort[key]}</Val>
+                            </Row>
+                        ))}
+                    </Col>
 
-                <Col className="ResultCol points">
-                    <Row className="ResultRow title">
-                        <Label className="ResultLabel points">POÄNG</Label>
-                    </Row>
-                    {Object.keys(player.points).map(
-                        key =>
-                            key !== 'sum' && (
-                                <Row key={key} className={`ResultRow ${key}`}>
-                                    <Label className={`ResultLabel ${key}`}>{key}</Label>
-                                    <Val className={`ResultVal ${key}`}>{player.points[key]}</Val>
-                                </Row>
-                            )
-                    )}
-                </Col>
-            </Content>
+                    <Col className="ResultCol points">
+                        <Row className="ResultRow title">
+                            <Label className="ResultLabel points">POÄNG</Label>
+                        </Row>
+                        {Object.keys(player.points).map(
+                            key =>
+                                key !== 'sum' && (
+                                    <Row key={key} className={`ResultRow ${key}`}>
+                                        <Label className={`ResultLabel ${key}`}>{key}</Label>
+                                        <Val className={`ResultVal ${key}`}>
+                                            {player.points[key]}
+                                        </Val>
+                                    </Row>
+                                )
+                        )}
+                    </Col>
+                </Content>
+            )}
         </Card>
     );
 };

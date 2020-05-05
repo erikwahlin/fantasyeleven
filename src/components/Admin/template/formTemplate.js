@@ -4,6 +4,7 @@ import { Wrapper } from './wrapperTemplate';
 import { InputNumber } from 'antd';
 
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { FcCheckmark } from 'react-icons/fc';
 
 import {
     clickedClass,
@@ -22,7 +23,8 @@ export const Form = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 10px #eee;
+    background: #23334d;
+    /* box-shadow: 0 0 10px #eee; */
 `;
 
 export const Field = styled.div`
@@ -30,14 +32,14 @@ export const Field = styled.div`
     display: flex;
     margin: 0;
     padding: 25px 0 0;
-    box-shadow: inset 0px -2px 15px -15px black;
+    box-shadow: inset 0px -7px 15px -15px black;
 `;
 
 export const Input = styled.input`
     text-indent: 10px;
 
     background: none !important;
-    color: black !important;
+
     font-size: 18px;
     padding: 10px 10px 10px 5px;
     display: block;
@@ -54,7 +56,7 @@ export const Input = styled.input`
     &:not([value='']) ~ .form-input-label {
         top: 10px;
         font-size: 12px;
-        color: #bbb;
+        opacity: 0.6;
     }
 
     &[class='valid'] {
@@ -78,19 +80,28 @@ export const Label = styled.label`
 
     top: 40px;
     font-size: 16px;
-    color: black;
 
     font-weight: normal;
     position: absolute;
     pointer-events: none;
     left: 5px;
     transition: 300ms ease all;
+`;
 
-    &[class='shrink'] {
-        top: -10px;
-        font-size: 12px;
-        color: #bbb;
-    }
+export const Helper = styled.label`
+    top: 40px;
+    font-size: 12px;
+    font-style: italic;
+
+    font-weight: 100;
+    position: absolute;
+    pointer-events: none;
+    right: 10px;
+    transition: 300ms ease all;
+
+    top: 10px;
+    font-size: 12px;
+    opacity: 0.6;
 `;
 
 export const Submit = styled.input`
@@ -104,9 +115,14 @@ export const Submit = styled.input`
     top: 0;
     outline: none;
     border: none;
-    color: #000;
     background: none;
     font-weight: 700;
+
+    ${p =>
+        p.disabled &&
+        css`
+            opacity: 0.1;
+        `}
 `;
 
 const NumberTicks = styled.div`
@@ -123,7 +139,16 @@ const NumberTicks = styled.div`
     }
 `;
 
-export const InputTemplate = ({ state, stateKey, label = stateKey, type, autosave, ...props }) => {
+export const InputTemplate = ({
+    state,
+    stateKey,
+    label = stateKey,
+    helper,
+    type,
+    autosave,
+    ready,
+    ...props
+}) => {
     const ticksHandler = (e, dir, interval = 1) => {
         const num = parseInt(state[stateKey]);
 
@@ -153,44 +178,33 @@ export const InputTemplate = ({ state, stateKey, label = stateKey, type, autosav
                     autosave(stateKey, e.target.value);
                 }}
             />
+
             {type === 'number' && (
                 <NumberTicks className="NumberTicks">
-                    <UnderlayContainer
-                        className="UnderlayContainer numberticks"
-                        margin="0"
-                        onClick={e => ticksHandler(e, 'inc')}
-                    >
-                        <IoIosArrowUp />
-
-                        <AppearOnHover
-                            className="underlay appear"
-                            boxShadow="0px -1px 8px -4px #ccc"
-                        />
-                    </UnderlayContainer>
-
-                    <UnderlayContainer
-                        className="UnderlayContainer numberticks"
-                        margin="0"
-                        onClick={e => ticksHandler(e, 'dec')}
-                    >
-                        <IoIosArrowDown />
-
-                        <AppearOnHover
-                            className="underlay appear"
-                            boxShadow="0px 2px 8px -3px #ccc"
-                        />
-                    </UnderlayContainer>
+                    <IoIosArrowUp onClick={e => ticksHandler(e, 'inc')} />
+                    <IoIosArrowDown onClick={e => ticksHandler(e, 'dec')} />
                 </NumberTicks>
             )}
 
-            <Label className={`form-input-label`}>{label}</Label>
+            <Label className={`form-input-label`}>
+                {label} {ready ? <FcCheckmark /> : null}
+            </Label>
+
+            <Helper className="helper">{helper}</Helper>
         </Field>
     );
 };
 
 // add and remove anim-class for submit-btn
 
-export const FormContainer = ({ title, children, ready = true, submitVal, onSubmit }) => {
+export const FormContainer = ({
+    title,
+    children,
+    ready = true,
+    submitVal,
+    submitDisabled = false,
+    onSubmit
+}) => {
     const submitHandler = e => {
         clickedClass(e);
         onSubmit(e);
@@ -208,17 +222,18 @@ export const FormContainer = ({ title, children, ready = true, submitVal, onSubm
                         disabled={!ready}
                         type="submit"
                         value={submitVal}
+                        disabled={submitDisabled}
                     ></Submit>
 
                     <Underlay
                         className="underlay"
-                        boxShadow="-8px -8px 4px -8px #eee"
+                        boxShadow="-6px -6px 7px -8px #000"
                         opacity="1"
                     />
 
                     <Underlay
                         className="underlay appearOnClick"
-                        boxShadow="inset 8px 8px 6px -10px #aaa"
+                        boxShadow="inset 8px 8px 6px -10px #000"
                     />
                 </UnderlayContainer>
             </Form>

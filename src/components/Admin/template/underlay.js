@@ -42,7 +42,6 @@ export const UnderlayContainer = styled.div`
     position: relative;
     text-align: center;
     align-self: flex-end;
-    color: #000;
     font-size: 1.4em;
     font-weight: 700;
     width: auto;
@@ -74,8 +73,8 @@ export const UnderlayContainer = styled.div`
     }
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
