@@ -112,7 +112,7 @@ class SignUpFormBase extends Component {
             passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
 
         return (
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={e => this.onSubmit(e)}>
                 <FormInput
                     name="username"
                     value={username}

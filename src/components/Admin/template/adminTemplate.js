@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
     min-height: 100vh;
 
     & * {
-        color: #d3d6dc;
+        /* color: #d3d6dc; */
         background: none;
     }
 
@@ -36,8 +36,32 @@ export const Wrapper = styled.div`
             `};
     }
 
+    & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+        font-size: 1em !important;
+        font-weight: 500;
+        color:#d3d6dc;
+        cursor: pointer;
+    }
+
+    & .ant-tabs .ant-tabs-left-bar {
+        border-right: 1px solid #2f3e55;
+    }
+
+    & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+    text-align: left; 
+}
+
+      & .ant-tabs .ant-tabs-left-content {
+    padding-left: 24px;
+    border-left: 1px solid #2f3e55;
+}
+
+    & .hqLjmv .ant-tabs-ink-bar {
+    background: /* #5ac5d3 */ red;
+}
+
     & .ant-tabs-ink-bar {
-        background: #1890ff;
+        background: /* #1890ff */ #5ac5d4;
     }
 `;
 
@@ -45,15 +69,24 @@ export const Sel = styled(Select)``;
 
 export const Opt = styled(Option)``;
 
-export const TabContainer = styled(Tabs)``;
+export const TabContainer = styled(Tabs)`
+background:#131b29;
+`;
 
 export const Tab = styled(TabPane)`
     color: #000;
+    background:#182231;
+
 `;
 
 export const MainTitle = styled.h1`
-    text-align: center;
+    background:#182231; 
+    text-align: right;
     padding: 20px;
+    margin-bottom:20px;
+    border-bottom:1px solid #2f3e55;
 `;
 
-export const TabTitle = styled.h2``;
+export const TabTitle = styled.h2`
+
+    `;
