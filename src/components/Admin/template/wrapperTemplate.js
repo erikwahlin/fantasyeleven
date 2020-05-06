@@ -2,13 +2,19 @@ import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 600px;
+    /* max-width: 600px; */
     height: fit-content;
+<<<<<<< HEAD
     margin: ${p => p.margin || '0 auto 50px'};
+=======
+    /* margin: 0 auto 50px; */
+    margin-left:20px;
+    
+>>>>>>> edit-player-style
 `;
 
 export const ContentWrapper = styled.div`
@@ -16,6 +22,8 @@ export const ContentWrapper = styled.div`
     width: 100%;
     padding: 10px;
     display: flex;
+    height:100vh;
+    color:white;
     ${p =>
         p.flexDirection &&
         css`

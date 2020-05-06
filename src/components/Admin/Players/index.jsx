@@ -52,7 +52,7 @@ import {
     ButtonReset,
     SearchFieldWrapper,
     ArrowWrapper,
-    CapWrap
+    CapWrap,
 } from './style.js';
 
 const Players = props => {
@@ -82,7 +82,7 @@ const INITIAL_STATE = {
     result: [],
     playerModal: false,
 
-    pickedPlayer: null,
+    pickedPlayer: true,
     updatedPlayer: false,
     isNewPlayerClicked: false,
     deletePlayer: null
@@ -466,13 +466,7 @@ class PlayerSearch extends Component {
         return (
             <Wrapper>
                 <ContentWrapper>
-                    <button
-                        onClick={() =>
-                            this.setState({ isNewPlayerClicked: !this.state.isNewPlayerClicked })
-                        }
-                    >
-                        lägg till spelare
-                    </button>
+
                     <OuterWrapper className="OuterWrapper PlayerSearch">
                         <InnerWrapper
                             className="InnerWrapper PlayerSearch"
@@ -483,9 +477,23 @@ class PlayerSearch extends Component {
                             {/* (FILTER) <br />  */}
                             {/* temp */}
                             <>
+                                <button style={{
+                                    border: '1px solid #2f3e55',
+                                    color: 'white',
+                                    padding: '5px',
+                                    marginBottom: '5px',
+
+                                }}
+                                    onClick={() =>
+                                        this.setState({ isNewPlayerClicked: !this.state.isNewPlayerClicked })
+                                    }
+                                >
+                                    Lägg till ny spelare
+                    </button>
                                 <Title className="SearchPlayer-Title unmarkable">
                                     Välj spelare
                                 </Title>
+
                                 <ArrowWrapper>
                                     <DropDown
                                         className="FilterByPosClub dropdown playerserach unmarkable"
@@ -592,7 +600,7 @@ class PlayerSearch extends Component {
                     </OuterWrapper>
                 </ContentWrapper>
                 <Wrapper>
-                    <ContentWrapper>
+                    <ContentWrapper style={{display:'flex', justifyContent:'center', padding:'0px', marginRight:'40px'}}>
                         {this.state.isNewPlayerClicked && (
                             <NewPlayer onSubmit={this.onSubmitNewPlayer} players={players} />
                         )}
@@ -602,6 +610,7 @@ class PlayerSearch extends Component {
                                 onClick={this.deletePlayer}
                                 onSubmit={this.onSubmitEditPlayer}
                                 pickedPlayer={this.state.pickedPlayer}
+    
                             />
                         )}
                     </ContentWrapper>
