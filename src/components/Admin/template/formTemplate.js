@@ -162,7 +162,6 @@ export const InputTemplate = ({
     ...props
 }) => {
     const keyHandler = e => {
-        console.log('key', e.keyCode);
         if (e.keyCode !== 13) return;
 
         onSubmit(e);
