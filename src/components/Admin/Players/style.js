@@ -259,3 +259,4 @@ export const PlayerPrice = styled.div`
 export const CapWrap = styled.div`
     margin-top: 7rem;
 `;
+
