@@ -158,8 +158,16 @@ export const InputTemplate = ({
     type,
     autosave,
     ready,
+    onSubmit,
     ...props
 }) => {
+    const keyHandler = e => {
+        console.log('key', e.keyCode);
+        if (e.keyCode !== 13) return;
+
+        onSubmit(e);
+    };
+
     const ticksHandler = (e, dir, interval = 1) => {
         const num = parseInt(state[stateKey]);
 
@@ -188,6 +196,7 @@ export const InputTemplate = ({
                 onChange={e => {
                     autosave(stateKey, e.target.value);
                 }}
+                onKeyDown={keyHandler}
             />
 
             {type === 'number' && (

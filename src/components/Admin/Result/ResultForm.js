@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withResult } from './ctx';
 import apis from '../../../constants/api';
 
-import { clone } from '../../../constants/helperFuncs';
+import { clone, userMsg } from '../../../constants/helperFuncs';
 import '../form.css';
 
 import { formTemplate } from '../template';
@@ -20,15 +20,16 @@ const ResultForm = props => {
     const [state, setState] = useState(clone(initialState));
     const { contextState } = props.resultContext.setters;
 
-    const autosave = (key, val) => {
-        const newState = clone(state);
-
-        newState[key] = val;
-
-        setState({ ...newState });
-    };
-
     const createPlayerResult = async () => {
+        const creatingMsg = userMsg({
+            message: 'Skapar resultat...',
+            dismiss: { duration: 2000 }
+        });
+        creatingMsg.add();
+
+        // empty form
+        setState(clone(initialState));
+
         const { season, round } = state;
         await apis
             .create('createResult', { season, round })
@@ -41,8 +42,15 @@ const ResultForm = props => {
                 // update result state with post response
                 contextState('playerResult', newRes);
 
-                // empty form
-                setState(clone(initialState));
+                // display confirmation
+                const confirmation = userMsg({
+                    message: 'Nytt resultat skapat!',
+                    dismiss: {
+                        duration: 2000
+                    },
+                    type: 'success'
+                });
+                confirmation.add();
             })
 
             .catch(err => {
@@ -51,9 +59,26 @@ const ResultForm = props => {
     };
 
     const submit = e => {
+        if (!ready.season || !ready.round) {
+            const invalidMsg = userMsg({
+                message: 'Vänligen fyll i alla fält.',
+                type: 'warning',
+                dismiss: { duration: 2000 }
+            });
+            return invalidMsg.add();
+        }
+
         e.preventDefault();
 
         createPlayerResult();
+    };
+
+    const autosave = (key, val) => {
+        const newState = clone(state);
+
+        newState[key] = val;
+
+        setState({ ...newState });
     };
 
     const ready = {
@@ -79,6 +104,7 @@ const ResultForm = props => {
                 type="text"
                 helper='exempel: "19/20"'
                 ready={ready.season}
+                onSubmit={submit}
             />
 
             <InputTemplate
@@ -89,6 +115,7 @@ const ResultForm = props => {
                 type="number"
                 helper="använd siffror"
                 ready={ready.round}
+                onSubmit={submit}
             />
         </FormContainer>
     );

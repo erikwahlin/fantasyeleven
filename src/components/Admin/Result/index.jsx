@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ResultContext from './ctx';
 import apis from '../../../constants/api';
+//import { store } from 'react-notifications-component';
+import { userMsg } from '../../../constants/helperFuncs';
 
 import ResultForm from './ResultForm';
 import ResultList from './ResultList';
@@ -34,6 +36,12 @@ class Result extends Component {
     };
 
     getPlayerResult = async () => {
+        const loadMsg = userMsg({
+            message: 'laddar resultat...'
+        });
+
+        loadMsg.add();
+
         console.log('getplayer res...');
         await apis
             .get('getResult', 'all')
@@ -41,7 +49,7 @@ class Result extends Component {
                 console.log('Got player result', res.data.data);
                 this.setState({ playerResult: res.data.data });
 
-                console.log('got player res');
+                loadMsg.remove();
             })
             .catch(err => {
                 //setLoading(false);
@@ -68,19 +76,14 @@ class Result extends Component {
                 >
                     <ResultForm />
 
-                    {playerResult ? (
-                        playerResult.length ? (
+                    {playerResult &&
+                        (playerResult.length ? (
                             <ResultList playerResult={this.state.playerResult} />
                         ) : (
                             <h3>
                                 <i>Inga skapade resultat</i>
                             </h3>
-                        )
-                    ) : (
-                        <h3>
-                            <i>Laddar resultat...</i>
-                        </h3>
-                    )}
+                        ))}
                 </ResultContext.Provider>
             </>
         );

@@ -17,6 +17,11 @@ import styled, { keyframes } from 'styled-components';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
+import ReactNotification from 'react-notifications-component';
+
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 const rotate = keyframes`
 	0% {
 		transform: rotate(0deg);
@@ -92,9 +97,17 @@ const AppContainer = styled.div`
     }
 `;
 
+const NotifContainer = styled(ReactNotification)`
+    & .animOut {
+        animation-duration: 5s !important;
+    }
+`;
+
 const App = () => (
     <Router>
         <>
+            <NotifContainer className="NotifContainer" />
+
             <LandscapeMode className="landscapeMode">
                 <PhoneOuter>
                     <div></div>

@@ -1,5 +1,6 @@
 import * as LEX from './lexicon';
 import stadiums from './stadiums';
+import { store } from 'react-notifications-component';
 
 //counting players in team.pitch or team.bench
 export const countPlayers = arrOfObj => {
@@ -82,4 +83,43 @@ export const getRefSize = ref => {
 
 export const firstCap = word => {
     return word[0].toUpperCase() + word.substring(1);
+};
+
+export const userMsg = props => {
+    const self = {};
+
+    const def = {
+        className: 'userMsg',
+        title: '',
+        message: '...',
+        type: 'default',
+        insert: 'top',
+        container: 'bottom-center',
+        animationIn: ['animated', 'fadeIn'],
+        animationOut: ['animated', 'fadeOut', 'slow'],
+        dismiss: {
+            duration: 10000,
+            waitForAnimation: true,
+            pausOnHover: true
+        }
+    };
+
+    self.notif = {
+        ...def,
+        ...props
+    };
+
+    self.add = () => {
+        if (!self.notif) return console.error('No notif props were set.');
+
+        self.id = store.addNotification(self.notif);
+    };
+
+    self.remove = () => {
+        if (!self.id) return console.error('Notification has no id.');
+
+        store.removeNotification(self.id);
+    };
+
+    return self;
 };
