@@ -68,7 +68,7 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
                 </select>
                 <button type="submit">spara</button>
             </form>
-            <button onClick={() => onClick(pickedPlayer)}>ta bort Spelare</button>
+            <button onClick={() => onClick(players)}>ta bort Spelare</button>
         </div>
     );
 };

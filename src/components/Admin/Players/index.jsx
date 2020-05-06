@@ -121,8 +121,8 @@ class PlayerSearch extends Component {
         }, 300);
     };
 
-    deletePlayer = pickedPlayer => {
-        this.setState({ deletePlayer: pickedPlayer.uid });
+    deletePlayer = playerList => {
+        playerList.filter(players => players.uid !== this.state.deletePlayer);
     };
     onSubmitEditPlayer = (event, playerList, pickedPlayer) => {
         event.preventDefault();
@@ -190,6 +190,7 @@ class PlayerSearch extends Component {
                 pickedPlayer: player
             });
         }
+        this.setState({ deletePlayer: player.uid });
     };
 
     // reset filter & order
