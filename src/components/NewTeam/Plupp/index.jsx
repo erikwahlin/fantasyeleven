@@ -585,10 +585,8 @@ class Plupp extends Component {
             isViceCap = player.uid === viceCaptain ? true : false;
         }
 
-        /* 
-        
-        */
-        console.log(stageName, isSwitchable);
+        //console.log(stageName, isSwitchable);
+
         return (
             <Container>
                 {player && !isMarked && (

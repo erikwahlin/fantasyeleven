@@ -49,8 +49,6 @@ const Bench = props => {
     const { team, config } = props.teamContext.state;
     const { stageName } = config.buildStage;
 
-    console.log('stageName', stageName);
-
     return (
         <Wrapper className="Bench Wrapper" stageName={stageName}>
             {preset.positions.map((pos, nth) => (

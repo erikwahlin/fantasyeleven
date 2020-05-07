@@ -72,7 +72,7 @@ class NewTeam extends Component {
 
         this.mongoLoad = this.mongoLoad.bind(this);
         this.mongoCreate = this.mongoCreate.bind(this);
-        this.mongoUpdate = this.mongoUpdate.bind(this);
+        this.mongoSave = this.mongoSave.bind(this);
 
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
@@ -128,7 +128,7 @@ class NewTeam extends Component {
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
-    save = () => (this.state.user && this.state.appOnline ? this.mongoUpdate() : this.clientSave());
+    save = () => (this.state.user && this.state.appOnline ? this.mongoSave() : this.clientSave());
 
     load = () => (this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad());
 
@@ -182,7 +182,9 @@ class NewTeam extends Component {
             .catch(err => console.log('Failed to create new team in mongo', err));
     };
 
-    mongoUpdate = async () => {
+    mongoSave = async () => {
+        console.log('mongo-save');
+
         const _id = this.state.user;
 
         const payload = {

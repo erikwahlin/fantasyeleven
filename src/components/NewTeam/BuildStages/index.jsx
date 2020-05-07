@@ -198,7 +198,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
             </Content>
 
             <StepContainer
-                stageName={stageName}
+                stagename={stageName}
                 current={stageIndex}
                 size="small"
                 className="StepContainer"
