@@ -114,12 +114,12 @@ class PlayerSearch extends Component {
         /* this.onChangeHandler = this.onChangeHandler.bind(this); */
     }
 
-    componentDidMount = (pp, ps) => {
+/*     componentDidMount = (pp, ps) => {
         // on win resize, check if playerSearch should slide in or not
         afterWinResize(() => {
             this.checkIfSlider();
         }, 300);
-    };
+    }; */
 
     deletePlayer = pickedPlayer => {
         this.setState({ deletePlayer: pickedPlayer.uid });
@@ -464,7 +464,7 @@ class PlayerSearch extends Component {
         //console.log('search output', result);
 
         return (
-            <Wrapper>
+            <Wrapper style={{ flexDirection:'row', alignItems:'center' }}>
                 <ContentWrapper>
 
                     <OuterWrapper className="OuterWrapper PlayerSearch">
@@ -600,7 +600,7 @@ class PlayerSearch extends Component {
                     </OuterWrapper>
                 </ContentWrapper>
                 <Wrapper>
-                    <ContentWrapper style={{display:'flex', justifyContent:'center', padding:'0px', marginRight:'40px'}}>
+                    <ContentWrapper style={{ display: 'flex', justifyContent: 'center', marginLeft:'30px', padding:'10px'}}>
                         {this.state.isNewPlayerClicked && (
                             <NewPlayer onSubmit={this.onSubmitNewPlayer} players={players} />
                         )}
