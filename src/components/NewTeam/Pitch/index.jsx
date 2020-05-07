@@ -7,10 +7,6 @@ import Plupp from '../Plupp';
 import pitchImg from '../../../media/pitch.png';
 import { AddPlayerIcon } from '../StageInfo/template';
 
-import pitchInitial from '../../../media/pitchAnim/pitchInitial.gif';
-import pitchNext from '../../../media/pitchAnim/pitchNext.gif';
-import pitchPrev from '../../../media/pitchAnim/pitchPrev.gif';
-
 const Wrapper = styled.div`
     position: relative;
     width: 480px;
@@ -102,10 +98,11 @@ const AddContainer = styled.div`
 
 const Pitch = props => {
     const { team, config } = props.teamContext.state;
+    const { players } = team;
     const { mobileSearch, buildStage } = config;
     const { stageName } = buildStage;
     const { togglePlayerSearch, openPlayerSearch } = props.teamContext.setters;
-    const playerCount = team.list.filter(p => p.origin === 'pitch').length;
+    const playerCount = players.list.filter(p => p.origin === 'pitch').length;
     /* const anims = {
         initial: pitchInitial,
         next: pitchNext,
@@ -130,7 +127,7 @@ const Pitch = props => {
             <FormationContainer className="FormationContainer">
                 {preset.positions.map((pos, nth) => (
                     <PositionContainer key={`lineup-${nth}`} className={`PositionContainer ${pos}`}>
-                        {team.pitch[pos].map((player, nth) => (
+                        {players.pitch[pos].map((player, nth) => (
                             <PlayerContainer
                                 key={player.uid}
                                 className={`PlayerContainer ${pos} unmarkable`}
@@ -140,7 +137,7 @@ const Pitch = props => {
                                     origin="pitch"
                                     player={player}
                                     pos={player.position}
-                                    lineupCount={team.pitch[pos].length}
+                                    lineupCount={players.pitch[pos].length}
                                 />
                             </PlayerContainer>
                         ))}

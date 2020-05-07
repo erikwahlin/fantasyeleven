@@ -125,12 +125,12 @@ const stageContent = stage => {
 };
 
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
-    const { setStage, updateFilterKeys, updatePitchAnim } = teamContext.setters;
+    const { setStage, updateFilterKeys } = teamContext.setters;
     const { team } = teamContext.state;
-    const { list: playerList, captain, viceCaptain } = team;
+    const { players, captain, viceCaptain, value } = team;
 
     const { stageName, stageIndex } = buildStage;
-    const playerCount = playerList.filter(player => player.origin === stageName).length;
+    const playerCount = players.list.filter(player => player.origin === stageName).length;
 
     const callback = key => {
         console.log('tab change callback...');
@@ -158,7 +158,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
             case 'pitch':
                 return (
                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName]
+                    value[stageName] <= preset.maxPrice[stageName]
                     //true
                 );
 
@@ -168,7 +168,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
             case 'bench':
                 return (
                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName]
+                    value[stageName] <= preset.maxPrice[stageName]
                     //true
                 );
 

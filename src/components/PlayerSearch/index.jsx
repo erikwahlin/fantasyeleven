@@ -336,8 +336,8 @@ class PlayerSearch extends Component {
         const { captain, viceCaptain } = team;
 
         //captain and viceCaptain
-        const capObj = team.list.filter(p => p.uid === captain)[0];
-        const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
+        const capObj = team.players.list.filter(p => p.uid === captain)[0];
+        const viceObj = team.players.list.filter(p => p.uid === viceCaptain)[0];
 
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
@@ -653,8 +653,8 @@ class PlayerSearch extends Component {
 
                             {!paginated.length && (
                                 <Instructions
-                                    benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
-                                    pitchPlayers={teamContext.state.team.pitch}
+                                    benchPlayers={teamContext.state.team.players.bench} // array of benchplayers from state
+                                    pitchPlayers={teamContext.state.team.players.pitch}
                                     buildStagePage={buildStage.stageName}
                                     posOrClub={posOrClubSelected}
                                 />

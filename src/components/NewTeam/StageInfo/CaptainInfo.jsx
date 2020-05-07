@@ -8,9 +8,9 @@ import viceImg from '../../../media/ViceCap.svg';
 
 const CaptainInfo = ({ teamContext }) => {
     const { team } = teamContext.state;
-    const { captain, viceCaptain } = team;
-    const capObj = team.list.filter(p => p.uid === captain)[0] || { name: '' };
-    const viceObj = team.list.filter(p => p.uid === viceCaptain)[0] || { name: '' };
+    const { players, captain, viceCaptain } = team;
+    const capObj = players.list.filter(p => p.uid === captain)[0] || { name: '' };
+    const viceObj = players.list.filter(p => p.uid === viceCaptain)[0] || { name: '' };
 
     return (
         <Wrapper className="StageInfo">

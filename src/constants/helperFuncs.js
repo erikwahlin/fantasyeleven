@@ -1,7 +1,7 @@
 import * as LEX from './lexicon';
 import stadiums from './stadiums';
 
-//counting players in team.pitch or team.bench
+//counting players in team.players.pitch or team.players.bench
 export const countPlayers = arrOfObj => {
     let count = 0;
     Object.values(arrOfObj).forEach(elem => (count += elem.length));
