@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import players from '../../../constants/players';
+//import players from '../../../constants/players';
+import getPlayers from '../../../constants/players';
 import EditPlayer from './editPlayer';
 /* import INITIAL_STATE from './config'; */
 /* import { withTeam } from '../NewTeam/ctx'; */
@@ -52,8 +53,10 @@ import {
     ButtonReset,
     SearchFieldWrapper,
     ArrowWrapper,
-    CapWrap,
+    CapWrap
 } from './style.js';
+
+const players = getPlayers();
 
 const Players = props => {
     return (
@@ -114,7 +117,7 @@ class PlayerSearch extends Component {
         /* this.onChangeHandler = this.onChangeHandler.bind(this); */
     }
 
-/*     componentDidMount = (pp, ps) => {
+    /*     componentDidMount = (pp, ps) => {
         // on win resize, check if playerSearch should slide in or not
         afterWinResize(() => {
             this.checkIfSlider();
@@ -464,9 +467,8 @@ class PlayerSearch extends Component {
         //console.log('search output', result);
 
         return (
-            <Wrapper style={{ flexDirection:'row', alignItems:'center' }}>
+            <Wrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <ContentWrapper>
-
                     <OuterWrapper className="OuterWrapper PlayerSearch">
                         <InnerWrapper
                             className="InnerWrapper PlayerSearch"
@@ -477,19 +479,21 @@ class PlayerSearch extends Component {
                             {/* (FILTER) <br />  */}
                             {/* temp */}
                             <>
-                                <button style={{
-                                    border: '1px solid #2f3e55',
-                                    color: 'white',
-                                    padding: '5px',
-                                    marginBottom: '5px',
-
-                                }}
+                                <button
+                                    style={{
+                                        border: '1px solid #2f3e55',
+                                        color: 'white',
+                                        padding: '5px',
+                                        marginBottom: '5px'
+                                    }}
                                     onClick={() =>
-                                        this.setState({ isNewPlayerClicked: !this.state.isNewPlayerClicked })
+                                        this.setState({
+                                            isNewPlayerClicked: !this.state.isNewPlayerClicked
+                                        })
                                     }
                                 >
                                     Lägg till ny spelare
-                    </button>
+                                </button>
                                 <Title className="SearchPlayer-Title unmarkable">
                                     Välj spelare
                                 </Title>
@@ -600,7 +604,14 @@ class PlayerSearch extends Component {
                     </OuterWrapper>
                 </ContentWrapper>
                 <Wrapper>
-                    <ContentWrapper style={{ display: 'flex', justifyContent: 'center', marginLeft:'30px', padding:'10px'}}>
+                    <ContentWrapper
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            marginLeft: '30px',
+                            padding: '10px'
+                        }}
+                    >
                         {this.state.isNewPlayerClicked && (
                             <NewPlayer onSubmit={this.onSubmitNewPlayer} players={players} />
                         )}
@@ -610,7 +621,6 @@ class PlayerSearch extends Component {
                                 onClick={this.deletePlayer}
                                 onSubmit={this.onSubmitEditPlayer}
                                 pickedPlayer={this.state.pickedPlayer}
-    
                             />
                         )}
                     </ContentWrapper>

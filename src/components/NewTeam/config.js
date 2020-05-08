@@ -1,5 +1,7 @@
-import players from '../../constants/players';
+import getPlayers from '../../constants/players';
 import clubs from '../../constants/clubs';
+
+const players = getPlayers();
 
 const INITIAL_STATE = {
     // basics
@@ -125,6 +127,7 @@ const INITIAL_STATE = {
 };
 
 // allplayers with rounded prices
+
 export const allPlayers = players.map(player => ({
     ...player,
     price: Math.round(parseFloat(player.price))
