@@ -73,7 +73,7 @@ const AdminPage = ({ location }) => {
                 className="TabContainer unmarkable"
                 defaultActiveKey="0"
             >
-                {/* <Tab
+                <Tab
                     tab={
                         <span>
                             <img
@@ -85,7 +85,7 @@ const AdminPage = ({ location }) => {
                     key="0"
                 >
                     
-                </Tab> */}
+                </Tab> 
 
                 <Tab
                     tab={
