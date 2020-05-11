@@ -24,6 +24,7 @@ import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 
 /* import { GiCancel } from 'react-icons/gi'; */
 import { FiSearch } from 'react-icons/fi';
+import { FaUserPlus } from 'react-icons/fa';
 
 import {
     OuterWrapper,
@@ -74,7 +75,6 @@ class PlayerSearch extends Component {
         this.setFilter_name = this.setFilter_name.bind(this);
         this.goToFirstPage = this.goToFirstPage.bind(this);
         this.resetSettings = this.resetSettings.bind(this);
-        //this.paginate = this.paginate.bind(this)
         this.setFilter_posClub = this.setFilter_posClub.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.goToPage = this.goToPage.bind(this);
@@ -83,24 +83,10 @@ class PlayerSearch extends Component {
         this.playerClickHandler = this.playerClickHandler.bind(this);
         this.deletePlayerCallback = this.deletePlayerCallback.bind(this);
         this.groupByPosition = this.groupByPosition.bind(this);
-        /* this.togglePlayerModal = this.togglePlayerModal.bind(this); */
-        /* this.checkIfSlider = this.checkIfSlider.bind(this); */
         this.handleSortByClick = this.handleSortByClick.bind(this);
         this.handleListClickSort = this.handleListClickSort.bind(this);
         this.onSubmitEditPlayer = this.onSubmitEditPlayer.bind(this);
-        /* this.onChangeHandler = this.onChangeHandler.bind(this); */
     }
-
-    /*     componentDidMount = (pp, ps) => {
-        // on win resize, check if playerSearch should slide in or not
-        afterWinResize(() => {
-            this.checkIfSlider();
-        }, 300);
-    }; */
-
-    /* deletePlayer = editPlayer => {
-        this.setState({ deletePlayer: editPlayer.uid });
-    }; */
 
     onSubmitEditPlayer = (event, playerList, editPlayer) => {
         event.preventDefault();
@@ -418,34 +404,27 @@ class PlayerSearch extends Component {
             paginationSettings.pageSize,
             paginationSettings.pageNumber
         );
+
         // get short club name (according to reuter)
         const clubAbbr = club => {
             const res = allClubs.filter(item => item.long === club)[0];
             return res.short;
         };
-        //console.log(Object.keys(result));
-        //console.log(result);
-        //console.log('search output', result);
 
         return (
             <Wrapper style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <ContentWrapper>
                     <OuterWrapper className="OuterWrapper PlayerSearch">
-                        <InnerWrapper
-                            className="InnerWrapper PlayerSearch"
-                            /* mobileSearch={mobileSearch} */
-                            /* searchOpen={searchOpen} */
-                        >
-                            {/* FILTER */}
-                            {/* (FILTER) <br />  */}
-                            {/* temp */}
+                        <InnerWrapper className="InnerWrapper PlayerSearch">
                             <>
                                 <button
                                     style={{
                                         border: '1px solid #2f3e55',
                                         color: 'white',
                                         padding: '5px',
-                                        marginBottom: '5px'
+                                        marginBottom: '5px',
+                                        fontWeight: '700',
+                                        outline: 'none'
                                     }}
                                     onClick={() =>
                                         this.setState({
@@ -455,9 +434,10 @@ class PlayerSearch extends Component {
                                     }
                                 >
                                     Lägg till ny spelare
+                                    <FaUserPlus style={{ position: 'relative', left: '10px' }} />
                                 </button>
                                 <Title className="SearchPlayer-Title unmarkable">
-                                    Välj spelare
+                                    Sök befintlig spelare
                                 </Title>
 
                                 <ArrowWrapper>
@@ -484,7 +464,7 @@ class PlayerSearch extends Component {
                                         name="name"
                                         className="FilterByName unmarkable"
                                         onChange={this.setFilter_name}
-                                        placeholder="Sök spelare"
+                                        placeholder="Fritext"
                                         onFocus={e => (e.target.placeholder = '')}
                                         onBlur={e => (e.target.placeholder = 'Sök spelare')}
                                     ></Input>
