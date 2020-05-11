@@ -130,7 +130,9 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
     const { list: playerList, captain, viceCaptain } = team;
 
     const { stageName, stageIndex } = buildStage;
-    const playerCount = playerList.filter(player => player.origin === stageName).length;
+    const playerCount = playerList
+        ? playerList.filter(player => player.origin === stageName).length
+        : 0;
 
     const callback = key => {
         console.log('tab change callback...');

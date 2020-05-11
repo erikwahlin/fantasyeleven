@@ -1,5 +1,15 @@
-import players from '../../constants/players';
+import getPlayers from '../../constants/players';
 import clubs from '../../constants/clubs';
+import players from '../../constants/players';
+/* const players = (async () => {
+    let res = null;
+    getPlayers(data => {
+        res = data;
+    });
+    return res;
+})(); */
+
+console.log('players', players);
 
 const INITIAL_STATE = {
     // basics
@@ -19,6 +29,8 @@ const INITIAL_STATE = {
     appOnline: true,
 
     user: null,
+    allPlayers: [],
+
     team: {
         createdAt: Date.now(),
         registrered: false,
@@ -125,6 +137,7 @@ const INITIAL_STATE = {
 };
 
 // allplayers with rounded prices
+
 export const allPlayers = players.map(player => ({
     ...player,
     price: Math.round(parseFloat(player.price))

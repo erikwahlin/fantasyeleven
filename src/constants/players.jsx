@@ -1,4 +1,6 @@
-const players = [
+import apis from './api';
+
+let players = [
     {
         createdAt: 1585306549426,
         name: 'Bernd Leno',
@@ -3755,8 +3757,6 @@ const players = [
     }
 ];
 
-
-
 const arrOfFractions = arr => {
     let arPercentages = [];
 
@@ -3781,4 +3781,24 @@ appendToObj(players, arrOfFractions(players));
 
 export default players;
 
+export const getPlayers = async callback => {
+    await apis
+        .get('getPlayers')
+        .then(async res => {
+            // if no, create new user
+            if (!res.data || res.data === '') {
+                return console.log('no player-data was returned.');
+            }
 
+            // if yes, load user
+            const players = res.data.data;
+
+            if (typeof callback === 'function') return callback(players);
+        })
+        .catch(err => {
+            // if db unavailable, load from client
+            console.log('Getting players failed.');
+        });
+};
+
+//export default getPlayers;

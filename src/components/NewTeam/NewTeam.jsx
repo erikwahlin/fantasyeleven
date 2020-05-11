@@ -47,6 +47,8 @@ class NewTeam extends Component {
         super(props);
         this.state = clone(INITIAL_STATE);
 
+        this.getPlayers = this.getPlayers.bind(this);
+
         this.updateNewTeam = this.updateNewTeam.bind(this);
 
         this.updatesearchablePlayers = this.updatesearchablePlayers.bind(this);
@@ -78,6 +80,22 @@ class NewTeam extends Component {
         this.clientSave = this.clientSave.bind(this);
     }
 
+    getPlayers = async callback => {
+        await apis.admin
+            .getPlayers()
+            .then(res => {
+                this.setState(
+                    ps => ({ ...ps, allPlayers: res.data.data }),
+                    () => {
+                        if (typeof callback === 'function') callback();
+                    }
+                );
+            })
+            .catch(err => {
+                console.log('get players fail:', err);
+            });
+    };
+
     componentDidMount = async () => {
         await this.userInit();
         this.updatesearchablePlayers();
@@ -92,6 +110,8 @@ class NewTeam extends Component {
 
     // get curr user
     userInit = async () => {
+        this.getPlayers();
+
         if (!this.state.appOnline) {
             this.save();
             this.updatesearchablePlayers();
@@ -456,7 +476,7 @@ class NewTeam extends Component {
         const update = input => {
             const res = clone(input);
             // set new search res
-            res.searchablePlayers = this.applyFilter(allPlayers);
+            res.searchablePlayers = this.applyFilter(this.state.allPlayers);
             return res;
         };
 

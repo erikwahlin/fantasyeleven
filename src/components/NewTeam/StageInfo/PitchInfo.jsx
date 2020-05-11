@@ -11,7 +11,9 @@ const PitchInfo = ({ teamContext }) => {
     const { stageName } = buildStage;
     const { delPlayer, openPlayerSearch } = teamContext.setters;
 
-    const playerCount = team.list.filter(player => player.origin === stageName).length;
+    const playerCount = team.list
+        ? team.list.filter(player => player.origin === stageName).length
+        : 0;
 
     const maxPlayers = limit[stageName].tot;
     const maxValue = limit.value[stageName];

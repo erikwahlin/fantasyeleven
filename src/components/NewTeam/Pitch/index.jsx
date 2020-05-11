@@ -105,7 +105,7 @@ const Pitch = props => {
     const { mobileSearch, buildStage } = config;
     const { stageName } = buildStage;
     const { togglePlayerSearch, openPlayerSearch } = props.teamContext.setters;
-    const playerCount = team.list.filter(p => p.origin === 'pitch').length;
+    const playerCount = team.list ? team.list.filter(p => p.origin === 'pitch').length : 0;
     /* const anims = {
         initial: pitchInitial,
         next: pitchNext,
