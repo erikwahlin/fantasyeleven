@@ -1,7 +1,15 @@
 import getPlayers from '../../constants/players';
 import clubs from '../../constants/clubs';
+import players from '../../constants/players';
+/* const players = (async () => {
+    let res = null;
+    getPlayers(data => {
+        res = data;
+    });
+    return res;
+})(); */
 
-const players = getPlayers();
+console.log('players', players);
 
 const INITIAL_STATE = {
     // basics

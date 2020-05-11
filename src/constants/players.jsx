@@ -1,6 +1,6 @@
 import apis from './api';
 
-const players = [
+let players = [
     {
         createdAt: 1585306549426,
         name: 'Bernd Leno',
@@ -3779,9 +3779,9 @@ const appendToObj = (obj, arr) => {
 
 appendToObj(players, arrOfFractions(players));
 
-/* export default players; */
+export default players;
 
-const getPlayers = async callback => {
+export const getPlayers = async callback => {
     await apis
         .get('getPlayers')
         .then(async res => {
@@ -3801,4 +3801,4 @@ const getPlayers = async callback => {
         });
 };
 
-export default getPlayers;
+//export default getPlayers;

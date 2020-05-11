@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+
+import { withAdmin } from '../AdminState';
+
 //import players from '../../../constants/players';
 import getPlayers from '../../../constants/players';
 import EditPlayer from './editPlayer';
@@ -56,19 +59,19 @@ import {
     CapWrap
 } from './style.js';
 
-const players = getPlayers();
+//const players = getPlayers();
 
 const Players = props => {
+    const players = props.adminContext.state.players;
+
     return (
         <div>
-            {/* <h3>Admin Players</h3> */}
-
             <PlayerSearch players={players} /* markedMode={this.checkMarkedMode()} */ />
         </div>
     );
 };
 
-export default Players;
+export default withAdmin(Players);
 
 const INITIAL_STATE = {
     posOrClubSelected: { value: '', label: 'Position/klubb', eng: 'All players' },
@@ -85,7 +88,7 @@ const INITIAL_STATE = {
     result: [],
     playerModal: false,
 
-    pickedPlayer: true,
+    pickedPlayer: '',
     updatedPlayer: false,
     isNewPlayerClicked: false,
     deletePlayer: null
@@ -124,9 +127,10 @@ class PlayerSearch extends Component {
         }, 300);
     }; */
 
-    deletePlayer = pickedPlayer => {
+    /* deletePlayer = pickedPlayer => {
         this.setState({ deletePlayer: pickedPlayer.uid });
-    };
+    }; */
+
     onSubmitEditPlayer = (event, playerList, pickedPlayer) => {
         event.preventDefault();
         console.log(pickedPlayer);
@@ -157,8 +161,15 @@ class PlayerSearch extends Component {
         console.log(pickedPlayer);
         this.setState({ updatedPlayer: !this.state.updatedPlayer });
     };
-    onSubmitNewPlayer = (event, playersList) => {
+
+    addPlayer = (event, playersList) => {
         event.preventDefault();
+
+        const { addPlayer } = this.props.adminContext.setters;
+
+        addPlayer();
+
+        /* event.preventDefault();
         const config = {
             name: 0,
             price: 1,
@@ -176,23 +187,15 @@ class PlayerSearch extends Component {
             createdAt: Date.now(),
             uid: Date.now()
         };
-        playersList.push(newPlayer);
+        playersList.push(newPlayer); */
     };
 
     playerClickHandler = player => {
-        const { pickedPlayer } = this.state;
-        this.setState({ updatedPlayer: false });
-        if (pickedPlayer) {
-            this.setState({ pickedPlayer: null }, () => {
-                this.setState({
-                    pickedPlayer: player
-                });
-            });
-        } else {
+        this.setState({ pickedPlayer: null, updatedPlayer: false }, () => {
             this.setState({
                 pickedPlayer: player
             });
-        }
+        });
     };
 
     // reset filter & order
@@ -460,7 +463,7 @@ class PlayerSearch extends Component {
         );
         // get short club name (according to reuter)
         const clubAbbr = club => {
-            return allClubs.filter(item => item.long === club)[0].short;
+            const res = allClubs.filter(item => item.long === club)[0];
         };
         //console.log(Object.keys(result));
         //console.log(result);
@@ -583,7 +586,8 @@ class PlayerSearch extends Component {
                                                                 &nbsp; &nbsp;
                                                                 {toSwe(
                                                                     player.position,
-                                                                    'positions'
+                                                                    'positions',
+                                                                    'plural'
                                                                 )}
                                                             </p>
                                                         </Player>
@@ -603,6 +607,7 @@ class PlayerSearch extends Component {
                         </InnerWrapper>
                     </OuterWrapper>
                 </ContentWrapper>
+
                 <Wrapper>
                     <ContentWrapper
                         style={{
@@ -613,13 +618,15 @@ class PlayerSearch extends Component {
                         }}
                     >
                         {this.state.isNewPlayerClicked && (
-                            <NewPlayer onSubmit={this.onSubmitNewPlayer} players={players} />
+                            <NewPlayer /* onSubmit={this.addPlayer} */ players={players} />
                         )}
+
                         {this.state.updatedPlayer && <div>Du lyckades uppdatera en spelare</div>}
+
                         {this.state.pickedPlayer && (
                             <EditPlayer
-                                onClick={this.deletePlayer}
-                                onSubmit={this.onSubmitEditPlayer}
+                                /* delPlayer={this.deletePlayer} */
+                                savePlayer={this.onSubmitEditPlayer}
                                 pickedPlayer={this.state.pickedPlayer}
                             />
                         )}

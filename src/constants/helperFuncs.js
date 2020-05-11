@@ -45,9 +45,25 @@ export const clone = (obj, keyName) => {
     return copy;
 };
 
-export const toSwe = (word, chapter, form = 'sing') => LEX[chapter][word][form];
+export const toSwe = (word, chapter, form = 'sing') => {
+    if (LEX[chapter]) {
+        if (LEX[chapter][word]) {
+            if (LEX[chapter][word][form]) return LEX[chapter][word][form];
+        }
+    }
+    console.log(word, 'could not be translated');
+    return word;
+};
 
-export const toEng = (word, chapter, form = 'singular') => LEX[chapter][word][form];
+export const toEng = (word, chapter, form = 'sing') => {
+    if (LEX[chapter]) {
+        if (LEX[chapter][word]) {
+            if (LEX[chapter][word][form]) return LEX[chapter][word][form];
+        }
+    }
+    console.log(word, 'could not be translated');
+    return word;
+};
 
 export const homePitch = club => stadiums[club].url;
 
