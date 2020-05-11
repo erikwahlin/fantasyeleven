@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { withAdmin } from '../AdminState';
 import FormInput from '../../FormInput/FormInput';
 import players from '../../../constants/players';
-//value have to be state, do we send it from admin?
-//to render in dropdown
-//get all player prices.
-//get all clubs
-//get all positions
 import styled, { css } from 'styled-components';
 import Profile from '../../../media/profile.png';
 
@@ -27,6 +22,7 @@ const MyInput = styled.input`
     margin-bottom: 20px;
     min-width: 230px;
     font-weight: normal;
+    outline: none;
 `;
 
 const MySelect = styled.select`
@@ -46,6 +42,7 @@ const MyButton = styled.button`
     margin-bottom: 5px;
     min-width: 230px;
     font-weight: normal;
+    outline: none;
 
     &:hover {
         background: #2f3e55;
@@ -53,7 +50,7 @@ const MyButton = styled.button`
 `;
 
 //change of name
-const EditPlayer = ({ adminContext, pickedPlayer, playerConfig }) => {
+const EditPlayer = ({ adminContext, editPlayer, deletePlayerCallback }) => {
     const initial_player = {
         _id: '',
         createdAt: '',
@@ -64,20 +61,27 @@ const EditPlayer = ({ adminContext, pickedPlayer, playerConfig }) => {
         club: '',
         position: ''
     };
+
     const [player, setPlayer] = useState(initial_player);
 
     useEffect(() => {
-        setPlayer(pickedPlayer);
+        setPlayer(editPlayer);
     }, []);
 
-    //const { club, name, position, price } = pickedPlayer;
+    //const { club, name, position, price } = editPlayer;
 
     const unique = property => {
         return [...new Set(players.map(item => item[property]))];
     };
 
     const { deletePlayer, updatePlayer } = adminContext.setters;
-
+    const deleteConfirm = () => {
+        const conf = window.confirm(`Är du säker på att du vill ta bort ${editPlayer.name}?`);
+        if (conf) {
+            deletePlayer(editPlayer);
+            deletePlayerCallback();
+        }
+    };
     return (
         <div
             style={{
@@ -87,6 +91,7 @@ const EditPlayer = ({ adminContext, pickedPlayer, playerConfig }) => {
                 alignItems: 'center'
             }}
         >
+            <h1>Redigera spelare</h1>
             <img src={Profile} style={{ width: '130px', marginBottom: '30px' }} />
             <MyForm onSubmit={e => updatePlayer(e, player)}>
                 <p>Spelarnamn</p>
@@ -153,7 +158,7 @@ const EditPlayer = ({ adminContext, pickedPlayer, playerConfig }) => {
                 </MySelect>
                 <MyButton type="submit">Spara</MyButton>
             </MyForm>
-            <MyButton onClick={() => deletePlayer(pickedPlayer)}>Ta bort spelare</MyButton>
+            <MyButton onClick={deleteConfirm}>Ta bort spelare</MyButton>
         </div>
     );
 };
