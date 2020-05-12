@@ -112,7 +112,7 @@ const ResultTemplate = ({ season, round, players }) => {
 
                         <ResultContent className="ResultContent" open={open}>
                             {sortedPlayers.map(player => (
-                                <ResultCard key={player.uid} player={player} width={50} />
+                                <ResultCard key={player._id} player={player} width={50} />
                             ))}
                             <OptionContainer>
                                 <ToggleBtn

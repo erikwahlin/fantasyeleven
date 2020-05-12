@@ -455,7 +455,9 @@ class Plupp extends Component {
         if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
 
         if (stageName === 'captain') {
-            this.setCap(!captain || this.props.player.uid === captain ? 'captain' : 'viceCaptain');
+            this.setCap(
+                !captain || this.props.player._id === captain._id ? 'captain' : 'viceCaptain'
+            );
 
             return;
         }
@@ -557,14 +559,14 @@ class Plupp extends Component {
         const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
 
         // if same player already has a role, clear
-        if (team[otherRole] === player.uid) {
+        if (team[otherRole] === player._id) {
             team[otherRole] = null;
         }
 
-        if (player.uid === team[role]) {
+        if (player._id === team[role]) {
             team[role] = null;
         } else {
-            team[role] = player.uid;
+            team[role] = player._id;
         }
 
         updateNewTeam(team);
@@ -580,15 +582,18 @@ class Plupp extends Component {
 
         let isCap = false,
             isViceCap = false;
+
         if (player) {
-            isCap = player.uid === captain ? true : false;
-            isViceCap = player.uid === viceCaptain ? true : false;
+            if (captain) {
+                isCap = player._id === captain._id ? true : false;
+            }
+            if (viceCaptain) {
+                isViceCap = player._id === viceCaptain._id ? true : false;
+            }
         }
 
-        /* 
-        
-        */
-        console.log(stageName, isSwitchable);
+        //console.log(stageName, isSwitchable);
+
         return (
             <Container>
                 {player && !isMarked && (

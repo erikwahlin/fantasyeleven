@@ -5,11 +5,10 @@ import { toSwe, countPlayers } from '../../../constants/helperFuncs';
 import { Wrapper, Section, Key, Val, Button, AddPlayerIcon } from './template';
 
 const PitchInfo = ({ teamContext }) => {
-    const { team, config } = teamContext.state;
-    const { game } = team;
-    const { round } = game;
+    const { team } = teamContext.state;
+    const { value, round } = team;
 
-    const pitchValue = game.value.pitch;
+    const pitchValue = value.pitch;
 
     const ready = true;
 

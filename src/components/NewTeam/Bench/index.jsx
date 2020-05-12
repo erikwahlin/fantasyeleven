@@ -47,9 +47,8 @@ const Wrapper = styled.div`
 
 const Bench = props => {
     const { team, config } = props.teamContext.state;
+    const { players } = team;
     const { stageName } = config.buildStage;
-
-    console.log('stageName', stageName);
 
     return (
         <Wrapper className="Bench Wrapper" stageName={stageName}>
@@ -60,8 +59,8 @@ const Bench = props => {
                     )}
                     <Plupp
                         pos={pos}
-                        player={team.bench[pos][0]}
-                        lineupCount={team.bench[pos].length}
+                        player={team.players.bench[pos][0]}
+                        lineupCount={players.bench[pos].length}
                         lineupIndex={0}
                         origin="bench"
                     />

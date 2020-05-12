@@ -1,85 +1,112 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withAdmin } from '../AdminState';
 import FormInput from '../../FormInput/FormInput';
 import players from '../../../constants/players';
-//value have to be state, do we send it from admin?
-//to render in dropdown
-//get all player prices.
-//get all clubs
-//get all positions
 import styled, { css } from 'styled-components';
 import Profile from '../../../media/profile.png';
 
 const MyForm = styled.form`
-    display:flex;
-    flex-direction:column;
-    color:#D3D6DC;
+    display: flex;
+    flex-direction: column;
+    color: #d3d6dc;
     font-size: 14px;
     font-weight: bold;
-    font-family:'Avenir';
-
+    font-family: 'Avenir';
 `;
 
 const MyInput = styled.input`
     background: #2f3e55;
-    border:none;
-    color:white;
-    padding:8px;
-    margin-bottom:20px;
-    min-width:230px;
-    font-weight:normal;
-
+    border: none;
+    color: white;
+    padding: 8px;
+    margin-bottom: 20px;
+    min-width: 230px;
+    font-weight: normal;
+    outline: none;
 `;
 
 const MySelect = styled.select`
     background: #2f3e55;
-    border:none;
-    color:white;
-    margin-bottom:20px;
-    outline:none;
+    border: none;
+    color: white;
+    margin-bottom: 20px;
+    outline: none;
     -webkit-appearance: menulist-button;
-    height:33px;
-
+    height: 33px;
 `;
 
 const MyButton = styled.button`
-    border:1px solid #2f3e55;
-    color:white;
-    padding:5px;
-    margin-bottom:5px;
-    min-width:230px;
-    font-weight:normal;
+    border: 1px solid #2f3e55;
+    color: white;
+    padding: 5px;
+    margin-bottom: 5px;
+    min-width: 230px;
+    font-weight: normal;
+    outline: none;
 
     &:hover {
-        background:#2f3e55;
+        background: #2f3e55;
     }
-
 `;
 
 //change of name
-const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
-    const { club, name, position, price } = pickedPlayer;
+const EditPlayer = ({ adminContext, editPlayer, deletePlayerCallback }) => {
+    const initial_player = {
+        _id: '',
+        createdAt: '',
+        updatedAt: '',
+        popularity: '',
+        name: '',
+        price: '',
+        club: '',
+        position: ''
+    };
+
+    const [player, setPlayer] = useState(initial_player);
+
+    useEffect(() => {
+        setPlayer(editPlayer);
+    }, []);
+
+    //const { club, name, position, price } = editPlayer;
 
     const unique = property => {
         return [...new Set(players.map(item => item[property]))];
     };
 
+    const { deletePlayer, updatePlayer } = adminContext.setters;
+    const deleteConfirm = () => {
+        const conf = window.confirm(`Är du säker på att du vill ta bort ${editPlayer.name}?`);
+        if (conf) {
+            deletePlayer(editPlayer);
+            deletePlayerCallback();
+        }
+    };
     return (
-        <div style={{display:'flex', justifyContent:'center', flexDirection:'column', alignItems:'center'}}>
-            <img src={Profile} style={{width:'130px', marginBottom:'30px'}}/>
-            <MyForm onSubmit={event => onSubmit(event, players, pickedPlayer)}>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}
+        >
+            <h1>Redigera spelare</h1>
+            <img src={Profile} style={{ width: '130px', marginBottom: '30px' }} />
+            <MyForm onSubmit={e => updatePlayer(e, player)}>
                 <p>Spelarnamn</p>
                 <MyInput
-                    onSubmit={onSubmit}
+                    onChange={e => setPlayer({ ...player, name: e.target.value })}
                     name="name"
-                    defaultValue={name}
+                    value={player.name}
                     type="text"
                     label="Name"
                 />
                 <p>Pris</p>
                 <MyInput
-                    onSubmit={onSubmit}
+                    onChange={e => setPlayer({ ...player, price: e.target.value })}
                     name="price"
-                    defaultValue={price}
+                    value={player.price}
                     type="text"
                     /* label="Name" */
                 />
@@ -93,8 +120,14 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
                         );
                     })}
                 </select>
- */}            <p>Klubb</p>
-                <MySelect name="club" id="club" defaultValue={club}>
+ */}{' '}
+                <p>Klubb</p>
+                <MySelect
+                    name="club"
+                    id="club"
+                    value={player.club}
+                    onChange={e => setPlayer({ ...player, club: e.target.value })}
+                >
                     {unique('club').map(clubs => {
                         return (
                             <option key={clubs} value={clubs}>
@@ -104,7 +137,12 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
                     })}
                 </MySelect>
                 <p>Position</p>
-                <MySelect name="position" defaultValue={position} id="position">
+                <MySelect
+                    name="position"
+                    value={player.position}
+                    id="position"
+                    onChange={e => setPlayer({ ...player, position: e.target.value })}
+                >
                     {unique('position').map(positions => {
                         return (
                             <option
@@ -120,9 +158,9 @@ const EditPlayer = ({ pickedPlayer, playerConfig, onSubmit, onClick }) => {
                 </MySelect>
                 <MyButton type="submit">Spara</MyButton>
             </MyForm>
-            <MyButton onClick={() => onClick(pickedPlayer)}>Ta bort spelare</MyButton>
+            <MyButton onClick={deleteConfirm}>Ta bort spelare</MyButton>
         </div>
     );
 };
 
-export default EditPlayer;
+export default withAdmin(EditPlayer);

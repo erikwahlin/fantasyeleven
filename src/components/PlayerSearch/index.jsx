@@ -10,7 +10,7 @@ import {
     afterWinResize,
     shortenName
 } from '../../constants/helperFuncs';
-import { allClubs } from '../NewTeam/config';
+import allClubs from '../../constants/clubs';
 import InfoModal from '../InfoModal';
 import Paginate from './Paginate';
 import Instructions from '../instructions/instructions';
@@ -335,10 +335,6 @@ class PlayerSearch extends Component {
         const { team } = teamContext.state;
         const { captain, viceCaptain } = team;
 
-        //captain and viceCaptain
-        const capObj = team.list.filter(p => p.uid === captain)[0];
-        const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
-
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
             : posOrClubSelected.label;
@@ -422,6 +418,7 @@ class PlayerSearch extends Component {
         //const result = paginated
         // get short club name (according to reuter)
         const clubAbbr = club => {
+            if (!club) return '';
             return allClubs.filter(item => item.long === club)[0].short;
         };
         //console.log(Object.keys(result));
@@ -445,10 +442,10 @@ class PlayerSearch extends Component {
                     {/* temp */}
                     {buildStage.stageName === 'captain' ? (
                         <CapWrap>
-                            <CaptainCard cap={capObj && capObj.name}>
+                            <CaptainCard cap={captain && captain.name}>
                                 <img src={Cap} alt="Captain" /> Kapten:{' '}
                             </CaptainCard>
-                            <CaptainCard cap={viceObj && viceObj.name}>
+                            <CaptainCard cap={viceCaptain && viceCaptain.name}>
                                 <img src={ViceCap} alt="Vice Captain" /> Vice Kapten:{' '}
                             </CaptainCard>
                             <p className="capInfo">
@@ -556,7 +553,7 @@ class PlayerSearch extends Component {
                             </ButtonReset>
 
                             {/* RESULT */}
-                            {paginated.length && (
+                            {paginated.length ? (
                                 <ResultContainer className="ResultContainer">
                                     <Paginate
                                         className="Paginate"
@@ -592,7 +589,10 @@ class PlayerSearch extends Component {
                                     <ResultBox className="ResultBox unmarkable">
                                         {paginated.map((player, i) => {
                                             return (
-                                                <PlayerRow key={i} className="PlayerRow">
+                                                <PlayerRow
+                                                    key={`${player._id}-${i}`}
+                                                    className="PlayerRow"
+                                                >
                                                     <InfoModal
                                                         title={player.name}
                                                         subtitle={`${player.club} - ${toSwe(
@@ -649,12 +649,12 @@ class PlayerSearch extends Component {
                                         })}
                                     </ResultBox>
                                 </ResultContainer>
-                            )}
+                            ) : null}
 
                             {!paginated.length && (
                                 <Instructions
-                                    benchPlayers={teamContext.state.team.bench} // array of benchplayers from state
-                                    pitchPlayers={teamContext.state.team.pitch}
+                                    benchPlayers={teamContext.state.team.players.bench} // array of benchplayers from state
+                                    pitchPlayers={teamContext.state.team.players.pitch}
                                     buildStagePage={buildStage.stageName}
                                     posOrClub={posOrClubSelected}
                                 />

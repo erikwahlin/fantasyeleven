@@ -8,16 +8,14 @@ import viceImg from '../../../media/ViceCap.svg';
 
 const CaptainInfo = ({ teamContext }) => {
     const { team } = teamContext.state;
-    const { captain, viceCaptain } = team;
-    const capObj = team.list.filter(p => p.uid === captain)[0] || { name: '' };
-    const viceObj = team.list.filter(p => p.uid === viceCaptain)[0] || { name: '' };
+    const { players, captain, viceCaptain } = team;
 
     return (
         <Wrapper className="StageInfo">
             <Section className="Section">
                 <CaptainCard
                     role="captain"
-                    name={capObj.name}
+                    obj={captain}
                     img={capImg}
                     className="CaptainCard captain"
                 />
@@ -26,7 +24,7 @@ const CaptainInfo = ({ teamContext }) => {
             <Section className="Section">
                 <CaptainCard
                     role="viceCaptain"
-                    name={viceObj.name}
+                    obj={viceCaptain}
                     img={viceImg}
                     className="CaptainCard viceCaptain"
                 />
