@@ -45,7 +45,7 @@ const ContentWrap = styled.div`
 class NewTeam extends Component {
     constructor(props) {
         super(props);
-        this.state = clone(INITIAL_STATE);
+        this.state = { ...clone(INITIAL_STATE) };
 
         this.getPlayers = this.getPlayers.bind(this);
 
@@ -96,9 +96,12 @@ class NewTeam extends Component {
             });
     };
 
-    componentDidMount = async () => {
-        await this.userInit();
-        this.updatesearchablePlayers();
+    componentDidMount = () => {
+        this.getPlayers(() => {
+            this.updatesearchablePlayers(async () => {
+                await this.userInit();
+            });
+        });
     };
 
     // updater for team-state (+ save)
@@ -110,8 +113,6 @@ class NewTeam extends Component {
 
     // get curr user
     userInit = async () => {
-        this.getPlayers();
-
         if (!this.state.appOnline) {
             this.save();
             this.updatesearchablePlayers();
@@ -148,9 +149,11 @@ class NewTeam extends Component {
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
-    save = () => (this.state.user && this.state.appOnline ? this.mongoSave() : this.clientSave());
+    save = () =>
+        /* this.state.user && this.state.appOnline ? this.mongoSave() : */ this.clientSave();
 
-    load = () => (this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad());
+    load = () =>
+        /* this.state.user && this.state.appOnline ? this.mongoLoad() : */ this.clientLoad();
 
     // MONGO
 
@@ -248,16 +251,23 @@ class NewTeam extends Component {
      * UPDATE/SYNC STATE
      * * * * * * * * * * */
     updateTeam = callback => {
-        // current state, but initial values on the props to update
+        console.log('team', this.state.team);
+        console.log('initial', INITIAL_STATE.team);
+        let newTeam = clone(this.state.team);
 
-        const newTeam = {
-            ...clone(this.state.team),
+        if (Object.keys(newTeam).length === 0) this.setState({ team: clone(INITIAL_STATE.team) });
+
+        // current state, but initial values on the props to update
+        newTeam = {
+            ...newTeam,
             game: clone(INITIAL_STATE.team.game),
             pitch: clone(INITIAL_STATE.team.pitch),
             bench: clone(INITIAL_STATE.team.bench),
             count: clone(INITIAL_STATE.team.count),
             clubs: clone(INITIAL_STATE.team.clubs)
         };
+
+        console.log('newteam', newTeam);
 
         const { captain, viceCaptain } = newTeam;
 
@@ -793,6 +803,8 @@ class NewTeam extends Component {
         const markedMode = switchers.marked && !switchers.target ? true : false;
 
         // filter allPlayers before PlayerSearch
+        console.log('ALLPLAYERS', this.state.allPlayers);
+        console.log('SEARCHABLE PLAYERS', this.state.config.searchablePlayers);
 
         return (
             <TeamContext.Provider
@@ -819,10 +831,15 @@ class NewTeam extends Component {
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
                 >
-                    <BuildStages buildStage={buildStage} />
-                    {/* <Pitch /> */}
-
-                    <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
+                    {this.state.config.searchablePlayers.length ? (
+                        <>
+                            <BuildStages buildStage={buildStage} />
+                            <PlayerSearch
+                                players={searchablePlayers}
+                                markedMode={this.checkMarkedMode()}
+                            />
+                        </>
+                    ) : null}
                 </ContentWrap>
             </TeamContext.Provider>
         );
