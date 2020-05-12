@@ -9,6 +9,7 @@ import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { afterWinResize } from '../../constants/helperFuncs';
 import Result from './Result';
+import Rounds from './Rounds';
 import AwardForm from './AwardForm';
 import Players from './Players';
 import { BarChartOutlined } from '@ant-design/icons';
@@ -18,7 +19,7 @@ import { SkinOutlined } from '@ant-design/icons';
 import { DollarCircleOutlined } from '@ant-design/icons';
 import { FormOutlined } from '@ant-design/icons';
 import { AreaChartOutlined } from '@ant-design/icons';
-import { SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined, ScheduleOutlined } from '@ant-design/icons';
 import FLogo from '../../components/Landing/fantasy11-white-logo.png';
 
 import { adminTemplate } from './template/';
@@ -73,7 +74,7 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
-                defaultActiveKey="6"
+                defaultActiveKey="1"
             >
                 <Tab
                     tab={
@@ -90,11 +91,25 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
+                            <ScheduleOutlined style={{ color: '#5ac5d4' }} />
+                            Omgångar
+                        </span>
+                    }
+                    key="1"
+                >
+                    <TabTitle>Omgångar</TabTitle>
+
+                    <Rounds />
+                </Tab>
+
+                <Tab
+                    tab={
+                        <span>
                             <AreaChartOutlined style={{ color: '#5ac5d4' }} />
                             Resultat
                         </span>
                     }
-                    key="1"
+                    key="2"
                 >
                     <TabTitle>Resultat</TabTitle>
 
@@ -108,7 +123,7 @@ const AdminPage = ({ location }) => {
                             Utdelningsmodell
                         </span>
                     }
-                    key="2"
+                    key="3"
                 >
                     <TabTitle>Utdelningsmodell</TabTitle>
 
@@ -122,7 +137,7 @@ const AdminPage = ({ location }) => {
                             Användarstatistik
                         </span>
                     }
-                    key="3"
+                    key="4"
                 >
                     <TabTitle>Användarstatistik</TabTitle>
                 </Tab>
@@ -134,7 +149,7 @@ const AdminPage = ({ location }) => {
                             Användarhantering
                         </span>
                     }
-                    key="4"
+                    key="5"
                 >
                     <TabTitle>Användarhantering</TabTitle>
                 </Tab>
@@ -146,7 +161,7 @@ const AdminPage = ({ location }) => {
                             Innehåll
                         </span>
                     }
-                    key="5"
+                    key="6"
                 >
                     <TabTitle>Innehåll</TabTitle>
                 </Tab>
@@ -158,7 +173,7 @@ const AdminPage = ({ location }) => {
                             Spelare
                         </span>
                     }
-                    key="6"
+                    key="7"
                 >
                     {/* <TabTitle>Spelare</TabTitle> */}
                     <Players />

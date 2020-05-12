@@ -6,6 +6,9 @@ import { InputNumber } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FcCheckmark } from 'react-icons/fc';
 
+/* import DropDown from 'react-dropdown'; */
+/* import '../Players/dropdown_admin.css'; */
+
 import {
     clickedClass,
     UnderlayContainer,
@@ -13,6 +16,10 @@ import {
     AppearOnHover,
     DisappearOnHover
 } from './underlay';
+
+import Arrow from '../../../media/arrow.svg';
+
+import { ArrowWrapper } from '../Players/style';
 
 export const FormTitle = styled.h1`
     text-align: center;
@@ -32,6 +39,7 @@ export const Field = styled.div`
     margin: 0;
     padding: 25px 0 0;
     box-shadow: inset 0px -7px 15px -15px black;
+    min-height: 50px;
 `;
 
 export const Input = styled.input`
@@ -43,6 +51,7 @@ export const Input = styled.input`
     padding: 10px 10px 10px 5px;
     display: block;
     min-width: 150px;
+    min-height: 15px;
     flex: 1;
     border: none;
     border-radius: 0;
@@ -78,6 +87,14 @@ export const Input = styled.input`
     &[type='number'] {
         -moz-appearance: textfield;
     }
+
+    ${p =>
+        p.type === 'checkbox' &&
+        css`
+            position: absolute;
+            margin-left: -50px;
+            margin-top: 4px;
+        `}
 `;
 
 export const PercentInput = styled(Input)``;
@@ -142,6 +159,7 @@ const NumberTicks = styled.div`
     min-width: 50px;
     margin: 0;
     padding: 0 10px;
+    max-height: 40px;
 
     & > * {
         cursor: pointer;
@@ -193,7 +211,7 @@ export const InputTemplate = ({
                 value={value}
                 className={`form-input`}
                 onChange={e => {
-                    autosave(stateKey, e.target.value);
+                    autosave(stateKey, type === 'checkbox' ? e.target.checked : e.target.value);
                 }}
                 onKeyDown={keyHandler}
             />

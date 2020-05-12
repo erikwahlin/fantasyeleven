@@ -18,7 +18,8 @@ export default class AdminState extends Component {
         this.state = {
             players: null,
             editPlayer: null,
-            newPlayer: false
+            newPlayer: false,
+            rounds: []
         };
 
         this.updateAdminState = this.updateAdminState.bind(this);
@@ -26,31 +27,140 @@ export default class AdminState extends Component {
         this.updatePlayer = this.updatePlayer.bind(this);
         this.deletePlayer = this.deletePlayer.bind(this);
         this.getPlayers = this.getPlayers.bind(this);
+        this.getRounds = this.getRounds.bind(this);
+        this.addRound = this.addRound.bind(this);
+        this.updateRound = this.updateRound.bind(this);
 
         this.setters = {
             updateAdminState: this.updateAdminState,
             getPlayers: this.getPlayers,
             addPlayer: this.addPlayer,
             deletePlayer: this.deletePlayer,
-            updatePlayer: this.updatePlayer
+            updatePlayer: this.updatePlayer,
+            getRounds: this.getRounds,
+            addRound: this.addRound,
+            updateRound: this.updateRound
         };
     }
 
     componentDidMount = () => {
         this.getPlayers();
+        this.getRounds();
     };
 
     updateAdminState = (key, val) => {
         this.setState(ps => ({ ...ps, [key]: val }));
     };
 
-    /* loadPlayers = force => {
-        if (!this.state.players || force) {
-            getPlayers(players => {
-                this.setState({ players });
+    getRounds = async onSuccess => {
+        await apis
+            .get('getRounds')
+            .then(res => {
+                if (res.status <= 200) {
+                    this.setState({ rounds: res.data.data.reverse() });
+
+                    if (typeof onSuccess === 'function') return onSuccess();
+                } else {
+                    console.log('No rounds found.');
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to get rounds (${err})`);
             });
+    };
+
+    addRound = async (round, onSuccess) => {
+        const fail = userMsg({
+            message: 'Något gick fel',
+            dismiss: { duration: 3000 },
+            type: 'danger'
+        });
+
+        const taken = userMsg({
+            message: 'Alias upptaget!',
+            dismiss: { duration: 3000 },
+            type: 'danger'
+        });
+
+        const conf = userMsg({
+            message: 'Ny omgång skapad!',
+            dismiss: { duration: 3000 },
+            type: 'success'
+        });
+
+        let isTaken = false;
+        this.state.rounds.forEach(r => {
+            if (r.alias === round.alias) {
+                isTaken = true;
+                return;
+            }
+        });
+
+        if (isTaken) return taken.add();
+
+        await apis
+            .create('addRound', round)
+            .then(res => {
+                if (res.status <= 200) {
+                    conf.add();
+
+                    this.getRounds();
+
+                    if (typeof onSuccess === 'function') return onSuccess();
+                } else {
+                    fail.add();
+                }
+            })
+            .catch(err => {
+                fail.add();
+
+                console.log(`Failed to add new round (${err})`);
+            });
+    };
+
+    updateRound = newRound => {
+        const deactivated = (() => {
+            let res = null;
+            if (!newRound.active) return res;
+
+            this.state.rounds.forEach(r => {
+                if (r.active) {
+                    res = { ...clone(r), active: false };
+                }
+            });
+
+            return res;
+        })();
+
+        const update = async (round, conf = true) => {
+            await apis.admin
+                .updateRound(round)
+                .then(res => {
+                    this.getRounds();
+
+                    if (conf) {
+                        const updateMsg = userMsg({
+                            message: 'Omgång uppdaterad!',
+                            dismiss: { duration: 1000 },
+                            type: 'success'
+                        });
+
+                        updateMsg.add();
+                    }
+                })
+                .catch(err => {
+                    console.log('err when updating round', err);
+
+                    errMsg.add();
+                });
+        };
+
+        if (deactivated !== null) {
+            update(deactivated, false);
         }
-    }; */
+
+        update(newRound);
+    };
 
     getPlayers = async callback => {
         await apis
@@ -80,7 +190,8 @@ export default class AdminState extends Component {
                 this.getPlayers();
                 const addMsg = userMsg({
                     message: 'Spelare tillagd!',
-                    dismiss: { duration: 3000 }
+                    dismiss: { duration: 3000 },
+                    type: 'success'
                 });
 
                 addMsg.add();

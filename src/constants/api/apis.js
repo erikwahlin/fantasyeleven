@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL //'http://localhost:5000/api'
+    baseURL: 'http://localhost:5000/api' //process.env.REACT_APP_BACKEND_URL
 });
 
 export const get = (action = 'getMany', id = '') => api.get(`/${action}/${id}`);
@@ -14,7 +14,9 @@ const admin = {
     getPlayers: () => api.get(`/getPlayers`),
     addPlayer: player => api.post(`/addPlayer`, player),
     updatePlayer: player => api.put(`/updatePlayer`, player),
-    deletePlayer: id => api.delete(`/deletePlayer/${id}`)
+    deletePlayer: id => api.delete(`/deletePlayer/${id}`),
+
+    updateRound: round => api.put(`/updateRound`, round)
 };
 
 const apis = {
