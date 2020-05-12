@@ -27,7 +27,7 @@ export const OuterWrapper = styled.div`
 export const InnerWrapper = styled.div`
     display: flex;
 
-    width: 90%;
+    width: 65%;
     height: 100%;
     max-width: 500px;
     flex-direction: column;
