@@ -553,7 +553,7 @@ class PlayerSearch extends Component {
                             </ButtonReset>
 
                             {/* RESULT */}
-                            {paginated.length && (
+                            {paginated.length ? (
                                 <ResultContainer className="ResultContainer">
                                     <Paginate
                                         className="Paginate"
@@ -649,7 +649,7 @@ class PlayerSearch extends Component {
                                         })}
                                     </ResultBox>
                                 </ResultContainer>
-                            )}
+                            ) : null}
 
                             {!paginated.length && (
                                 <Instructions

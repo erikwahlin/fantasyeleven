@@ -836,15 +836,8 @@ class NewTeam extends Component {
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
                 >
-                    {this.state.config.searchablePlayers.length ? (
-                        <>
-                            <BuildStages buildStage={buildStage} />
-                            <PlayerSearch
-                                players={searchablePlayers}
-                                markedMode={this.checkMarkedMode()}
-                            />
-                        </>
-                    ) : null}
+                    <BuildStages buildStage={buildStage} />
+                    <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>
             </TeamContext.Provider>
         );

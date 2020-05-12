@@ -407,6 +407,7 @@ class PlayerSearch extends Component {
 
         // get short club name (according to reuter)
         const clubAbbr = club => {
+            if (!club || club === '') return 'no club';
             const res = allClubs.filter(item => item.long === club)[0];
             return res.short;
         };
