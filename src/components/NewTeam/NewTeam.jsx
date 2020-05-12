@@ -85,7 +85,7 @@ class NewTeam extends Component {
             .getPlayers()
             .then(res => {
                 this.setState(
-                    ps => ({ ...ps, allPlayers: res.data.data }),
+                    ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
                     () => {
                         if (typeof callback === 'function') callback();
                     }
@@ -93,6 +93,7 @@ class NewTeam extends Component {
             })
             .catch(err => {
                 console.log('get players fail:', err);
+                this.clientLoad();
             });
     };
 
@@ -488,7 +489,7 @@ class NewTeam extends Component {
         const update = input => {
             const res = clone(input);
             // set new search res
-            res.searchablePlayers = this.applyFilter(this.state.allPlayers);
+            res.searchablePlayers = this.applyFilter(this.state.config.searchablePlayers);
             return res;
         };
 

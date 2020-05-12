@@ -86,6 +86,7 @@ const INITIAL_STATE = {
             position: [],
             club: []
         },
+        allPlayers: [],
         searchablePlayers: [],
 
         limit: {
