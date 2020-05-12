@@ -2,7 +2,7 @@ import * as LEX from './lexicon';
 import stadiums from './stadiums';
 import { store } from 'react-notifications-component';
 
-//counting players in team.pitch or team.bench
+//counting players in team.players.pitch or team.players.bench
 export const countPlayers = arrOfObj => {
     let count = 0;
     Object.values(arrOfObj).forEach(elem => (count += elem.length));
@@ -46,6 +46,7 @@ export const clone = (obj, keyName) => {
 };
 
 export const toSwe = (word, chapter, form = 'sing') => {
+    //console.log('chapter', chapter, 'word', word, 'form', form);
     if (LEX[chapter]) {
         if (LEX[chapter][word]) {
             if (LEX[chapter][word][form]) return LEX[chapter][word][form];
@@ -65,7 +66,7 @@ export const toEng = (word, chapter, form = 'sing') => {
     return word;
 };
 
-export const homePitch = club => stadiums[club].url;
+export const homePitch = club => (!stadiums[club] ? '' : stadiums[club].url);
 
 export const afterWinResize = (callback, timeout = 300) => {
     let doWhenDone;

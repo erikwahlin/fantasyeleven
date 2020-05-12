@@ -104,7 +104,7 @@ const AddPlayerBtn = styled(FaUserPlus)`
 
 const BuildInfo = ({ teamContext, origin }) => {
     const { team, config } = teamContext.state;
-    const { game } = team;
+    const { value, players } = team;
     const { buildStage, limit, mobileSearch } = config;
     const { stageName } = buildStage;
     const { delPlayer, openPlayerSearch } = teamContext.setters;
@@ -112,8 +112,8 @@ const BuildInfo = ({ teamContext, origin }) => {
     const maxPlayers = limit[origin].tot;
     const maxValue = limit.value[origin];
 
-    const playerCount = team.list.filter(player => player.origin === origin).length;
-    const teamValue = game.value[origin]; // adding bench tot price to state
+    const playerCount = players.list.filter(player => player.origin === origin).length;
+    const teamValue = value[origin]; // adding bench tot price to state
 
     let budgetLeft = maxValue - teamValue; //rendering budget left
 
@@ -126,7 +126,7 @@ const BuildInfo = ({ teamContext, origin }) => {
 
     const clearPlayers = () => {
         // alla spelare på []
-        //const players = team.list.filter(player => player.origin === origin);
+        //const players = players.list.filter(player => player.origin === origin);
         delPlayer({ delAll: true });
     };
 
@@ -163,8 +163,8 @@ const BuildInfo = ({ teamContext, origin }) => {
 
             {stageName === 'pitch' || stageName === 'bench' ? (
                 <ClearBtn onClick={clearPlayers}>
-                    {(stageName === 'pitch' && countPlayers(team.pitch) === 0) ||
-                    (stageName === 'bench' && countPlayers(team.bench) === 0)
+                    {(stageName === 'pitch' && countPlayers(players.pitch) === 0) ||
+                    (stageName === 'bench' && countPlayers(players.bench) === 0)
                         ? 'Autofyll'
                         : `Nollställ ${toSwe(stageName, 'origins')}`}
                 </ClearBtn>

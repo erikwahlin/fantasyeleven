@@ -164,7 +164,7 @@ const CaptainName = styled.div`
     }
 `;
 
-export const CaptainCard = ({ role, name, img }) => {
+export const CaptainCard = ({ role, obj, img }) => {
     const title = role === 'captain' ? 'apten' : 'ice kapten';
 
     return (
@@ -174,7 +174,7 @@ export const CaptainCard = ({ role, name, img }) => {
                 {title}
             </CaptainTitle>
             <hr></hr>
-            <CaptainName className="CaptainName">{name && name}</CaptainName>
+            <CaptainName className="CaptainName">{!obj ? '' : obj.name}</CaptainName>
         </CaptainWrapper>
     );
 };

@@ -36,6 +36,7 @@ const PlayerName = styled.span`
 
 const Bench = props => {
     const { config, team } = props.team;
+    const { players } = team;
 
     return (
         <Wrapper className="Bench unmarkable">
@@ -43,8 +44,8 @@ const Bench = props => {
                 <PluppContainer key={`pos-${nth}`} className={`PluppContainer ${pos}`}>
                     <Plupp
                         pos={pos}
-                        player={team.bench[pos][0]}
-                        lineupCount={team.bench[pos].length}
+                        player={players.bench[pos][0]}
+                        lineupCount={players.bench[pos].length}
                         lineupIndex={0}
                         origin="bench"
                     />

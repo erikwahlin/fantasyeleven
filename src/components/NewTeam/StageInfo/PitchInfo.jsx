@@ -6,23 +6,21 @@ import { Wrapper, Section, Key, Val, Button, AddPlayerIcon } from './template';
 
 const PitchInfo = ({ teamContext }) => {
     const { team, config } = teamContext.state;
-    const { game } = team;
+    const { value, players } = team;
     const { buildStage, limit, mobileSearch } = config;
     const { stageName } = buildStage;
     const { delPlayer, openPlayerSearch } = teamContext.setters;
 
-    const playerCount = team.list
-        ? team.list.filter(player => player.origin === stageName).length
-        : 0;
+    const playerCount = players.list.filter(player => player.origin === stageName).length;
 
     const maxPlayers = limit[stageName].tot;
     const maxValue = limit.value[stageName];
 
-    const teamValue = game.value[stageName]; // adding bench tot price to state
+    const teamValue = value[stageName]; // adding bench tot price to state
 
     const clearPlayers = () => {
         // alla spelare på []
-        //const players = team.list.filter(player => player.origin === origin);
+        //const players = players.list.filter(player => player.origin === origin);
         delPlayer({ delAll: true });
     };
 
@@ -44,7 +42,7 @@ const PitchInfo = ({ teamContext }) => {
 
             <Section className="Section">
                 <Button onClick={clearPlayers} className="Button autofill clearplayers">
-                    {countPlayers(team.pitch) === 0 ? 'Autofyll' : 'Nollställ'}
+                    {countPlayers(players.pitch) === 0 ? 'Autofyll' : 'Nollställ'}
                 </Button>
             </Section>
 

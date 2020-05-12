@@ -455,7 +455,9 @@ class Plupp extends Component {
         if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
 
         if (stageName === 'captain') {
-            this.setCap(!captain || this.props.player.uid === captain ? 'captain' : 'viceCaptain');
+            this.setCap(
+                !captain || this.props.player.uid === captain.uid ? 'captain' : 'viceCaptain'
+            );
 
             return;
         }
@@ -580,9 +582,14 @@ class Plupp extends Component {
 
         let isCap = false,
             isViceCap = false;
+
         if (player) {
-            isCap = player.uid === captain ? true : false;
-            isViceCap = player.uid === viceCaptain ? true : false;
+            if (captain) {
+                isCap = player.uid === captain.uid ? true : false;
+            }
+            if (viceCaptain) {
+                isViceCap = player.uid === viceCaptain.uid ? true : false;
+            }
         }
 
         //console.log(stageName, isSwitchable);
