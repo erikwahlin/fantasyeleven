@@ -122,6 +122,7 @@ class NewTeam extends Component {
         console.log('user init');
         await this.props.firebase.auth.onAuthStateChanged(user => {
             // if logged in, use/load from mongo
+
             if (user) {
                 this.setState({ user: user.uid }, async () => {
                     this.load();
@@ -203,7 +204,7 @@ class NewTeam extends Component {
 
         // save to mongo
         await apis
-            .create(newUser)
+            .create('create', newUser)
             .then(res => {
                 console.log('Created new team in mongo.');
             })
@@ -283,10 +284,10 @@ class NewTeam extends Component {
         players.list.forEach(player => {
             // spot actual captains
             if (captain) {
-                if (player.uid === captain.uid) newCap = player;
+                if (player._id === captain._id) newCap = player;
             }
             if (viceCaptain) {
-                if (player.uid === viceCaptain.uid) newViceCap = player;
+                if (player._id === viceCaptain._id) newViceCap = player;
             }
 
             const { position: pos, origin, club } = player;
@@ -452,22 +453,22 @@ class NewTeam extends Component {
 
             // add to uid-filter
             players.list.forEach(player => {
-                const matchIndex = filterKeys.uid.indexOf(player.uid);
+                const matchIndex = filterKeys._id.indexOf(player._id);
 
                 // if exists on pitch but not in filter, add
                 if (matchIndex < 0) {
-                    config.filterKeys.uid.push(player.uid);
+                    config.filterKeys._id.push(player._id);
                 }
             });
 
             // remove from uid-filter
-            const playerUids = players.list.map(player => player.uid);
-            filterKeys.uid.forEach((uid, nth) => {
+            const playerUids = players.list.map(player => player._id);
+            filterKeys._id.forEach((uid, nth) => {
                 const matchIndex = playerUids.indexOf(uid);
 
                 // if exists in filter but not on pitch, remove
                 if (matchIndex < 0) {
-                    config.filterKeys.uid.splice(nth, 1);
+                    config.filterKeys._id.splice(nth, 1);
                 }
             });
 
@@ -521,7 +522,6 @@ class NewTeam extends Component {
         const f = (players, key) => {
             const res = players.filter(player => {
                 let willReturn = true;
-
                 filterKeys[key].forEach(val => {
                     if (player[key] === val) {
                         willReturn = false;
@@ -535,7 +535,7 @@ class NewTeam extends Component {
         };
 
         // we never want uid-duplicates (picked vs unpicked players)
-        const uniqueUids = f(input, 'uid');
+        const uniqueUids = f(input, '_id');
 
         // if marked plupp, return all unpicked players with plupp's pos-prop
         if (markedMode) {

@@ -82,7 +82,7 @@ const INITIAL_STATE = {
         searchOpen: false,
 
         filterKeys: {
-            uid: [],
+            _id: [],
             position: [],
             club: []
         },

@@ -456,7 +456,7 @@ class Plupp extends Component {
 
         if (stageName === 'captain') {
             this.setCap(
-                !captain || this.props.player.uid === captain.uid ? 'captain' : 'viceCaptain'
+                !captain || this.props.player._id === captain._id ? 'captain' : 'viceCaptain'
             );
 
             return;
@@ -559,14 +559,14 @@ class Plupp extends Component {
         const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
 
         // if same player already has a role, clear
-        if (team[otherRole] === player.uid) {
+        if (team[otherRole] === player._id) {
             team[otherRole] = null;
         }
 
-        if (player.uid === team[role]) {
+        if (player._id === team[role]) {
             team[role] = null;
         } else {
-            team[role] = player.uid;
+            team[role] = player._id;
         }
 
         updateNewTeam(team);
@@ -585,10 +585,10 @@ class Plupp extends Component {
 
         if (player) {
             if (captain) {
-                isCap = player.uid === captain.uid ? true : false;
+                isCap = player._id === captain._id ? true : false;
             }
             if (viceCaptain) {
-                isViceCap = player.uid === viceCaptain.uid ? true : false;
+                isViceCap = player._id === viceCaptain._id ? true : false;
             }
         }
 

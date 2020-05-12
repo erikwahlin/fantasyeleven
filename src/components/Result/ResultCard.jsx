@@ -84,7 +84,7 @@ const ResultCard = ({ player, width }) => {
     };
 
     return (
-        <Card key={player.uid} className="ResultCard unmarkable" width={width} cardOpen={cardOpen}>
+        <Card key={player._id} className="ResultCard unmarkable" width={width} cardOpen={cardOpen}>
             <CardHeader className="CardHeader" viewport onClick={cardClickHandler}>
                 <LabelStrong flex={3} className="name">
                     {player.name}

@@ -589,7 +589,10 @@ class PlayerSearch extends Component {
                                     <ResultBox className="ResultBox unmarkable">
                                         {paginated.map((player, i) => {
                                             return (
-                                                <PlayerRow key={i} className="PlayerRow">
+                                                <PlayerRow
+                                                    key={`${player._id}-${i}`}
+                                                    className="PlayerRow"
+                                                >
                                                     <InfoModal
                                                         title={player.name}
                                                         subtitle={`${player.club} - ${toSwe(

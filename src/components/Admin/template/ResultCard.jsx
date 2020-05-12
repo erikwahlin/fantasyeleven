@@ -93,7 +93,7 @@ const ResultCard = ({ player, width }) => {
 
     return (
         <Card
-            key={player.uid}
+            key={player._id}
             className="ResultCard unmarkable"
             width={width}
             cardOpen={cardOpen}

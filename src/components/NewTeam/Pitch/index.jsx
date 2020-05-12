@@ -129,7 +129,7 @@ const Pitch = props => {
                     <PositionContainer key={`lineup-${nth}`} className={`PositionContainer ${pos}`}>
                         {players.pitch[pos].map((player, nth) => (
                             <PlayerContainer
-                                key={player.uid}
+                                key={`${player._id}-${nth}`}
                                 className={`PlayerContainer ${pos} unmarkable`}
                                 player={player}
                             >
