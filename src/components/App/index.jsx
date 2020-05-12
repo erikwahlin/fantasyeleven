@@ -7,7 +7,7 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
-import MyTeams from '../MyTeams';
+//import MyTeams from '../MyTeams';
 import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
@@ -16,6 +16,11 @@ import styled, { keyframes } from 'styled-components';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
+
+import ReactNotification from 'react-notifications-component';
+
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
 const rotate = keyframes`
 	0% {
@@ -80,7 +85,7 @@ const PhoneOuter = styled.div`
 const AppContainer = styled.div`
     @media all and (max-width: 899px) {
         width: 100vw;
-        height: 100vh;
+        /* height: 100vh; */
         overflow: hidden;
     }
     @media all and (max-width: 899px) {
@@ -88,13 +93,21 @@ const AppContainer = styled.div`
     }
 
     @media all and (max-width: 1900px) {
-        height: 100vh;
+        /* height: 100vh; */
+    }
+`;
+
+const NotifContainer = styled(ReactNotification)`
+    & .animOut {
+        animation-duration: 5s !important;
     }
 `;
 
 const App = () => (
     <Router>
         <>
+            <NotifContainer className="NotifContainer" />
+
             <LandscapeMode className="landscapeMode">
                 <PhoneOuter>
                     <div></div>
@@ -110,7 +123,7 @@ const App = () => (
 
                 <Route path={'/home'} exact component={HomePage} />
 
-                <Route path={ROUTES.MYTEAMS} exact component={MyTeams} />
+                {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
                 <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
                 <Route path={ROUTES.ACCOUNT} component={AccountPage} />

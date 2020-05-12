@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { FaInfoCircle } from 'react-icons/fa';
-import modalStyle, {
+
+import customstyle, {
     ModalWrapper,
     OpenBtn,
+    Icon,
     ContentWrapper,
     Title,
     Subtitle,
@@ -13,7 +14,20 @@ import modalStyle, {
 } from './style';
 
 const InfoModal = props => {
-    const { openBtn, title, subtitle, img, submit, openBtnStyle } = props;
+    let {
+        openBtn,
+        title,
+        subtitle,
+        img,
+        submit,
+        modalStyle,
+        openBtnStyle,
+        iconStyle,
+        className,
+        openCallback,
+        closeCallback
+    } = props;
+    className = className || '';
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [fallbackImg, setFallbackImg] = React.useState(null);
@@ -21,6 +35,8 @@ const InfoModal = props => {
     function openModal() {
         setFallbackImg('https://source.unsplash.com/random');
         setIsOpen(true);
+
+        if (typeof openCallback === 'function') openCallback();
     }
 
     function afterOpenModal() {
@@ -30,26 +46,26 @@ const InfoModal = props => {
     function closeModal() {
         setFallbackImg(null);
         setIsOpen(false);
+
+        if (typeof closeCallback === 'function') closeCallback();
     }
 
     return (
-        
-        <ModalWrapper className="ModalWrapper playerModal">
+        <ModalWrapper className={`ModalWrapper playerModal ${className}`}>
             <OpenBtn
-                customStyle={openBtnStyle}
+                customstyle={openBtnStyle}
                 isPitch={props.isPitch}
-                className="ModalOpenBtn"
+                className="ModalOpenBtn playerinfo"
                 onClick={openModal}
             >
-                {' '}
-                {openBtn ? openBtn : <FaInfoCircle />}{' '}
+                {openBtn ? openBtn : <Icon customstyle={iconStyle} className="infoIcon" />}
             </OpenBtn>
 
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
-                style={modalStyle}
+                style={customstyle(modalStyle)}
                 contentLabel="InfoModal"
             >
                 <ContentWrapper className="ContentWrapper playerModal unmarkable">
@@ -57,11 +73,12 @@ const InfoModal = props => {
                     {subtitle && <Subtitle>{subtitle}</Subtitle>}
                     <Img className="Img" src={img ? img : fallbackImg} />
                     <Content className="Content playerModal unmarkable">{props.children}</Content>
-                    <Submit onClick={closeModal}>{submit || 'Stäng'}</Submit>
+                    <Submit className="closeBtn playerinfo" onClick={closeModal}>
+                        {submit || 'Stäng'}
+                    </Submit>
                 </ContentWrapper>
             </Modal>
         </ModalWrapper>
-        
     );
 };
 

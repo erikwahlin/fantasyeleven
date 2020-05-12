@@ -154,7 +154,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
             case 'pitch':
                 return (
                     /*                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName] */
+                    value[stageName] <= preset.maxPrice[stageName] */
                     true
                 );
 
@@ -164,7 +164,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
             case 'bench':
                 return (
                     /*                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName] */
+                    value[stageName] <= preset.maxPrice[stageName] */
                     true
                 );
 

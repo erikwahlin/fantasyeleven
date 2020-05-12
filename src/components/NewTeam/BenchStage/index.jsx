@@ -109,14 +109,6 @@ const BenchContainer = styled.div`
 `;
 
 const BenchStage = props => {
-    const { team } = props.teamContext.state;
-    const { captain, viceCaptain } = team;
-    const { togglePlayerSearch } = props.teamContext.setters;
-    const playerCount = team.list.map(player => player.origin === 'bench').length;
-
-    const capObj = team.list.filter(p => p.uid === captain)[0];
-    const viceObj = team.list.filter(p => p.uid === viceCaptain)[0];
-
     return (
         <StageTemplate className="BenchStage StageWrapper">
             <Pitch />

@@ -73,6 +73,7 @@ h4 {
     font-size: 1em !important;
     font-weight: 500;
     cursor: pointer;
+    color:white;
 }
 
 .sum {
@@ -214,5 +215,7 @@ h4 {
 .tooltip:hover {
     cursor: pointer;
 }
+
+
 
 /************************************************************/

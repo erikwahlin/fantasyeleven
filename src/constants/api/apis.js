@@ -1,25 +1,28 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL
-    //baseURL: localhost:5000
+    baseURL: 'http://localhost:5000/api' // process.env.REACT_APP_BACKEND_URL
 });
 
 export const get = (action = 'getMany', id = '') => api.get(`/${action}/${id}`);
-export const create = payload => api.post(`/create`, payload);
+export const create = (action = 'create', payload) => api.post(`/${action}`, payload);
 
 export const remove = id => api.delete(`/remove/${id}`);
 export const update = (id, payload) => api.put(`/update/${id}`, payload);
 
-//export const getResult = id => api.post(`/getResult/${id}`);
+const admin = {
+    getPlayers: () => api.get(`/getPlayers`),
+    addPlayer: player => api.post(`/addPlayer`, player),
+    updatePlayer: player => api.put(`/updatePlayer`, player),
+    deletePlayer: id => api.delete(`/deletePlayer/${id}`)
+};
 
 const apis = {
     get,
     create,
     remove,
-    update
-
-    //getResult
+    update,
+    admin
 };
 
 export default apis;
