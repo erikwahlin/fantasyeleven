@@ -489,7 +489,7 @@ class NewTeam extends Component {
         const update = input => {
             const res = clone(input);
             // set new search res
-            res.searchablePlayers = this.applyFilter(this.state.config.searchablePlayers);
+            res.searchablePlayers = this.applyFilter(this.state.config.allPlayers);
             return res;
         };
 
