@@ -9,8 +9,8 @@ import { AddPlayerIcon } from '../StageInfo/template';
 
 const Wrapper = styled.div`
     position: relative;
-    width: 480px;
-    height: 432px;
+    width: 576px;
+    height: 522px;
     margin: 0 auto;
 
     @media all and (max-width: 480px) {
