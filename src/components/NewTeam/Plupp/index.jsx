@@ -8,7 +8,9 @@ import pluppC from '../../../media/profile.png';
 import cap from '../../../media/Cap.svg';
 import ViceCap from '../../../media/ViceCap.svg';
 import Delete from '../../../media/delW.svg';
-import { FaTrash, FaExchangeAlt } from 'react-icons/fa';
+import Switch from '../../../media/switchIcon.png';
+import { FaTrash, FaExchangeAlt, FaCross, FaX } from 'react-icons/fa';
+import { GiCrossMark, GiBodySwapping } from 'react-icons/gi';
 import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
@@ -53,7 +55,14 @@ const PlayerName = styled.span`
         left: -10px;
         z-index: 1;
     }
-    & > .ModalOpenBtn {
+
+    & .ModalOpenBtn {
+        & > svg {
+            height: auto;
+            width: auto;
+            box-shadow: 0px 0 2px #444;
+            border-radius: 50%;
+        }
     }
 
     @media all and (max-width: 480px) {
@@ -62,6 +71,7 @@ const PlayerName = styled.span`
         left: -5vw;
         top: 10vw;
         z-index: 1;
+        padding: 0.7vw;
 
         & .ModalWrapper {
             min-width: unset;
@@ -73,7 +83,7 @@ const PlayerName = styled.span`
             width: 4vw;
             height: 4vw;
             & > svg {
-                /* width: 3.8vw; */
+                box-shadow: 0px 0 0.5vw #444;
             }
         }
     }
@@ -123,28 +133,44 @@ const PluppImg = styled.img`
             : '#a6afb6'};
 `;
 
-const Options = styled.div`
+const OptionsTop = styled.div`
     position: absolute;
     z-index: 1;
-    left: -30px;
-    top: ${props => (props.stageName === 'pitch' ? '-23px' : '-13px')};
-    /* top: ${props => (props.stageName === 'pitch' ? '-35px' : '-13px')}; */
-    width: ${props => (props.stageName === 'pitch' ? '100px' : '90px')};
+    left: -21px;
+    top: -13px;
+    width: 92px;
     height: 40px;
     margin: 0;
     padding: 0;
 
+    display: flex;
+    justify-content: flex-end;
+
     @media all and (max-width: 480px) {
         width: 19vw;
-     
+        left: -5vw;
+        top: -3vw;
+        height: 7vw;
     }
 `;
+
+const OptionsBottom = styled(OptionsTop)`
+    top: 52px;
+    justify-content: center;
+
+    @media all and (max-width: 480px) {
+        height: 10vw;
+        top: 10vw;
+    }
+`;
+
 const Btn = styled.div`
     color: #222;
     position: absolute;
     font-size: 1em;
     font-weight: bold;
     cursor: ${p => (p.stageName === 'captain' ? 'pointer' : 'normal')};
+
     & > div {
         height: 25px;
         width: 25px;
@@ -209,10 +235,10 @@ const PluppRole = styled.span`
             : '#bfbfbf'};
 `;
 
-const DelBtn = styled.button`
-    width: 40px;
-    height: 100%;
+const OptionsBtn = styled.button`
+    width: 30px;
     margin: 0 5px;
+    padding: 0;
     cursor: pointer;
     outline: none;
     border: none;
@@ -220,17 +246,49 @@ const DelBtn = styled.button`
     background: none;
     color: red;
     font-size: 1em;
+
     & > * {
         width: 100%;
         height: 100%;
     }
+
+    @media all and (max-width: 480px) {
+        width: 8.4vw;
+        height: 8.4vw;
+        margin: 0 1vw;
+    }
 `;
 
-const DelImg = styled.img`
-    /*    width: 100%;
-    height: 100%;
-    max-width: 700px;
-    position: absolute; */
+const OptionsBottomBtn = styled(OptionsBtn)`
+    width: 30px;
+    height: 30px;
+    margin: 0 2px;
+    background: #fff;
+    padding: 6px;
+
+    box-shadow: 0 0 5px #222;
+    border-radius: 50%;
+
+    & > svg {
+        color: #000;
+        margin: 0;
+    }
+
+    @media all and (max-width: 480px) {
+        width: 6.4vw;
+        margin: 0.5vw;
+        padding: 0.5vw 0;
+        height: 6.4vw;
+
+        & > svg {
+            padding: 1vw;
+        }
+    }
+`;
+
+const OptionsImg = styled.img`
+    box-shadow: 0 0 10px black;
+    border-radius: 50%;
 `;
 
 const SwitchIcon = styled.div`
@@ -272,7 +330,8 @@ class Plupp extends Component {
         this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
         this.quickSwitch = this.quickSwitch.bind(this);
 
-        this.delBtn = createRef(null);
+        this.DelBtn = createRef(null);
+        this.SwitchBtn = createRef(null);
         this.pluppRef = createRef(null);
         this.switchRef = createRef(null);
 
@@ -396,11 +455,12 @@ class Plupp extends Component {
 
         // if plupp origin and stageName doesn't match, bail
         // if on pitchStage and plupp origin isn't pitch or captain, bail
-        console.log('origin', origin, 'stageName', stageName);
         if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
 
         if (stageName === 'captain') {
-            this.setCap(!captain || this.props.player.uid === captain ? 'captain' : 'viceCaptain');
+            this.setCap(
+                !captain || this.props.player._id === captain._id ? 'captain' : 'viceCaptain'
+            );
 
             return;
         }
@@ -416,14 +476,17 @@ class Plupp extends Component {
         }
 
         /* TEMP */
-        if (teamContext.state.config.mobileSearch) {
+        /* if (teamContext.state.config.mobileSearch) {
             openPlayerSearch();
-        }
+        } */
 
         /* TEMP */
 
         // if switchers dont have a marked, mark this plupp
         if (!marked) {
+            if (!player && stageName === 'bench') {
+                openPlayerSearch();
+            }
             // set as marked, then update switchers
             setSwitchers({
                 marked: {
@@ -499,14 +562,14 @@ class Plupp extends Component {
         const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
 
         // if same player already has a role, clear
-        if (team[otherRole] === player.uid) {
+        if (team[otherRole] === player._id) {
             team[otherRole] = null;
         }
 
-        if (player.uid === team[role]) {
+        if (player._id === team[role]) {
             team[role] = null;
         } else {
-            team[role] = player.uid;
+            team[role] = player._id;
         }
 
         updateNewTeam(team);
@@ -518,14 +581,21 @@ class Plupp extends Component {
     render() {
         const { isMarked, isSwitchable } = this.state;
         const { player, pos, origin, lineupIndex, teamContext } = this.props;
-        const { captain, viceCaptain } = teamContext.state.team;
-        const { stageName } = teamContext.state.config.buildStage;
+        const { config, team } = teamContext.state;
+        const { captain, viceCaptain } = team;
+        const { buildStage, mobileSearch } = config;
+        const { stageName } = buildStage;
 
         let isCap = false,
             isViceCap = false;
+
         if (player) {
-            isCap = player.uid === captain ? true : false;
-            isViceCap = player.uid === viceCaptain ? true : false;
+            if (captain) {
+                isCap = player._id === captain._id ? true : false;
+            }
+            if (viceCaptain) {
+                isViceCap = player._id === viceCaptain._id ? true : false;
+            }
         }
 
         const style = {
@@ -546,7 +616,7 @@ class Plupp extends Component {
         console.log('stageName, isswitchable, isMarked', stageName, isSwitchable, isMarked);
         return (
             <Container>
-                {player && (
+                {player && !isMarked && (
                     <PlayerName className="PlayerName">
                         {(stageName === 'pitch' ||
                             stageName === 'bench' ||
@@ -564,40 +634,59 @@ class Plupp extends Component {
                     </PlayerName>
                 )}
                 {(stageName === 'pitch' || stageName === 'bench' || stageName === 'overview') &&
-                    player && (
+                    player &&
+                    !isMarked && (
                         <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
                     )}
-
-                {(stageName === 'captain' || stageName === 'bench') && (
-                    <Options stageName={stageName} className="Options">
+                {(stageName === 'pitch' || stageName === 'captain' || stageName === 'bench') && (
+                    <OptionsTop stageName={stageName} className="OptionsTop">
                         {isCap && (
-                            <CaptainBtn
+                            <OptionsBtn
+                                className="OptionsBtn"
                                 player={player}
                                 onClick={() => this.setCap()}
                                 stageName={stageName}
                             >
                                 <Cap src={cap} alt="Captain" />
-                            </CaptainBtn>
+                            </OptionsBtn>
                         )}
 
                         {isViceCap && (
-                            <VCaptainBtn
+                            <OptionsBtn
                                 player={player}
                                 onClick={() => this.setCap('viceCaptain')}
                                 stageName={stageName}
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />
-                            </VCaptainBtn>
+                            </OptionsBtn>
                         )}
+                    </OptionsTop>
+                )}
+                {isMarked && player && (
+                    <OptionsBottom className="OptionsBottom">
+                        <OptionsBottomBtn
+                            className="OptionsBottomBtn"
+                            ref={this.DelBtn}
+                            onClick={this.del}
+                        >
+                            {/* <OptionsImg className="OptionsImg" src={Delete} /> */}
+                            <GiCrossMark color="red" alt="DelIcon" className="DelIcon" />
+                        </OptionsBottomBtn>
 
-                        {isMarked && player && (
-                            <Options stageName={stageName} className="">
-                                <DelBtn ref={this.delBtn} onClick={this.del}>
-                                    <DelImg src={Delete} />
-                                </DelBtn>
-                            </Options>
+                        {mobileSearch && (
+                            <OptionsBottomBtn
+                                className="OptionsBottomBtn"
+                                ref={this.SwitchBtn}
+                                onClick={this.props.teamContext.setters.openPlayerSearch}
+                            >
+                                <GiBodySwapping
+                                    color="#14521D"
+                                    alt="SwitchIcon"
+                                    className="SwitchIcon"
+                                />
+                            </OptionsBottomBtn>
                         )}
-                    </Options>
+                    </OptionsBottom>
                 )}
 
                 {/* <IconContext.Provider value={{
@@ -647,10 +736,9 @@ class Plupp extends Component {
 
 
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
-
                 {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                        <FaExchangeAlt alt="SwitchIcon" className="SwitchIcon" player={player} />
+                        <GiBodySwapping alt="SwitchIcon" className="SwitchIcon" player={player} />
                     </SwitchIcon>
                 )}
             </Container>

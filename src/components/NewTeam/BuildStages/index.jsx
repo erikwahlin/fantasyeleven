@@ -3,10 +3,13 @@ import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
 import { firstCap, toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
+import StageTemplate from '../StageTemplate';
 import PitchStage from '../PitchStage';
 import CaptainStage from '../CaptainStage';
 import BenchStage from '../BenchStage';
 import OverviewStage from '../OverviewStage';
+import Pitch from '../Pitch';
+import Bench from '../Bench';
 import './index.css';
 import { Steps, Button, message } from 'antd';
 import StepContainer from './StepContainer';
@@ -122,12 +125,12 @@ const stageContent = stage => {
 };
 
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
-    const { setStage, updateFilterKeys, updatePitchAnim } = teamContext.setters;
+    const { setStage, updateFilterKeys } = teamContext.setters;
     const { team } = teamContext.state;
-    const { list: playerList, captain, viceCaptain } = team;
+    const { players, captain, viceCaptain, value } = team;
 
     const { stageName, stageIndex } = buildStage;
-    const playerCount = playerList.filter(player => player.origin === stageName).length;
+    const playerCount = players.list.filter(player => player.origin === stageName).length;
 
     const callback = key => {
         console.log('tab change callback...');
@@ -154,19 +157,19 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
         switch (key) {
             case 'pitch':
                 return (
-                    /*                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName] */
-                    true
+                    playerCount === preset.maxPlayers[stageName] &&
+                    value[stageName] <= preset.maxPrice[stageName]
+                    //true
                 );
 
             case 'captain':
-                return true; /* captain && viceCaptain; */
+                return captain && viceCaptain; //true
 
             case 'bench':
                 return (
-                    /*                     playerCount === preset.maxPlayers[stageName] &&
-                    team.game.value[stageName] <= preset.maxPrice[stageName] */
-                    true
+                    playerCount === preset.maxPlayers[stageName] &&
+                    value[stageName] <= preset.maxPrice[stageName]
+                    //true
                 );
 
             default:
@@ -190,9 +193,12 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
 
     return (
         <Wrapper className="BuildStages">
-            <Content className="fade-in steps-content Content">{stageContent(stageName)}</Content>
+            <Content className="fade-in steps-content Content">
+                <StageTemplate />
+            </Content>
+
             <StepContainer
-                stageName={stageName}
+                stagename={stageName}
                 current={stageIndex}
                 size="small"
                 className="StepContainer"

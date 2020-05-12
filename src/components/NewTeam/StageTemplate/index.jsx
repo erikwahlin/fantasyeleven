@@ -3,18 +3,19 @@ import { withTeam } from '../ctx';
 import StageWrapper from './StageWrapper';
 import StageTitle from './StageTitle';
 import StageInfo from '../StageInfo';
+import Pitch from '../Pitch';
+import Bench from '../Bench';
 
-const StageTemplate = props => {
-    const { children } = props;
-    const { team } = props.teamContext.state;
-    const { captain } = team;
+const StageTemplate = ({ teamContext }) => {
+    const { stageName } = teamContext.state.config.buildStage;
 
     return (
-        <StageWrapper>
+        <StageWrapper className={`Stage ${stageName}`}>
             <StageTitle />
             <StageInfo />
 
-            {children}
+            <Pitch />
+            <Bench />
         </StageWrapper>
     );
 };

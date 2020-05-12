@@ -46,7 +46,9 @@ const ContentWrap = styled.div`
 class NewTeam extends Component {
     constructor(props) {
         super(props);
-        this.state = clone(INITIAL_STATE);
+        this.state = { ...clone(INITIAL_STATE) };
+
+        this.getPlayers = this.getPlayers.bind(this);
 
         this.updateNewTeam = this.updateNewTeam.bind(this);
 
@@ -73,15 +75,35 @@ class NewTeam extends Component {
 
         this.mongoLoad = this.mongoLoad.bind(this);
         this.mongoCreate = this.mongoCreate.bind(this);
-        this.mongoUpdate = this.mongoUpdate.bind(this);
+        this.mongoSave = this.mongoSave.bind(this);
 
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
     }
 
-    componentDidMount = async () => {
-        await this.userInit();
-        this.updatesearchablePlayers();
+    getPlayers = async callback => {
+        await apis.admin
+            .getPlayers()
+            .then(res => {
+                this.setState(
+                    ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
+                    () => {
+                        if (typeof callback === 'function') callback();
+                    }
+                );
+            })
+            .catch(err => {
+                console.log('get players fail:', err);
+                this.clientLoad();
+            });
+    };
+
+    componentDidMount = () => {
+        this.getPlayers(() => {
+            this.updatesearchablePlayers(async () => {
+                await this.userInit();
+            });
+        });
     };
 
     // updater for team-state (+ save)
@@ -102,6 +124,7 @@ class NewTeam extends Component {
         console.log('user init');
         await this.props.firebase.auth.onAuthStateChanged(user => {
             // if logged in, use/load from mongo
+
             if (user) {
                 this.setState({ user: user.uid }, async () => {
                     this.load();
@@ -129,9 +152,15 @@ class NewTeam extends Component {
      *
      * SAVE/LOAD TEAM
      * * * * * * * * * */
-    save = () => (this.state.user && this.state.appOnline ? this.mongoUpdate() : this.clientSave());
+    save = () =>
+        /* this.clientSave(); // */ this.state.user && this.state.appOnline
+            ? this.mongoSave()
+            : this.clientSave();
 
-    load = () => (this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad());
+    load = () =>
+        /* this.clientLoad(); // */ this.state.user && this.state.appOnline
+            ? this.mongoLoad()
+            : this.clientLoad();
 
     // MONGO
 
@@ -150,7 +179,7 @@ class NewTeam extends Component {
                 this.setState(
                     ps => ({
                         ...ps,
-                        team: { ...user.activeTeam }
+                        team: { ...user.newTeam }
                     }),
                     () => {
                         console.log('Loaded team from mongo.');
@@ -169,26 +198,29 @@ class NewTeam extends Component {
         // mongo user-obj
         const newUser = {
             _id: this.state.user,
-            activeTeam: {
+            newTeam: {
                 ...this.state.team
-            }
+            },
+            registeredTeams: []
         };
 
         // save to mongo
         await apis
-            .create(newUser)
+            .create('create', newUser)
             .then(res => {
                 console.log('Created new team in mongo.');
             })
             .catch(err => console.log('Failed to create new team in mongo', err));
     };
 
-    mongoUpdate = async () => {
+    mongoSave = async () => {
+        console.log('mongo-save');
+
         const _id = this.state.user;
 
         const payload = {
             _id,
-            activeTeam: { ...this.state.team }
+            newTeam: { ...this.state.team }
         };
 
         await apis
@@ -227,24 +259,23 @@ class NewTeam extends Component {
      * UPDATE/SYNC STATE
      * * * * * * * * * * */
     updateTeam = callback => {
-        // current state, but initial values on the props to update
-
         const newTeam = {
             ...clone(this.state.team),
-            game: clone(INITIAL_STATE.team.game),
-            pitch: clone(INITIAL_STATE.team.pitch),
-            bench: clone(INITIAL_STATE.team.bench),
-            count: clone(INITIAL_STATE.team.count),
-            clubs: clone(INITIAL_STATE.team.clubs)
+            value: clone(INITIAL_STATE.team.value),
+            players: {
+                ...clone(INITIAL_STATE.team.players),
+                list: this.state.team.players.list
+            },
+            count: clone(INITIAL_STATE.team.count)
         };
 
-        const { captain, viceCaptain } = newTeam;
+        const { captain, viceCaptain, players } = newTeam;
 
         // sort list
-        newTeam.list.sort((a, b) => a.lineupIndex - b.lineupIndex);
+        players.list.sort((a, b) => a.lineupIndex - b.lineupIndex);
 
         // set right indexes if wrong
-        newTeam.list.forEach((p, nth) => {
+        players.list.forEach((p, nth) => {
             p.lineupIndex = nth;
         });
 
@@ -252,25 +283,29 @@ class NewTeam extends Component {
         let newCap = null;
         let newViceCap = null;
 
-        newTeam.list.forEach(player => {
+        players.list.forEach(player => {
             // spot actual captains
-            if (player.uid === captain) newCap = player.uid;
-            if (player.uid === viceCaptain) newViceCap = player.uid;
+            if (captain) {
+                if (player._id === captain._id) newCap = player;
+            }
+            if (viceCaptain) {
+                if (player._id === viceCaptain._id) newViceCap = player;
+            }
 
             const { position: pos, origin, club } = player;
             // map player objs
-            newTeam[origin][pos].push(player);
+            newTeam.players[origin][pos].push(player);
 
             // count
             newTeam.count.tot[pos]++;
             newTeam.count[origin][pos]++;
 
-            // game.value
-            newTeam.game.value.tot += player.price;
-            newTeam.game.value[origin] += player.price;
+            // team value
+            newTeam.value.tot += player.price;
+            newTeam.value[origin] += player.price;
 
             // clubs
-            newTeam.clubs[club] = newTeam.clubs[club] + 1 || 1;
+            newTeam.count.clubs[club] = newTeam.count.clubs[club] + 1 || 1;
         });
 
         // set captains
@@ -383,15 +418,15 @@ class NewTeam extends Component {
         const updater = prevState => {
             const { config, team } = clone(prevState);
             const { filterKeys, buildStage } = config;
-            const { list } = team;
+            const { players, count } = team;
 
             // filter positions
             preset.positions.forEach(pos => {
                 // if pitch and bench full - add pos to filter (if filter is not active)
                 if (
-                    (prevState.team.bench[pos].length >= config.limit.bench[pos].max &&
+                    (players.bench[pos].length >= config.limit.bench[pos].max &&
                         buildStage.stageName === 'bench') ||
-                    (prevState.team.pitch[pos].length >= config.limit.pitch[pos].max &&
+                    (players.pitch[pos].length >= config.limit.pitch[pos].max &&
                         buildStage.stageName === 'pitch')
                 ) {
                     if (!filterKeys.position.includes(pos)) {
@@ -407,8 +442,8 @@ class NewTeam extends Component {
             });
 
             // filter clubs
-            Object.keys(prevState.team.clubs).forEach(club => {
-                if (prevState.team.clubs[club] >= 3) {
+            Object.keys(count.clubs).forEach(club => {
+                if (count.clubs[club] >= 3) {
                     if (!filterKeys.club.includes(club)) filterKeys.club.push(club);
                 } else {
                     if (filterKeys.club.includes(club)) {
@@ -419,23 +454,23 @@ class NewTeam extends Component {
             });
 
             // add to uid-filter
-            list.forEach(player => {
-                const matchIndex = filterKeys.uid.indexOf(player.uid);
+            players.list.forEach(player => {
+                const matchIndex = filterKeys._id.indexOf(player._id);
 
                 // if exists on pitch but not in filter, add
                 if (matchIndex < 0) {
-                    config.filterKeys.uid.push(player.uid);
+                    config.filterKeys._id.push(player._id);
                 }
             });
 
             // remove from uid-filter
-            const playerUids = list.map(player => player.uid);
-            filterKeys.uid.forEach((uid, nth) => {
+            const playerUids = players.list.map(player => player._id);
+            filterKeys._id.forEach((uid, nth) => {
                 const matchIndex = playerUids.indexOf(uid);
 
                 // if exists in filter but not on pitch, remove
                 if (matchIndex < 0) {
-                    config.filterKeys.uid.splice(nth, 1);
+                    config.filterKeys._id.splice(nth, 1);
                 }
             });
 
@@ -455,7 +490,7 @@ class NewTeam extends Component {
         const update = input => {
             const res = clone(input);
             // set new search res
-            res.searchablePlayers = this.applyFilter(allPlayers);
+            res.searchablePlayers = this.applyFilter(this.state.config.allPlayers);
             return res;
         };
 
@@ -473,6 +508,7 @@ class NewTeam extends Component {
     // filter before playerSearch-result
     applyFilter = input => {
         const { team, config } = this.state;
+        const { players } = team;
         const { filterKeys, switchers } = config;
         const { marked, target } = switchers;
 
@@ -480,7 +516,7 @@ class NewTeam extends Component {
         const markedMode = marked && !target ? true : false;
 
         // if 15 players picked and no plupp marked, bail
-        if (team.list.length >= 15 && !markedMode) {
+        if (players.list.length >= 15 && !markedMode) {
             return [];
         }
 
@@ -488,7 +524,6 @@ class NewTeam extends Component {
         const f = (players, key) => {
             const res = players.filter(player => {
                 let willReturn = true;
-
                 filterKeys[key].forEach(val => {
                     if (player[key] === val) {
                         willReturn = false;
@@ -502,7 +537,7 @@ class NewTeam extends Component {
         };
 
         // we never want uid-duplicates (picked vs unpicked players)
-        const uniqueUids = f(input, 'uid');
+        const uniqueUids = f(input, '_id');
 
         // if marked plupp, return all unpicked players with plupp's pos-prop
         if (markedMode) {
@@ -602,11 +637,12 @@ class NewTeam extends Component {
         const updater = prevState => {
             // use clones of curr state
             const { team, config } = prevState;
+            const { players } = team;
             const { stageName } = config.buildStage;
 
-            player.lineupIndex = team.list.length;
+            player.lineupIndex = players.list.length;
             player.origin = stageName;
-            team.list.push(player);
+            players.list.push(player);
 
             return { team };
         };
@@ -631,20 +667,20 @@ class NewTeam extends Component {
         const updater = prevState => {
             // use clones of curr state for mutation
             const { team, config } = clone(prevState);
-
+            const { players } = team;
             const { marked } = config.switchers;
             const { stageName } = config.buildStage;
 
             // clear all players
             if (options.delAll) {
                 let lucky = [];
-                team.list.forEach(p => {
+                players.list.forEach(p => {
                     if (p.origin !== stageName) {
                         lucky.push(p);
                     }
                 });
 
-                team.list = clone(lucky);
+                players.list = clone(lucky);
 
                 // clear filterKeys
                 config.filterKeys = clone(INITIAL_STATE.config.filterKeys);
@@ -652,7 +688,7 @@ class NewTeam extends Component {
                 return { team, config };
             }
 
-            team.list.splice([options.index || marked.lineupIndex], 1);
+            players.list.splice([options.index || marked.lineupIndex], 1);
             return { team };
         };
 
@@ -673,6 +709,7 @@ class NewTeam extends Component {
     // maybe loop through positions on pitch/bench and update playFromStart?
     switchPlayers = () => {
         const { team, config } = clone(this.state);
+        const { players } = team;
         const { stageName } = config.buildStage;
 
         const { marked, target } = config.switchers;
@@ -692,14 +729,14 @@ class NewTeam extends Component {
             const tempMarked = clone(marked.player);
             const tempTarget = clone(target.player);
 
-            team.list.splice(marked.lineupIndex, 1, tempTarget);
-            team.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
-            team.list[marked.lineupIndex].origin = stageName;
+            players.list.splice(marked.lineupIndex, 1, tempTarget);
+            players.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
+            players.list[marked.lineupIndex].origin = stageName;
 
             // if not from list, vice versa
             if (!fromList) {
-                team.list.splice(target.lineupIndex, 1, tempMarked);
-                team.list[target.lineupIndex].lineupIndex = target.lineupIndex;
+                players.list.splice(target.lineupIndex, 1, tempMarked);
+                players.list[target.lineupIndex].lineupIndex = target.lineupIndex;
             }
 
             this.setState({ team }, () => {
@@ -724,19 +761,19 @@ class NewTeam extends Component {
             // if empty plupp was marked, just add player
             if (!tempMarked) {
                 tempTarget.origin = stageName;
-                tempTarget.lineupIndex = team.list.length;
+                tempTarget.lineupIndex = players.list.length;
 
                 return this.addPlayer(tempTarget);
             }
 
-            team.list.splice(marked.lineupIndex, 1, tempTarget);
-            team.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
-            team.list[marked.lineupIndex].origin = stageName;
+            players.list.splice(marked.lineupIndex, 1, tempTarget);
+            players.list[marked.lineupIndex].lineupIndex = marked.lineupIndex;
+            players.list[marked.lineupIndex].origin = stageName;
 
             // if not from list, vice versa
             if (!fromList) {
-                team.list.splice(target.lineupIndex, 1, tempMarked);
-                team.list[target.lineupIndex].lineupIndex = target.lineupIndex;
+                players.list.splice(target.lineupIndex, 1, tempMarked);
+                players.list[target.lineupIndex].lineupIndex = target.lineupIndex;
             }
 
             this.setState({ team }, () => {
@@ -773,6 +810,9 @@ class NewTeam extends Component {
 
         // filter allPlayers before PlayerSearch
 
+        /* console.log('ALLPLAYERS', this.state.allPlayers);
+        console.log('SEARCHABLE PLAYERS', this.state.config.searchablePlayers); */
+
         return (
 
             <TeamContext.Provider
@@ -786,13 +826,20 @@ class NewTeam extends Component {
                     onChange={online => this.setState({ appOnline: online })}
                 />
 
+                {/* <SlideMenu
+					active={this.state.slideMenuActive}
+					nav={[{ id: 'header', label: 'playerlist', path: '/home' }]}
+					reactRouter={false}
+					closeMenu={this.togglePlayerSearch}
+					extraComponent={<div>ej</div>}
+				> */}
+
                 <ContentWrap
                     className="ContentWrap"
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
                 >
                     <BuildStages buildStage={buildStage} />
-
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />
                 </ContentWrap>
             </TeamContext.Provider>

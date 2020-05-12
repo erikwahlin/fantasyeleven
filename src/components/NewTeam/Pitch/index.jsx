@@ -5,10 +5,7 @@ import * as preset from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 import { IoIosShirt } from 'react-icons/io';
 import pitchImg from '../../../media/pitch.png';
-
-import pitchInitial from '../../../media/pitchAnim/pitchInitial.gif';
-import pitchNext from '../../../media/pitchAnim/pitchNext.gif';
-import pitchPrev from '../../../media/pitchAnim/pitchPrev.gif';
+import { AddPlayerIcon } from '../StageInfo/template';
 
 const Wrapper = styled.div`
     position: relative;
@@ -77,12 +74,35 @@ const PlayerContainer = styled.div`
     }
 `;
 
+const AddContainer = styled.div`
+    position: absolute;
+    width: 100%;
+    top: 48%;
+    display: flex;
+    justify-content: center;
+
+    & > svg {
+        width: 47px;
+        position: relative;
+        left: 5px;
+    }
+
+    @media all and (max-width: 480px) {
+        top: 43.5vw;
+        & > svg {
+            width: 9.7vw;
+            left: 1.5vw;
+        }
+    }
+`;
+
 const Pitch = props => {
     const { team, config } = props.teamContext.state;
-    //let pitchAnim = config.pitch;
-    const { stageName } = config.buildStage;
-    const { togglePlayerSearch } = props.teamContext.setters;
-
+    const { players } = team;
+    const { mobileSearch, buildStage } = config;
+    const { stageName } = buildStage;
+    const { togglePlayerSearch, openPlayerSearch } = props.teamContext.setters;
+    const playerCount = players.list.filter(p => p.origin === 'pitch').length;
     /* const anims = {
         initial: pitchInitial,
         next: pitchNext,
@@ -107,9 +127,9 @@ const Pitch = props => {
             <FormationContainer className="FormationContainer">
                 {preset.positions.map((pos, nth) => (
                     <PositionContainer key={`lineup-${nth}`} className={`PositionContainer ${pos}`}>
-                        {team.pitch[pos].map((player, nth) => (
+                        {players.pitch[pos].map((player, nth) => (
                             <PlayerContainer
-                                key={player.uid}
+                                key={`${player._id}-${nth}`}
                                 className={`PlayerContainer ${pos} unmarkable`}
                                 player={player}
                             >
@@ -117,12 +137,18 @@ const Pitch = props => {
                                     origin="pitch"
                                     player={player}
                                     pos={player.position}
-                                    lineupCount={team.pitch[pos].length}
+                                    lineupCount={players.pitch[pos].length}
                                 />
                             </PlayerContainer>
                         ))}
                     </PositionContainer>
                 ))}
+
+                {playerCount < 1 && mobileSearch && (
+                    <AddContainer>
+                        <AddPlayerIcon onClick={openPlayerSearch} />
+                    </AddContainer>
+                )}
             </FormationContainer>
         </Wrapper>
     );
