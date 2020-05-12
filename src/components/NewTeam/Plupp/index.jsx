@@ -14,6 +14,7 @@ import { TiDelete } from 'react-icons/ti';
 import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
+import { IoIosShirt } from 'react-icons/io';
 
 const Container = styled.div`
     width: 50px;
@@ -685,6 +686,23 @@ class Plupp extends Component {
                     isCap={isCap}
                     isViceCap={isViceCap}
                 />
+
+                {/* <IoIosShirt
+                    ref={this.pluppRef}
+                    id={`switch-${origin}-${pos} -${lineupIndex} `}
+                    className={`${isSwitchable && 'Switchable'} Plupp`}
+                    alt={`player - plupp ${origin} `}
+                    isMarked={this.state.isMarked}
+                    onClick={e => this.handleClickInside(e)}
+                    isSwitchable={isSwitchable}
+                    origin={origin}
+                    player={player}
+                    stageName={stageName}
+                    isCap={isCap}
+                    isViceCap={isViceCap}
+                    style={style}
+                /> */}
+
                 {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
                 {(stageName === 'pitch' || stageName === 'bench') && (
                     <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
