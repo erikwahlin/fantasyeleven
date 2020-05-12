@@ -249,6 +249,7 @@ class NewTeam extends Component {
 
         const { captain, viceCaptain, players } = newTeam;
 
+        console.log('players', players.list);
         // sort list
         players.list.sort((a, b) => a.lineupIndex - b.lineupIndex);
 
@@ -263,8 +264,12 @@ class NewTeam extends Component {
 
         players.list.forEach(player => {
             // spot actual captains
-            if (player.uid === captain) newCap = player.uid;
-            if (player.uid === viceCaptain) newViceCap = player.uid;
+            if (captain) {
+                if (player.uid === captain.uid) newCap = player;
+            }
+            if (viceCaptain) {
+                if (player.uid === viceCaptain.uid) newViceCap = player;
+            }
 
             const { position: pos, origin, club } = player;
             // map player objs

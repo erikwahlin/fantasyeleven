@@ -9,7 +9,7 @@ const INITIAL_STATE = {
         createdAt: Date.now(),
         registrered: false,
         registreredAt: '',
-        editedAt: '',
+        updatedAt: '',
 
         season: '20/21', // e.g. "20/21"
         round: 666,

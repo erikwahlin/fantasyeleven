@@ -335,10 +335,6 @@ class PlayerSearch extends Component {
         const { team } = teamContext.state;
         const { captain, viceCaptain } = team;
 
-        //captain and viceCaptain
-        const capObj = team.players.list.filter(p => p.uid === captain)[0];
-        const viceObj = team.players.list.filter(p => p.uid === viceCaptain)[0];
-
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
             : posOrClubSelected.label;
@@ -445,10 +441,10 @@ class PlayerSearch extends Component {
                     {/* temp */}
                     {buildStage.stageName === 'captain' ? (
                         <CapWrap>
-                            <CaptainCard cap={capObj && capObj.name}>
+                            <CaptainCard cap={captain && captain.name}>
                                 <img src={Cap} alt="Captain" /> Kapten:{' '}
                             </CaptainCard>
-                            <CaptainCard cap={viceObj && viceObj.name}>
+                            <CaptainCard cap={viceCaptain && viceCaptain.name}>
                                 <img src={ViceCap} alt="Vice Captain" /> Vice Kapten:{' '}
                             </CaptainCard>
                             <p className="capInfo">
