@@ -66,7 +66,7 @@ const RoundContent = styled.div`
     flex-wrap: wrap;
 `;
 
-const RoundItem = ({ round, updateRound }) => {
+const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => {
     const [open, setOpen] = useState(false);
 
     const toggleHandler = e => {
@@ -86,9 +86,17 @@ const RoundItem = ({ round, updateRound }) => {
 
         if (!sure) return;
 
-        const newRound = { ...clone(round), active: newVal };
+        const newSettings = {
+            updatedBy: [
+                {
+                    user: 'Kim dev 3.0'
+                },
+                ...settings.updatedBy
+            ],
+            activeRound: newVal ? round : {}
+        };
 
-        updateRound(newRound);
+        updateSettings({ payload: newSettings });
     };
 
     return (
@@ -96,7 +104,7 @@ const RoundItem = ({ round, updateRound }) => {
             <Wrapper className="Result" margin="0 auto">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title>
-                        {round.alias} {round.active && '(Aktiv!)'}
+                        {round.alias} {active && '(Aktiv!)'}
                     </Title>
                     <i style={{ float: 'right', fontSize: '.7em', color: '#fff' }}>
                         senast ändrad
@@ -111,19 +119,19 @@ const RoundItem = ({ round, updateRound }) => {
                 <RoundContent className="RoundContent" open={open}>
                     <div>
                         <p>Alias {round.alias}</p>
-                        <p>{round.active === true ? 'Aktiv' : 'Inaktiv'}</p>
+                        <p>{active ? 'Aktiv' : 'Inaktiv'}</p>
                         <p>Säsong {round.season}</p>
                         <p>Omgångsnummer {round.round}</p>
                     </div>
 
                     <OptionContainer>
                         <ToggleBtn
-                            onClick={() => setActive(!round.active)}
+                            onClick={() => setActive(!active)}
                             customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: ${
-                                round.active ? 'hotpink' : 'green'
+                                active ? 'red' : '#fff'
                             }`}
                         >
-                            {!round.active ? 'Aktivera' : 'Inaktivera'}
+                            {!active ? 'Aktivera' : 'Inaktivera'}
                         </ToggleBtn>
                     </OptionContainer>
 
@@ -142,13 +150,21 @@ const RoundItem = ({ round, updateRound }) => {
 };
 
 const RoundList = ({ adminContext }) => {
-    const { rounds } = adminContext.state;
-    const { updateRound } = adminContext.setters;
+    const { rounds, settings } = adminContext.state;
+    const { _id: activeRoundID } = settings.activeRound;
+    const { updateRound, updateSettings } = adminContext.setters;
 
     return (
         <>
             {rounds.map((round, nth) => (
-                <RoundItem key={`${round.alias}-${nth}`} round={round} updateRound={updateRound} />
+                <RoundItem
+                    key={`${round.alias}-${nth}`}
+                    round={round}
+                    settings={settings}
+                    updateSettings={updateSettings}
+                    updateRound={updateRound}
+                    active={round._id === activeRoundID}
+                />
             ))}
         </>
     );

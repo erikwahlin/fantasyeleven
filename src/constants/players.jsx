@@ -3781,9 +3781,9 @@ appendToObj(players, arrOfFractions(players));
 
 export default players;
 
-export const getPlayers = async callback => {
+export const readPlayers = async callback => {
     await apis
-        .get('getPlayers')
+        .get('readPlayers')
         .then(async res => {
             // if no, create new user
             if (!res.data || res.data === '') {
@@ -3801,4 +3801,4 @@ export const getPlayers = async callback => {
         });
 };
 
-//export default getPlayers;
+//export default readPlayers;

@@ -24,7 +24,7 @@ const initialForm = {
 };
 
 const Rounds = props => {
-    const { addRound } = props.adminContext.setters;
+    const { createRound } = props.adminContext.setters;
 
     const [form, setForm] = useState(clone(initialForm));
 
@@ -66,7 +66,7 @@ const Rounds = props => {
             setForm(clone(initialForm));
         };
 
-        addRound(form, onSuccess);
+        createRound(form, onSuccess);
     };
 
     return (

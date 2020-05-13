@@ -68,7 +68,7 @@ const MyTeams = props => {
         setLoading(true);
 
         await apis
-            .get('getResult', user)
+            .get('readResult', user)
             .then(async res => {
                 console.log('RES DATA', res.data);
                 setResult(res.data.data);

@@ -47,7 +47,7 @@ class NewTeam extends Component {
         super(props);
         this.state = { ...clone(INITIAL_STATE) };
 
-        this.getPlayers = this.getPlayers.bind(this);
+        this.getPlayers = this.readPlayers.bind(this);
 
         this.updateNewTeam = this.updateNewTeam.bind(this);
 
@@ -80,9 +80,9 @@ class NewTeam extends Component {
         this.clientSave = this.clientSave.bind(this);
     }
 
-    getPlayers = async callback => {
+    readPlayers = async callback => {
         await apis.admin
-            .getPlayers()
+            .readPlayers()
             .then(res => {
                 this.setState(
                     ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
@@ -98,7 +98,7 @@ class NewTeam extends Component {
     };
 
     componentDidMount = () => {
-        this.getPlayers(() => {
+        this.readPlayers(() => {
             this.updatesearchablePlayers(async () => {
                 await this.userInit();
             });

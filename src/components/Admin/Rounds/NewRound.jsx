@@ -22,7 +22,7 @@ const initialForm = {
 
 const NewRound = props => {
     const { rounds } = props.adminContext.state;
-    const { addRound } = props.adminContext.setters;
+    const { createRound } = props.adminContext.setters;
 
     const [form, setForm] = useState(clone(initialForm));
 
@@ -64,7 +64,7 @@ const NewRound = props => {
             setForm(clone(initialForm));
         };
 
-        addRound(form, onSuccess);
+        createRound(form, onSuccess);
     };
 
     const autosave = (key, val) => {

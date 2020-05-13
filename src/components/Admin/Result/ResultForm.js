@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { withResult } from './ctx';
+import { withAdmin } from '../AdminState';
 import apis from '../../../constants/api';
 
 import { clone, userMsg } from '../../../constants/helperFuncs';
 import '../form.css';
 
 import { formTemplate } from '../template';
+
+import DropDown from 'react-dropdown';
 
 const { FormContainer, InputTemplate } = formTemplate;
 
@@ -16,49 +18,23 @@ const initialState = {
     result: null
 };
 
-const ResultForm = props => {
+const ResultForm = ({ adminContext }) => {
+    const { createResult } = adminContext.setters;
     const [state, setState] = useState(clone(initialState));
-    const { contextState } = props.resultContext.setters;
 
-    const createPlayerResult = async () => {
-        const creatingMsg = userMsg({
-            message: 'Skapar resultat...',
-            dismiss: { duration: 2000 }
-        });
-        creatingMsg.add();
+    const creatingMsg = userMsg({
+        message: 'Skapar resultat...'
+    });
 
-        // empty form
+    const submitCallback = () => {
+        // empty form, hide msg
         setState(clone(initialState));
-
-        const { season, round } = state;
-        await apis
-            .create('createResult', { season, round })
-            .then(async res => {
-                if (!res) return console.log('Failed to get back a post response.');
-
-                const newRes = res.data.data;
-                console.log('Created new player result!', newRes);
-
-                // update result state with post response
-                contextState('playerResult', newRes);
-
-                // display confirmation
-                const confirmation = userMsg({
-                    message: 'Nytt resultat skapat!',
-                    dismiss: {
-                        duration: 2000
-                    },
-                    type: 'success'
-                });
-                confirmation.add();
-            })
-
-            .catch(err => {
-                console.log('Failed to create new player result.', err);
-            });
+        creatingMsg.remove();
     };
 
     const submit = e => {
+        e.preventDefault();
+
         if (!ready.season || !ready.round) {
             const invalidMsg = userMsg({
                 message: 'Vänligen fyll i alla fält.',
@@ -68,9 +44,11 @@ const ResultForm = props => {
             return invalidMsg.add();
         }
 
-        e.preventDefault();
+        creatingMsg.add();
 
-        createPlayerResult();
+        const { season, round } = state;
+
+        createResult({ payload: { season, round }, callback: submitCallback });
     };
 
     const autosave = (key, val) => {
@@ -82,8 +60,7 @@ const ResultForm = props => {
     };
 
     const ready = {
-        season: typeof state.season === 'string' && state.season.length,
-        round: parseInt(state.round) > 0
+        round: state.round
     };
 
     const submitDisabled = !ready.season || !ready.round;
@@ -96,29 +73,20 @@ const ResultForm = props => {
             submitVal="Skapa"
             submitDisabled={submitDisabled}
         >
-            <InputTemplate
-                state={state}
-                stateKey="season"
-                label="Säsong"
-                autosave={autosave}
-                type="text"
-                helper='exempel: "19/20"'
-                ready={ready.season}
-                onSubmit={submit}
-            />
+            <input type="text" />
 
-            <InputTemplate
+            {/* <InputTemplate
                 state={state}
                 stateKey="round"
                 label="Omgång"
                 autosave={autosave}
-                type="number"
-                helper="använd siffror"
+                type="dropdown"
+                helper=""
                 ready={ready.round}
                 onSubmit={submit}
-            />
+            /> */}
         </FormContainer>
     );
 };
 
-export default withResult(ResultForm);
+export default withAdmin(ResultForm);

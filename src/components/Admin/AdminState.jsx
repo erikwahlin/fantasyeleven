@@ -5,61 +5,124 @@ import { clone, userMsg } from '../../constants/helperFuncs';
 
 const AdminContext = createContext(null);
 
-const errMsg = userMsg({
-    message: 'Något gick fel!',
-    dismiss: { duration: 3000 },
-    type: 'error'
-});
+const errMsg = (msg = 'Något gick fel!') =>
+    userMsg({
+        message: msg,
+        dismiss: { duration: 2000 },
+        type: 'error'
+    });
+
+const updateMsg = (msg = 'Uppdaterad!') =>
+    userMsg({
+        message: msg,
+        dismiss: { duration: 2000 },
+        type: 'success'
+    });
 
 export default class AdminState extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            players: null,
-            editPlayer: null,
-            newPlayer: false,
-            rounds: []
-        };
+            settings: {
+                updatedBy: null,
+                activeRound: {
+                    _id: null
+                }
+            },
+            rounds: [],
+            results: [],
+            players: [],
 
+            editPlayer: null,
+            newPlayer: false
+        };
+        // General updater
         this.updateAdminState = this.updateAdminState.bind(this);
 
+        // Settings
+        this.readSettings = this.readSettings.bind(this);
+        this.updateSettings = this.updateSettings.bind(this);
+
+        // Rounds
+        this.readRounds = this.readRounds.bind(this);
+        this.createRound = this.createRound.bind(this);
+        this.updateRound = this.updateRound.bind(this);
+        // Result
+        this.readResults = this.readResults.bind(this);
+        this.updateResult = this.updateResult.bind(this);
+        // Players
+        this.readPlayers = this.readPlayers.bind(this);
+        this.addPlayer = this.addPlayer.bind(this);
         this.updatePlayer = this.updatePlayer.bind(this);
         this.deletePlayer = this.deletePlayer.bind(this);
-        this.getPlayers = this.getPlayers.bind(this);
-        this.getRounds = this.getRounds.bind(this);
-        this.addRound = this.addRound.bind(this);
-        this.updateRound = this.updateRound.bind(this);
-
+        // Share
         this.setters = {
+            updateSettings: this.updateSettings,
             updateAdminState: this.updateAdminState,
-            getPlayers: this.getPlayers,
+            createRound: this.createRound,
+            updateRound: this.updateRound,
+            updateResult: this.updateResult,
             addPlayer: this.addPlayer,
             deletePlayer: this.deletePlayer,
-            updatePlayer: this.updatePlayer,
-            getRounds: this.getRounds,
-            addRound: this.addRound,
-            updateRound: this.updateRound
+            updatePlayer: this.updatePlayer
         };
     }
 
     componentDidMount = () => {
-        this.getPlayers();
-        this.getRounds();
+        this.readSettings();
+        this.readRounds();
+        this.readResults();
+        this.readPlayers();
     };
 
     updateAdminState = (key, val) => {
         this.setState(ps => ({ ...ps, [key]: val }));
     };
 
-    getRounds = async onSuccess => {
+    readSettings = async () => {
+        console.log('readSettings()...');
+
         await apis
-            .get('getRounds')
+            .read({ action: 'readSettings' })
+            .then(res => {
+                if (res.status <= 200) {
+                    console.log('got new settings', res.data.data);
+                    this.setState({ settings: res.data.data });
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to read settings (${err})`);
+            });
+
+        /*  updatedBy: [{
+            user: String,
+            timestamp: Date
+        }],
+
+        activeRound: RoundSchema, */
+    };
+
+    updateSettings = async ({ payload }) => {
+        console.log('updateSettings()...');
+        await apis
+            .update({ action: 'updateSettings', payload })
+            .then(res => {
+                console.log('Updated settings');
+
+                this.readSettings();
+            })
+            .catch(err => {
+                console.log(`Failed to update settings ${err}`);
+            });
+    };
+
+    readRounds = async onSuccess => {
+        await apis
+            .read({ action: 'readRounds' })
             .then(res => {
                 if (res.status <= 200) {
                     this.setState({ rounds: res.data.data.reverse() });
-
-                    if (typeof onSuccess === 'function') return onSuccess();
                 } else {
                     console.log('No rounds found.');
                 }
@@ -69,7 +132,7 @@ export default class AdminState extends Component {
             });
     };
 
-    addRound = async (round, onSuccess) => {
+    createRound = async (round, onSuccess) => {
         const fail = userMsg({
             message: 'Något gick fel',
             dismiss: { duration: 3000 },
@@ -99,12 +162,12 @@ export default class AdminState extends Component {
         if (isTaken) return taken.add();
 
         await apis
-            .create('addRound', round)
+            .create({ action: 'createRound', payload: round })
             .then(res => {
                 if (res.status <= 200) {
                     conf.add();
 
-                    this.getRounds();
+                    this.readRounds();
 
                     if (typeof onSuccess === 'function') return onSuccess();
                 } else {
@@ -133,25 +196,19 @@ export default class AdminState extends Component {
         })();
 
         const update = async (round, conf = true) => {
-            await apis.admin
-                .updateRound(round)
+            await apis
+                .update({ action: 'updateRound', payload: round })
                 .then(res => {
-                    this.getRounds();
+                    this.readRounds();
 
                     if (conf) {
-                        const updateMsg = userMsg({
-                            message: 'Omgång uppdaterad!',
-                            dismiss: { duration: 1000 },
-                            type: 'success'
-                        });
-
-                        updateMsg.add();
+                        updateMsg('Omgång uppdaterad').add();
                     }
                 })
                 .catch(err => {
                     console.log('err when updating round', err);
 
-                    errMsg.add();
+                    errMsg().add();
                 });
         };
 
@@ -160,11 +217,74 @@ export default class AdminState extends Component {
         }
 
         update(newRound);
+
+        // and update settings
+        const settings = clone(this.state.settings);
+
+        this.updateSettings({
+            payload: {
+                updatedBy: [{ user: 'Kim dev 2.0', timestamp: Date.now() }, ...settings.updatedBy],
+                activeRound: newRound
+            }
+        });
     };
 
-    getPlayers = async callback => {
+    readResults = async (payload = 'all') => {
         await apis
-            .get('getPlayers')
+            .read({ action: 'readResults', payload })
+            .then(async res => {
+                this.setState({ results: res.data.data });
+            })
+            .catch(err => {
+                //setLoading(false);
+                console.log('err when getting player result');
+            });
+    };
+
+    createResult = async ({ payload, callback }) => {
+        await apis
+            .create('createResult', payload)
+            .then(async res => {
+                if (!res) return console.log('Failed to get back a post response.');
+
+                const results = res.data.data;
+                console.log('Created new player result!', results);
+
+                // update result state with post response
+                this.setState({ results }, () => {
+                    // display conf-msg
+                    const confirmation = userMsg({
+                        message: 'Nytt resultat skapat!',
+                        dismiss: {
+                            duration: 2000
+                        },
+                        type: 'success'
+                    });
+                    confirmation.add();
+
+                    if (typeof callback === 'function') callback();
+                });
+            })
+
+            .catch(err => {
+                console.log('Failed to create new player result.', err);
+            });
+    };
+
+    updateResult = async payload => {
+        await apis
+            .update({ action: 'updateResult', payload })
+            .then(res => {
+                this.setState({ results: res });
+            })
+            .catch(err => {
+                console.log(`Failed to update res ${err}`);
+            });
+    };
+
+    readPlayers = async callback => {
+        await apis
+            .read({ action: 'readPlayers' })
             .then(async res => {
                 // if no, create new user
                 if (!res.data || res.data === '') {
@@ -182,12 +302,12 @@ export default class AdminState extends Component {
             });
     };
 
-    addPlayer = async player => {
+    addPlayer = async payload => {
         console.log('addPlayer in adminstate...');
-        await apis.admin
-            .addPlayer(player)
+        await apis
+            .create({ action: 'createPlayer', payload })
             .then(res => {
-                this.getPlayers();
+                this.readPlayers();
                 const addMsg = userMsg({
                     message: 'Spelare tillagd!',
                     dismiss: { duration: 3000 },
@@ -199,7 +319,7 @@ export default class AdminState extends Component {
             .catch(err => {
                 console.log('err when adding player', err);
 
-                errMsg.add();
+                errMsg().add();
             });
     };
 
@@ -217,31 +337,26 @@ export default class AdminState extends Component {
             return;
         }
 
-        await apis.admin
-            .updatePlayer(player)
+        await apis
+            .update({ action: 'updatePlayer', payload: player })
             .then(res => {
-                this.getPlayers();
-                const updateMsg = userMsg({
-                    message: 'Spelare uppdaterad',
-                    dismiss: { duration: 3000 }
-                });
-
-                updateMsg.add();
+                this.readPlayers();
+                updateMsg('Spelare uppdaterad!').add();
             })
             .catch(err => {
                 console.log('err when updating player', err);
 
-                errMsg.add();
+                errMsg().add();
             });
     };
 
     deletePlayer = async player => {
         console.log('del player frontend...', player);
-        await apis.admin
-            .deletePlayer(player._id)
+        await apis
+            .delete({ action: 'deletePlayer', _id: player._id })
             .then(res => {
                 // empty form
-                this.getPlayers();
+                this.readPlayers();
                 const delMsg = userMsg({
                     message: 'Spelare borttagen',
                     dismiss: { duration: 3000 }
