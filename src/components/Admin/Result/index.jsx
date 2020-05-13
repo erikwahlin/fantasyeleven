@@ -25,11 +25,15 @@ import ResultList from './ResultList';
 const initial_state = {
     playerResult: null,
 
-    step: 1, // 'pick score' 'pick who scored'
-    homeClub: '',
-    awayClub: '',
-    homeClubScore: 0,
-    awayClubScore: 0
+    step: 1, // 1
+    homeClub: '', //''
+    awayClub: '', //''
+    homeClubScore: '', //null
+    awayClubScore: '', //null
+    whoScoredHome: [],
+    whoScoredAway: [],
+
+    playerStep: 1 // first goals, then assists etc..
 };
 
 class Result extends Component {
@@ -44,7 +48,42 @@ class Result extends Component {
 
         this.onClubClickHandler = this.onClubClickHandler.bind(this);
         this.onScoreChange = this.onScoreChange.bind(this);
+        this.onClickNext = this.onClickNext.bind(this);
+        this.onPlayerClick = this.onPlayerClick.bind(this);
     }
+
+    onPlayerClick = (e, players) => {
+        const {
+            awayClub,
+            homeClub,
+            playerStep,
+            homeClubScore,
+            awayClubScore,
+            whoScoredAway,
+            whoScoredHome
+        } = this.state;
+        let name = e.target.innerHTML;
+        if (playerStep === 1) {
+            const scoringPlayer = players.filter(player => player.name === name)[0];
+            console.log(scoringPlayer.club);
+            if (scoringPlayer.club === awayClub) {
+                whoScoredAway.push(scoringPlayer);
+                this.setState({ whoScoredAway: whoScoredAway }, () => console.log(this.state));
+            } else {
+                whoScoredHome.push(scoringPlayer);
+                this.setState({ whoScoredHome: whoScoredHome }, () => console.log(this.state));
+            }
+        }
+    };
+
+    onClickNext = e => {
+        const { homeClubScore, awayClubScore } = this.state;
+        if (homeClubScore && awayClubScore) {
+            this.setState({ step: this.state.step + 1 });
+        } else {
+            console.log('du måste fylla i poäng för alla lagen.');
+        }
+    };
 
     onScoreChange = e => {
         const { homeClubScore, awayClubScore } = this.state;
@@ -150,7 +189,18 @@ class Result extends Component {
                     }}
                 >
                     <ResultForm />
+                    <div
+                        style={{ color: 'white' }}
+                    >{` HEMMALAG: ${this.state.homeClub} POÄNG: ${this.state.homeClubScore}`}</div>
+                    <div
+                        style={{ color: 'white' }}
+                    >{`HEMMALAG: ${this.state.awayClub}  POÄNG: ${this.state.awayClubScore}`}</div>
                     <ManualSim
+                        whoScoredHome={this.state.whoScoredHome}
+                        whoScoredAway={this.state.whoScoredAway}
+                        playerStep={this.state.playerStep}
+                        onPlayerClick={this.onPlayerClick}
+                        onClickNext={this.onClickNext}
                         onChange={this.onScoreChange}
                         step={this.state.step}
                         awayClub={this.state.awayClub}
