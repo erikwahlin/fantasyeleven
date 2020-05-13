@@ -3,12 +3,33 @@ import ResultContext from './ctx';
 import apis from '../../../constants/api';
 //import { store } from 'react-notifications-component';
 import { userMsg } from '../../../constants/helperFuncs';
-
+import ManualSim from './ManualSim';
 import ResultForm from './ResultForm';
 import ResultList from './ResultList';
 
+/*     step: {
+        clubPick: {
+            homeClub: '',
+            awayClub: ''
+        },
+        standings: {
+            homePoints: '',
+            awayPoints: ''
+        },
+        whoScored: {
+            scores: [],
+            assists: []
+        }
+    }, */
+
 const initial_state = {
-    playerResult: null
+    playerResult: null,
+
+    step: 1, // 'pick score' 'pick who scored'
+    homeClub: '',
+    awayClub: '',
+    homeClubScore: 0,
+    awayClubScore: 0
 };
 
 class Result extends Component {
@@ -20,10 +41,64 @@ class Result extends Component {
         this.setPlayerResult = this.setPlayerResult.bind(this);
 
         this.getPlayerResult = this.getPlayerResult.bind(this);
+
+        this.onClubClickHandler = this.onClubClickHandler.bind(this);
+        this.onScoreChange = this.onScoreChange.bind(this);
     }
 
+    onScoreChange = e => {
+        const { homeClubScore, awayClubScore } = this.state;
+        let score = e.target.value;
+        if (e.target.className === 'homeClub') {
+            this.setState({ homeClubScore: score }, () => console.log(this.state));
+        } else {
+            this.setState({ awayClubScore: score }, () => console.log(this.state));
+        }
+        console.log(score);
+    };
+
+    onClubClickHandler = (e, players) => {
+        //const { homeClub, awayClub } = this.state;
+        //on first click do this
+        const club = e.target.innerHTML;
+        /*         if (!this.state.homeClub) {
+            this.setState(
+                {
+                    ...this.state.step,
+                    homeClub: club
+                },
+                () => console.log(this.state)
+            );
+        } else {
+            this.setState(
+                {
+                    ...this.state.step,
+                    awayClub: club
+                },
+                () => console.log(this.state)
+            );
+        }
+ */
+        if (!this.state.homeClub) {
+            this.setState({ homeClub: club }, () => {
+                console.log(this.state);
+            });
+        } else {
+            this.setState({ awayClub: club }, () => {
+                this.setState({ step: this.state.step + 1 });
+            });
+        }
+        //on second click do this
+
+        //display clicked club
+        //remove it from clubs array.
+        // add to what state?
+        //add to div.
+    };
+
     componentDidMount = () => {
-        this.getPlayerResult();
+        //at component load
+        this.getPlayerResult(); //getting res from db
     };
 
     contextState = (key, val) => {
@@ -65,7 +140,7 @@ class Result extends Component {
         };
 
         const { playerResult } = this.state;
-
+        const { clubs, players } = this.state;
         return (
             <>
                 <ResultContext.Provider
@@ -75,7 +150,15 @@ class Result extends Component {
                     }}
                 >
                     <ResultForm />
-
+                    <ManualSim
+                        onChange={this.onScoreChange}
+                        step={this.state.step}
+                        awayClub={this.state.awayClub}
+                        homeClub={this.state.homeClub}
+                        players={this.props.players}
+                        onClick={this.onClubClickHandler}
+                    />
+                    {/* render some kind of ui for simulating manually.  */}
                     {playerResult &&
                         (playerResult.length ? (
                             <ResultList playerResult={this.state.playerResult} />

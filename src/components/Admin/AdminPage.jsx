@@ -25,7 +25,8 @@ import { adminTemplate } from './template/';
 
 const { Wrapper, Sel, Opt, TabContainer, Tab, MainTitle, TabTitle } = adminTemplate;
 
-const AdminPage = ({ location }) => {
+const AdminPage = ({ location, adminContext }) => {
+    const { players } = adminContext.state;
     const [tabPos, setTabPos] = useState(window.innerWidth > 899 ? 'left' : 'top');
     const [winW, setWinW] = useState(window.innerWidth);
 
@@ -73,7 +74,7 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
-                defaultActiveKey="6"
+                defaultActiveKey="1"
             >
                 <Tab
                     tab={
@@ -98,7 +99,7 @@ const AdminPage = ({ location }) => {
                 >
                     <TabTitle>Resultat</TabTitle>
 
-                    <Result />
+                    <Result players={players} />
                 </Tab>
 
                 <Tab
