@@ -63,16 +63,15 @@ class Result extends Component {
             whoScoredHome
         } = this.state;
         let name = e.target.innerHTML; //fastnar härefter. hittar namn för både hemma och borta lag
-        console.log(name);
+
         if (playerStep === 1) {
             const scoringPlayer = players.filter(player => player.name === name)[0]; //filtreringen fungerar för endast för bortalaget???????
-            console.log(scoringPlayer);
-            console.log(scoringPlayer.club); //om name === 'något hemmalagnamn' ger tillbaka error.
 
-            if (scoringPlayer.club === awayClub) {
+            if (scoringPlayer.club === awayClub && whoScoredAway.length < awayClubScore) {
+                console.log(whoScoredAway.length, awayClubScore);
                 whoScoredAway.push(scoringPlayer);
                 this.setState({ whoScoredAway: whoScoredAway }, () => console.log(this.state));
-            } else {
+            } else if (whoScoredHome.length < homeClubScore) {
                 whoScoredHome.push(scoringPlayer);
                 this.setState({ whoScoredHome: whoScoredHome }, () => console.log(this.state));
             }
@@ -194,10 +193,10 @@ class Result extends Component {
                     <ResultForm />
                     <div
                         style={{ color: 'white' }}
-                    >{` HEMMALAG: ${this.state.homeClub} POÄNG: ${this.state.homeClubScore}`}</div>
+                    >{` HEMMALAG: ${this.state.homeClub} GJORDA MÅL: ${this.state.homeClubScore}`}</div>
                     <div
                         style={{ color: 'white' }}
-                    >{`HEMMALAG: ${this.state.awayClub}  POÄNG: ${this.state.awayClubScore}`}</div>
+                    >{`BORTALAG: ${this.state.awayClub}  GJORDA MÅL: ${this.state.awayClubScore}`}</div>
                     <ManualSim
                         whoScoredHome={this.state.whoScoredHome}
                         whoScoredAway={this.state.whoScoredAway}
