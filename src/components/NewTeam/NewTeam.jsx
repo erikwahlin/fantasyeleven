@@ -81,8 +81,8 @@ class NewTeam extends Component {
     }
 
     readPlayers = async callback => {
-        await apis.admin
-            .readPlayers()
+        await apis
+            .read({ action: 'readPlayers' })
             .then(res => {
                 this.setState(
                     ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
@@ -166,7 +166,7 @@ class NewTeam extends Component {
     mongoLoad = async () => {
         // user/team exists?
         await apis
-            .get('getById', this.state.user)
+            .read({ action: 'readUser', _id: this.state.user })
             .then(async res => {
                 // if no, create new user
                 if (!res.data || res.data === '') {

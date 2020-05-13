@@ -1,7 +1,9 @@
 import React, { Component, createContext } from 'react';
+import { withFirebase } from '../Firebase/context';
 import apis from '../../constants/api';
 import { getPlayers } from '../../constants/players';
 import { clone, userMsg } from '../../constants/helperFuncs';
+import { compose } from 'recompose';
 
 const AdminContext = createContext(null);
 
@@ -19,11 +21,12 @@ const updateMsg = (msg = 'Uppdaterad!') =>
         type: 'success'
     });
 
-export default class AdminState extends Component {
+class AdminState extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            user: null,
             settings: {
                 updatedBy: null,
                 activeRound: {
@@ -70,10 +73,36 @@ export default class AdminState extends Component {
     }
 
     componentDidMount = () => {
-        this.readSettings();
-        this.readRounds();
-        this.readResults();
-        this.readPlayers();
+        this.userInit(() => {
+            if (!this.state.user) return;
+            this.readSettings();
+            this.readRounds();
+            this.readResults();
+            this.readPlayers();
+        });
+    };
+
+    userInit = async callback => {
+        await this.props.firebase.auth.onAuthStateChanged(user => {
+            // if logged in, use/load from mongo
+
+            if (user) {
+                console.log('USER', this.props.firebase.getUser(user.uid));
+
+                this.setState(
+                    {
+                        user: {
+                            uid: user.uid,
+                            email: user.email,
+                            roles: user.roles
+                        }
+                    },
+                    () => {
+                        if (typeof callback === 'function') callback();
+                    }
+                );
+            }
+        });
     };
 
     updateAdminState = (key, val) => {
@@ -384,6 +413,8 @@ export default class AdminState extends Component {
         );
     }
 }
+
+export default withFirebase(AdminState);
 
 export const withAdmin = Component => props => (
     <AdminContext.Consumer>
