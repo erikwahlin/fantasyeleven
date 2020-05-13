@@ -62,10 +62,10 @@ class Result extends Component {
             whoScoredAway,
             whoScoredHome
         } = this.state;
-        let name = e.target.innerHTML; //fastnar härefter. hittar namn för både hemma och borta lag
+        let name = e.target.innerHTML;
 
         if (playerStep === 1) {
-            const scoringPlayer = players.filter(player => player.name === name)[0]; //filtreringen fungerar för endast för bortalaget???????
+            const scoringPlayer = players.filter(player => player.name === name)[0];
 
             if (scoringPlayer.club === awayClub && whoScoredAway.length < awayClubScore) {
                 console.log(whoScoredAway.length, awayClubScore);

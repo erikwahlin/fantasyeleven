@@ -144,6 +144,7 @@ const ManualSim = ({
                     </AwayPlayers>
                 </Flex>
             )}
+            {playerStep === 4 && <div>Assister</div>}
         </Wrapper>
     );
 };
