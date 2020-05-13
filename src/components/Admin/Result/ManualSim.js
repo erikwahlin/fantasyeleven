@@ -123,7 +123,7 @@ const ManualSim = ({
                                     className={player.id}
                                     onClick={e => onPlayerClick(e, players)}
                                 >
-                                    {player.name}l
+                                    {player.name}
                                 </Player>
                             );
                         })}

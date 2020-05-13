@@ -62,10 +62,13 @@ class Result extends Component {
             whoScoredAway,
             whoScoredHome
         } = this.state;
-        let name = e.target.innerHTML;
+        let name = e.target.innerHTML; //fastnar härefter. hittar namn för både hemma och borta lag
+        console.log(name);
         if (playerStep === 1) {
-            const scoringPlayer = players.filter(player => player.name === name)[0];
-            console.log(scoringPlayer.club);
+            const scoringPlayer = players.filter(player => player.name === name)[0]; //filtreringen fungerar för endast för bortalaget???????
+            console.log(scoringPlayer);
+            console.log(scoringPlayer.club); //om name === 'något hemmalagnamn' ger tillbaka error.
+
             if (scoringPlayer.club === awayClub) {
                 whoScoredAway.push(scoringPlayer);
                 this.setState({ whoScoredAway: whoScoredAway }, () => console.log(this.state));
@@ -124,7 +127,7 @@ class Result extends Component {
             });
         } else {
             this.setState({ awayClub: club }, () => {
-                this.setState({ step: this.state.step + 1 });
+                this.setState({ step: this.state.step + 1 }); //kanske knapp för detta istället?
             });
         }
         //on second click do this
