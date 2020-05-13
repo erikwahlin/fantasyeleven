@@ -7,17 +7,17 @@ import { compose } from 'recompose';
 
 const AdminContext = createContext(null);
 
-const errMsg = (msg = 'Något gick fel!') =>
+const errMsg = (msg = 'Något gick fel!', duration = 2000) =>
     userMsg({
         message: msg,
-        dismiss: { duration: 2000 },
-        type: 'error'
+        dismiss: { duration },
+        type: 'danger'
     });
 
-const updateMsg = (msg = 'Uppdaterad!') =>
+const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
     userMsg({
         message: msg,
-        dismiss: { duration: 2000 },
+        dismiss: { duration },
         type: 'success'
     });
 
@@ -73,8 +73,14 @@ class AdminState extends Component {
     }
 
     componentDidMount = () => {
-        this.userInit(() => {
-            if (!this.state.user) return;
+        this.userInit(admin => {
+            if (!admin) {
+                errMsg(
+                    'Kunde inte fastställa admin-rättigheter. Vänligen logga in på nytt.',
+                    10000
+                ).add();
+                return;
+            }
             this.readSettings();
             this.readRounds();
             this.readResults();
@@ -83,57 +89,57 @@ class AdminState extends Component {
     };
 
     userInit = async callback => {
-        await this.props.firebase.auth.onAuthStateChanged(user => {
-            // if logged in, use/load from mongo
-
+        await this.props.firebase.auth.onAuthStateChanged(async user => {
+            // check/set admin details
             if (user) {
-                console.log('USER', this.props.firebase.getUser(user.uid));
-
-                this.setState(
-                    {
-                        user: {
-                            uid: user.uid,
-                            email: user.email,
-                            roles: user.roles
-                        }
-                    },
-                    () => {
-                        if (typeof callback === 'function') callback();
-                    }
-                );
-            }
+                await this.props.firebase
+                    .user(user.uid)
+                    .once('value')
+                    .then(snapshot => {
+                        this.setState(
+                            {
+                                user: {
+                                    uid: user.uid,
+                                    username: snapshot.val().username,
+                                    email: snapshot.val().email,
+                                    roles: snapshot.val().roles
+                                }
+                            },
+                            () => {
+                                if (typeof callback === 'function') callback(true);
+                            }
+                        );
+                    });
+            } else if (typeof callback === 'function') callback(false);
         });
     };
 
     updateAdminState = (key, val) => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         this.setState(ps => ({ ...ps, [key]: val }));
     };
 
     readSettings = async () => {
-        console.log('readSettings()...');
-
         await apis
             .read({ action: 'readSettings' })
             .then(res => {
                 if (res.status <= 200) {
-                    console.log('got new settings', res.data.data);
                     this.setState({ settings: res.data.data });
                 }
             })
             .catch(err => {
                 console.log(`Failed to read settings (${err})`);
             });
-
-        /*  updatedBy: [{
-            user: String,
-            timestamp: Date
-        }],
-
-        activeRound: RoundSchema, */
     };
 
     updateSettings = async ({ payload }) => {
-        console.log('updateSettings()...');
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         await apis
             .update({ action: 'updateSettings', payload })
             .then(res => {
@@ -147,6 +153,10 @@ class AdminState extends Component {
     };
 
     readRounds = async onSuccess => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         await apis
             .read({ action: 'readRounds' })
             .then(res => {
@@ -162,6 +172,10 @@ class AdminState extends Component {
     };
 
     createRound = async (round, onSuccess) => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         const fail = userMsg({
             message: 'Något gick fel',
             dismiss: { duration: 3000 },
@@ -211,6 +225,10 @@ class AdminState extends Component {
     };
 
     updateRound = newRound => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         const deactivated = (() => {
             let res = null;
             if (!newRound.active) return res;
@@ -271,6 +289,10 @@ class AdminState extends Component {
     };
 
     createResult = async ({ payload, callback }) => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         await apis
             .create('createResult', payload)
             .then(async res => {
@@ -301,6 +323,10 @@ class AdminState extends Component {
     };
 
     updateResult = async payload => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         await apis
             .update({ action: 'updateResult', payload })
             .then(res => {
@@ -332,6 +358,10 @@ class AdminState extends Component {
     };
 
     addPlayer = async payload => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         console.log('addPlayer in adminstate...');
         await apis
             .create({ action: 'createPlayer', payload })
@@ -354,6 +384,10 @@ class AdminState extends Component {
 
     updatePlayer = async (e, player) => {
         e.preventDefault();
+
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
 
         if (player.name === '' || isNaN(Number(player.price))) {
             const invalidMsg = userMsg({
@@ -380,7 +414,10 @@ class AdminState extends Component {
     };
 
     deletePlayer = async player => {
-        console.log('del player frontend...', player);
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
+
         await apis
             .delete({ action: 'deletePlayer', _id: player._id })
             .then(res => {

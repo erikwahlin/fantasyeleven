@@ -94,8 +94,6 @@ class Firebase {
 
     user = uid => this.db.ref(`users/${uid}`);
 
-    getUser = uid => this.db.collection(`users`);
-
     users = () => this.db.ref('users');
 }
 
