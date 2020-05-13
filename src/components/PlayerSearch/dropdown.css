@@ -1,9 +1,9 @@
 .Dropdown-root {
     position: relative;
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 20px !important;
     font-family: 'Avenir';
-    font-size: 1.3em;
+    font-size: 1.3em !important;
     font-weight: 500;
     height: 40px;
 }
@@ -17,8 +17,7 @@
     color: white;
     cursor: pointer;
     outline: none;
-    /* padding: 13px 52px 13px 12px; */
-    padding: 5px 10px;
+    padding: 13px 52px 13px 12px !important;
     transition: all 200ms ease;
 }
 

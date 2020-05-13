@@ -92,7 +92,7 @@ export const ArrowWrapper = styled.div`
     & > img {
         position: absolute;
         right: 50px;
-        top: 14px;
+        top: 20px !important;
         font-size: 1.5em;
         cursor: pointer;
     }
