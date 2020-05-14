@@ -60,6 +60,7 @@ const PlayerName = styled.span`
             width: auto;
             box-shadow: 0px 0 2px #444;
             border-radius: 50%;
+            color:white;
         }
     }
 

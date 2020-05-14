@@ -12,6 +12,7 @@ const Wrapper = styled.div`
     width: 576px;
     height: 522px;
     margin: 0 auto;
+    margin-bottom:30px;
 
     @media all and (max-width: 480px) {
         width: 100vw;
@@ -21,8 +22,8 @@ const Wrapper = styled.div`
     ${p =>
         p.stageName === 'bench' &&
         css`
-            opacity: 0.3;
-            filter: grayscale(1);
+            opacity: 0.5;
+            filter: /* grayscale(1) */ brightness(70%);
         `};
 `;
 
@@ -35,7 +36,7 @@ const PitchImg = styled.img`
     ${p =>
         p.stageName === 'bench' &&
         css`
-            opacity: 0.2;
+            opacity: 0.5;
         `};
 `;
 

@@ -13,7 +13,7 @@ const Title = styled.h2`
     font-size: 2em;
     line-height: 30px; /* in line with titles above pitch */
     margin: 0;
-    margin-bottom: 12px;
+    margin-bottom: 25px !important;
     font-weight: 600;
 
     @media all and (max-width: 899px) {

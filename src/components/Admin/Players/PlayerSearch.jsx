@@ -13,11 +13,12 @@ import Paginate from '../../PlayerSearch/Paginate';
 /* import Instructions from '../instructions/instructions'; */
 import DropDown from 'react-dropdown';
 /* import CaptainCard from '../CaptainCard/CaptainCard'; */
-import 'react-dropdown/style.css';
+/* import 'react-dropdown/style.css'; */
 import './dropdown_admin.css';
 import '../../PlayerSearch/styles.css';
 import Arrow from '../../../media/arrow.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
+
 
 /* import Cap from '../../media/Cap.svg'; */
 /* import ViceCap from '../../media/ViceCap.svg'; */
@@ -566,6 +567,7 @@ class PlayerSearch extends Component {
                                 deletePlayerCallback={this.deletePlayerCallback}
                             />
                         )}
+                        
                     </ContentWrapper>
                 </Wrapper>
             </Wrapper>

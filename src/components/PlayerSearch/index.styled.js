@@ -27,7 +27,7 @@ export const OuterWrapper = styled.div`
 export const InnerWrapper = styled.div`
     display: flex;
 
-    width: 65%;
+    width: 55%;
     height: 100%;
     max-width: 500px;
     flex-direction: column;
@@ -81,9 +81,10 @@ export const SearchFieldWrapper = styled.div`
     position: relative;
     & > svg {
         position: absolute;
-        right: 48px;
+        right: 20px;
         top: 16px;
         font-size: 1.5em;
+        color:#005C07;
     }
 `;
 
@@ -91,8 +92,8 @@ export const ArrowWrapper = styled.div`
     position: relative;
     & > img {
         position: absolute;
-        right: 50px;
-        top: 14px;
+        right: 20px;
+        top: 20px !important;
         font-size: 1.5em;
         cursor: pointer;
     }
@@ -108,20 +109,20 @@ export const Title = styled.h2`
 
 export const Input = styled.input`
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 20px;
     /* position: relative; */
     font-family: 'Avenir';
     font-size: 1.3em;
     font-weight: 500;
-    color: white;
-    padding: 13px 52px 13px 12px;
+    color: black !important;
+    padding: 10px 52px 10px 12px;
     border: none;
     box-sizing: border-box;
     outline: none;
-    background: rgba(35, 51, 77, 1);
+    background: #E2DDDD;
     cursor: text;
     ::placeholder {
-        color: white;
+        color: black;
     }
     ::focus {
         border: 2px solid white;
@@ -158,12 +159,12 @@ export const StyledBtn = styled.button`
     font-size: 1em;
     border: none;
     outline: none;
-    color: white;
-    background: rgba(35, 51, 77, 1);
+    color: black;
+    background: #E2DDDD;
     cursor: pointer;
     padding: 3px;
     &:hover {
-        background: rgba(35, 51, 77, 0.5);
+        background: rgba(226, 221, 221, 0.5);
     }
 `;
 export const ButtonDes = styled(StyledBtn)``;
@@ -178,7 +179,7 @@ export const ResultContainer = styled.div`
 `;
 
 export const ResultBox = styled.div`
-    background: rgba(35, 51, 77, 1);
+    background: #E2DDDD;
     width: 100%;
     height: 100%;
     flex: 1;
@@ -201,7 +202,7 @@ export const LabelRow = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: #5ac5d3;
+    background: #005C07;
     color: black;
     font-weight: 700;
     font-size: 1em;
@@ -212,8 +213,8 @@ export const PlayerRow = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    background: rgba(35, 51, 77, 1);
-    color: white;
+    background: #E2DDDD;
+    color: black;
     border: 5px solid #ddd;
     border: none;
     border-bottom: 4px solid #021f3d;

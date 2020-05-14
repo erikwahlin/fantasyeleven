@@ -5,8 +5,8 @@ const StepContainer = styled(Steps)`
     height: auto;
     max-height: 30px;
 
-    max-width: 490px;
-    margin: 0px auto 40px;
+    max-width: 576px;
+    margin: -30px auto 40px;
 
     &
         .ant-steps-item-wait

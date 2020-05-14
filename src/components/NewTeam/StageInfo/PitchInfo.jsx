@@ -25,7 +25,7 @@ const PitchInfo = ({ teamContext }) => {
     };
 
     return (
-        <Wrapper className="StageInfo">
+        <Wrapper className="StageInfo" style={{ marginTop:'20px'}}>
             <Section className="Section">
                 <Key className="Key">Valda spelare</Key>
                 <Val ready={playerCount === maxPlayers} className="Val playercount">

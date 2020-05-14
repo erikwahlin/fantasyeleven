@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { countPlayers } from '../../constants/helperFuncs';
+
 const StyledDiv = styled.div`
     box-sizing: border-box;
-    background-color: #23324d;
+    background-color: none;
     position: relative;
+    font-family:'Avenir';
     font-size: 1.3em;
     width: inherit;
     width: 90%;
@@ -37,6 +39,8 @@ const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, l
                       }`}
             </StyledP>
         </StyledDiv>
+        
     );
+    
 };
 export default Instructions;

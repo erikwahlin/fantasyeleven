@@ -1,9 +1,9 @@
 .Dropdown-root {
     position: relative;
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 16px !important;
     font-family: 'Avenir';
-    font-size: 1.3em;
+    font-size: 1.3em !important;
     font-weight: 500;
     height: 40px;
 }
@@ -11,14 +11,13 @@
 .Dropdown-control {
     position: relative;
     overflow: hidden;
-    background-color: rgba(35, 51, 77, 1);
+    background-color:#E2DDDD !important;
     border: none;
     box-sizing: border-box;
-    color: white;
+    color: #000000 !important;
     cursor: pointer;
     outline: none;
-    /* padding: 13px 52px 13px 12px; */
-    padding: 5px 10px;
+    padding: 10px 52px 10px 12px !important;
     transition: all 200ms ease;
 }
 
@@ -27,7 +26,7 @@
 }
 
 .Dropdown-arrow {
-    border-color: rgba(35, 51, 77, 1);
+    border-color: #E2DDDD !important;
     border-style: solid;
     border-width: 10px 10px 0;
     content: '';

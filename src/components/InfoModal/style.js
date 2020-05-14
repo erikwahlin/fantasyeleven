@@ -53,6 +53,7 @@ export const OpenBtn = styled.button`
 `;
 
 export const Icon = styled(FaInfoCircle)`
+    color: #005C07;
     ${p =>
         p.customstyle &&
         css`

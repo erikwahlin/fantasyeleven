@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     justify-content: space-evenly;
 
     background: none;
-
+    
     border-top: 1px solid white;
 `;
 

@@ -14,6 +14,7 @@ import { withAuthentication } from '../Session';
 import apis from '../../constants/api';
 
 const ContentWrap = styled.div`
+    margin-top: 50px !important;
     @media screen and (min-width: 900px) {
         /* display: grid;
         grid-template-rows: 100%;
@@ -205,7 +206,7 @@ class NewTeam extends Component {
 
         // save to mongo
         await apis
-            .create('create', newUser)
+            .create({ action: 'createUser', payload: newUser })
             .then(res => {
                 console.log('Created new team in mongo.');
             })
@@ -223,7 +224,7 @@ class NewTeam extends Component {
         };
 
         await apis
-            .update(_id, payload)
+            .update({ action: 'updateUser', payload })
             .then(res => {
                 //console.log(res);
             })

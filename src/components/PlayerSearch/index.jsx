@@ -19,7 +19,7 @@ import CaptainCard from '../CaptainCard/CaptainCard';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
-import Arrow from '../../media/arrow.svg';
+import Arrow from '../../media/arrowG.svg';
 import Cap from '../../media/Cap.svg';
 import ViceCap from '../../media/ViceCap.svg';
 
@@ -456,7 +456,7 @@ class PlayerSearch extends Component {
                         </CapWrap>
                     ) : (
                         <>
-                            <Title className="SearchPlayer-Title unmarkable">Välj spelare</Title>
+                            <Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
                             <ArrowWrapper>
                                 <DropDown
                                     className="FilterByPosClub dropdown playerserach unmarkable"
@@ -517,7 +517,7 @@ class PlayerSearch extends Component {
                                         this.state.priceSort === 'falling'
                                             ? {
                                                   fontWeight: 'bold',
-                                                  backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                                  backgroundColor: 'rgba(226, 221, 221, 0.5)',
                                                   boxShadow: 'inset 0 0 2px #000000'
                                               }
                                             : { fontWeight: '500' }
@@ -533,7 +533,7 @@ class PlayerSearch extends Component {
                                         this.state.priceSort === 'rising'
                                             ? {
                                                   fontWeight: 'bold',
-                                                  backgroundColor: 'rgba(35, 51, 77, 0.5)',
+                                                backgroundColor: 'rgba(226, 221, 221, 0.5)',
                                                   boxShadow: 'inset 0 0 2px #000000'
                                               }
                                             : { fontWeight: '500' }
