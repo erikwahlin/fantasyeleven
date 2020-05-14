@@ -91,6 +91,7 @@ const initialEffort = {
 };
 
 const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
+    const { matchUpdater } = newResContext.setters;
     const { matches, step, substep } = newResContext.state;
     const match = matches[step];
     const { club, players } = match[role];
@@ -102,22 +103,49 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
         effort: clone(initialEffort)
     })) */
 
+    const updatePlayer = ({ player, key, val }) => {
+        const newMatch = clone(match);
+
+        const pIndex = newMatch[role].players.indexOf(player);
+
+        if (pIndex > -1) {
+            newMatch[role].players[pIndex].effort[key] = val;
+
+            matchUpdater(newMatch);
+        }
+    };
+
     const columns = Object.keys(players[0].effort).map(col => {
         const res = {
             title: col,
             dataIndex: col,
             key: col,
-            render: () => (
+            render: input => (
                 <>
-                    <input type="number" style={{ width: '50px' }} />
+                    {typeof input === 'number' ? (
+                        <input type="number" value={input} style={{ width: '50px' }} />
+                    ) : (
+                        <input
+                            type="number"
+                            value={input.val}
+                            style={{ width: '50px' }}
+                            onChange={e =>
+                                updatePlayer({
+                                    player: input.player,
+                                    key: col,
+                                    val: e.target.value
+                                })
+                            }
+                        />
+                    )}
                 </>
             )
         };
 
         if (col === 'cleanSheet' || col === 'fulltime' || col === 'parttime' || col === 'red') {
-            res.render = () => (
+            res.render = checked => (
                 <>
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={checked} />
                 </>
             );
         }
@@ -141,7 +169,7 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
         key: nth + 1,
         name: p.name,
         position: p.position,
-        goal: p.effort.goal, // {playerObj, amount} ...
+        goal: { player: p, val: p.effort.goal }, // {playerObj, amount} ...
         assist: p.effort.assist,
         cleanSheet: p.effort.cleanSheet,
         yellow: p.effort.yellow,
