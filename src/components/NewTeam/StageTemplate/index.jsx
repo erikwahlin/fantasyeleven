@@ -15,7 +15,7 @@ const StageTemplate = ({ teamContext }) => {
             <StageInfo />
 
             <Pitch />
-            <Bench />
+            <Bench /> 
         </StageWrapper>
     );
 };

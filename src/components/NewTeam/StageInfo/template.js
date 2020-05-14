@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { FaUserPlus } from 'react-icons/fa';
 
 export const Wrapper = styled.div`
-    width: 100%;
+    width: 98%;
     height: 85px;
     max-width: 900px;
     display: flex;
@@ -60,9 +60,9 @@ export const Val = styled.p`
 export const Button = styled.button`
     width: 100px;
     height: 35px;
-    background: #fff;
-    color: #001c3e;
-    border: #fff solid 2px;
+    background: #005C07;
+    color: white;
+    border: #005C07 solid 2px;
     border-radius: 1px;
     outline: none;
     cursor: pointer;

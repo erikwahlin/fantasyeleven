@@ -14,6 +14,7 @@ import { withAuthentication } from '../Session';
 import apis from '../../constants/api';
 
 const ContentWrap = styled.div`
+    margin-top:50px !important;
     @media screen and (min-width: 900px) {
         /* display: grid;
         grid-template-rows: 100%;

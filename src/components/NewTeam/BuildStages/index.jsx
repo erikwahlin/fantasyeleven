@@ -27,6 +27,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    
 
     @media all and (min-height: 830px) {
         justify-content: space-around;
@@ -65,14 +66,14 @@ const StageNav = styled.div`
 const StageNavBtn = styled.button`
     width: 120px;
     height: 50px;
-    background: rgba(35, 51, 77, 1);
+    background: #E2DDDD;
     border: none;
     outline: none;
     cursor: pointer;
     font-family: 'Avenir';
     font-size: 1.1em;
     font-weight: 500;
-    color: white;
+    color: black;
     opacity: ${p => (p.disabled ? '.5' : '1')};
 
     @media all and (max-width: 480px) {

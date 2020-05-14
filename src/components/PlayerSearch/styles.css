@@ -1,12 +1,24 @@
+styles.css
+
 /* @font-face {
-	font-family: 'MrEavesXL';
-	src: local('MrEavesXL'), url(../fonts/MrEavesXLModNarOT-Reg.ttf) format('truetype');
+    font-family: 'MrEavesXL';
+    src: local('MrEavesXL'), url(../fonts/MrEavesXLModNarOT-Reg.ttf) format('truetype');
 } need to fix import-bug */
 
+html {
+    margin:0;
+    padding:0;
+}
 body {
-    background-color: /* #101d33; */ #001c3e;
+    /* background-color: #101d33;  #001c3e; */
+    background-image: url("../Landing/landing-imgB.jpg");
     font-family: 'Avenir';
     color: white;
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+    height:100vh;
+    z-index:1;
+
 }
 
 nav {
@@ -73,7 +85,7 @@ h4 {
     font-size: 1em !important;
     font-weight: 500;
     cursor: pointer;
-    color:white;
+    
 }
 
 .sum {
@@ -103,6 +115,7 @@ h4 {
     font-style: italic;
     font-weight: 600;
     font-size: 1.1em;
+    color:white;
 }
 
 .labelPosition p {
@@ -219,3 +232,5 @@ h4 {
 
 
 /************************************************************/
+
+
