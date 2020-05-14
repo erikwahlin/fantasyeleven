@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import ResultForm from './ResultForm';
 import ResultList from './ResultList';
 
-import NewResult from '../NewResult';
+import NewResultWrapper from '../NewResult';
 
 const Result = props => (
     <>
         {/* <ResultForm /> */}
-        <NewResult />
+        <NewResultWrapper />
 
         <ResultList />
     </>

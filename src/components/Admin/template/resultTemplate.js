@@ -90,43 +90,36 @@ const ResultTemplate = ({ season, round, players }) => {
     };
 
     return (
-        <div className="Result">
+        <>
             {sortedPlayers && (
-                <>
-                    <Wrapper className="Result" margin="0 auto">
-                        <ResultHeader className="ResultHeader" open={open} onClick={toggleHandler}>
-                            <ResultTitle>
-                                Säsong <span>{season}</span> - omgång <span>{round}</span>
-                            </ResultTitle>
+                <Wrapper className="Result" margin="0 auto">
+                    <ResultHeader className="ResultHeader" open={open} onClick={toggleHandler}>
+                        <ResultTitle>
+                            Säsong <span>{season}</span> - omgång <span>{round}</span>
+                        </ResultTitle>
 
-                            <ToggleBtn className="ToggleBtn">
-                                <ArrowIcon
-                                    className="arrowIcon"
-                                    src={Arrow}
-                                    alt="arrow"
-                                    open={open}
-                                />
-                                {/* Klicka för att {open ? 'dölja' : 'visa'} */}
+                        <ToggleBtn className="ToggleBtn">
+                            <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
+                            {/* Klicka för att {open ? 'dölja' : 'visa'} */}
+                        </ToggleBtn>
+                    </ResultHeader>
+
+                    <ResultContent className="ResultContent" open={open}>
+                        {sortedPlayers.map(player => (
+                            <ResultCard key={player._id} player={player} width={50} />
+                        ))}
+                        <OptionContainer>
+                            <ToggleBtn
+                                onClick={() => setOpen(!open)}
+                                customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000"
+                            >
+                                Stäng resultat
                             </ToggleBtn>
-                        </ResultHeader>
-
-                        <ResultContent className="ResultContent" open={open}>
-                            {sortedPlayers.map(player => (
-                                <ResultCard key={player._id} player={player} width={50} />
-                            ))}
-                            <OptionContainer>
-                                <ToggleBtn
-                                    onClick={() => setOpen(!open)}
-                                    customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000"
-                                >
-                                    Stäng resultat
-                                </ToggleBtn>
-                            </OptionContainer>
-                        </ResultContent>
-                    </Wrapper>
-                </>
+                        </OptionContainer>
+                    </ResultContent>
+                </Wrapper>
             )}
-        </div>
+        </>
     );
 };
 

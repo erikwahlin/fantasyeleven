@@ -14,43 +14,56 @@ const errMsg = userMsg({
 
 const initialEfforts = {
     club: '',
-    score: 0,
-    goal: [], // {playerObj, amount} ...
-    assist: [],
-    cleanSheet: [],
-    yellow: [],
-    red: [],
-    penalyMiss: [],
-    penaltySave: [],
-    fulltime: [],
-    parttime: []
+    goals: 0,
+    players: []
 };
 
-const initialMatches = (() => {
+const initialMatches = () => {
     let res = [];
-    for (let nth = 0; nth < allClubs.length; nth++) {
+
+    for (let nth = 0; nth < allClubs.length / 2; nth++) {
         res.push({
             home: clone(initialEfforts),
             away: clone(initialEfforts)
         });
     }
+
     return res;
-})();
+};
 
 export default class NewResState extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            resultStep: 0,
-            matchStep: 0,
-            matches: clone(initialMatches)
+            step: 0,
+            substep: 0,
+            matches: initialMatches()
         };
 
-        this.setters = {};
+        this.matchUpdater = this.matchUpdater.bind(this);
+        this.stepUpdater = this.stepUpdater.bind(this);
+
+        this.setters = {
+            matchUpdater: this.matchUpdater,
+            stepUpdater: this.stepUpdater
+        };
     }
 
     componentDidMount = () => {};
+
+    matchUpdater = newMatch => {
+        const matches = clone(this.state.matches);
+
+        matches[this.state.step] = newMatch;
+        console.log('new matches', matches);
+
+        this.setState({ matches });
+    };
+
+    stepUpdater = ({ step = this.state.step, substep = this.state.substep }) => {
+        this.setState({ step, substep });
+    };
 
     render() {
         return (
@@ -68,6 +81,6 @@ export default class NewResState extends Component {
 
 export const withNewRes = Component => props => (
     <NewResContext.Consumer>
-        {newres => <Component {...props} newResContext={newres} />}
+        {NewResult => <Component {...props} newResContext={NewResult} />}
     </NewResContext.Consumer>
 );
