@@ -129,13 +129,13 @@ const NewRound = props => {
                     onSubmit={submit}
                 />
 
-                <TeamPicker
+                {/* <TeamPicker
                     form={form}
                     formKey="matches"
                     autosave={autosave}
                     ready={formReady.matches}
                     onSubmit={submit}
-                />
+                /> */}
 
                 <InputTemplate
                     state={form}
