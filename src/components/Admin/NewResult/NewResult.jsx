@@ -55,12 +55,22 @@ const { Step } = Steps;
 const stepInfo = {
     step: (() => {
         let res = [];
+
+        // 10 matches
         for (let max = 0; max < 10; max++) {
             res.push({
                 name: `match-${max + 1}`,
-                label: `Match ${max + 1}`
+                label: `Match ${max + 1}`,
+                category: 'match'
             });
         }
+
+        // overview
+        res.push({
+            name: 'overview',
+            label: 'Översikt',
+            category: 'overview'
+        });
         return res;
     })(),
     substep: [
@@ -68,13 +78,15 @@ const stepInfo = {
             name: 'clubs',
             label: 'Vilka lag möttes?',
             content: props => <ClubForm {...props} />,
-            ready: match => match.home.club && match.away.club
+            ready: match => match.home.club && match.away.club,
+            parent: 'match'
         },
         {
             name: 'homeEffort',
             label: 'Prestationer hemmalag',
             content: props => <EffortForm role="home" {...props} />,
-            ready: match => true
+            ready: match => true,
+            parent: 'match'
 
             // each player has all effort fields + field for effort-amount
         },
@@ -82,7 +94,8 @@ const stepInfo = {
             name: 'homeEffort',
             label: 'Prestationer bortalag',
             content: props => <EffortForm role="away" {...props} />,
-            ready: match => true
+            ready: match => true,
+            parent: 'match'
         }
     ]
 };
@@ -106,15 +119,19 @@ const ResultStep = styled(Step)`
 `;
 
 const NewResult = ({ newResContext }) => {
+    const { stepUpdater } = newResContext.setters;
     const { state } = newResContext;
 
     const { matches, step, substep } = state;
     const match = matches[step];
 
-    const { stepUpdater } = newResContext.setters;
+    const stepContent = stepInfo.step[state.step].content;
+    const substepContent = stepInfo.substep[state.substep].content;
 
     const lastStepIndex = stepInfo.step.length - 1;
-    const lastSubstepIndex = stepInfo.substep.length - 1;
+    const lastSubstepIndex =
+        stepInfo.substep.filter(s => s.parent === stepInfo.step[step].category).length - 1;
+    console.log('last subst', lastSubstepIndex);
 
     const hiddenStepIndex = window.innerWidth >= 650 ? 3 : window.innerWidth >= 480 ? 2 : 1;
 
@@ -153,6 +170,7 @@ const NewResult = ({ newResContext }) => {
                 newSubstepIndex = lastSubstepIndex;
             }
         }
+        console.log('step', newStepIndex + stepAdd, 'subst', newSubstepIndex + substepAdd);
 
         stepUpdater({
             step: newStepIndex + stepAdd,
@@ -191,16 +209,24 @@ const NewResult = ({ newResContext }) => {
             </StepContainer>
             <Divider />
             <Steps progressDot direction="vertical" current={state.substep}>
-                {Object.values(stepInfo.substep).map((step, nth) => (
-                    <Step key={`${step.name}-step-${nth}`} title={step.label} />
-                ))}
+                {Object.values(stepInfo.substep).map((sub, nth) =>
+                    sub.parent === stepInfo.step[step].category ? (
+                        <Step key={`${sub.name}-step-${nth}`} title={sub.label} />
+                    ) : null
+                )}
             </Steps>
 
             {stepInfo.substep[state.substep].label.toUpperCase()}
 
-            {stepInfo.substep[state.substep].content({
-                stepInfo: stepInfo.substep[state.substep]
-            })}
+            {stepContent &&
+                stepContent({
+                    stepInfo: stepInfo.step[state.step]
+                })}
+
+            {substepContent &&
+                substepContent({
+                    stepInfo: stepInfo.substep[state.substep]
+                })}
 
             <div style={{ marginTop: '50px' }}>
                 <button

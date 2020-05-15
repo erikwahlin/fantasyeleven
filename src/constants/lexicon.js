@@ -40,6 +40,17 @@ export const stages = {
     }
 };
 
+export const effort = {
+    goal: { sing: 'mål', plur: 'mål' },
+    assist: { sing: 'assist', plur: 'assister' },
+    cleanSheet: { sing: 'höll nollan', plur: 'höll nollorna' },
+    yellow: { sing: 'gult', plur: 'gula' },
+    red: { sing: 'rött', plur: 'röda' },
+    penaltyMiss: { sing: 'straffmiss', plur: 'straffmissar' },
+    penaltySave: { sing: 'straffräddning', plur: 'straffräddningar' },
+    playtime: { sing: 'speltid', plur: 'speltider' }
+};
+
 export const positioner = {
     Målvakter: { sing: 'Goalkeeper', plur: 'Goalkeepers' },
     Försvarare: { sing: 'Defender', plur: 'Defenders' },

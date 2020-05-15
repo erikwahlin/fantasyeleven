@@ -20,7 +20,7 @@ import {
     Tag,
     Space
 } from 'antd';
-import { clone } from '../../../constants/helperFuncs';
+import { clone, toSwe } from '../../../constants/helperFuncs';
 
 //const columns =
 
@@ -61,8 +61,7 @@ import { clone } from '../../../constants/helperFuncs';
     red: [],
     penalyMiss: [],
     penaltySave: [],
-    fulltime: [],
-    parttime: []
+    playtime: '60 min eller mer'
      */
 
 const FormStyled = styled(Form)`
@@ -84,10 +83,9 @@ const initialEffort = {
     cleanSheet: false,
     yellow: 0,
     red: false,
-    penalyMiss: 0,
+    penaltyMiss: 0,
     penaltySave: 0,
-    fulltime: false,
-    parttime: false
+    playtime: '60 min eller mer'
 };
 
 const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
@@ -104,59 +102,107 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
     })) */
 
     const updatePlayer = ({ player, key, val }) => {
+        console.log('about to update player', player.name, 'key', key, 'val', val);
         const newMatch = clone(match);
 
-        const pIndex = newMatch[role].players.indexOf(player);
+        const findIndex = () => {
+            let index = -1;
+            newMatch[role].players.forEach((p, nth) => {
+                if (p._id === player._id) {
+                    index = nth;
+                }
+            });
+            return index;
+        };
 
-        if (pIndex > -1) {
-            newMatch[role].players[pIndex].effort[key] = val;
+        const pIndex = findIndex();
 
-            matchUpdater(newMatch);
+        if (pIndex < 0) return console.log('could not find player to update');
+
+        newMatch[role].players[pIndex].effort[key] = val;
+
+        // update team goals
+        if (key === 'goal') {
+            newMatch[role].goals = 0;
+            newMatch[role].players.forEach(p => {
+                newMatch[role].goals += parseInt(p.effort.goal);
+            });
         }
+
+        matchUpdater(newMatch);
     };
 
     const columns = Object.keys(players[0].effort).map(col => {
+        const wordForm =
+            col === 'cleanSheet' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
         const res = {
-            title: col,
+            title: toSwe(col, 'effort', wordForm),
             dataIndex: col,
-            key: col,
-            render: input => (
+            key: col
+        };
+
+        if (col === 'cleanSheet' || col === 'red') {
+            res.render = input => (
                 <>
-                    {typeof input === 'number' ? (
-                        <input type="number" value={input} style={{ width: '50px' }} />
-                    ) : (
+                    <input
+                        type="checkbox"
+                        checked={input.val}
+                        onChange={e =>
+                            updatePlayer({
+                                player: input.player,
+                                key: col,
+                                val: e.target.checked
+                            })
+                        }
+                    />
+                </>
+            );
+        } else if (col === 'playtime') {
+            res.render = input => (
+                <>
+                    <select
+                        defaultValue=""
+                        onChange={e =>
+                            updatePlayer({
+                                player: input.player,
+                                key: col,
+                                val: e.target.value
+                            })
+                        }
+                    >
+                        <option value="" disabled>
+                            - speltid -
+                        </option>
+                        <option value=">60">60 min eller mer</option>
+                        <option value="<60">1-59 min</option>
+                        <option value="0">bänkad (0 min)</option>
+                    </select>
+                </>
+            );
+        } else {
+            res.render = input => {
+                console.log('input', input, 'col', col);
+                return (
+                    <>
                         <input
                             type="number"
-                            value={input.val}
+                            value={typeof input !== 'object' ? input : input.val}
                             style={{ width: '50px' }}
+                            min="0"
                             onChange={e =>
                                 updatePlayer({
                                     player: input.player,
                                     key: col,
-                                    val: e.target.value
+                                    val: e.target.value < 0 ? 0 : e.target.value
                                 })
                             }
                         />
-                    )}
-                </>
-            )
-        };
-
-        if (col === 'cleanSheet' || col === 'fulltime' || col === 'parttime' || col === 'red') {
-            res.render = checked => (
-                <>
-                    <input type="checkbox" checked={checked} />
-                </>
-            );
+                    </>
+                );
+            };
         }
 
         return res;
-    });
-
-    columns.unshift({
-        title: 'namn',
-        dataIndex: 'name',
-        key: 'name'
     });
 
     columns.unshift({
@@ -165,20 +211,27 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
         key: 'position'
     });
 
-    const data = match[role].players.map((p, nth) => ({
-        key: nth + 1,
-        name: p.name,
-        position: p.position,
-        goal: { player: p, val: p.effort.goal }, // {playerObj, amount} ...
-        assist: p.effort.assist,
-        cleanSheet: p.effort.cleanSheet,
-        yellow: p.effort.yellow,
-        red: p.effort.red,
-        penalyMiss: p.effort.penalyMiss,
-        penaltySave: p.effort.penaltySave,
-        fulltime: p.effort.fulltime,
-        parttime: p.effort.parttime
-    }));
+    columns.unshift({
+        title: 'namn',
+        dataIndex: 'name',
+        key: 'name'
+    });
+
+    const data = match[role].players.map((p, nth) => {
+        const res = {
+            key: nth + 1,
+            name: p.name,
+            position: p.position
+        };
+        Object.keys(p.effort).forEach(key => {
+            if (key === 'fulltime' || key === 'parttime') {
+                res[key] = {};
+            }
+            res[key] = { player: p, val: p.effort[key] };
+        });
+
+        return res;
+    });
 
     return (
         <Wrapper>

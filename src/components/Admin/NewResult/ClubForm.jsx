@@ -13,8 +13,7 @@ const initialEffort = {
     red: false,
     penaltyMiss: 0,
     penaltySave: 0,
-    fulltime: false,
-    parttime: false
+    playtime: '60 min eller mer'
 };
 
 const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) => {
@@ -22,6 +21,16 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
     const { home, away } = matches[step];
 
     const { matchUpdater } = newResContext.setters;
+
+    const pickedClubs = (() => {
+        let res = [];
+        matches.forEach(match => {
+            if (match.home.club) res.push(match.home.club);
+            if (match.away.club) res.push(match.away.club);
+        });
+
+        return res;
+    })();
 
     const autoSave = ({ homeAway, val }) => {
         const newMatch = clone(matches[step]);
@@ -53,7 +62,11 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
                     - Välj hemmalag -
                 </option>
                 {allClubs.map(club => (
-                    <option key={club.short} value={club.long} disabled={away.club === club.long}>
+                    <option
+                        key={club.short}
+                        value={club.long}
+                        disabled={pickedClubs.includes(club.long)}
+                    >
                         {club.long}
                     </option>
                 ))}
@@ -68,7 +81,11 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
                     - Välj bortalag -
                 </option>
                 {allClubs.map(club => (
-                    <option key={club.short} value={club.long} disabled={home.club === club.long}>
+                    <option
+                        key={club.short}
+                        value={club.long}
+                        disabled={pickedClubs.includes(club.long)}
+                    >
                         {club.long}
                     </option>
                 ))}
