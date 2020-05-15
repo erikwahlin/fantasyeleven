@@ -8,6 +8,8 @@ import { clone, userMsg } from '../../../constants/helperFuncs';
 
 import { formTemplate } from '../template';
 
+import TeamPicker from './TeamPicker';
+
 const { FormContainer, InputTemplate } = formTemplate;
 
 const initialForm = {
@@ -16,6 +18,7 @@ const initialForm = {
     alias: '',
     season: '',
     round: '',
+    matches: [],
     active: false,
     result: null
 };
@@ -32,6 +35,11 @@ const NewRound = props => {
         alias: form.alias.length && rounds.every(r => r.alias !== form.alias),
         season: form.season.length,
         round: !isNaN(parseFloat(form.round)) && parseInt(form.round) > 0,
+        matches: (() => {
+            const tenMatches = form.matches.length === 10;
+            const pickedClubs = form.matches.every(match => match.home.club && match.away.club);
+            return tenMatches && pickedClubs ? true : false;
+        })(),
         active: true,
         result: true
     };
@@ -118,6 +126,14 @@ const NewRound = props => {
                     type="number"
                     helper="Använd siffror"
                     ready={formReady.round}
+                    onSubmit={submit}
+                />
+
+                <TeamPicker
+                    form={form}
+                    formKey="matches"
+                    autosave={autosave}
+                    ready={formReady.matches}
                     onSubmit={submit}
                 />
 

@@ -62,7 +62,7 @@ const AdminPage = ({ location }) => {
 
     return (
         <Wrapper className="Admin unmarkable" tabPos={tabPos} winW={winW}>
-{/*             <MainTitle>
+            {/*             <MainTitle>
                 
                 <span style={{ fontFamily: 'Avenir', fontSize: '14px' }}>
                     <UserOutlined style={{ color: '#005C07' }} />
@@ -74,7 +74,7 @@ const AdminPage = ({ location }) => {
                 tabPosition={tabPos}
                 tabBarExtraContent={tabPosMenu()}
                 className="TabContainer unmarkable"
-                defaultActiveKey="2"
+                defaultActiveKey="1"
             >
                 <Tab
                     tab={
@@ -176,7 +176,7 @@ const AdminPage = ({ location }) => {
                     key="7"
                 >
                     {/* <TabTitle>Spelare</TabTitle> */}
-                    <Players /> 
+                    <Players />
                 </Tab>
             </TabContainer>
         </Wrapper>
