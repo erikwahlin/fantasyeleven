@@ -25,7 +25,7 @@ export const ContentWrapper = styled.div`
     padding: 10px;
     display: flex;
     height: 100vh;
-    color: white;
+    color: black;
     ${p =>
         p.flexDirection &&
         css`

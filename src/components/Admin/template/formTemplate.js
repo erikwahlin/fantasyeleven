@@ -24,6 +24,7 @@ import { ArrowWrapper } from '../Players/style';
 export const FormTitle = styled.h1`
     text-align: center;
     font-size: 3em;
+    color: ${p => (p.mode === 'dark' ? 'white' : 'black')};
 `;
 
 export const Form = styled.div`
