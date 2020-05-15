@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-    background: #23334d;
+    background-color: #23334d;
     width: 100%;
     padding: 10px;
     display: flex;

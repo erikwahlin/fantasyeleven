@@ -20,7 +20,7 @@ import { DollarCircleOutlined } from '@ant-design/icons';
 import { FormOutlined } from '@ant-design/icons';
 import { AreaChartOutlined } from '@ant-design/icons';
 import { SettingOutlined, ScheduleOutlined } from '@ant-design/icons';
-import FLogo from '../../components/Landing/fantasy11-white-logo.png';
+import FLogo from '../../components/Landing/fantasy11-logo.png';
 
 import { adminTemplate } from './template/';
 
@@ -62,13 +62,13 @@ const AdminPage = ({ location }) => {
 
     return (
         <Wrapper className="Admin unmarkable" tabPos={tabPos} winW={winW}>
-            <MainTitle>
-                {/* <SettingOutlined style={{ color: '#5ac5d4' }} /> */}
+{/*             <MainTitle>
+                
                 <span style={{ fontFamily: 'Avenir', fontSize: '14px' }}>
-                    <UserOutlined style={{ color: '#5ac5d4' }} />
+                    <UserOutlined style={{ color: '#005C07' }} />
                     <span>&nbsp;</span>Viktor Lager
                 </span>
-            </MainTitle>
+            </MainTitle> */}
 
             <TabContainer
                 tabPosition={tabPos}
@@ -81,7 +81,7 @@ const AdminPage = ({ location }) => {
                         <span>
                             <img
                                 src={FLogo}
-                                style={{ width: '110px', marginLeft: '15px', marginTop: '10px' }}
+                                style={{ width: '130px', marginLeft: '5px', marginTop: '10px' }}
                             />
                         </span>
                     }
@@ -91,7 +91,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <ScheduleOutlined style={{ color: '#5ac5d4' }} />
+                            <ScheduleOutlined style={{ color: '#005C07' }} />
                             Omgångar
                         </span>
                     }
@@ -105,7 +105,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <AreaChartOutlined style={{ color: '#5ac5d4' }} />
+                            <AreaChartOutlined style={{ color: '#005C07' }} />
                             Resultat
                         </span>
                     }
@@ -119,7 +119,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <DollarCircleOutlined style={{ color: '#5ac5d4' }} />
+                            <DollarCircleOutlined style={{ color: '#005C07' }} />
                             Utdelningsmodell
                         </span>
                     }
@@ -133,7 +133,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <BarChartOutlined style={{ color: '#5ac5d4' }} />
+                            <BarChartOutlined style={{ color: '#005C07' }} />
                             Användarstatistik
                         </span>
                     }
@@ -145,7 +145,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <TeamOutlined style={{ color: '#5ac5d4' }} />
+                            <TeamOutlined style={{ color: '#005C07' }} />
                             Användarhantering
                         </span>
                     }
@@ -157,7 +157,7 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <FormOutlined style={{ color: '#5ac5d4' }} />
+                            <FormOutlined style={{ color: '#005C07' }} />
                             Innehåll
                         </span>
                     }
@@ -169,14 +169,14 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <SkinOutlined style={{ color: '#5ac5d4' }} />
+                            <SkinOutlined style={{ color: '#005C07' }} />
                             Spelare
                         </span>
                     }
                     key="7"
                 >
                     {/* <TabTitle>Spelare</TabTitle> */}
-                    <Players />
+                    <Players /> 
                 </Tab>
             </TabContainer>
         </Wrapper>

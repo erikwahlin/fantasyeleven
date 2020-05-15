@@ -98,6 +98,16 @@ const initialState = {
 
 const StepContainer = styled(Steps)`
     overflow-x: scroll;
+
+    & .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+    background: #005C07;
+}
+
+
+    & .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: #1890ff;
+}
+
 `;
 
 const ResultStep = styled(Step)`

@@ -5,8 +5,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 export const Wrapper = styled.div`
-    background: #182231;
-
+    display:flex;
     width: 100vw;
     height: 100%;
     min-height: 100vh;
@@ -39,7 +38,7 @@ export const Wrapper = styled.div`
     & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
         font-size: 1em !important;
         font-weight: 500;
-        color:#d3d6dc;
+        color:black;
         cursor: pointer;
     }
 
@@ -53,7 +52,7 @@ export const Wrapper = styled.div`
 
       & .ant-tabs .ant-tabs-left-content {
     padding-left: 24px;
-    border-left: 1px solid #2f3e55;
+    border-left: 1px solid #eee;
 }
 
     & .hqLjmv .ant-tabs-ink-bar {
@@ -61,7 +60,7 @@ export const Wrapper = styled.div`
 }
 
     & .ant-tabs-ink-bar {
-        background: /* #1890ff */ #5ac5d4;
+        background: /* #1890ff */ #00A00C;
     }
 `;
 
@@ -70,21 +69,23 @@ export const Sel = styled(Select)``;
 export const Opt = styled(Option)``;
 
 export const TabContainer = styled(Tabs)`
-background:#131b29;
+background:white;
+z-index:1;
 `;
 
 export const Tab = styled(TabPane)`
     color: #000;
-    background:#182231;
+    background-color:white;
 
 `;
 
 export const MainTitle = styled.h1`
-    background:#182231; 
+    background:#E2DDDD; 
     text-align: right;
     padding: 20px;
     margin-bottom:20px;
-    border-bottom:1px solid #2f3e55;
+    border-bottom:1px solid #005C07;
+    
 `;
 
 export const TabTitle = styled.h2`
