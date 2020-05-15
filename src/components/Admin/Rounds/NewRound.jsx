@@ -53,10 +53,12 @@ const initialForm = {
 };
 
 const NewRound = props => {
-    const { rounds } = props.adminContext.state;
+    const { rounds, players } = props.adminContext.state;
     const { createRound } = props.adminContext.setters;
 
     const [form, setForm] = useState(clone(initialForm));
+    const [prevHome, setPrevHome] = useState(null);
+    const [prevAway, setPrevAway] = useState(null);
     const [takenClubs, setTakenClubs] = useState([]);
     const [roundHidden, setRoundHidden] = useState(true);
 
@@ -146,12 +148,19 @@ const NewRound = props => {
             console.log('cleaned up:', newMatches[taken.index][taken.homeAway].club);
         }
 
+        if (homeAway === 'home' && prevHome !== '') {
+            takenClubs.splice(takenClubs.indexOf(prevHome), 1);
+        }
+        if (homeAway === 'away' && prevHome !== '') {
+            takenClubs.splice(takenClubs.indexOf(prevHome), 1);
+        }
+
         if (club !== '') {
-            newMatches[index][homeAway].club = allClubs.filter(c => c.long === club)[0].long;
+            newMatches[index][homeAway].club = club;
+            newMatches[index][homeAway].players = players.filter(p => p.club === club);
         } else {
-            const clubToDrop = newMatches[index][homeAway].club;
-            takenClubs.splice(takenClubs.indexOf(clubToDrop), 1);
             newMatches[index][homeAway].club = '';
+            newMatches[index][homeAway].players = [];
         }
 
         autosave('matches', newMatches);
@@ -233,6 +242,7 @@ const NewRound = props => {
                                 <p style={{ fontSize: '1em', color: 'grey' }}>Match {nth + 1}</p>
 
                                 <ClubSelect
+                                    onClick={e => setPrevHome(e.target.value)}
                                     className="home"
                                     type="select"
                                     value={match.home.club}
@@ -260,6 +270,7 @@ const NewRound = props => {
                                 </ClubSelect>
 
                                 <ClubSelect
+                                    onClick={e => setPrevAway(e.target.value)}
                                     className="away"
                                     type="select"
                                     value={match.away.club}

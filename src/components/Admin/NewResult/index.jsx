@@ -1,13 +1,13 @@
 import React from 'react';
 import NewResState from './NewResState';
-import NewResult from './NewResult';
+import NewResultSteps from './NewResultSteps';
 
-const NewResultWrapper = props => {
+const NewResult = ({ round }) => {
     return (
         <NewResState>
-            <NewResult />
+            <NewResultSteps round={round} />
         </NewResState>
     );
 };
 
-export default NewResultWrapper;
+export default NewResult;

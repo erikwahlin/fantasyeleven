@@ -8,7 +8,7 @@ import Arrow from '../../../media/arrow.svg';
 
 import { clone } from '../../../constants/helperFuncs';
 
-import NewResultWrapper from '../NewResult';
+import NewResult from '../NewResult';
 
 const Header = styled.div`
     width: 100%;
@@ -68,7 +68,7 @@ const RoundContent = styled.div`
     flex-wrap: wrap;
 `;
 
-const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => {
+const Round = ({ round, settings, updateSettings, updateRound, active }) => {
     const [open, setOpen] = useState(false);
     const [resultMode, setResultMode] = useState(false);
 
@@ -122,7 +122,12 @@ const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => 
                 <RoundContent className="RoundContent" open={open}>
                     <div>
                         <p>Alias {round.alias}</p>
-                        <p>{active ? 'Aktiv' : 'Inaktiv'}</p>
+                        <p>
+                            Aktiv{' '}
+                            <span style={{ color: active ? 'green' : 'black' }}>
+                                {active ? 'JA!' : 'NEJ'}
+                            </span>
+                        </p>
                         <p>Säsong {round.season}</p>
                         <p>Omgångsnummer {round.round}</p>
 
@@ -138,45 +143,50 @@ const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => 
                         </div>
                     </div>
 
-                    <OptionContainer>
-                        <ToggleBtn
-                            onClick={() => setActive(!active)}
-                            customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: ${
-                                active ? 'red' : '#fff'
-                            }`}
-                        >
-                            {!active ? 'Aktivera' : 'Inaktivera'}
-                        </ToggleBtn>
-                    </OptionContainer>
-
-                    {active && (
+                    <div
+                        className="Options"
+                        style={{ width: '100%', height: 'fit-content', display: 'flex' }}
+                    >
                         <OptionContainer>
                             <ToggleBtn
-                                onClick={() => setResultMode(true)}
-                                customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: orange;`}
+                                onClick={() => setActive(!active)}
+                                customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: ${
+                                    active ? 'red' : '#fff'
+                                }`}
                             >
-                                {!resultMode ? 'Skapa resultat' : 'Stäng resultat'}
+                                {!active ? 'Aktivera' : 'Inaktivera'}
                             </ToggleBtn>
                         </OptionContainer>
-                    )}
 
-                    <OptionContainer>
-                        <ToggleBtn
-                            onClick={() => setOpen(!open)}
-                            customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000"
-                        >
-                            Minimera
-                        </ToggleBtn>
-                    </OptionContainer>
+                        {active && (
+                            <OptionContainer>
+                                <ToggleBtn
+                                    onClick={() => setResultMode(true)}
+                                    customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: orange;`}
+                                >
+                                    {!resultMode ? 'Skapa resultat' : 'Stäng resultat'}
+                                </ToggleBtn>
+                            </OptionContainer>
+                        )}
 
-                    {resultMode && <NewResultWrapper round={round} />}
+                        <OptionContainer>
+                            <ToggleBtn
+                                onClick={() => setOpen(!open)}
+                                customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000"
+                            >
+                                Minimera
+                            </ToggleBtn>
+                        </OptionContainer>
+                    </div>
+
+                    {resultMode && <NewResult round={round} />}
                 </RoundContent>
             </Wrapper>
         </div>
     );
 };
 
-const RoundList = ({ adminContext }) => {
+const Rounds = ({ adminContext }) => {
     const { rounds, settings } = adminContext.state;
     const { _id: activeRoundID } = settings.activeRound;
     const { updateRound, updateSettings } = adminContext.setters;
@@ -184,7 +194,7 @@ const RoundList = ({ adminContext }) => {
     return (
         <>
             {rounds.map((round, nth) => (
-                <RoundItem
+                <Round
                     key={`${round.alias}-${nth}`}
                     round={round}
                     settings={settings}
@@ -197,4 +207,4 @@ const RoundList = ({ adminContext }) => {
     );
 };
 
-export default withAdmin(RoundList);
+export default withAdmin(Rounds);

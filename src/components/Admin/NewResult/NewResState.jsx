@@ -1,5 +1,6 @@
 import React, { Component, createContext } from 'react';
 import apis from '../../../constants/api';
+import { withAdmin } from '../AdminState';
 import { getPlayers } from '../../../constants/players';
 import { clone, userMsg } from '../../../constants/helperFuncs';
 import { initialMatches } from '../../../constants/gamePreset';
@@ -12,7 +13,7 @@ const errMsg = userMsg({
     type: 'error'
 });
 
-export default class NewResState extends Component {
+class NewResState extends Component {
     constructor(props) {
         super(props);
 
@@ -38,7 +39,9 @@ export default class NewResState extends Component {
 
         matches[this.state.step] = newMatch;
 
-        this.setState({ matches });
+        this.setState({ matches }, () => {
+            //this.props.adminContext.setters.updateRound(newRound)
+        });
     };
 
     stepUpdater = ({ step = this.state.step, substep = this.state.substep }) => {
@@ -58,6 +61,8 @@ export default class NewResState extends Component {
         );
     }
 }
+
+export default withAdmin(NewResState);
 
 export const withNewRes = Component => props => (
     <NewResContext.Consumer>

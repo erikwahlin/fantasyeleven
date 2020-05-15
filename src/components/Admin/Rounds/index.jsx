@@ -9,7 +9,7 @@ import { clone, userMsg } from '../../../constants/helperFuncs';
 import { formTemplate } from '../template';
 
 import NewRound from './NewRound';
-import RoundList from './RoundList';
+import Rounds from './Rounds';
 
 const { FormContainer, InputTemplate } = formTemplate;
 
@@ -23,7 +23,7 @@ const initialForm = {
     result: null
 };
 
-const Rounds = props => {
+const RoundSection = props => {
     const { createRound } = props.adminContext.setters;
 
     const [form, setForm] = useState(clone(initialForm));
@@ -73,9 +73,9 @@ const Rounds = props => {
         <div>
             <NewRound />
 
-            <RoundList />
+            <Rounds />
         </div>
     );
 };
 
-export default withAdmin(Rounds);
+export default withAdmin(RoundSection);

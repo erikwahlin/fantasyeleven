@@ -75,10 +75,28 @@ const TableStyled = styled(Table)`
     }
 `;
 
-const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
+// MISSING PLAYERS IN ADMINSTATE->rounds->matches->homeAway->players
+// need to put players there when creating round (picking clubs)
+const EffortForm = ({ adminContext, newResContext, round, role, ...props }) => {
     const { matchUpdater } = newResContext.setters;
     const { matches, step, substep } = newResContext.state;
-    const match = matches[step];
+
+    const { updateRound } = adminContext.setters;
+    const { rounds } = adminContext.state;
+
+    console.log('round input id', round._id);
+    const roundIndex = (() => {
+        let res = null;
+        rounds.forEach((r, nth) => {
+            console.log('rounds loop', r._id);
+
+            if (r._id === round._id) res = nth;
+        });
+        return res;
+    })();
+
+    console.log('round index', roundIndex);
+    const match = rounds[roundIndex].matches[step];
     const { club, players } = match[role];
 
     const updatePlayer = ({ player, key, val }) => {
@@ -108,7 +126,11 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
             });
         }
 
-        matchUpdater(newMatch);
+        const newRound = clone(round);
+        newRound[roundIndex].matches[step] = newMatch;
+
+        console.log('NEW ROUND', newRound);
+        //updateRound(newRound)
     };
 
     const columns = effortColumns({ setters: { updatePlayer } });

@@ -46,13 +46,6 @@ const stepInfo = {
     })(),
     substep: [
         {
-            name: 'clubs',
-            label: 'Vilka lag möttes?',
-            content: props => <ClubForm {...props} />,
-            ready: match => match.home.club && match.away.club,
-            parent: 'match'
-        },
-        {
             name: 'homeEffort',
             label: 'Prestationer hemmalag',
             content: props => <EffortForm role="home" {...props} />,
@@ -75,14 +68,12 @@ const StepContainer = styled(Steps)`
     overflow-x: scroll;
 
     & .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
-    background: #005C07;
-}
-
+        background: #005c07;
+    }
 
     & .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
-    background-color: #1890ff;
-}
-
+        background-color: #1890ff;
+    }
 `;
 
 const ResultStep = styled(Step)`
@@ -90,7 +81,7 @@ const ResultStep = styled(Step)`
     ${p => p.hidden && 'display: none'};
 `;
 
-const NewResult = ({ newResContext }) => {
+const NewResultSteps = ({ newResContext, round }) => {
     const { stepUpdater } = newResContext.setters;
     const { state } = newResContext;
 
@@ -188,7 +179,8 @@ const NewResult = ({ newResContext }) => {
 
             {substepContent &&
                 substepContent({
-                    stepInfo: stepInfo.substep[state.substep]
+                    stepInfo: stepInfo.substep[state.substep],
+                    round: round
                 })}
 
             <div style={{ marginTop: '50px' }}>
@@ -207,4 +199,4 @@ const NewResult = ({ newResContext }) => {
     );
 };
 
-export default withAdmin(withNewRes(NewResult));
+export default withAdmin(withNewRes(NewResultSteps));
