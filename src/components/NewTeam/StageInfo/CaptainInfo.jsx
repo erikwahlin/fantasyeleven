@@ -10,11 +10,10 @@ const CaptainInfo = ({ teamContext }) => {
     const { team } = teamContext.state;
     const { players, captain, viceCaptain } = team;
     const findCaptain = (players, cap) => {
-        if (cap) return team.list.filter(player => player._id === cap);
+        if (cap && players) return players.list.filter(player => player._id === cap)[0];
     };
-    console.log(findCaptain(players, captain));
     const cap = findCaptain(players, viceCaptain);
-    console.log(cap);
+    console.log(findCaptain(players, captain));
     return (
         <Wrapper className="StageInfo">
             <Section className="Section">

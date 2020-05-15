@@ -626,7 +626,8 @@ class Plupp extends Component {
                             <OptionsBtn
                                 className="OptionsBtn"
                                 player={player}
-                                onClick={() => this.setCap('')}
+                                onClick={() => this.setState({ isPlayerClicked: true })}
+                                /* onClick={() => this.setCap('')} */
                                 stageName={stageName}
                             >
                                 <Cap src={cap} alt="Captain" />
