@@ -22,6 +22,8 @@ import {
 } from 'antd';
 import { clone, toSwe } from '../../../constants/helperFuncs';
 
+import effortColumns from './effortColumns';
+
 //const columns =
 
 /* [
@@ -64,29 +66,14 @@ import { clone, toSwe } from '../../../constants/helperFuncs';
     playtime: '60 min eller mer'
      */
 
-const FormStyled = styled(Form)`
-    width: 100%;
-
-    & input {
-        width: fit-content;
-    }
-`;
-
 const TableStyled = styled(Table)`
     width: 100%;
     overflow-x: scroll;
-`;
 
-const initialEffort = {
-    goal: 0, // {playerObj, amount} ...
-    assist: 0,
-    cleanSheet: false,
-    yellow: 0,
-    red: false,
-    penaltyMiss: 0,
-    penaltySave: 0,
-    playtime: '60 min eller mer'
-};
+    & input {
+        outline: none;
+    }
+`;
 
 const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
     const { matchUpdater } = newResContext.setters;
@@ -94,15 +81,7 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
     const match = matches[step];
     const { club, players } = match[role];
 
-    /* const players = adminContext.state.players.filter(p => p.club === club);
-
-    players = players.map(p => ({
-        ...p,
-        effort: clone(initialEffort)
-    })) */
-
     const updatePlayer = ({ player, key, val }) => {
-        console.log('about to update player', player.name, 'key', key, 'val', val);
         const newMatch = clone(match);
 
         const findIndex = () => {
@@ -132,78 +111,7 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
         matchUpdater(newMatch);
     };
 
-    const columns = Object.keys(players[0].effort).map(col => {
-        const wordForm =
-            col === 'cleanSheet' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
-        const res = {
-            title: toSwe(col, 'effort', wordForm),
-            dataIndex: col,
-            key: col
-        };
-
-        if (col === 'cleanSheet' || col === 'red') {
-            res.render = input => (
-                <>
-                    <input
-                        type="checkbox"
-                        checked={input.val}
-                        onChange={e =>
-                            updatePlayer({
-                                player: input.player,
-                                key: col,
-                                val: e.target.checked
-                            })
-                        }
-                    />
-                </>
-            );
-        } else if (col === 'playtime') {
-            res.render = input => (
-                <>
-                    <select
-                        defaultValue=""
-                        onChange={e =>
-                            updatePlayer({
-                                player: input.player,
-                                key: col,
-                                val: e.target.value
-                            })
-                        }
-                    >
-                        <option value="" disabled>
-                            - speltid -
-                        </option>
-                        <option value=">60">60 min eller mer</option>
-                        <option value="<60">1-59 min</option>
-                        <option value="0">bänkad (0 min)</option>
-                    </select>
-                </>
-            );
-        } else {
-            res.render = input => {
-                console.log('input', input, 'col', col);
-                return (
-                    <>
-                        <input
-                            type="number"
-                            value={typeof input !== 'object' ? input : input.val}
-                            style={{ width: '50px' }}
-                            min="0"
-                            onChange={e =>
-                                updatePlayer({
-                                    player: input.player,
-                                    key: col,
-                                    val: e.target.value < 0 ? 0 : e.target.value
-                                })
-                            }
-                        />
-                    </>
-                );
-            };
-        }
-
-        return res;
-    });
+    const columns = effortColumns({ setters: { updatePlayer } });
 
     columns.unshift({
         title: 'position',
@@ -234,11 +142,15 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
     });
 
     return (
-        <Wrapper>
+        <Wrapper className="Effort Outer unmarkable">
             <h3>{club}'s prestationer</h3>
 
-            <Wrapper>
-                <TableStyled columns={columns} dataSource={data} />
+            <Wrapper className="Effort Inner unmarkable">
+                <TableStyled
+                    className="EffortForm unmarkable"
+                    columns={columns}
+                    dataSource={data}
+                />
             </Wrapper>
         </Wrapper>
     );

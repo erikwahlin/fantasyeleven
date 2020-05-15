@@ -41,13 +41,13 @@ export const stages = {
 };
 
 export const effort = {
-    goal: { sing: 'mål', plur: 'mål' },
-    assist: { sing: 'assist', plur: 'assister' },
-    cleanSheet: { sing: 'höll nollan', plur: 'höll nollorna' },
-    yellow: { sing: 'gult', plur: 'gula' },
+    goals: { sing: 'mål', plur: 'mål' },
+    assists: { sing: 'assist', plur: 'assister' },
+    cleanSheets: { sing: 'höll nollan', plur: 'höll nollorna' },
+    yellows: { sing: 'gult', plur: 'gula' },
     red: { sing: 'rött', plur: 'röda' },
-    penaltyMiss: { sing: 'straffmiss', plur: 'straffmissar' },
-    penaltySave: { sing: 'straffräddning', plur: 'straffräddningar' },
+    penaltyMisses: { sing: 'straffmiss', plur: 'straffmissar' },
+    penaltySaves: { sing: 'straffräddning', plur: 'straffräddningar' },
     playtime: { sing: 'speltid', plur: 'speltider' }
 };
 

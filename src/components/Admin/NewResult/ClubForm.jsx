@@ -4,17 +4,7 @@ import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
 import { withNewRes } from './NewResState';
 import { clone } from '../../../constants/helperFuncs';
-
-const initialEffort = {
-    goal: 0, // {playerObj, amount} ...
-    assist: 0,
-    cleanSheet: false,
-    yellow: 0,
-    red: false,
-    penaltyMiss: 0,
-    penaltySave: 0,
-    playtime: '60 min eller mer'
-};
+import { initialEffort } from '../../../constants/gamePreset';
 
 const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) => {
     const { matches, step, substep } = newResContext.state;
@@ -52,7 +42,7 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
     };
 
     return (
-        <form>
+        <form className="ClubForm unmarkable">
             <select
                 type="select"
                 value={home.club}

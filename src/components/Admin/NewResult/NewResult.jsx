@@ -23,35 +23,6 @@ import { Steps, Divider } from 'antd';
 
 const { Step } = Steps;
 
-/*     step: {
-        clubPick: {
-            homeClub: '',
-            awayClub: ''
-        },
-        standings: {
-            homePoints: '',
-            awayPoints: ''
-        },
-        whoScored: {
-            scores: [],
-            assists: []
-        }
-    }, */
-
-/* const initial_state = {
-    playerResult: null,
-
-    step: 1, // 1
-    homeClub: '', //''
-    awayClub: '', //''
-    homeClubScore: '', //null
-    awayClubScore: '', //null
-    whoScoredHome: [],
-    whoScoredAway: [],
-
-    playerStep: 1 // first goals, then assists etc..
-}; */
-
 const stepInfo = {
     step: (() => {
         let res = [];
@@ -100,15 +71,6 @@ const stepInfo = {
     ]
 };
 
-const initialState = {
-    step: {
-        nav: 0
-    },
-    substep: {
-        nav: 0
-    }
-};
-
 const StepContainer = styled(Steps)`
     overflow-x: scroll;
 `;
@@ -126,12 +88,14 @@ const NewResult = ({ newResContext }) => {
     const match = matches[step];
 
     const stepContent = stepInfo.step[state.step].content;
-    const substepContent = stepInfo.substep[state.substep].content;
+    const substepContent =
+        stepInfo.substep[state.substep].parent === stepInfo.step[state.step].category
+            ? stepInfo.substep[state.substep].content
+            : null;
 
     const lastStepIndex = stepInfo.step.length - 1;
     const lastSubstepIndex =
         stepInfo.substep.filter(s => s.parent === stepInfo.step[step].category).length - 1;
-    console.log('last subst', lastSubstepIndex);
 
     const hiddenStepIndex = window.innerWidth >= 650 ? 3 : window.innerWidth >= 480 ? 2 : 1;
 
@@ -170,7 +134,6 @@ const NewResult = ({ newResContext }) => {
                 newSubstepIndex = lastSubstepIndex;
             }
         }
-        console.log('step', newStepIndex + stepAdd, 'subst', newSubstepIndex + substepAdd);
 
         stepUpdater({
             step: newStepIndex + stepAdd,
@@ -179,23 +142,13 @@ const NewResult = ({ newResContext }) => {
     };
 
     return (
-        <Wrapper>
+        <Wrapper className="NewResult Wrapper unmarkable">
             <h2>SKAPA NYTT RESULTAT</h2>
+
             <StepContainer progressDot current={state.step}>
                 {Object.values(stepInfo.step).map((step, nth) => {
                     const active = state.step === nth ? true : false;
                     const hidden = !active && nth < state.step - hiddenStepIndex ? true : false;
-
-                    /* console.log(
-                            'active',
-                            active,
-                            'currIndex',
-                            state.step,
-                            'resHideIndex',
-                            hiddenStepIndex,
-                            'hidden',
-                            hidden
-                        ); */
 
                     return (
                         <ResultStep
