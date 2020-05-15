@@ -56,7 +56,7 @@ import effortColumns from './effortColumns';
 ]; */
 
 /* 
-    goal: [], // {playerObj, amount} ...
+    goals: [], // {playerObj, amount} ...
     assist: [],
     cleanSheet: [],
     yellow: [],
@@ -101,10 +101,10 @@ const EffortForm = ({ adminContext, newResContext, role, ...props }) => {
         newMatch[role].players[pIndex].effort[key] = val;
 
         // update team goals
-        if (key === 'goal') {
+        if (key === 'goals') {
             newMatch[role].goals = 0;
             newMatch[role].players.forEach(p => {
-                newMatch[role].goals += parseInt(p.effort.goal);
+                newMatch[role].goals += parseInt(p.effort.goals);
             });
         }
 
