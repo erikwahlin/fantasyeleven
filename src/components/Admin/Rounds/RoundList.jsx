@@ -8,6 +8,8 @@ import Arrow from '../../../media/arrow.svg';
 
 import { clone } from '../../../constants/helperFuncs';
 
+import NewResultWrapper from '../NewResult';
+
 const Header = styled.div`
     width: 100%;
     margin: 10px;
@@ -68,6 +70,7 @@ const RoundContent = styled.div`
 
 const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => {
     const [open, setOpen] = useState(false);
+    const [resultMode, setResultMode] = useState(false);
 
     const toggleHandler = e => {
         setOpen(!open);
@@ -122,6 +125,17 @@ const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => 
                         <p>{active ? 'Aktiv' : 'Inaktiv'}</p>
                         <p>Säsong {round.season}</p>
                         <p>Omgångsnummer {round.round}</p>
+
+                        <div className="Matches">
+                            <ul style={{ listStyle: 'none' }}>
+                                <li>HEMMA - BORTA</li>
+                                {round.matches.map(match => (
+                                    <li>
+                                        {match.home.club} vs {match.away.club}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
 
                     <OptionContainer>
@@ -135,6 +149,17 @@ const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => 
                         </ToggleBtn>
                     </OptionContainer>
 
+                    {active && (
+                        <OptionContainer>
+                            <ToggleBtn
+                                onClick={() => setResultMode(true)}
+                                customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: orange;`}
+                            >
+                                {!resultMode ? 'Skapa resultat' : 'Stäng resultat'}
+                            </ToggleBtn>
+                        </OptionContainer>
+                    )}
+
                     <OptionContainer>
                         <ToggleBtn
                             onClick={() => setOpen(!open)}
@@ -143,6 +168,8 @@ const RoundItem = ({ round, settings, updateSettings, updateRound, active }) => 
                             Minimera
                         </ToggleBtn>
                     </OptionContainer>
+
+                    {resultMode && <NewResultWrapper round={round} />}
                 </RoundContent>
             </Wrapper>
         </div>

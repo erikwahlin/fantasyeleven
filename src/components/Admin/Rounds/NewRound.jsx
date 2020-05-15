@@ -1,16 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import apis from '../../../constants/api';
 
 import { withAdmin } from '../AdminState';
 
 import { clone, userMsg } from '../../../constants/helperFuncs';
 
-import { formTemplate } from '../template';
+import { formTemplate, wrapperTemplate } from '../template';
 
-import TeamPicker from './TeamPicker';
+import TeamPicker from './ClubPicker';
+
+import allClubs from '../../../constants/clubs';
+
+import { initialMatches } from '../../../constants/gamePreset';
+
+const { Wrapper } = wrapperTemplate;
 
 const { FormContainer, InputTemplate } = formTemplate;
+
+const ClubSelect = styled.select`
+    & > option {
+        color: red !important;
+    }
+`;
+
+const ClubWrapper = styled(Wrapper)`
+    justify-content: space-evenly;
+    & > * {
+        margin: 0 10px;
+    }
+`;
 
 const initialForm = {
     createdAt: '',
@@ -18,7 +37,7 @@ const initialForm = {
     alias: '',
     season: '',
     round: '',
-    matches: [],
+    matches: initialMatches(),
     active: false,
     result: null
 };
@@ -28,6 +47,7 @@ const NewRound = props => {
     const { createRound } = props.adminContext.setters;
 
     const [form, setForm] = useState(clone(initialForm));
+    const [takenClubs, setTakenClubs] = useState([]);
 
     const formReady = {
         createdAt: true,
@@ -36,9 +56,8 @@ const NewRound = props => {
         season: form.season.length,
         round: !isNaN(parseFloat(form.round)) && parseInt(form.round) > 0,
         matches: (() => {
-            const tenMatches = form.matches.length === 10;
-            const pickedClubs = form.matches.every(match => match.home.club && match.away.club);
-            return tenMatches && pickedClubs ? true : false;
+            const fullPick = form.matches.every(match => match.home.club && match.away.club);
+            return fullPick ? true : false;
         })(),
         active: true,
         result: true
@@ -75,6 +94,15 @@ const NewRound = props => {
         createRound(form, onSuccess);
     };
 
+    const trackTaken = club => {
+        let taken = false;
+        form.matches.forEach((match, nth) => {
+            if (match.home.club === club) taken = { index: nth, homeAway: 'home' };
+            if (match.away.club === club) taken = { index: nth, homeAway: 'away' };
+        });
+        return taken;
+    };
+
     const autosave = (key, val) => {
         const newForm = clone(form);
 
@@ -84,7 +112,42 @@ const NewRound = props => {
 
         newForm.updatedAt = Date.now();
 
-        setForm({ ...newForm });
+        setForm({ ...form, createdAt: Date.now(), updatedAt: Date.now(), [key]: val });
+    };
+
+    /* const saveMany = (newProps) => {
+        const newForm = clone(form);
+
+        newForm.createdAt = Date.now();
+
+        newForm.updatedAt = Date.now();
+
+        setForm({...form, ...newProps})
+    } */
+
+    const updateMatch = ({ index, homeAway, club }) => {
+        const newMatches = clone(form.matches);
+
+        const taken = trackTaken(club);
+
+        if (taken !== false) {
+            newMatches[taken.index][taken.homeAway].club = '';
+            console.log('cleaned up:', newMatches[taken.index][taken.homeAway].club);
+        }
+
+        if (club !== '') {
+            newMatches[index][homeAway].club = allClubs.filter(c => c.long === club)[0].long;
+        } else {
+            const clubToDrop = newMatches[index][homeAway].club;
+            takenClubs.splice(takenClubs.indexOf(clubToDrop), 1);
+            newMatches[index][homeAway].club = '';
+        }
+
+        autosave('matches', newMatches);
+
+        if (!taken) {
+            setTakenClubs([...takenClubs, club]);
+        }
     };
 
     return (
@@ -129,14 +192,6 @@ const NewRound = props => {
                     onSubmit={submit}
                 />
 
-                {/* <TeamPicker
-                    form={form}
-                    formKey="matches"
-                    autosave={autosave}
-                    ready={formReady.matches}
-                    onSubmit={submit}
-                /> */}
-
                 <InputTemplate
                     state={form}
                     stateKey="active"
@@ -147,6 +202,71 @@ const NewRound = props => {
                     ready={false}
                     onSubmit={submit}
                 />
+                <Wrapper customStyle={`flex-direction: row; flex-wrap: wrap;`}>
+                    {form.matches.map((match, nth) => (
+                        <ClubWrapper
+                            key={nth}
+                            className={`Match-${nth + 1}`}
+                            customStyle={`flex-direction: row; flex-wrap: wrap;`}
+                        >
+                            <p style={{ fontSize: '1em', color: 'grey' }}>Match {nth + 1}</p>
+
+                            <ClubSelect
+                                className="home"
+                                type="select"
+                                value={match.home.club}
+                                onChange={e =>
+                                    updateMatch({
+                                        index: nth,
+                                        homeAway: 'home',
+                                        club: e.target.value
+                                    })
+                                }
+                            >
+                                <option disabled value="">
+                                    - Hemma -
+                                </option>
+                                <option value="">(ta bort klubb)</option>
+                                {allClubs.map(club => (
+                                    <option
+                                        key={club.short}
+                                        value={club.long}
+                                        disabled={takenClubs.includes(club.long)}
+                                    >
+                                        {club.long}
+                                    </option>
+                                ))}
+                            </ClubSelect>
+
+                            <ClubSelect
+                                className="away"
+                                type="select"
+                                value={match.away.club}
+                                onChange={e =>
+                                    updateMatch({
+                                        index: nth,
+                                        homeAway: 'away',
+                                        club: e.target.value
+                                    })
+                                }
+                            >
+                                <option disabled value="">
+                                    - Borta -
+                                </option>
+                                <option value="">(ta bort klubb)</option>
+                                {allClubs.map(club => (
+                                    <option
+                                        key={club.short}
+                                        value={club.long}
+                                        disabled={takenClubs.includes(club.long)}
+                                    >
+                                        {club.long}
+                                    </option>
+                                ))}
+                            </ClubSelect>
+                        </ClubWrapper>
+                    ))}
+                </Wrapper>
             </FormContainer>
         </div>
     );

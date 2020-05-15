@@ -11,6 +11,12 @@ export const Wrapper = styled.div`
     /* margin: 0 auto 50px;
     margin-left:20px;   */
     margin: 0 auto;
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
 `;
 
 export const ContentWrapper = styled.div`

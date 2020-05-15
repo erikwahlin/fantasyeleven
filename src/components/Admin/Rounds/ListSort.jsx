@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TweenOne from 'rc-tween-one';
 import QueueAnim from 'rc-queue-anim';
 import PropTypes from 'prop-types';
+import allClubs from '../../../constants/clubs';
 
 function toArrayChildren(children) {
     const ret = [];
@@ -60,7 +61,7 @@ export default class ListSort extends React.Component {
         dragClassName: PropTypes.string,
         appearAnim: PropTypes.object,
         onEventChange: PropTypes.any,
-        callback: PropTypes.any
+        customcallback: PropTypes.any
     };
 
     static defaultProps = {
@@ -70,7 +71,7 @@ export default class ListSort extends React.Component {
         dragClassName: null,
         onEventChange: () => {},
         appearAnim: null,
-        callback: ''
+        customcallback: 'hoj'
     };
 
     constructor(props) {
@@ -339,6 +340,7 @@ export default class ListSort extends React.Component {
     };
 
     getChildren = (item, i) => {
+        //this.props.customcallback('callback test');
         const onMouseDown = this.onMouseDown.bind(this, i);
         const style = { ...this.state.childStyle[i] };
         return React.createElement(TweenOne, {
@@ -353,15 +355,27 @@ export default class ListSort extends React.Component {
     };
 
     sortArray = (_array, nextNum, num) => {
+        console.log('_ARR', _array);
         const current = _array[num];
-        const array = _array.map(item => item);
+        const array = _array.map((item, index) => {
+            return item;
+        });
         array.splice(num, 1);
         array.splice(nextNum, 0, current);
+
+        // return new sort
+        const callbackRes = _array.map((item, index) => ({
+            src: parseInt(array[index].key),
+            newPos: index,
+            club: allClubs[array[index].key]
+        }));
+
+        this.props.customcallback(callbackRes);
+
         return array;
     };
 
     render() {
-        console.log('listSTATE', this.state);
         const childrenToRender = toArrayChildren(this.state.children).map(this.getChildren);
         const props = { ...this.props };
         ['component', 'animType', 'dragClassName', 'appearAnim', 'onEventChange'].forEach(
