@@ -60,7 +60,7 @@ const PlayerName = styled.span`
             width: auto;
             box-shadow: 0px 0 2px #444;
             border-radius: 50%;
-            color:white;
+            color: white;
         }
     }
 
@@ -626,7 +626,7 @@ class Plupp extends Component {
                             <OptionsBtn
                                 className="OptionsBtn"
                                 player={player}
-                                onClick={() => this.setCap()}
+                                onClick={() => this.setCap('')}
                                 stageName={stageName}
                             >
                                 <Cap src={cap} alt="Captain" />
@@ -636,7 +636,7 @@ class Plupp extends Component {
                         {isViceCap && (
                             <OptionsBtn
                                 player={player}
-                                onClick={() => this.setCap('viceCaptain')}
+                                onClick={() => this.setCap('vice')}
                                 stageName={stageName}
                             >
                                 <Vcap src={ViceCap} alt="Vice Captain" />

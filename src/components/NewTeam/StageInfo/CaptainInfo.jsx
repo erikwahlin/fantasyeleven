@@ -9,13 +9,18 @@ import viceImg from '../../../media/ViceCap.svg';
 const CaptainInfo = ({ teamContext }) => {
     const { team } = teamContext.state;
     const { players, captain, viceCaptain } = team;
-
+    const findCaptain = (players, cap) => {
+        if (cap) return team.list.filter(player => player._id === cap);
+    };
+    console.log(findCaptain(players, captain));
+    const cap = findCaptain(players, viceCaptain);
+    console.log(cap);
     return (
         <Wrapper className="StageInfo">
             <Section className="Section">
                 <CaptainCard
                     role="captain"
-                    obj={captain}
+                    obj={findCaptain(players, captain)}
                     img={capImg}
                     className="CaptainCard captain"
                 />
@@ -24,7 +29,7 @@ const CaptainInfo = ({ teamContext }) => {
             <Section className="Section">
                 <CaptainCard
                     role="viceCaptain"
-                    obj={viceCaptain}
+                    obj={findCaptain(players, viceCaptain)}
                     img={viceImg}
                     className="CaptainCard viceCaptain"
                 />
