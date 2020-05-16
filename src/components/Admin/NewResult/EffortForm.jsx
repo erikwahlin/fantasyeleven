@@ -85,6 +85,7 @@ const EffortForm = ({ adminContext, newResContext, round, role, ...props }) => {
     const { rounds } = adminContext.state;
 
     console.log('round input id', round._id);
+
     const roundIndex = (() => {
         let res = null;
         rounds.forEach((r, nth) => {

@@ -180,7 +180,7 @@ const NewResultSteps = ({ newResContext, round }) => {
             {substepContent &&
                 substepContent({
                     stepInfo: stepInfo.substep[state.substep],
-                    round: round
+                    round
                 })}
 
             <div style={{ marginTop: '50px' }}>

@@ -46,10 +46,9 @@ const initialForm = {
     updatedAt: '',
     alias: '',
     season: '',
-    round: '',
+    number: '',
     matches: initialMatches(),
-    active: false,
-    result: null
+    active: false
 };
 
 const NewRound = props => {
@@ -59,19 +58,20 @@ const NewRound = props => {
     const [form, setForm] = useState(clone(initialForm));
     const [prevHome, setPrevHome] = useState(null);
     const [prevAway, setPrevAway] = useState(null);
+    const [prevClub, setPrevClub] = useState({ home: '', away: '' });
     const [takenClubs, setTakenClubs] = useState([]);
-    const [roundHidden, setRoundHidden] = useState(true);
+    const [newRoundHidden, setNewnewRoundHidden] = useState(true);
 
     const formReady = {
         createdAt: true,
         updatedAt: true,
         alias: form.alias.length && rounds.every(r => r.alias !== form.alias),
         season: form.season.length,
-        round: !isNaN(parseFloat(form.round)) && parseInt(form.round) > 0,
-        matches: (() => {
+        number: !isNaN(parseFloat(form.number)) && parseInt(form.number) > 0,
+        matches: true /* (() => {
             const fullPick = form.matches.every(match => match.home.club && match.away.club);
             return fullPick ? true : false;
-        })(),
+        })() */,
         active: true,
         result: true
     };
@@ -95,16 +95,19 @@ const NewRound = props => {
                 type: 'error',
                 dismiss: { duration: 2000 }
             });
+
             return invalidMsg.add();
         }
 
         e.preventDefault();
 
+        // on create success, clear form, hide new round form
         const onSuccess = () => {
             setForm(clone(initialForm));
+            setNewnewRoundHidden(!newRoundHidden);
         };
 
-        createRound(form, onSuccess);
+        createRound({ payload: form, onSuccess });
     };
 
     const trackTaken = club => {
@@ -138,47 +141,47 @@ const NewRound = props => {
         setForm({...form, ...newProps})
     } */
 
-    const updateMatch = ({ index, homeAway, club }) => {
+    const updateMatch = ({ index, side, club }) => {
         const newMatches = clone(form.matches);
-
         const taken = trackTaken(club);
+        console.log('club', club, 'taken', taken, 'prev', side);
 
-        if (taken !== false) {
-            newMatches[taken.index][taken.homeAway].club = '';
-            console.log('cleaned up:', newMatches[taken.index][taken.homeAway].club);
+        // if overwriting a prev club, remove prev club from taken arr
+        if (prevClub[side] !== '') {
+            takenClubs.splice(takenClubs.indexOf(prevClub[side]), 1);
         }
 
-        if (homeAway === 'home' && prevHome !== '') {
-            takenClubs.splice(takenClubs.indexOf(prevHome), 1);
-        }
-        if (homeAway === 'away' && prevHome !== '') {
-            takenClubs.splice(takenClubs.indexOf(prevHome), 1);
-        }
-
+        // add selected club/players to match
         if (club !== '') {
-            newMatches[index][homeAway].club = club;
-            newMatches[index][homeAway].players = players.filter(p => p.club === club);
-        } else {
-            newMatches[index][homeAway].club = '';
-            newMatches[index][homeAway].players = [];
+            newMatches[index][side].club = club;
+            newMatches[index][side].players = players.filter(p => p.club === club);
+
+            // add club/players to taken-arr
+
+            setTakenClubs([...takenClubs, club]);
+        }
+
+        // if new selected is empty, clear club/players
+        else {
+            newMatches[index][side].club = '';
+            newMatches[index][side].players = [];
         }
 
         autosave('matches', newMatches);
-
-        if (!taken) {
-            setTakenClubs([...takenClubs, club]);
-        }
     };
 
     return (
         <div>
             <div style={{ margin: '0', width: '100%', textAlign: 'center' }}>
-                <button onClick={() => setRoundHidden(!roundHidden)} style={{ outline: 'none' }}>
-                    {roundHidden ? 'Skapa ny omgång' : 'Stäng ny omgång'}
+                <button
+                    onClick={() => setNewnewRoundHidden(!newRoundHidden)}
+                    style={{ outline: 'none' }}
+                >
+                    {newRoundHidden ? 'Skapa ny omgång' : 'Stäng ny omgång'}
                 </button>
             </div>
 
-            <ToggleWrapper className="toggleWrapper" hidden={roundHidden}>
+            <ToggleWrapper className="toggleWrapper" hidden={newRoundHidden}>
                 <FormContainer
                     className="FormContainer"
                     title="Skapa en ny omgång"
@@ -210,12 +213,12 @@ const NewRound = props => {
 
                     <InputTemplate
                         state={form}
-                        stateKey="round"
+                        stateKey="number"
                         label="Omgångsnummer"
                         autosave={autosave}
                         type="number"
                         helper="Använd siffror"
-                        ready={formReady.round}
+                        ready={formReady.number}
                         onSubmit={submit}
                     />
 
@@ -242,14 +245,19 @@ const NewRound = props => {
                                 <p style={{ fontSize: '1em', color: 'grey' }}>Match {nth + 1}</p>
 
                                 <ClubSelect
-                                    onClick={e => setPrevHome(e.target.value)}
+                                    onClick={e =>
+                                        setPrevClub({ ...prevClub, home: e.target.value })
+                                    }
+                                    onKeyDown={e =>
+                                        setPrevClub({ ...prevClub, home: e.target.value })
+                                    }
                                     className="home"
                                     type="select"
                                     value={match.home.club}
                                     onChange={e =>
                                         updateMatch({
                                             index: nth,
-                                            homeAway: 'home',
+                                            side: 'home',
                                             club: e.target.value
                                         })
                                     }
@@ -270,14 +278,19 @@ const NewRound = props => {
                                 </ClubSelect>
 
                                 <ClubSelect
-                                    onClick={e => setPrevAway(e.target.value)}
+                                    onClick={e =>
+                                        setPrevClub({ ...prevClub, away: e.target.value })
+                                    }
+                                    onKeyDown={e =>
+                                        setPrevClub({ ...prevClub, away: e.target.value })
+                                    }
                                     className="away"
                                     type="select"
                                     value={match.away.club}
                                     onChange={e =>
                                         updateMatch({
                                             index: nth,
-                                            homeAway: 'away',
+                                            side: 'away',
                                             club: e.target.value
                                         })
                                     }
@@ -309,7 +322,7 @@ const NewRound = props => {
                             left: '15px',
                             outline: 'none'
                         }}
-                        onClick={() => setRoundHidden(!roundHidden)}
+                        onClick={() => setNewnewRoundHidden(!newRoundHidden)}
                     >
                         Stäng
                     </button>

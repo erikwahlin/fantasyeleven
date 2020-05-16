@@ -48,7 +48,7 @@ const apis = {
             : missingAction('update/put'),
 
     delete: ({ action, _id }) =>
-        action && _id ? api.post(`/${action}/${_id}`) : missingAction('delete')
+        action && _id ? api.delete(`/${action}/${_id}`) : missingAction('delete')
 };
 
 export default apis;
