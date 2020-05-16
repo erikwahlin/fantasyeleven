@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
@@ -24,135 +24,83 @@ import { clone, toSwe } from '../../../constants/helperFuncs';
 
 import effortColumns from './effortColumns';
 
-//const columns =
-
-/* [
-    {
-        title: 'Namn',
-        dataIndex: 'name',
-        key: 'name'
-    },
-    {
-        title: 'Position',
-        dataIndex: 'position',
-        key: 'position'
-    },
-    {
-        title: 'Mål',
-        dataIndex: 'goals',
-        key: 'goals',
-        render: goals => <><input type='number' value={goals}/></>
-    },
-    {
-        title: 'Rött',
-        key: 'red',
-        dataIndex: 'red',
-        render: checked => (
-            <>
-                <input type="checkbox" />
-            </>
-        )
-    }
-]; */
-
-/* 
-    goals: [], // {playerObj, amount} ...
-    assist: [],
-    cleanSheet: [],
-    yellow: [],
-    red: [],
-    penalyMiss: [],
-    penaltySave: [],
-    playtime: '60 min eller mer'
-     */
-
 const TableStyled = styled(Table)`
     width: 100%;
-    overflow-x: scroll;
 
-    & input {
-        outline: none;
+    & .ant-table {
+        overflow-x: scroll;
+        font-size: 12px;
     }
+
+    & .ant-table-thead > tr > th,
+    & .ant-table-tbody > tr > td {
+        text-align: left;
+        padding: 5px;
+        background: rgba(230, 230, 230, 1);
+        color: black;
+
+        & input,
+        & select {
+            outline: none;
+            border: none;
+            text-align: left;
+        }
+
+        & select {
+            padding: 0;
+        }
+    }
+
+    & .ant-table-column-sorters {
+        display: contents;
+    }
+
+    /* & tbody {
+        & td {
+        }
+
+        & th,
+        & td {
+            text-align: center;
+            padding: 5px;
+        }
+
+        color: black;
+
+        & input,
+        & select {
+            outline: none;
+            border: none;
+        }
+    } */
 `;
 
-// MISSING PLAYERS IN ADMINSTATE->rounds->matches->homeAway->players
-// need to put players there when creating round (picking clubs)
-const EffortForm = ({ adminContext, newResContext, round, role, ...props }) => {
+const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side, ...props }) => {
     const { matchUpdater } = newResContext.setters;
-    const { matches, step, substep } = newResContext.state;
+    const { newRes, step, substep } = newResContext.state;
+    const match = newRes[step];
+    const { club, players } = match[side];
+
+    console.log('side', side, 'club', club);
 
     const { updateRound } = adminContext.setters;
     const { rounds } = adminContext.state;
+    const round = rounds[roundIndex];
 
-    console.log('round input id', round._id);
-
-    const roundIndex = (() => {
-        let res = null;
-        rounds.forEach((r, nth) => {
-            console.log('rounds loop', r._id);
-
-            if (r._id === round._id) res = nth;
-        });
-        return res;
-    })();
-
-    console.log('round index', roundIndex);
-    const match = rounds[roundIndex].matches[step];
-    const { club, players } = match[role];
-
-    const updatePlayer = ({ player, key, val }) => {
-        const newMatch = clone(match);
-
-        const findIndex = () => {
-            let index = -1;
-            newMatch[role].players.forEach((p, nth) => {
-                if (p._id === player._id) {
-                    index = nth;
-                }
-            });
-            return index;
-        };
-
-        const pIndex = findIndex();
-
-        if (pIndex < 0) return console.log('could not find player to update');
-
-        newMatch[role].players[pIndex].effort[key] = val;
-
-        // update team goals
-        if (key === 'goals') {
-            newMatch[role].goals = 0;
-            newMatch[role].players.forEach(p => {
-                newMatch[role].goals += parseInt(p.effort.goals);
-            });
+    const orderRules = {
+        position: {
+            Goalkeeper: 1,
+            Defender: 2,
+            Midfielder: 3,
+            Forward: 4
         }
-
-        const newRound = clone(round);
-        newRound[roundIndex].matches[step] = newMatch;
-
-        console.log('NEW ROUND', newRound);
-        //updateRound(newRound)
     };
 
-    const columns = effortColumns({ setters: { updatePlayer } });
-
-    columns.unshift({
-        title: 'position',
-        dataIndex: 'position',
-        key: 'position'
-    });
-
-    columns.unshift({
-        title: 'namn',
-        dataIndex: 'name',
-        key: 'name'
-    });
-
-    const data = match[role].players.map((p, nth) => {
+    const data = match[side].players.map((p, nth) => {
         const res = {
             key: nth + 1,
             name: p.name,
-            position: p.position
+            position: toSwe(p.position, 'positions')
         };
         Object.keys(p.effort).forEach(key => {
             if (key === 'fulltime' || key === 'parttime') {
@@ -164,15 +112,47 @@ const EffortForm = ({ adminContext, newResContext, round, role, ...props }) => {
         return res;
     });
 
-    return (
-        <Wrapper className="Effort Outer unmarkable">
-            <h3>{club}'s prestationer</h3>
+    const updatePlayer = ({ player, key, val }) => {
+        const newMatch = clone(match);
 
-            <Wrapper className="Effort Inner unmarkable">
+        const pIndex = (() => {
+            let index = -1;
+            newMatch[side].players.forEach((p, nth) => {
+                if (p._id === player._id) {
+                    index = nth;
+                }
+            });
+            return index;
+        })();
+
+        if (pIndex < 0) return console.log('could not find player to update');
+
+        newMatch[side].players[pIndex].effort[key] = val;
+
+        // update team goals
+        if (key === 'goals') {
+            newMatch[side].goals = 0;
+            newMatch[side].players.forEach(p => {
+                newMatch[side].goals += parseInt(p.effort.goals);
+            });
+        }
+
+        matchUpdater(newMatch);
+    };
+
+    const columns = effortColumns({ setters: { updatePlayer } });
+
+    return (
+        <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">
+            <h3>{club}</h3>
+
+            <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
                 <TableStyled
                     className="EffortForm unmarkable"
                     columns={columns}
                     dataSource={data}
+                    pagination={{ position: ['topCenter', 'bottomCenter'], pageSize: 50 }}
+                    scroll={{ y: 240 }}
                 />
             </Wrapper>
         </Wrapper>

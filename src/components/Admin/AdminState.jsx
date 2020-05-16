@@ -238,7 +238,7 @@ class AdminState extends Component {
             });
     };
 
-    updateRound = newRound => {
+    updateRound = (newRound, onSuccess) => {
         if (!this.state.user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
@@ -263,8 +263,10 @@ class AdminState extends Component {
                     this.readRounds();
 
                     if (conf) {
-                        updateMsg('Omgång uppdaterad').add();
+                        updateMsg('Omgång uppdaterad', 1000).add();
                     }
+
+                    if (typeof onSuccess === 'function') onSuccess();
                 })
                 .catch(err => {
                     console.log('err when updating round', err);
@@ -388,6 +390,8 @@ class AdminState extends Component {
                 const players = res.data.data;
 
                 this.setState({ players });
+
+                window.players = players;
             })
             .catch(err => {
                 // if db unavailable, load from client

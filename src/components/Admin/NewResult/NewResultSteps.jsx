@@ -9,11 +9,10 @@ import { userMsg, clone } from '../../../constants/helperFuncs';
 import ResultForm from '../Result/ResultForm';
 import ResultList from '../Result/ResultList';
 
+import { withAdmin } from '../AdminState';
 import { withNewRes } from './NewResState';
 import ClubForm from './ClubForm';
 import EffortForm from './EffortForm';
-
-import { withAdmin } from '../AdminState';
 
 import allClubs from '../../../constants/clubs';
 
@@ -47,8 +46,8 @@ const stepInfo = {
     substep: [
         {
             name: 'homeEffort',
-            label: 'Prestationer hemmalag',
-            content: props => <EffortForm role="home" {...props} />,
+            label: 'Hemmalag',
+            content: props => <EffortForm side="home" {...props} />,
             ready: match => true,
             parent: 'match'
 
@@ -56,8 +55,8 @@ const stepInfo = {
         },
         {
             name: 'homeEffort',
-            label: 'Prestationer bortalag',
-            content: props => <EffortForm role="away" {...props} />,
+            label: 'Bortalag',
+            content: props => <EffortForm side="away" {...props} />,
             ready: match => true,
             parent: 'match'
         }
@@ -81,12 +80,33 @@ const ResultStep = styled(Step)`
     ${p => p.hidden && 'display: none'};
 `;
 
-const NewResultSteps = ({ newResContext, round }) => {
-    const { stepUpdater } = newResContext.setters;
-    const { state } = newResContext;
+const SaveBtn = styled.button`
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    box-shadow: 0 0 10px black;
+    font-size: 14px;
+    background: white;
+    font-weight: 700;
+    border-radius: 50%;
+    outline: none;
+    width: 65px;
+    height: 65px;
+    z-index: 1;
+    color: ${p => (p.saved ? 'green' : 'black')};
+`;
 
-    const { matches, step, substep } = state;
+const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
+    const { state } = newResContext;
+    const { step, substep, saved } = state;
+    const { stepUpdater, saveRes } = newResContext.setters;
+
+    const { rounds } = adminContext.state;
+    const round = rounds[roundIndex];
+    const { matches } = round;
     const match = matches[step];
+
+    const { updateRound } = adminContext.setters;
 
     const stepContent = stepInfo.step[state.step].content;
     const substepContent =
@@ -143,8 +163,11 @@ const NewResultSteps = ({ newResContext, round }) => {
     };
 
     return (
-        <Wrapper className="NewResult Wrapper unmarkable">
-            <h2>SKAPA NYTT RESULTAT</h2>
+        <Wrapper
+            className="NewResult Wrapper unmarkable"
+            customStyle="margin: 50px 0; width: 100%; position: relative;"
+        >
+            <h2>RESULTAT FÖR OMGÅNG {round.alias}</h2>
 
             <StepContainer progressDot current={state.step}>
                 {Object.values(stepInfo.step).map((step, nth) => {
@@ -171,6 +194,7 @@ const NewResultSteps = ({ newResContext, round }) => {
             </Steps>
 
             {stepInfo.substep[state.substep].label.toUpperCase()}
+            <p>Match {state.step + 1}</p>
 
             {stepContent &&
                 stepContent({
@@ -180,10 +204,14 @@ const NewResultSteps = ({ newResContext, round }) => {
             {substepContent &&
                 substepContent({
                     stepInfo: stepInfo.substep[state.substep],
-                    round
+                    roundIndex,
+                    matchIndex: step
                 })}
 
-            <div style={{ marginTop: '50px' }}>
+            <SaveBtn className="saveBtn" onClick={saveRes} saved={saved}>
+                {saved ? 'sparat' : 'osparat'}
+            </SaveBtn>
+            <div className="stepNav" style={{ marginTop: '50px' }}>
                 <button
                     disabled={state.step === 0 && state.substep === 0}
                     onClick={() => takeSubstep(-1)}

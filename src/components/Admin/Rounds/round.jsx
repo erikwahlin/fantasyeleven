@@ -147,7 +147,8 @@ const Round = ({ adminContext, roundIndex, active }) => {
                                 <li>HEMMA - BORTA</li>
                                 {round.matches.map(match => (
                                     <li key={match.id}>
-                                        {match.home.club} vs {match.away.club}
+                                        {match.home.club} {match.home.goals} - {match.away.goals}{' '}
+                                        {match.away.club}
                                     </li>
                                 ))}
                             </ul>
@@ -181,10 +182,10 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         {active && (
                             <OptionContainer>
                                 <ToggleBtn
-                                    onClick={() => setResultMode(true)}
+                                    onClick={() => setResultMode(!resultMode)}
                                     customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: orange;`}
                                 >
-                                    {!resultMode ? 'Skapa resultat' : 'Stäng resultat'}
+                                    {!resultMode ? 'Ändra resultat' : 'Stäng resultat'}
                                 </ToggleBtn>
                             </OptionContainer>
                         )}
@@ -199,7 +200,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         </OptionContainer>
                     </div>
 
-                    {resultMode && <NewResult round={round} />}
+                    {resultMode && <NewResult roundIndex={roundIndex} />}
                 </RoundContent>
             </Wrapper>
         </div>

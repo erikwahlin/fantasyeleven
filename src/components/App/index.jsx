@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { ConfigProvider } from 'antd';
+import svSe from 'antd/es/locale/sv_SE';
+
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -115,22 +118,24 @@ const App = () => (
                 <p>Rotate that shit</p>
             </LandscapeMode>
 
-            <AppContainer className="App">
-                <Route exact path={ROUTES.LANDING} component={LandingPage} />
-                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            <ConfigProvider locale={svSe}>
+                <AppContainer className="App">
+                    <Route exact path={ROUTES.LANDING} component={LandingPage} />
+                    <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+                    <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                    <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
 
-                <Route path={'/home'} exact component={HomePage} />
+                    <Route path={'/home'} exact component={HomePage} />
 
-                {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
-                <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
+                    {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
+                    <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
-                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-                <Route path={ROUTES.ADMIN} component={AdminPage} />
+                    <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                    <Route path={ROUTES.ADMIN} component={AdminPage} />
 
-                <Route path={ROUTES.ABOUT} component={About} />
-            </AppContainer>
+                    <Route path={ROUTES.ABOUT} component={About} />
+                </AppContainer>
+            </ConfigProvider>
         </>
     </Router>
 );

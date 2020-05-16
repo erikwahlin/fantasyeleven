@@ -1,3 +1,7 @@
+/*
+ *
+ * TO SWE
+ *********** */
 export const positions = {
     Goalkeeper: {
         sing: 'Målvakt',
@@ -40,7 +44,7 @@ export const stages = {
     }
 };
 
-export const effort = {
+export const efforts = {
     goals: { sing: 'mål', plur: 'mål' },
     assists: { sing: 'assist', plur: 'assister' },
     cleanSheets: { sing: 'höll nollan', plur: 'höll nollorna' },
@@ -51,9 +55,26 @@ export const effort = {
     playtime: { sing: 'speltid', plur: 'speltider' }
 };
 
+/*
+ *
+ * TO ENG
+ *********** */
 export const positioner = {
+    Målvakt: { sing: 'Goalkeeper', plur: 'Goalkeepers' },
+
     Målvakter: { sing: 'Goalkeeper', plur: 'Goalkeepers' },
     Försvarare: { sing: 'Defender', plur: 'Defenders' },
     Mittfältare: { sing: 'Midfielder', plur: 'Midfielders' },
     Anfallare: { sing: 'Forward', plur: 'Forwards' }
+};
+
+export const prestationer = {
+    mål: { sing: 'goal', plur: 'goals' },
+    assister: { sing: 'assist', plur: 'assists' },
+    'höll nollan': { sing: 'cleanSheet', plur: 'cleanSheets' },
+    gula: { sing: 'yellow', plur: 'yellows' },
+    rött: { sing: 'red', plur: 'reds' },
+    straffmissar: { sing: 'penaltyMiss', plur: 'penaltyMisses' },
+    straffräddningar: { sing: 'penaltySave', plur: 'penaltySaves' },
+    speltid: { sing: 'playetime', plur: 'playtimes' }
 };
