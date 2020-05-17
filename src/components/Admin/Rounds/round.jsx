@@ -112,7 +112,10 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
     const [open, setOpen] = useState(false);
-    const [resultMode, setResultMode] = useState(false);
+    const [resultOpen, setResultOpen] = useState(false);
+    const closeResult = () => {
+        setResultOpen(false);
+    };
 
     const toggleHandler = e => {
         setOpen(!open);
@@ -259,11 +262,11 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             </ButtonStandard>
                         </CustomTooltip>
 
-                        {!resultMode && (
+                        {!resultOpen && (
                             <CustomTooltip title="Visa/ändra resultat" placement="top">
                                 <ButtonStandard
                                     type="primary"
-                                    onClick={() => setResultMode(!resultMode)}
+                                    onClick={() => setResultOpen(!resultOpen)}
                                 >
                                     Resultat
                                 </ButtonStandard>
@@ -275,7 +278,9 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         </ButtonStandard>
                     </OptionsWrapper>
 
-                    {resultMode && <Result roundIndex={roundIndex} />}
+                    {resultOpen && (
+                        <Result roundIndex={roundIndex} closeResult={() => setResultOpen(false)} />
+                    )}
                 </RoundContent>
             </Wrapper>
         </div>

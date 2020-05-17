@@ -39,30 +39,11 @@ const TableStyled = styled(Table)`
     & .ant-table-column-sorters {
         display: contents;
     }
-
-    /* & tbody {
-        & td {
-        }
-
-        & th,
-        & td {
-            text-align: center;
-            padding: 5px;
-        }
-
-        color: black;
-
-        & input,
-        & select {
-            outline: none;
-            border: none;
-        }
-    } */
 `;
 
-const InputTable = ({ adminContext, newResContext, roundIndex, matchIndex, side, ...props }) => {
-    const { matchUpdater } = newResContext.setters;
-    const { newRes, step, substep } = newResContext.state;
+const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side, ...props }) => {
+    const { matchUpdater } = resultContext.setters;
+    const { newRes, step, substep } = resultContext.state;
     const match = newRes[step];
     const { club, players } = match[side];
 

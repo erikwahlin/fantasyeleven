@@ -77,6 +77,6 @@ export default withAdmin(ResultState);
 
 export const withResult = Component => props => (
     <NewResContext.Consumer>
-        {NewResult => <Component {...props} newResContext={NewResult} />}
+        {NewResult => <Component {...props} resultContext={NewResult} />}
     </NewResContext.Consumer>
 );
