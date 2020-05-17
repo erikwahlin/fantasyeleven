@@ -8,10 +8,10 @@ import Arrow from '../../../media/arrow.svg';
 
 import { clone } from '../../../constants/helperFuncs';
 
-import NewResult from '../NewResult';
-import { ButtonStandard, SaveBtn } from '../template/TemplateElems';
+import Result from '../Result';
+import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
 
-import { Table, Card, Col, Row } from 'antd';
+import { Table, Card, Tooltip } from 'antd';
 const { Column, ColumnGroup } = Table;
 
 const Header = styled.div`
@@ -63,6 +63,10 @@ const InfoCard = styled(Card)`
 
     & p {
         font-size: 16px;
+
+        & > span {
+            font-weight: 700;
+        }
     }
 `;
 
@@ -103,11 +107,15 @@ const OptionContainer = styled.div`
 
 const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
+    const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
     const [open, setOpen] = useState(false);
-    const [resultMode, setResultMode] = useState(false);
+    const [resultOpen, setResultOpen] = useState(false);
+    const closeResult = () => {
+        setResultOpen(false);
+    };
 
     const toggleHandler = e => {
         setOpen(!open);
@@ -155,6 +163,13 @@ const Round = ({ adminContext, roundIndex, active }) => {
         awayTeam: match.away.club
     }));
 
+    // TEMP 'til we got functionality for ended round
+    const roundClosed = false;
+
+    const statuses = ['Inaktiv', 'Aktiv i spel', 'Färdigspelad'];
+
+    const roundStatus = roundClosed ? statuses[2] : active ? statuses[1] : statuses[0];
+
     return (
         <div className="Result">
             <Wrapper className="Result" customStyle="margin: 10px auto;">
@@ -186,10 +201,25 @@ const Round = ({ adminContext, roundIndex, active }) => {
                 <RoundContent className="RoundContent" open={open}>
                     <Wrapper>
                         <InfoCard title="INFO" bordered={false}>
-                            <p>Alias {round.alias}</p>
-                            <p>Säsong {round.season}</p>
-                            <p>Omgångsnummer {round.number}</p>
-                            <p>Aktiv? {active ? 'JA!' : 'NEJ'}</p>
+                            <p>
+                                Alias <span>{round.alias.toUpperCase()}</span>
+                            </p>
+                            <p>
+                                Säsong <span>{round.season.toUpperCase()}</span>
+                            </p>
+                            <p>
+                                Omgångsnummer <span>{round.number}</span>
+                            </p>
+                            <CustomTooltip
+                                title={`INAKTIV = påverkar inte spelet.
+                                    AKTIV = användare lämnar in lag till denna omgång.
+                                    FÄRDIGSPELAD = Poäng har utdelats, omgången är över.`}
+                                placement="bottom"
+                            >
+                                <p>
+                                    Status <span>{roundStatus.toUpperCase()}</span>
+                                </p>
+                            </CustomTooltip>
                         </InfoCard>
 
                         <MatchTable
@@ -203,43 +233,44 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             <Column title="" dataIndex="awayGoals" key="awayGoals" />
                             <Column title="BORTA" dataIndex="awayTeam" key="awayTeam" />
                         </MatchTable>
-
-                        {/* <div className="Matches">
-                            <ul style={{ listStyle: 'none' }}>
-                                <li>HEMMA - BORTA</li>
-                                {round.matches.map(match => (
-                                    <li key={match.id}>
-                                        {match.home.club} {match.home.goals} - {match.away.goals}{' '}
-                                        {match.away.club}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div> */}
                     </Wrapper>
 
                     <OptionsWrapper
                         className="Options"
                         style={{ width: '100%', height: 'fit-content', display: 'flex' }}
                     >
-                        <ButtonStandard
-                            type="primary"
-                            onClick={() => delHandler()}
-                            customstyle="color: red;"
-                        >
-                            Radera
-                        </ButtonStandard>
-
-                        <ButtonStandard type="primary" onClick={() => setActive(!active)}>
-                            {!active ? 'Aktivera' : 'Inaktivera'}
-                        </ButtonStandard>
-
-                        {!resultMode && (
+                        <CustomTooltip title="Radera omgång">
                             <ButtonStandard
                                 type="primary"
-                                onClick={() => setResultMode(!resultMode)}
+                                onClick={() => delHandler()}
+                                customstyle="color: red;"
                             >
-                                Resultat
+                                Radera
                             </ButtonStandard>
+                        </CustomTooltip>
+
+                        <CustomTooltip
+                            condition={!active && !noneIsActive}
+                            title="Avaktivera andra omgångar först"
+                        >
+                            <ButtonStandard
+                                type="primary"
+                                onClick={() => setActive(!active)}
+                                disabled={!active && !noneIsActive}
+                            >
+                                {!active ? 'Aktivera' : 'Inaktivera'}
+                            </ButtonStandard>
+                        </CustomTooltip>
+
+                        {!resultOpen && (
+                            <CustomTooltip title="Visa/ändra resultat" placement="top">
+                                <ButtonStandard
+                                    type="primary"
+                                    onClick={() => setResultOpen(!resultOpen)}
+                                >
+                                    Resultat
+                                </ButtonStandard>
+                            </CustomTooltip>
                         )}
 
                         <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
@@ -247,7 +278,9 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         </ButtonStandard>
                     </OptionsWrapper>
 
-                    {resultMode && <NewResult roundIndex={roundIndex} />}
+                    {resultOpen && (
+                        <Result roundIndex={roundIndex} closeResult={() => setResultOpen(false)} />
+                    )}
                 </RoundContent>
             </Wrapper>
         </div>

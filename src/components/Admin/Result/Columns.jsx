@@ -10,12 +10,12 @@ import {
 const createCol = ({ col, setters }) => {
     const { updatePlayer, setOrderBy } = setters;
 
-    const wordForm = col === 'cleanSheets' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
+    const wordForm = col === 'cleanSheet' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
 
     const width = {
         goals: 50,
         assists: 70,
-        cleanSheets: 100,
+        cleanSheet: 100,
         yellows: 55,
         red: 60,
         penaltyMisses: 100,
@@ -31,7 +31,7 @@ const createCol = ({ col, setters }) => {
         align: 'left'
     };
 
-    if (col === 'cleanSheets' || col === 'red') {
+    if (col === 'cleanSheet' || col === 'red') {
         res.render = input => (
             <>
                 <input
@@ -44,6 +44,7 @@ const createCol = ({ col, setters }) => {
                             val: e.target.checked
                         })
                     }
+                    disabled={col === 'cleanSheet'}
                 />
             </>
         );
@@ -112,7 +113,7 @@ const createCol = ({ col, setters }) => {
     return res;
 };
 
-const effortColumns = ({ setters }) => {
+const Columns = ({ setters }) => {
     const columns = Object.keys(initialEffort).map(col => createCol({ col, setters }));
 
     columns.unshift({
@@ -150,4 +151,4 @@ const effortColumns = ({ setters }) => {
     return columns;
 };
 
-export default effortColumns;
+export default Columns;

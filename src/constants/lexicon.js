@@ -47,7 +47,7 @@ export const stages = {
 export const efforts = {
     goals: { sing: 'mål', plur: 'mål' },
     assists: { sing: 'assist', plur: 'assister' },
-    cleanSheets: { sing: 'höll nollan', plur: 'höll nollorna' },
+    cleanSheet: { sing: 'höll nollan', plur: 'höll nollorna' },
     yellows: { sing: 'gult', plur: 'gula' },
     red: { sing: 'rött', plur: 'röda' },
     penaltyMisses: { sing: 'straffmiss', plur: 'straffmissar' },

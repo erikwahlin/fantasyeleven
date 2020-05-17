@@ -1,9 +1,6 @@
 import React, { Component, createContext } from 'react';
-import apis from '../../../constants/api';
 import { withAdmin } from '../AdminState';
-import { getPlayers } from '../../../constants/players';
-import { clone, userMsg } from '../../../constants/helperFuncs';
-import { initialMatches } from '../../../constants/gamePreset';
+import { userMsg } from '../../../constants/helperFuncs';
 
 const NewResContext = createContext(null);
 
@@ -13,7 +10,7 @@ const errMsg = userMsg({
     type: 'error'
 });
 
-class NewResState extends Component {
+class ResultState extends Component {
     constructor(props) {
         super(props);
 
@@ -76,10 +73,10 @@ class NewResState extends Component {
     }
 }
 
-export default withAdmin(NewResState);
+export default withAdmin(ResultState);
 
-export const withNewRes = Component => props => (
+export const withResult = Component => props => (
     <NewResContext.Consumer>
-        {NewResult => <Component {...props} newResContext={NewResult} />}
+        {NewResult => <Component {...props} resultContext={NewResult} />}
     </NewResContext.Consumer>
 );

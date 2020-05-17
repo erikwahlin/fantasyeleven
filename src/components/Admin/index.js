@@ -9,7 +9,7 @@ import { withAuthorization } from '../Session';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { afterWinResize } from '../../constants/helperFuncs';
-import Result from './Result';
+import Result from './Result_old';
 import AwardForm from './AwardForm';
 import Players from './Players';
 import { BarChartOutlined } from '@ant-design/icons';

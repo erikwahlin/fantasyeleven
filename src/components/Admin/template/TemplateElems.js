@@ -1,15 +1,24 @@
-import { Button } from 'antd';
+import React from 'react';
+import { Button, Tooltip } from 'antd';
 import styled, { css } from 'styled-components';
 
 export const ButtonStandard = styled(Button)`
     outline: none;
     border: none;
+    width: fit-content;
     min-width: 75px;
     margin: 0 10px;
     transition: 200ms;
 
     background: ${p => (p.disabled ? 'whitesmoke' : 'white')};
     color: ${p => (p.disabled ? 'grey' : 'black')};
+
+    ${p =>
+        p.htmlType === 'submit' &&
+        css`
+            align-self: center;
+            margin: 20px 0;
+        `}
 
     ${p =>
         p.customstyle &&
@@ -39,3 +48,33 @@ export const SaveBtn = styled.button`
             ${p.customstyle}
         `}
 `;
+
+const TooltipStyled = styled(Tooltip)`
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
+`;
+
+export const CustomTooltip = ({
+    condition = true,
+    title,
+    placement = 'top',
+    customStyle,
+    children
+}) => (
+    <>
+        {condition ? (
+            <TooltipStyled
+                placement={placement}
+                customStyle={customStyle}
+                title={typeof title === 'string' ? <span>{title}</span> : null}
+            >
+                {children}
+            </TooltipStyled>
+        ) : (
+            <>{children}</>
+        )}
+    </>
+);

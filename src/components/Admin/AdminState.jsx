@@ -4,6 +4,7 @@ import apis from '../../constants/api';
 import { getPlayers } from '../../constants/players';
 import { clone, userMsg } from '../../constants/helperFuncs';
 import { compose } from 'recompose';
+import { typeOf } from 'react-notifications-component/dist/js/react-notifications.dev';
 
 const AdminContext = createContext(null);
 
@@ -125,7 +126,7 @@ class AdminState extends Component {
         this.setState(ps => ({ ...ps, [key]: val }));
     };
 
-    readSettings = async () => {
+    readSettings = async callback => {
         await apis
             .read({ action: 'readSettings' })
             .then(res => {
@@ -137,7 +138,9 @@ class AdminState extends Component {
                         activeRound: res.data.data.activeRound || {}
                     };
 
-                    this.setState({ settings });
+                    this.setState({ settings }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
                 }
             })
             .catch(err => {
@@ -164,7 +167,7 @@ class AdminState extends Component {
             });
     };
 
-    readRounds = async onSuccess => {
+    readRounds = async callback => {
         if (!this.state.user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
@@ -173,7 +176,9 @@ class AdminState extends Component {
             .read({ action: 'readRounds' })
             .then(res => {
                 if (res.status <= 200) {
-                    this.setState({ rounds: res.data.data.reverse() });
+                    this.setState({ rounds: res.data.data.reverse() }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
                 } else {
                     console.log('No rounds found.');
                 }
@@ -224,7 +229,24 @@ class AdminState extends Component {
                 if (res.status <= 200) {
                     conf.add();
 
-                    this.readRounds();
+                    if (payload.active) {
+                        this.updateSettings(
+                            {
+                                key: 'activeRound',
+                                val: {
+                                    _id: res.data.data._id,
+                                    alias: payload.alias,
+                                    season: payload.season,
+                                    number: payload.number
+                                }
+                            },
+                            () => {
+                                this.readSettings(() => {
+                                    this.readRounds();
+                                });
+                            }
+                        );
+                    }
 
                     if (typeof onSuccess === 'function') return onSuccess();
                 } else {
@@ -305,7 +327,7 @@ class AdminState extends Component {
                 if (payload._id === this.state.settings.activeRound._id) {
                     this.updateSettings({
                         key: 'activeRound',
-                        val: clone(initialState.settings.activeRound)
+                        val: {}
                     });
                 }
             })

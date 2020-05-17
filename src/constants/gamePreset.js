@@ -47,7 +47,7 @@ export const playtimeOptions = [
 export const initialEffort = {
     goals: 0,
     assists: 0,
-    cleanSheets: false,
+    cleanSheet: false,
     yellows: 0,
     red: false,
     penaltyMisses: 0,

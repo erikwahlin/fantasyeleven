@@ -6,6 +6,8 @@ import { InputNumber } from 'antd';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FcCheckmark } from 'react-icons/fc';
 
+import { ButtonStandard } from './TemplateElems';
+
 /* import DropDown from 'react-dropdown'; */
 /* import '../Players/dropdown_admin.css'; */
 
@@ -20,6 +22,7 @@ import {
 import Arrow from '../../../media/arrow.svg';
 
 import { ArrowWrapper } from '../Players/style';
+import { CustomTooltip } from './TemplateElems';
 
 export const FormTitle = styled.h1`
     text-align: center;
@@ -131,7 +134,7 @@ export const Helper = styled.label`
     opacity: 0.6;
 `;
 
-export const Submit = styled.input`
+export const Submit = styled(ButtonStandard)`
     width: 100%;
     height: 100%;
     padding: 10px 20px;
@@ -206,16 +209,18 @@ export const InputTemplate = ({
 
     return (
         <Field className="InputContainer">
-            <Input
-                {...props}
-                type={type}
-                value={value}
-                className={`form-input`}
-                onChange={e => {
-                    autosave(stateKey, type === 'checkbox' ? e.target.checked : e.target.value);
-                }}
-                onKeyDown={keyHandler}
-            />
+            <CustomTooltip title={helper} placement="left">
+                <Input
+                    {...props}
+                    type={type}
+                    value={value}
+                    className={`form-input`}
+                    onChange={e => {
+                        autosave(stateKey, type === 'checkbox' ? e.target.checked : e.target.value);
+                    }}
+                    onKeyDown={keyHandler}
+                />
+            </CustomTooltip>
 
             {type === 'number' && (
                 <NumberTicks className="NumberTicks">
@@ -249,31 +254,25 @@ export const FormContainer = ({
     };
 
     return (
-        <Wrapper className="Wrapper form">
+        <Wrapper className="Wrapper form" customStyle="height: auto;">
             <FormTitle className="FormTitle">{title}</FormTitle>
             <Form onSubmit={onSubmit} className="Form">
                 {children}
 
-                <UnderlayContainer className="UnderlayContainer submit" onClick={submitHandler}>
-                    <Submit
-                        className="Submit"
-                        disabled={!ready}
-                        type="submit"
-                        value={submitVal}
-                        disabled={submitDisabled}
-                    ></Submit>
-
-                    <Underlay
-                        className="underlay"
-                        boxShadow="-6px -6px 7px -8px #000"
-                        opacity="1"
-                    />
-
-                    <Underlay
-                        className="underlay appearOnClick"
-                        boxShadow="inset 8px 8px 6px -10px #000"
-                    />
-                </UnderlayContainer>
+                {/* <Wrapper
+                    className="UnderlayContainer submit"
+                    onClick={submitHandler}
+                    customStyle="height:fit-content; width: 100%;"
+                > */}
+                {/* <ButtonStandard
+                    className="Submit"
+                    disabled={!ready}
+                    type="primary"
+                    htmlType="submit"
+                    disabled={submitDisabled}
+                >
+                    {submitVal}
+                </ButtonStandard> */}
             </Form>
         </Wrapper>
     );

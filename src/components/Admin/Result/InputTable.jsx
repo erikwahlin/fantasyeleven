@@ -1,28 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
-import { withNewRes } from './NewResState';
+import { withResult } from './ResultState';
 import { Wrapper } from '../template/wrapperTemplate';
 
-import {
-    Form,
-    Input,
-    Button,
-    Radio,
-    Select,
-    Cascader,
-    DatePicker,
-    InputNumber,
-    TreeSelect,
-    Switch,
-    Table,
-    Tag,
-    Space
-} from 'antd';
+import { Table } from 'antd';
 import { clone, toSwe } from '../../../constants/helperFuncs';
 
-import effortColumns from './effortColumns';
+import Columns from './Columns';
 
 const TableStyled = styled(Table)`
     width: 100%;
@@ -54,30 +39,11 @@ const TableStyled = styled(Table)`
     & .ant-table-column-sorters {
         display: contents;
     }
-
-    /* & tbody {
-        & td {
-        }
-
-        & th,
-        & td {
-            text-align: center;
-            padding: 5px;
-        }
-
-        color: black;
-
-        & input,
-        & select {
-            outline: none;
-            border: none;
-        }
-    } */
 `;
 
-const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side, ...props }) => {
-    const { matchUpdater } = newResContext.setters;
-    const { newRes, step, substep } = newResContext.state;
+const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side, ...props }) => {
+    const { matchUpdater } = resultContext.setters;
+    const { newRes, step, substep } = resultContext.state;
     const match = newRes[step];
     const { club, players } = match[side];
 
@@ -137,10 +103,12 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
             });
         }
 
+        console.log('new match', newMatch);
+
         matchUpdater(newMatch);
     };
 
-    const columns = effortColumns({ setters: { updatePlayer } });
+    const columns = Columns({ setters: { updatePlayer } });
 
     return (
         <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">
@@ -148,7 +116,7 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
 
             <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
                 <TableStyled
-                    className="EffortForm unmarkable"
+                    className="InputTable unmarkable"
                     columns={columns}
                     dataSource={data}
                     pagination={{ position: ['bottomCenter'], pageSize: 100 }}
@@ -159,4 +127,4 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
     );
 };
 
-export default withAdmin(withNewRes(EffortForm));
+export default withAdmin(withResult(InputTable));
