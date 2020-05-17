@@ -15,7 +15,7 @@ import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import About from '../About';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -87,9 +87,9 @@ const PhoneOuter = styled.div`
 
 const AppContainer = styled.div`
     @media all and (max-width: 899px) {
-        width: 100vw;
+        width: ${p => (p.route === '/admin' ? '100%' : '100vw')};
         /* height: 100vh; */
-        overflow: hidden;
+        overflow: ${p => (p.route === '/admin' ? 'visible' : 'hidden')};
     }
     @media all and (max-width: 899px) {
         height: auto;
@@ -106,6 +106,8 @@ const NotifContainer = styled(ReactNotification)`
     }
 `;
 
+console.log('path', window.location.pathname);
+
 const App = () => (
     <Router>
         <>
@@ -119,7 +121,7 @@ const App = () => (
             </LandscapeMode>
 
             <ConfigProvider locale={svSe}>
-                <AppContainer className="App">
+                <AppContainer className="App" route={window.location.pathname}>
                     <Route exact path={ROUTES.LANDING} component={LandingPage} />
                     <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
                     <Route path={ROUTES.SIGN_IN} component={SignInPage} />

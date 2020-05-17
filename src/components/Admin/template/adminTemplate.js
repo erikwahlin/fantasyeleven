@@ -5,7 +5,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 export const Wrapper = styled.div`
-    display:flex;
+    display: flex;
     width: 100vw;
     height: 100%;
     min-height: 100vh;
@@ -38,7 +38,7 @@ export const Wrapper = styled.div`
     & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
         font-size: 1em !important;
         font-weight: 500;
-        color:black;
+        color: black;
         cursor: pointer;
     }
 
@@ -47,21 +47,27 @@ export const Wrapper = styled.div`
     }
 
     & .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-    text-align: left; 
-}
+        text-align: left;
+    }
 
-      & .ant-tabs .ant-tabs-left-content {
-    padding-left: 24px;
-    border-left: 1px solid #eee;
-}
+    & .ant-tabs .ant-tabs-left-content {
+        padding-left: 24px;
+        border-left: 1px solid #eee;
+    }
 
     & .hqLjmv .ant-tabs-ink-bar {
-    background: /* #5ac5d3 */ red;
-}
+        background: /* #5ac5d3 */ red;
+    }
 
     & .ant-tabs-ink-bar {
-        background: /* #1890ff */ #00A00C;
+        background: /* #1890ff */ #00a00c;
     }
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
 `;
 
 export const Sel = styled(Select)``;
@@ -69,25 +75,22 @@ export const Sel = styled(Select)``;
 export const Opt = styled(Option)``;
 
 export const TabContainer = styled(Tabs)`
-background:white;
-z-index:1;
+    background: white;
+    z-index: 1;
+    width: 100%;
 `;
 
 export const Tab = styled(TabPane)`
     color: #000;
-    background-color:white;
-
+    background-color: white;
 `;
 
 export const MainTitle = styled.h1`
-    background:#E2DDDD; 
+    background: #e2dddd;
     text-align: right;
     padding: 20px;
-    margin-bottom:20px;
-    border-bottom:1px solid #005C07;
-    
+    margin-bottom: 20px;
+    border-bottom: 1px solid #005c07;
 `;
 
-export const TabTitle = styled.h2`
-
-    `;
+export const TabTitle = styled.h2``;

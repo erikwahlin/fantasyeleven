@@ -61,7 +61,12 @@ const AdminPage = ({ location }) => {
         ) : null;
 
     return (
-        <Wrapper className="Admin unmarkable" tabPos={tabPos} winW={winW}>
+        <Wrapper
+            className="Admin unmarkable"
+            tabPos={tabPos}
+            winW={winW}
+            customStyle="width: 100%;"
+        >
             {/*             <MainTitle>
                 
                 <span style={{ fontFamily: 'Avenir', fontSize: '14px' }}>
@@ -105,25 +110,11 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <AreaChartOutlined style={{ color: '#005C07' }} />
-                            Resultat
-                        </span>
-                    }
-                    key="2"
-                >
-                    <TabTitle>Resultat</TabTitle>
-
-                    <Result />
-                </Tab>
-
-                <Tab
-                    tab={
-                        <span>
                             <DollarCircleOutlined style={{ color: '#005C07' }} />
                             Utdelningsmodell
                         </span>
                     }
-                    key="3"
+                    key="2"
                 >
                     <TabTitle>Utdelningsmodell</TabTitle>
 
@@ -137,7 +128,7 @@ const AdminPage = ({ location }) => {
                             Användarstatistik
                         </span>
                     }
-                    key="4"
+                    key="3"
                 >
                     <TabTitle>Användarstatistik</TabTitle>
                 </Tab>
@@ -149,7 +140,7 @@ const AdminPage = ({ location }) => {
                             Användarhantering
                         </span>
                     }
-                    key="5"
+                    key="4"
                 >
                     <TabTitle>Användarhantering</TabTitle>
                 </Tab>
@@ -161,7 +152,7 @@ const AdminPage = ({ location }) => {
                             Innehåll
                         </span>
                     }
-                    key="6"
+                    key="5"
                 >
                     <TabTitle>Innehåll</TabTitle>
                 </Tab>
@@ -173,7 +164,7 @@ const AdminPage = ({ location }) => {
                             Spelare
                         </span>
                     }
-                    key="7"
+                    key="6"
                 >
                     {/* <TabTitle>Spelare</TabTitle> */}
                     <Players />
