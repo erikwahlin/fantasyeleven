@@ -151,8 +151,8 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
                     className="EffortForm unmarkable"
                     columns={columns}
                     dataSource={data}
-                    pagination={{ position: ['topCenter', 'bottomCenter'], pageSize: 50 }}
-                    scroll={{ y: 240 }}
+                    pagination={{ position: ['bottomCenter'], pageSize: 100 }}
+                    scroll={{ y: 300 }}
                 />
             </Wrapper>
         </Wrapper>

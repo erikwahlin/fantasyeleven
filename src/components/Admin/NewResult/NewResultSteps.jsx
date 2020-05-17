@@ -17,8 +17,9 @@ import EffortForm from './EffortForm';
 import allClubs from '../../../constants/clubs';
 
 import { Wrapper } from '../template/wrapperTemplate';
+import { ButtonStandard, SaveBtn } from '../template/TemplateElems';
 
-import { Steps, Divider } from 'antd';
+import { Steps, Divider, Button } from 'antd';
 
 const { Step } = Steps;
 
@@ -78,22 +79,6 @@ const StepContainer = styled(Steps)`
 const ResultStep = styled(Step)`
     /* just keep active step in view on wide screens, wip */
     ${p => p.hidden && 'display: none'};
-`;
-
-const SaveBtn = styled.button`
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    box-shadow: 0 0 10px black;
-    font-size: 14px;
-    background: white;
-    font-weight: 700;
-    border-radius: 50%;
-    outline: none;
-    width: 65px;
-    height: 65px;
-    z-index: 1;
-    color: ${p => (p.saved ? 'green' : 'black')};
 `;
 
 const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
@@ -209,18 +194,19 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
                 })}
 
             <SaveBtn className="saveBtn" onClick={saveRes} saved={saved}>
-                {saved ? 'sparat' : 'osparat'}
+                {saved ? 'sparat' : 'spara'}
             </SaveBtn>
             <div className="stepNav" style={{ marginTop: '50px' }}>
-                <button
+                <ButtonStandard
+                    type="primary"
                     disabled={state.step === 0 && state.substep === 0}
                     onClick={() => takeSubstep(-1)}
                 >
                     Tillbaka
-                </button>
-                <button disabled={!nextReady} onClick={() => takeSubstep(1)}>
+                </ButtonStandard>
+                <ButtonStandard type="primary" disabled={!nextReady} onClick={() => takeSubstep(1)}>
                     Vidare
-                </button>
+                </ButtonStandard>
             </div>
             {/* Render content (forms) for each substep */}
         </Wrapper>

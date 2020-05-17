@@ -9,6 +9,10 @@ import Arrow from '../../../media/arrow.svg';
 import { clone } from '../../../constants/helperFuncs';
 
 import NewResult from '../NewResult';
+import { ButtonStandard, SaveBtn } from '../template/TemplateElems';
+
+import { Table, Card, Col, Row } from 'antd';
+const { Column, ColumnGroup } = Table;
 
 const Header = styled.div`
     width: 100%;
@@ -16,6 +20,7 @@ const Header = styled.div`
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
     background: ${p => (p.open ? '#172232' : '#23334d')};
+    position: relative;
 
     display: flex;
     justify-content: space-between;
@@ -29,8 +34,58 @@ const Title = styled.h2`
     }
 `;
 
+const TitleSpan = styled.span`
+    font-size: 14px;
+    color: green;
+`;
+
 const ArrowIcon = styled.img`
     transform: rotate(${p => (p.open ? '180deg' : '0deg')});
+`;
+
+const RoundContent = styled.div`
+    background: #23334d;
+
+    display: ${p => (p.open ? 'flex' : 'none')};
+
+    width: 100%;
+    padding: 10px;
+
+    flex-wrap: wrap;
+`;
+
+const InfoCard = styled(Card)`
+    background: white;
+    box-shadow: 0 0 10px #222;
+    height: fit-content;
+    margin: 20px 0;
+    align-self: self-start;
+
+    & p {
+        font-size: 16px;
+    }
+`;
+
+const MatchTable = styled(Table)`
+    background: white;
+    width: 100%;
+
+    margin: 20px 0;
+
+    & th,
+    & td {
+        color: black;
+    }
+
+    & th {
+        font-weigth: 700;
+    }
+`;
+
+const OptionsWrapper = styled(Wrapper)`
+    width: 100%;
+    flex-direction: row;
+    margin: 20px 0;
 `;
 
 const OptionContainer = styled.div`
@@ -44,28 +99,6 @@ const OptionContainer = styled.div`
         css`
             ${p.customstyle}
         `};
-`;
-
-const ToggleBtn = styled.button`
-    outline: none;
-    border: none;
-    margin: 0;
-    ${p =>
-        p.customstyle &&
-        css`
-            ${p.customstyle}
-        `}
-`;
-
-const RoundContent = styled.div`
-    background: #23334d;
-
-    display: ${p => (p.open ? 'flex' : 'none')};
-
-    width: 100%;
-    padding: 10px;
-
-    flex-wrap: wrap;
 `;
 
 const Round = ({ adminContext, roundIndex, active }) => {
@@ -113,36 +146,65 @@ const Round = ({ adminContext, roundIndex, active }) => {
         updateSettings({ key: 'activeRound', val: newVal ? newActiveRound : {} });
     };
 
+    const matchTableData = round.matches.map((match, nth) => ({
+        key: nth + 1,
+        homeTeam: match.home.club,
+        homeGoals: match.home.goals,
+        hyphen: '-',
+        awayGoals: match.away.goals,
+        awayTeam: match.away.club
+    }));
+
     return (
         <div className="Result">
-            <Wrapper className="Result" margin="0 auto">
+            <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title>
-                        {round.alias} {active && '(Aktiv!)'}
+                        {round.alias} {active && <TitleSpan>(Aktiv!)</TitleSpan>}
                     </Title>
-                    <i style={{ float: 'right', fontSize: '.7em', color: '#fff' }}>
-                        senast ändrad
-                        {round.updatedAt}
-                    </i>
-                    <ToggleBtn className="ToggleBtn">
-                        <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
-                        {/* Klicka för att {open ? 'dölja' : 'visa'} */}
-                    </ToggleBtn>
+
+                    <span
+                        style={{
+                            float: 'right',
+                            fontSize: '10px',
+                            color: '#000',
+                            position: 'absolute',
+                            right: '5px',
+                            top: '-15px'
+                        }}
+                    >
+                        <i>
+                            senast ändrad
+                            {round.updatedAt}
+                        </i>
+                    </span>
+
+                    <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
+                    {/* Klicka för att {open ? 'dölja' : 'visa'} */}
                 </Header>
 
                 <RoundContent className="RoundContent" open={open}>
-                    <div>
-                        <p>Alias {round.alias}</p>
-                        <p>
-                            Aktiv{' '}
-                            <span style={{ color: active ? 'green' : 'black' }}>
-                                {active ? 'JA!' : 'NEJ'}
-                            </span>
-                        </p>
-                        <p>Säsong {round.season}</p>
-                        <p>Omgångsnummer {round.number}</p>
+                    <Wrapper>
+                        <InfoCard title="INFO" bordered={false}>
+                            <p>Alias {round.alias}</p>
+                            <p>Säsong {round.season}</p>
+                            <p>Omgångsnummer {round.number}</p>
+                            <p>Aktiv? {active ? 'JA!' : 'NEJ'}</p>
+                        </InfoCard>
 
-                        <div className="Matches">
+                        <MatchTable
+                            className="MatchTable unmarkable"
+                            dataSource={matchTableData}
+                            pagination={{ position: ['bottomCenter'], pageSize: 20 }}
+                        >
+                            <Column title="Hemma" dataIndex="homeTeam" key="homeTeam" />
+                            <Column title="" dataIndex="homeGoals" key="homeGoals" />
+                            <Column title="" dataIndex="hyphen" key="hyphen" />
+                            <Column title="" dataIndex="awayGoals" key="awayGoals" />
+                            <Column title="Borta" dataIndex="awayTeam" key="awayTeam" />
+                        </MatchTable>
+
+                        {/* <div className="Matches">
                             <ul style={{ listStyle: 'none' }}>
                                 <li>HEMMA - BORTA</li>
                                 {round.matches.map(match => (
@@ -152,53 +214,38 @@ const Round = ({ adminContext, roundIndex, active }) => {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
-                    </div>
+                        </div> */}
+                    </Wrapper>
 
-                    <div
+                    <OptionsWrapper
                         className="Options"
                         style={{ width: '100%', height: 'fit-content', display: 'flex' }}
                     >
-                        <OptionContainer>
-                            <ToggleBtn
-                                onClick={() => setActive(!active)}
-                                customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: ${
-                                    active ? 'orange' : '#fff'
-                                }`}
-                            >
-                                {!active ? 'Aktivera' : 'Inaktivera'}
-                            </ToggleBtn>
-                        </OptionContainer>
+                        <ButtonStandard
+                            type="primary"
+                            onClick={() => delHandler()}
+                            customstyle="color: red;"
+                        >
+                            Radera
+                        </ButtonStandard>
 
-                        <OptionContainer>
-                            <ToggleBtn
-                                onClick={() => delHandler()}
-                                customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: red;"
-                            >
-                                Radera omgång
-                            </ToggleBtn>
-                        </OptionContainer>
+                        <ButtonStandard type="primary" onClick={() => setActive(!active)}>
+                            {!active ? 'Aktivera' : 'Inaktivera'}
+                        </ButtonStandard>
 
-                        {active && (
-                            <OptionContainer>
-                                <ToggleBtn
-                                    onClick={() => setResultMode(!resultMode)}
-                                    customstyle={`font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000; color: orange;`}
-                                >
-                                    {!resultMode ? 'Ändra resultat' : 'Stäng resultat'}
-                                </ToggleBtn>
-                            </OptionContainer>
+                        {!resultMode && (
+                            <ButtonStandard
+                                type="primary"
+                                onClick={() => setResultMode(!resultMode)}
+                            >
+                                Resultat
+                            </ButtonStandard>
                         )}
 
-                        <OptionContainer>
-                            <ToggleBtn
-                                onClick={() => setOpen(!open)}
-                                customstyle="font-size: 1.2em; box-shadow: 6px 6px 7px -8px #000"
-                            >
-                                Stäng
-                            </ToggleBtn>
-                        </OptionContainer>
-                    </div>
+                        <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
+                            Stäng
+                        </ButtonStandard>
+                    </OptionsWrapper>
 
                     {resultMode && <NewResult roundIndex={roundIndex} />}
                 </RoundContent>

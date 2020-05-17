@@ -19,7 +19,7 @@ class NewResState extends Component {
 
         this.state = {
             step: 0,
-            substep: 1,
+            substep: 0,
             ready: false,
             newRes: this.props.adminContext.state.rounds[this.props.roundIndex].matches,
             saved: true
