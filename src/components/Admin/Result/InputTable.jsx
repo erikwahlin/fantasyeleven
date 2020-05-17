@@ -1,28 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
-import { withNewRes } from './NewResState';
+import { withResult } from './ResultState';
 import { Wrapper } from '../template/wrapperTemplate';
 
-import {
-    Form,
-    Input,
-    Button,
-    Radio,
-    Select,
-    Cascader,
-    DatePicker,
-    InputNumber,
-    TreeSelect,
-    Switch,
-    Table,
-    Tag,
-    Space
-} from 'antd';
+import { Table } from 'antd';
 import { clone, toSwe } from '../../../constants/helperFuncs';
 
-import effortColumns from './effortColumns';
+import Columns from './Columns';
 
 const TableStyled = styled(Table)`
     width: 100%;
@@ -75,7 +60,7 @@ const TableStyled = styled(Table)`
     } */
 `;
 
-const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side, ...props }) => {
+const InputTable = ({ adminContext, newResContext, roundIndex, matchIndex, side, ...props }) => {
     const { matchUpdater } = newResContext.setters;
     const { newRes, step, substep } = newResContext.state;
     const match = newRes[step];
@@ -137,10 +122,12 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
             });
         }
 
+        console.log('new match', newMatch);
+
         matchUpdater(newMatch);
     };
 
-    const columns = effortColumns({ setters: { updatePlayer } });
+    const columns = Columns({ setters: { updatePlayer } });
 
     return (
         <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">
@@ -148,7 +135,7 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
 
             <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
                 <TableStyled
-                    className="EffortForm unmarkable"
+                    className="InputTable unmarkable"
                     columns={columns}
                     dataSource={data}
                     pagination={{ position: ['bottomCenter'], pageSize: 100 }}
@@ -159,4 +146,4 @@ const EffortForm = ({ adminContext, newResContext, roundIndex, matchIndex, side,
     );
 };
 
-export default withAdmin(withNewRes(EffortForm));
+export default withAdmin(withResult(InputTable));

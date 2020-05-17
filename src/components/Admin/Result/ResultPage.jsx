@@ -1,29 +1,19 @@
-import React, { Component, useState, useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-//import ResultContext from './ctx';
-import apis from '../../../constants/api';
-//import { store } from 'react-notifications-component';
-import { userMsg, clone } from '../../../constants/helperFuncs';
-//import ManualSim from './ManualSim';
-import ResultForm from '../Result/ResultForm';
-import ResultList from '../Result/ResultList';
-
 import { withAdmin } from '../AdminState';
-import { withNewRes } from './NewResState';
-import ClubForm from './ClubForm';
-import EffortForm from './EffortForm';
-
-import allClubs from '../../../constants/clubs';
+import { withResult } from './ResultState';
+import InputTable from './InputTable';
+import OverView from './OverView';
 
 import { Wrapper } from '../template/wrapperTemplate';
-import { ButtonStandard, SaveBtn } from '../template/TemplateElems';
+import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
 
-import { Steps, Divider, Button } from 'antd';
+import { Steps, Divider } from 'antd';
 
 const { Step } = Steps;
 
-const stepInfo = {
+const stepData = {
     step: (() => {
         let res = [];
 
@@ -48,7 +38,7 @@ const stepInfo = {
         {
             name: 'homeEffort',
             label: 'Hemmalag',
-            content: props => <EffortForm side="home" {...props} />,
+            content: props => <InputTable side="home" {...props} />,
             ready: match => true,
             parent: 'match'
 
@@ -57,9 +47,16 @@ const stepInfo = {
         {
             name: 'homeEffort',
             label: 'Bortalag',
-            content: props => <EffortForm side="away" {...props} />,
+            content: props => <InputTable side="away" {...props} />,
             ready: match => true,
             parent: 'match'
+        },
+        {
+            name: 'overview',
+            label: 'Översikt',
+            content: props => <OverView {...props} />,
+            ready: matches => true, // calc all conditions... (at least 8 fullTimers in each team etc)
+            parent: 'overview'
         }
     ]
 };
@@ -81,7 +78,7 @@ const ResultStep = styled(Step)`
     ${p => p.hidden && 'display: none'};
 `;
 
-const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
+const ResultPage = ({ adminContext, newResContext, roundIndex }) => {
     const { state } = newResContext;
     const { step, substep, saved } = state;
     const { stepUpdater, saveRes } = newResContext.setters;
@@ -93,22 +90,25 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
 
     const { updateRound } = adminContext.setters;
 
-    const stepContent = stepInfo.step[state.step].content;
+    const stepContent = stepData.step[state.step].content;
     const substepContent =
-        stepInfo.substep[state.substep].parent === stepInfo.step[state.step].category
-            ? stepInfo.substep[state.substep].content
+        stepData.substep[state.substep].parent === stepData.step[state.step].category
+            ? stepData.substep[state.substep].content
             : null;
 
-    const lastStepIndex = stepInfo.step.length - 1;
+    const lastStepIndex = stepData.step.length - 1;
     const lastSubstepIndex =
-        stepInfo.substep.filter(s => s.parent === stepInfo.step[step].category).length - 1;
+        stepData.substep.filter(s => s.parent === stepData.step[step].category).length - 1;
 
     const hiddenStepIndex = window.innerWidth >= 650 ? 3 : window.innerWidth >= 480 ? 2 : 1;
 
-    const nextReady = stepInfo.substep[state.substep].ready(match);
+    const nextReady = stepData.substep[state.substep].ready(match);
+
+    console.log('last step', lastStepIndex);
+
+    console.log('last substep', lastSubstepIndex);
 
     const takeSubstep = input => {
-        let newStepIndex = state.step;
         let newSubstepIndex = state.substep;
         let stepAdd = 0;
         let substepAdd = input;
@@ -142,7 +142,7 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
         }
 
         stepUpdater({
-            step: newStepIndex + stepAdd,
+            step: state.step + stepAdd,
             substep: newSubstepIndex + substepAdd
         });
     };
@@ -155,7 +155,7 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
             <h2>RESULTAT FÖR OMGÅNG {round.alias}</h2>
 
             <StepContainer progressDot current={state.step}>
-                {Object.values(stepInfo.step).map((step, nth) => {
+                {Object.values(stepData.step).map((step, nth) => {
                     const active = state.step === nth ? true : false;
                     const hidden = !active && nth < state.step - hiddenStepIndex ? true : false;
 
@@ -171,24 +171,24 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
             </StepContainer>
             <Divider />
             <Steps progressDot direction="vertical" current={state.substep}>
-                {Object.values(stepInfo.substep).map((sub, nth) =>
-                    sub.parent === stepInfo.step[step].category ? (
+                {Object.values(stepData.substep).map((sub, nth) =>
+                    sub.parent === stepData.step[step].category ? (
                         <Step key={`${sub.name}-step-${nth}`} title={sub.label} />
                     ) : null
                 )}
             </Steps>
 
-            {stepInfo.substep[state.substep].label.toUpperCase()}
+            {stepData.substep[state.substep].label.toUpperCase()}
             <p>Match {state.step + 1}</p>
 
             {stepContent &&
                 stepContent({
-                    stepInfo: stepInfo.step[state.step]
+                    stepData: stepData.step[state.step]
                 })}
 
             {substepContent &&
                 substepContent({
-                    stepInfo: stepInfo.substep[state.substep],
+                    stepData: stepData.substep[state.substep],
                     roundIndex,
                     matchIndex: step
                 })}
@@ -204,13 +204,22 @@ const NewResultSteps = ({ adminContext, newResContext, roundIndex }) => {
                 >
                     Tillbaka
                 </ButtonStandard>
-                <ButtonStandard type="primary" disabled={!nextReady} onClick={() => takeSubstep(1)}>
-                    Vidare
-                </ButtonStandard>
+                <CustomTooltip
+                    condition={stepData.step[step].category === 'match'}
+                    title="Nästa match"
+                >
+                    <ButtonStandard
+                        type="primary"
+                        disabled={!nextReady}
+                        onClick={() => takeSubstep(1)}
+                    >
+                        Vidare
+                    </ButtonStandard>
+                </CustomTooltip>
             </div>
             {/* Render content (forms) for each substep */}
         </Wrapper>
     );
 };
 
-export default withAdmin(withNewRes(NewResultSteps));
+export default withAdmin(withResult(ResultPage));

@@ -3,6 +3,7 @@ import { clone } from '../../constants/helperFuncs';
 import './form.css';
 
 import { formTemplate } from './template';
+import { ButtonStandard } from './template/TemplateElems';
 
 const { FormContainer, InputTemplate } = formTemplate;
 
@@ -52,7 +53,6 @@ const AwardForm = () => {
             className="FormContainer Award"
             title="Skapa en ny utdelningsmodell"
             onSubmit={submit}
-            submitVal="Skapa"
         >
             <InputTemplate
                 state={state}
@@ -91,6 +91,15 @@ const AwardForm = () => {
                 min={0}
                 max={100}
             />
+
+            <ButtonStandard
+                className="Submit"
+                /* disabled={!ready} */
+                type="primary"
+                htmlType="submit"
+            >
+                Skapa
+            </ButtonStandard>
         </FormContainer>
     );
 };

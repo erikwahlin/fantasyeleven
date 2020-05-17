@@ -7,6 +7,7 @@ import { withAdmin } from '../AdminState';
 import { clone, userMsg } from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
+import { ButtonStandard } from '../template/TemplateElems';
 
 import allClubs from '../../../constants/clubs';
 
@@ -52,8 +53,9 @@ const initialForm = {
 };
 
 const NewRound = props => {
-    const { rounds, players } = props.adminContext.state;
+    const { rounds, players, settings } = props.adminContext.state;
     const { createRound } = props.adminContext.setters;
+    const noneIsActive = !settings.activeRound._id;
 
     const [form, setForm] = useState(clone(initialForm));
     const [prevHome, setPrevHome] = useState(null);
@@ -228,9 +230,14 @@ const NewRound = props => {
                         label="Sätt som aktiv"
                         autosave={autosave}
                         type="checkbox"
-                        helper="Om aktiv knyts kommande registreringar till denna omgång"
+                        helper={
+                            noneIsActive
+                                ? 'Om aktiv knyts kommande registreringar till denna omgång'
+                                : 'Andra omgångar måste avaktiveras först'
+                        }
                         ready={false}
                         onSubmit={submit}
+                        disabled={!noneIsActive}
                     />
                     <Wrapper
                         customStyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
@@ -313,7 +320,8 @@ const NewRound = props => {
                         ))}
                     </Wrapper>
 
-                    <button
+                    <ButtonStandard
+                        type="primary"
                         style={{
                             width: 'fit-content',
                             margin: '0',
@@ -325,7 +333,7 @@ const NewRound = props => {
                         onClick={() => setNewnewRoundHidden(!newRoundHidden)}
                     >
                         Stäng
-                    </button>
+                    </ButtonStandard>
                 </FormContainer>
             </ToggleWrapper>
         </div>

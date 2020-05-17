@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
-import { withNewRes } from './NewResState';
+import { withResult } from './NewResState';
 import { clone } from '../../../constants/helperFuncs';
 import { initialEffort } from '../../../constants/gamePreset';
 
