@@ -197,11 +197,11 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             dataSource={matchTableData}
                             pagination={{ position: ['bottomCenter'], pageSize: 20 }}
                         >
-                            <Column title="Hemma" dataIndex="homeTeam" key="homeTeam" />
+                            <Column title="HEMMA" dataIndex="homeTeam" key="homeTeam" />
                             <Column title="" dataIndex="homeGoals" key="homeGoals" />
                             <Column title="" dataIndex="hyphen" key="hyphen" />
                             <Column title="" dataIndex="awayGoals" key="awayGoals" />
-                            <Column title="Borta" dataIndex="awayTeam" key="awayTeam" />
+                            <Column title="BORTA" dataIndex="awayTeam" key="awayTeam" />
                         </MatchTable>
 
                         {/* <div className="Matches">
