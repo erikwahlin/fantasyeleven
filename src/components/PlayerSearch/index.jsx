@@ -560,6 +560,9 @@ class PlayerSearch extends Component {
                             {paginated.length ? (
                                 <ResultContainer className="ResultContainer">
                                     <Paginate
+                                        mobileSearch={
+                                            this.props.teamContext.state.config.mobileSearch
+                                        }
                                         className="Paginate"
                                         goToPage={this.goToPage}
                                         settings={paginationSettings}
