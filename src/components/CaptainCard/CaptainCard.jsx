@@ -18,12 +18,15 @@ const Title = styled.div`
     font-weight: 600;
 `;
 
-const CaptainCard = ({ children, cap, obj }) => (
-    <Wrapper>
-        <Title>{children}</Title>
-        <hr></hr>
-        <Captain>{obj && obj.name}</Captain>
-    </Wrapper>
-);
+const CaptainCard = ({ children, cap, obj }) => {
+    console.log('captain card', obj);
+    return (
+        <Wrapper>
+            <Title>{children}</Title>
+            <hr></hr>
+            <Captain>{obj && obj.name}</Captain>
+        </Wrapper>
+    );
+};
 
 export default CaptainCard;

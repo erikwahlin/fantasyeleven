@@ -447,10 +447,10 @@ class PlayerSearch extends Component {
                     {/* temp */}
                     {buildStage.stageName === 'captain' ? (
                         <CapWrap>
-                            <CaptainCard obj={findCaptain(team.players.list, captain)}>
+                            <CaptainCard obj={captain && captain}>
                                 <img src={Cap} alt="Captain" /> Kapten:{' '}
                             </CaptainCard>
-                            <CaptainCard obj={findCaptain(team.players.list, viceCaptain)}>
+                            <CaptainCard obj={viceCaptain && viceCaptain}>
                                 <img src={ViceCap} alt="Vice Captain" /> Vice Kapten:{' '}
                             </CaptainCard>
                             <p className="capInfo">
