@@ -135,6 +135,7 @@ const Pitch = props => {
                                 player={player}
                             >
                                 <Plupp
+                                    pluppIndex={nth}
                                     origin="pitch"
                                     player={player}
                                     pos={player.position}

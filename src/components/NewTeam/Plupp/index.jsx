@@ -312,6 +312,15 @@ const SwitchIcon = styled.div`
     }
 `;
 
+const CapPopBtn = styled.button`
+    width: 100%;
+    border: none;
+    outline: none;
+    margin-bottom: 5px;
+    font-weight: ${p => (p.picked === true ? '700' : 'normal')};
+    cursor: pointer;
+`;
+
 class Plupp extends Component {
     constructor(props) {
         super(props);
@@ -341,30 +350,31 @@ class Plupp extends Component {
         this.setCap = this.setCap.bind(this);
 
         this.capPopContent = () => {
-            const onChange = e => {
-                this.setCap(e.target.value);
-            };
+            const { player, teamContext, pluppIndex } = this.props;
+            const { captain, viceCaptain } = teamContext.state.team;
+            const playerID = player ? player._id : null;
+            const capID = captain ? captain._id : null,
+                viceCapID = viceCaptain ? viceCaptain._id : null;
+
+            const isCap = playerID && capID === playerID;
+            const isVice = playerID && viceCapID === playerID;
+
             return (
-                <div>
-                    <input
-                        type="radio"
-                        id="captain"
-                        name="role"
-                        value="captain"
-                        onChange={onChange}
-                    />
-                    <label for="captain">Kapten</label>
-                    <br />
-                    <input
-                        type="radio"
-                        id="viceCaptain"
-                        name="role"
-                        value="viceCaptain"
-                        onChange={onChange}
-                    />
-                    <label for="viceCaptain">Vice Kapten</label>
-                    <br />
-                    <br />
+                <div
+                    className="capPopWrapper unmarkable"
+                    style={{ textAlign: 'center', width: '100px' }}
+                >
+                    <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
+                        Kapten
+                    </CapPopBtn>
+
+                    <CapPopBtn
+                        onClick={() => !isVice && this.setCap('viceCaptain')}
+                        picked={isVice}
+                    >
+                        Vice Kapten
+                    </CapPopBtn>
+
                     <a onClick={this.capPopToggle}>Stäng</a>
                 </div>
             );
@@ -461,13 +471,14 @@ class Plupp extends Component {
 
     // (runs before click inside)
     handleClickOutside = e => {
-        if (!this.state.isMarked) return;
-
         const { setSwitchers, closePlayerSearch } = this.props.teamContext.setters;
         const { buildStage } = this.props.teamContext.state.config;
         const { stageName } = buildStage;
 
-        if (stageName === 'captain') return;
+        if (stageName === 'captain') {
+            if (this.state.capPopOpen && !e.target.closest('.capPopWrapper')) this.capPopToggle();
+        }
+        if (!this.state.isMarked) return;
 
         // if clicked on switchable plupp on pitch or inside playerSearch, bail
         const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
@@ -727,9 +738,9 @@ class Plupp extends Component {
 
                 <Popover
                     content={this.capPopContent}
-                    title="Hej"
                     trigger="click"
                     visible={this.state.capPopOpen}
+                    width={500}
                     /* onVisibleChange={this.handleVisibleChange} */
                 >
                     <PluppImg
