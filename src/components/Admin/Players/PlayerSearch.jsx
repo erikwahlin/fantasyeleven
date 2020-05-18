@@ -325,9 +325,8 @@ class PlayerSearch extends Component {
 
     render() {
         const { paginationSettings, posOrClubSelected } = this.state;
-        const { markedMode, adminContext, state } = this.props;
+        const { markedMode, adminContext, teamContext } = this.props;
         const { players } = adminContext.state;
-        const { mobileSearch } = state;
 
         let resultLabel = posOrClubSelected.label;
 
@@ -482,17 +481,17 @@ class PlayerSearch extends Component {
                                 {/* RESULT */}
                                 {paginated.length && (
                                     <ResultContainer className="ResultContainer">
-                                        <Paginate
-                                            mobileSearch={mobileSearch}
-                                            className="Paginate"
-                                            goToPage={this.goToPage}
-                                            settings={paginationSettings}
-                                            playerCount={filtered.length}
-                                            pageCount={Math.ceil(
-                                                filtered.length / paginationSettings.pageSize
-                                            )}
-                                        />
-
+                                        {!this.props.teamContext.state.config.mobileSearch && (
+                                            <Paginate
+                                                className="Paginate"
+                                                goToPage={this.goToPage}
+                                                settings={paginationSettings}
+                                                playerCount={filtered.length}
+                                                pageCount={Math.ceil(
+                                                    filtered.length / paginationSettings.pageSize
+                                                )}
+                                            />
+                                        )}
                                         <LabelRow className="LabelRow unmarkable">
                                             <div className="labelPosition">
                                                 <p style={{ color: 'white' }}> {resultLabel}</p>
