@@ -25,8 +25,8 @@ export const OuterWrapper = styled.div`
 `;
 
 export const InnerWrapper = styled.div`
+    overflow-y: scroll;
     display: flex;
-
     width: 55%;
     height: 100%;
     max-width: 500px;
