@@ -2,11 +2,11 @@ import styled, { css } from 'styled-components';
 
 export const OuterWrapper = styled.div`
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     min-width: 420px;
     margin: 0;
 
-    @media all and (max-width: 899px) {
+    /* @media all and (max-width: 899px) {
         position: fixed;
         z-index: 1;
         opacity: 1;
@@ -15,7 +15,7 @@ export const OuterWrapper = styled.div`
         height: 100%;
         width: 100%;
         background: #011931;
-    }
+    } */
 
     @media all and (min-width: 900px) {
         margin: 0 auto 0 0;
@@ -172,8 +172,8 @@ export const ButtonReset = styled(StyledBtn)`
     margin-bottom: 20px;
     width: 100%;
     border: 1px solid #2f3e55;
-    padding:10px;
-      &:hover {
+    padding: 10px;
+    &:hover {
         background: #2b3854;
     }
 `;
@@ -259,4 +259,3 @@ export const PlayerPrice = styled.div`
 export const CapWrap = styled.div`
     margin-top: 7rem;
 `;
-

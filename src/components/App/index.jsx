@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { ConfigProvider } from 'antd';
+import svSe from 'antd/es/locale/sv_SE';
+
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -12,7 +15,7 @@ import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import About from '../About';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -84,9 +87,9 @@ const PhoneOuter = styled.div`
 
 const AppContainer = styled.div`
     @media all and (max-width: 899px) {
-        width: 100vw;
+        width: ${p => (p.route === '/admin' ? '100%' : '100vw')};
         /* height: 100vh; */
-        overflow: hidden;
+        overflow: ${p => (p.route === '/admin' ? 'visible' : 'hidden')};
     }
     @media all and (max-width: 899px) {
         height: auto;
@@ -103,6 +106,8 @@ const NotifContainer = styled(ReactNotification)`
     }
 `;
 
+console.log('path', window.location.pathname);
+
 const App = () => (
     <Router>
         <>
@@ -115,22 +120,24 @@ const App = () => (
                 <p>Rotate that shit</p>
             </LandscapeMode>
 
-            <AppContainer className="App">
-                <Route exact path={ROUTES.LANDING} component={LandingPage} />
-                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            <ConfigProvider locale={svSe}>
+                <AppContainer className="App" route={window.location.pathname}>
+                    <Route exact path={ROUTES.LANDING} component={LandingPage} />
+                    <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+                    <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                    <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
 
-                <Route path={'/home'} exact component={HomePage} />
+                    <Route path={'/home'} exact component={HomePage} />
 
-                {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
-                <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
+                    {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
+                    <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
-                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-                <Route path={ROUTES.ADMIN} component={AdminPage} />
+                    <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                    <Route path={ROUTES.ADMIN} component={AdminPage} />
 
-                <Route path={ROUTES.ABOUT} component={About} />
-            </AppContainer>
+                    <Route path={ROUTES.ABOUT} component={About} />
+                </AppContainer>
+            </ConfigProvider>
         </>
     </Router>
 );

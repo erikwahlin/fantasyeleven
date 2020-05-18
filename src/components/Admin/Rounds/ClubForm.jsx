@@ -2,28 +2,13 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
-import { withNewRes } from './NewResState';
+import { withResult } from './NewResState';
 import { clone } from '../../../constants/helperFuncs';
 import { initialEffort } from '../../../constants/gamePreset';
 
-const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) => {
-    const { matches, step, substep } = newResContext.state;
-    const { home, away } = matches[step];
-
-    const { matchUpdater } = newResContext.setters;
-
-    const pickedClubs = (() => {
-        let res = [];
-        matches.forEach(match => {
-            if (match.home.club) res.push(match.home.club);
-            if (match.away.club) res.push(match.away.club);
-        });
-
-        return res;
-    })();
-
+const ClubForm = ({ adminContext, matches, match, homeAway, autosave, ...props }) => {
     const autoSave = ({ homeAway, val }) => {
-        const newMatch = clone(matches[step]);
+        const newMatches = clone(matches);
 
         // save club
         newMatch[homeAway].club = val;
@@ -38,7 +23,7 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
 
         newMatch[homeAway].players = players;
 
-        matchUpdater(newMatch);
+        autosave('matches', newMatches);
     };
 
     return (
@@ -46,7 +31,7 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
             <select
                 type="select"
                 value={home.club}
-                onChange={e => autoSave({ homeAway: 'home', val: e.target.value })}
+                onChange={e => update({ homeAway: 'home', val: e.target.value })}
             >
                 <option disabled value="">
                     - Välj hemmalag -
@@ -65,7 +50,7 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
             <select
                 type="select"
                 value={away.club}
-                onChange={e => autoSave({ homeAway: 'away', val: e.target.value })}
+                onChange={e => update({ homeAway: 'away', val: e.target.value })}
             >
                 <option disabled value="">
                     - Välj bortalag -
@@ -84,4 +69,4 @@ const ClubForm = ({ adminContext, newResContext, role, stepContent, ...props }) 
     );
 };
 
-export default withAdmin(withNewRes(ClubForm));
+export default withAdmin(ClubForm);

@@ -4,6 +4,7 @@ import apis from '../../constants/api';
 import { getPlayers } from '../../constants/players';
 import { clone, userMsg } from '../../constants/helperFuncs';
 import { compose } from 'recompose';
+import { typeOf } from 'react-notifications-component/dist/js/react-notifications.dev';
 
 const AdminContext = createContext(null);
 
@@ -21,25 +22,26 @@ const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
         type: 'success'
     });
 
+const initialState = {
+    user: '',
+    settings: {
+        updatedBy: '',
+        activeRound: ''
+    },
+    rounds: [],
+    results: [],
+    players: [],
+
+    editPlayer: '',
+    newPlayer: false
+};
+
 class AdminState extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            user: null,
-            settings: {
-                updatedBy: null,
-                activeRound: {
-                    _id: null
-                }
-            },
-            rounds: [],
-            results: [],
-            players: [],
+        this.state = clone(initialState);
 
-            editPlayer: null,
-            newPlayer: false
-        };
         // General updater
         this.updateAdminState = this.updateAdminState.bind(this);
 
@@ -51,6 +53,7 @@ class AdminState extends Component {
         this.readRounds = this.readRounds.bind(this);
         this.createRound = this.createRound.bind(this);
         this.updateRound = this.updateRound.bind(this);
+        this.deleteRound = this.deleteRound.bind(this);
         // Result
         this.readResults = this.readResults.bind(this);
         this.updateResult = this.updateResult.bind(this);
@@ -65,6 +68,7 @@ class AdminState extends Component {
             updateAdminState: this.updateAdminState,
             createRound: this.createRound,
             updateRound: this.updateRound,
+            deleteRound: this.deleteRound,
             updateResult: this.updateResult,
             addPlayer: this.addPlayer,
             deletePlayer: this.deletePlayer,
@@ -122,12 +126,20 @@ class AdminState extends Component {
         this.setState(ps => ({ ...ps, [key]: val }));
     };
 
-    readSettings = async () => {
+    readSettings = async callback => {
         await apis
             .read({ action: 'readSettings' })
             .then(res => {
                 if (res.status <= 200) {
-                    this.setState({ settings: res.data.data });
+                    // if no activeRound, set empty obj
+                    const settings = {
+                        ...res.data.data,
+                        activeRound: res.data.data.activeRound || {}
+                    };
+
+                    this.setState({ settings }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
                 }
             })
             .catch(err => {
@@ -135,24 +147,30 @@ class AdminState extends Component {
             });
     };
 
-    updateSettings = async ({ payload }) => {
-        if (!this.state.user.roles.includes('ADMIN')) {
+    updateSettings = async ({ key, val, msg }) => {
+        const { user } = this.state;
+        if (!user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
 
         await apis
-            .update({ action: 'updateSettings', payload })
+            .update({ action: 'updateSettings', payload: { key, val, user } })
             .then(res => {
-                console.log('Updated settings');
+                console.log('Updated settings', key);
 
                 this.readSettings();
+
+                if (typeof msg === 'string') {
+                    updateMsg(msg).add();
+                }
             })
             .catch(err => {
                 console.log(`Failed to update settings ${err}`);
+                console.log('tried to update with settings:', key, val);
             });
     };
 
-    readRounds = async onSuccess => {
+    readRounds = async callback => {
         if (!this.state.user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
@@ -161,7 +179,9 @@ class AdminState extends Component {
             .read({ action: 'readRounds' })
             .then(res => {
                 if (res.status <= 200) {
-                    this.setState({ rounds: res.data.data.reverse() });
+                    this.setState({ rounds: res.data.data.reverse() }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
                 } else {
                     console.log('No rounds found.');
                 }
@@ -171,7 +191,7 @@ class AdminState extends Component {
             });
     };
 
-    createRound = async (round, onSuccess) => {
+    createRound = async ({ payload, onSuccess }) => {
         if (!this.state.user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
@@ -196,7 +216,7 @@ class AdminState extends Component {
 
         let isTaken = false;
         this.state.rounds.forEach(r => {
-            if (r.alias === round.alias) {
+            if (r.alias === payload.alias) {
                 isTaken = true;
                 return;
             }
@@ -204,8 +224,10 @@ class AdminState extends Component {
 
         if (isTaken) return taken.add();
 
+        console.log('will create (adminst)', payload);
+
         await apis
-            .create({ action: 'createRound', payload: round })
+            .create({ action: 'createRound', payload })
             .then(res => {
                 if (res.status <= 200) {
                     conf.add();
@@ -224,7 +246,7 @@ class AdminState extends Component {
             });
     };
 
-    updateRound = newRound => {
+    updateRound = (newRound, onSuccess) => {
         if (!this.state.user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
@@ -249,8 +271,10 @@ class AdminState extends Component {
                     this.readRounds();
 
                     if (conf) {
-                        updateMsg('Omgång uppdaterad').add();
+                        updateMsg('Omgång uppdaterad', 1000).add();
                     }
+
+                    if (typeof onSuccess === 'function') onSuccess();
                 })
                 .catch(err => {
                     console.log('err when updating round', err);
@@ -264,16 +288,38 @@ class AdminState extends Component {
         }
 
         update(newRound);
+    };
 
-        // and update settings
-        const settings = clone(this.state.settings);
+    deleteRound = async ({ payload }) => {
+        if (!this.state.user.roles.includes('ADMIN')) {
+            return errMsg('Logga in på nytt med admin-rättigheter.').add();
+        }
 
-        this.updateSettings({
-            payload: {
-                updatedBy: [{ user: 'Kim dev 2.0', timestamp: Date.now() }, ...settings.updatedBy],
-                activeRound: newRound
-            }
-        });
+        await apis
+            .delete({ action: 'deleteRound', _id: payload._id })
+            .then(res => {
+                this.readRounds();
+
+                const delMsg = userMsg({
+                    message: `Omgång ${payload.alias} borttagen!`,
+                    dismiss: { duration: 3000 }
+                });
+
+                delMsg.add();
+
+                // if this was an active round, update settings
+                if (payload._id === this.state.settings.activeRound._id) {
+                    this.updateSettings({
+                        key: 'activeRound',
+                        val: {}
+                    });
+                }
+            })
+            .catch(err => {
+                console.log('err when deleting round:', err);
+
+                errMsg('Något gick fel vid radering.').add();
+            });
     };
 
     readResults = async (payload = 'all') => {
@@ -350,6 +396,8 @@ class AdminState extends Component {
                 const players = res.data.data;
 
                 this.setState({ players });
+
+                window.players = players;
             })
             .catch(err => {
                 // if db unavailable, load from client

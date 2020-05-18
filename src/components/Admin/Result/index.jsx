@@ -1,17 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ResultState from './ResultState';
+import ResultPage from './ResultPage';
 
-import ResultForm from './ResultForm';
-import ResultList from './ResultList';
+const NewResult = ({ roundIndex, closeResult }) => {
+    return (
+        <ResultState roundIndex={roundIndex}>
+            <ResultPage roundIndex={roundIndex} closeResult={closeResult} />
+        </ResultState>
+    );
+};
 
-import NewResultWrapper from '../NewResult';
-
-const Result = props => (
-    <>
-        {/* <ResultForm /> */}
-        <NewResultWrapper />
-
-        <ResultList />
-    </>
-);
-
-export default Result;
+export default NewResult;

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL //'http://localhost:5000/api'
+    //baseURL: 'http://localhost:5000/api'
+    baseURL: process.env.REACT_APP_BACKEND_URL
 });
 
 export const get = (action = 'getMany', id = '') => api.get(`/${action}/${id}`);
@@ -48,7 +49,7 @@ const apis = {
             : missingAction('update/put'),
 
     delete: ({ action, _id }) =>
-        action && _id ? api.post(`/${action}/${_id}`) : missingAction('delete')
+        action && _id ? api.delete(`/${action}/${_id}`) : missingAction('delete')
 };
 
 export default apis;

@@ -11,6 +11,24 @@ export const Wrapper = styled.div`
     /* margin: 0 auto 50px;
     margin-left:20px;   */
     margin: 0 auto;
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
+`;
+
+export const OptionsWrapper = styled(Wrapper)`
+    flex-direction: row;
+    width: 100%;
+    margin: 20px 0;
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
 `;
 
 export const ContentWrapper = styled.div`
@@ -19,7 +37,7 @@ export const ContentWrapper = styled.div`
     padding: 10px;
     display: flex;
     height: 100vh;
-    color: white;
+    color: black;
     ${p =>
         p.flexDirection &&
         css`

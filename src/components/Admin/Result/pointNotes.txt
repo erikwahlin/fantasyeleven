@@ -1,0 +1,3 @@
+CleanSheet
+
+Admin does not have to enter manually, since it's calculated by team goals
