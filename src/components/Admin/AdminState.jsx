@@ -232,7 +232,9 @@ class AdminState extends Component {
                 if (res.status <= 200) {
                     conf.add();
 
-                    this.readRounds();
+                    this.setState({ rounds: [] }, () => {
+                        this.readRounds();
+                    });
 
                     if (typeof onSuccess === 'function') return onSuccess();
                 } else {
@@ -251,7 +253,7 @@ class AdminState extends Component {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
 
-        const deactivated = (() => {
+        /* const deactivated = (() => {
             let res = null;
             if (!newRound.active) return res;
 
@@ -262,7 +264,7 @@ class AdminState extends Component {
             });
 
             return res;
-        })();
+        })(); */
 
         const update = async (round, conf = true) => {
             await apis
@@ -283,9 +285,9 @@ class AdminState extends Component {
                 });
         };
 
-        if (deactivated !== null) {
+        /* if (deactivated !== null) {
             update(deactivated, false);
-        }
+        } */
 
         update(newRound);
     };

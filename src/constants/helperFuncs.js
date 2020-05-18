@@ -2,6 +2,31 @@ import * as LEX from './lexicon';
 import stadiums from './stadiums';
 import { store } from 'react-notifications-component';
 
+export const timestamp = () => {
+    const d = new Date();
+    const date = d.toLocaleDateString(),
+        time = d.toLocaleTimeString();
+
+    const weekday = d.getDay() === 0 ? 6 : d.getDay() === 1 ? 0 : d.getDay();
+
+    return {
+        date,
+        time
+    };
+};
+
+export const updatedStamp = ({ user, tag = '' }) => {
+    tag = typeof tag === 'string' ? tag : tag.join(' ');
+    return {
+        at: timestamp(),
+        by: user,
+        tag
+    };
+};
+
+export const roundStatus = ({ active, ended }) =>
+    ended ? 'Avslutad' : active ? 'Aktiv' : 'Inaktiv';
+
 //counting players in team.players.pitch or team.players.bench
 export const countPlayers = arrOfObj => {
     let count = 0;

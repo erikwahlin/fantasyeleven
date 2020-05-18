@@ -103,8 +103,6 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
             });
         }
 
-        console.log('new match', newMatch);
-
         matchUpdater(newMatch);
     };
 
