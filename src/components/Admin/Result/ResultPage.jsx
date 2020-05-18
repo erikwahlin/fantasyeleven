@@ -190,7 +190,11 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
                 {saved ? 'sparat' : 'spara'}
             </SaveBtn>
 
-            <OptionsWrapper className="stepNav" style={{ marginTop: '50px' }}>
+            <OptionsWrapper
+                className="stepNav"
+                style={{ marginTop: '50px' }}
+                onClick={() => !saved && saveRes()}
+            >
                 <ButtonStandard
                     type="default"
                     disabled={step === 0 && substep === 0}

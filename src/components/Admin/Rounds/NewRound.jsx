@@ -4,7 +4,7 @@ import apis from '../../../constants/api';
 
 import { withAdmin } from '../AdminState';
 
-import { clone, userMsg } from '../../../constants/helperFuncs';
+import { clone, userMsg, updatedStamp } from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
@@ -49,11 +49,12 @@ const initialForm = {
     season: '',
     number: '',
     matches: initialMatches(),
-    active: false
+    active: false,
+    ended: false
 };
 
 const NewRound = props => {
-    const { rounds, players, settings } = props.adminContext.state;
+    const { rounds, players, settings, user } = props.adminContext.state;
     const { createRound } = props.adminContext.setters;
     const noneIsActive = !settings.activeRound._id;
 
@@ -122,26 +123,13 @@ const NewRound = props => {
     };
 
     const autosave = (key, val) => {
-        const newForm = clone(form);
-
-        newForm[key] = val;
-
-        newForm.createdAt = Date.now();
-
-        newForm.updatedAt = Date.now();
-
-        setForm({ ...form, createdAt: Date.now(), updatedAt: Date.now(), [key]: val });
+        setForm({
+            ...form,
+            created: updatedStamp({ user, tag: 'Round created' }),
+            updated: updatedStamp({ user, tag: 'Round created' }),
+            [key]: val
+        });
     };
-
-    /* const saveMany = (newProps) => {
-        const newForm = clone(form);
-
-        newForm.createdAt = Date.now();
-
-        newForm.updatedAt = Date.now();
-
-        setForm({...form, ...newProps})
-    } */
 
     const updateMatch = ({ index, side, club }) => {
         const newMatches = clone(form.matches);

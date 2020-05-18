@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
 
-import { clone } from '../../../constants/helperFuncs';
+import { clone, updatedStamp } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
 import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
@@ -36,7 +36,7 @@ const Title = styled.h2`
 
 const TitleSpan = styled.span`
     font-size: 14px;
-    color: green;
+    color: ${p => (p.state === 'active' ? 'green' : p.state === 'ended' ? 'orange' : '#fff')};
 `;
 
 const ArrowIcon = styled.img`
@@ -103,9 +103,8 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
+    const { ended } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
-
-    console.log('round', round.alias, 'active', active);
 
     const [open, setOpen] = useState(false);
     const [resultOpen, setResultOpen] = useState(false);
@@ -154,6 +153,28 @@ const Round = ({ adminContext, roundIndex, active }) => {
             val: newActiveRound,
             msg: `${round.alias} är nu aktiv!`
         });
+
+        const newRound = clone(round);
+        newRound.updated.unshift(updatedStamp({ user, tag: 'Round activated' }));
+        updateRound(newRound);
+    };
+
+    const endRound = () => {
+        const sure = window.confirm(
+            'Är du säker på att du vill avsluta omgången? \n Poäng utefter resultatet delas ut och omgången arkiveras.'
+        );
+
+        if (!sure) return;
+
+        const endedRound = clone(round);
+
+        endedRound.ended = true;
+
+        updateRound(endedRound);
+
+        if (settings.activeRound._id === round._id) {
+            updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång avslutad' });
+        }
     };
 
     const matchTableData = round.matches.map((match, nth) => ({
@@ -178,7 +199,8 @@ const Round = ({ adminContext, roundIndex, active }) => {
             <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title>
-                        {round.alias} {active && <TitleSpan>(Aktiv!)</TitleSpan>}
+                        {round.alias} {active && <TitleSpan state="active">(Aktiv!)</TitleSpan>}{' '}
+                        {ended && <TitleSpan state="ended">(Avslutad)</TitleSpan>}
                     </Title>
 
                     <span
@@ -191,10 +213,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             top: '-15px'
                         }}
                     >
-                        <i>
-                            senast ändrad
-                            {round.updatedAt}
-                        </i>
+                        <i>{`senast ändrad ${round.updated[0].at.date} kl. ${round.updated[0].at.time} av ${round.updated[0].by.username}`}</i>
                     </span>
 
                     <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
@@ -286,6 +305,12 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         <CustomTooltip title="Stäng omgång">
                             <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
                                 Stäng
+                            </ButtonStandard>
+                        </CustomTooltip>
+
+                        <CustomTooltip title="Omgången markeras som färdigspelad och poäng delas ut till användarna.">
+                            <ButtonStandard type="primary" onClick={() => endRound()}>
+                                Avsluta omgång
                             </ButtonStandard>
                         </CustomTooltip>
 
