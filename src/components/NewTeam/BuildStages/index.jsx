@@ -11,8 +11,9 @@ import OverviewStage from '../OverviewStage';
 import Pitch from '../Pitch';
 import Bench from '../Bench';
 import './index.css';
-import { Steps, Button, message } from 'antd';
+import { Steps, Popconfirm } from 'antd';
 import StepContainer from './StepContainer';
+import { CustomConfirm } from '../../Elements';
 
 const { Step } = Steps;
 
@@ -27,7 +28,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    
 
     @media all and (min-height: 830px) {
         justify-content: space-around;
@@ -66,7 +66,7 @@ const StageNav = styled.div`
 const StageNavBtn = styled.button`
     width: 120px;
     height: 50px;
-    background: #E2DDDD;
+    background: #e2dddd;
     border: none;
     outline: none;
     cursor: pointer;
@@ -126,8 +126,8 @@ const stageContent = stage => {
 };
 
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
-    const { setStage, updateFilterKeys } = teamContext.setters;
-    const { team } = teamContext.state;
+    const { setStage, updateFilterKeys, registerToRound } = teamContext.setters;
+    const { team, round } = teamContext.state;
     const { players, captain, viceCaptain, value } = team;
 
     const { stageName, stageIndex } = buildStage;
@@ -137,14 +137,16 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
         console.log('tab change callback...');
     };
 
-    const onChange = current => {
-        console.log('onChange:', current);
+    const register = () => {
+        registerToRound();
     };
 
     const navHandler = input => {
         let index = stageIndex + input;
 
-        if (index < 0 || index > preset.buildStages.length - 1) return;
+        if (index < 0) return;
+
+        if (stageName === 'overview' && input > 0) return;
 
         setStage({
             stageName: preset.buildStages[index],
@@ -214,18 +216,26 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
                 <StageNavBtnLeft
                     className="StageNavBtn prev"
                     onClick={e => navHandler(-1)}
-                    disabled={buildStage.stageIndex < 1}
+                    disabled={stageIndex < 1}
                 >
                     Tillbaka
                 </StageNavBtnLeft>
 
-                <StageNavBtnRight
-                    className="StageNavBtn next"
-                    onClick={e => navHandler(1)}
-                    disabled={!stageCondition(stageName)}
+                <CustomConfirm
+                    condition={stageName === 'overview'}
+                    title="Är du redo? Inlämnat lag låses till omgången och kan inte ändras."
+                    okText="Lämna in!"
+                    cancelText="Inte än"
+                    onConfirm={register}
                 >
-                    {buildStage.stageName === 'overview' ? 'Lämna in lag!' : 'Vidare'}
-                </StageNavBtnRight>
+                    <StageNavBtnRight
+                        className="StageNavBtn next"
+                        onClick={e => navHandler(1)}
+                        disabled={!stageCondition(stageName)}
+                    >
+                        {stageName === 'overview' ? 'Lämna in lag!' : 'Vidare'}
+                    </StageNavBtnRight>
+                </CustomConfirm>
             </StageNav>
         </Wrapper>
     );

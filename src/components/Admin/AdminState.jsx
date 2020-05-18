@@ -2,25 +2,11 @@ import React, { Component, createContext } from 'react';
 import { withFirebase } from '../Firebase/context';
 import apis from '../../constants/api';
 import { getPlayers } from '../../constants/players';
-import { clone, userMsg } from '../../constants/helperFuncs';
+import { clone, userMsg, updateMsg, errMsg } from '../../constants/helperFuncs';
 import { compose } from 'recompose';
 import { typeOf } from 'react-notifications-component/dist/js/react-notifications.dev';
 
 const AdminContext = createContext(null);
-
-const errMsg = (msg = 'Något gick fel!', duration = 2000) =>
-    userMsg({
-        message: msg,
-        dismiss: { duration },
-        type: 'danger'
-    });
-
-const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
-    userMsg({
-        message: msg,
-        dismiss: { duration },
-        type: 'success'
-    });
 
 const initialState = {
     user: '',
@@ -253,19 +239,6 @@ class AdminState extends Component {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
 
-        /* const deactivated = (() => {
-            let res = null;
-            if (!newRound.active) return res;
-
-            this.state.rounds.forEach(r => {
-                if (r.active) {
-                    res = { ...clone(r), active: false };
-                }
-            });
-
-            return res;
-        })(); */
-
         const update = async (round, conf = true) => {
             await apis
                 .update({ action: 'updateRound', payload: round })
@@ -284,10 +257,6 @@ class AdminState extends Component {
                     errMsg().add();
                 });
         };
-
-        /* if (deactivated !== null) {
-            update(deactivated, false);
-        } */
 
         update(newRound);
     };

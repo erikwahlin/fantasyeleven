@@ -103,7 +103,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
-    const { ended } = round;
+    const { ended, users } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
     const status = roundStatus({ active, ended });

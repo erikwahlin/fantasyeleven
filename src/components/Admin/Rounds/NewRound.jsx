@@ -49,8 +49,8 @@ const initialForm = {
     season: '',
     number: '',
     matches: initialMatches(),
-    active: false,
-    ended: false
+    ended: false,
+    users: []
 };
 
 const NewRound = props => {

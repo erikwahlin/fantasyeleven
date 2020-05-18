@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { clone } from '../../constants/helperFuncs';
+import {
+    clone,
+    timestamp,
+    updatedStamp,
+    userMsg,
+    updateMsg,
+    errMsg
+} from '../../constants/helperFuncs';
 import * as preset from '../../constants/gamePreset';
 import TeamContext from './ctx';
 import INITIAL_STATE, { allPlayers } from './config';
@@ -10,6 +17,7 @@ import BuildStages from './BuildStages';
 import { Detector } from 'react-detect-offline';
 
 import { withAuthentication } from '../Session';
+import { withRouter } from 'react-router-dom';
 
 import apis from '../../constants/api';
 
@@ -48,8 +56,6 @@ class NewTeam extends Component {
         super(props);
         this.state = { ...clone(INITIAL_STATE) };
 
-        this.getPlayers = this.readPlayers.bind(this);
-
         this.updateNewTeam = this.updateNewTeam.bind(this);
 
         this.updatesearchablePlayers = this.updatesearchablePlayers.bind(this);
@@ -76,29 +82,30 @@ class NewTeam extends Component {
         this.mongoLoad = this.mongoLoad.bind(this);
         this.mongoCreate = this.mongoCreate.bind(this);
         this.mongoSave = this.mongoSave.bind(this);
+        this.readPlayers = this.readPlayers.bind(this);
+        this.readActiveRound = this.readActiveRound.bind(this);
+        this.registerToRound = this.registerToRound.bind(this);
 
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
+
+        this.setters = {
+            updateNewTeam: this.updateNewTeam,
+            addPlayer: this.addPlayer,
+            delPlayer: this.delPlayer,
+            setSwitchers: this.setSwitchers,
+            switchPlayers: this.switchPlayers,
+            openPlayerSearch: this.openPlayerSearch,
+            closePlayerSearch: this.closePlayerSearch,
+            toggleMobileSearch: this.toggleMobileSearch,
+            setStage: this.setStage,
+            updateFilterKeys: this.updateFilterKeys,
+            registerToRound: this.registerToRound
+        };
     }
 
-    readPlayers = async callback => {
-        await apis
-            .read({ action: 'readPlayers' })
-            .then(res => {
-                this.setState(
-                    ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
-                    () => {
-                        if (typeof callback === 'function') callback();
-                    }
-                );
-            })
-            .catch(err => {
-                console.log('get players fail:', err);
-                this.clientLoad();
-            });
-    };
-
     componentDidMount = () => {
+        this.readActiveRound();
         this.readPlayers(() => {
             this.updatesearchablePlayers(async () => {
                 await this.userInit();
@@ -108,6 +115,8 @@ class NewTeam extends Component {
 
     // updater for team-state (+ save)
     updateNewTeam = newTeam => {
+        newTeam.updated = timestamp();
+
         this.setState({ team: newTeam }, () => {
             this.save();
         });
@@ -220,7 +229,7 @@ class NewTeam extends Component {
 
         const payload = {
             _id,
-            newTeam: { ...this.state.team }
+            newTeam: { ...this.state.team, updated: timestamp() }
         };
 
         await apis
@@ -233,6 +242,101 @@ class NewTeam extends Component {
                 // if db unavailable, save to client
                 console.log('Unable to save to mongo.');
                 this.clientSave();
+            });
+    };
+
+    readPlayers = async callback => {
+        await apis
+            .read({ action: 'readPlayers' })
+            .then(res => {
+                this.setState(
+                    ps => ({ ...ps, config: { ...ps.config, allPlayers: res.data.data } }),
+                    () => {
+                        if (typeof callback === 'function') callback();
+                    }
+                );
+            })
+            .catch(err => {
+                console.log('get players fail:', err);
+                this.clientLoad();
+            });
+    };
+
+    readActiveRound = async callback => {
+        await apis
+            .read({ action: 'readActiveRound' })
+            .then(res => {
+                if (res.status <= 200) {
+                    this.setState({ round: res.data.data }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
+                } else {
+                    console.log('Active round not found.');
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to get active round (${err})`);
+            });
+    };
+
+    registerToRound = async onSuccess => {
+        const { round, user } = this.state;
+
+        if (!round) {
+            return userMsg({
+                message:
+                    'Ingen kommande omgång registrerad för tillfället, vänligen återkom senare.',
+                type: 'warning'
+            }).add();
+        }
+
+        if (!user) {
+            return userMsg({
+                message: 'Vänligen skapa ett konto',
+                type: 'warning'
+            }).add();
+        }
+
+        const newRound = clone(round);
+
+        let alreadyRegistered = false;
+        newRound.users.forEach(u => {
+            if (u.user === user) {
+                alreadyRegistered = true;
+            }
+        });
+
+        if (alreadyRegistered) {
+            return userMsg({
+                message: 'Du verkar redan ha registrerat ett lag till den här omgången.',
+                type: 'warning'
+            }).add();
+        }
+
+        newRound.users.push({
+            user,
+            team: this.state.team._id
+        });
+
+        newRound.updated.unshift(
+            updatedStamp({ user, tag: `Registered team: ${this.state.team._id}` })
+        );
+
+        await apis
+            .update({ action: 'updateRound', payload: newRound })
+            .then(res => {
+                //this.readActiveRound();
+
+                this.props.history.push({
+                    pathname: '/overview',
+                    state: { newTeam: this.state.team }
+                });
+
+                //if (typeof onSuccess === 'function') onSuccess();
+            })
+            .catch(err => {
+                console.log('err when registering to round', err);
+                errMsg().add();
             });
     };
 
@@ -249,7 +353,14 @@ class NewTeam extends Component {
         console.log('No team was loaded, starting fresh.');
     };
 
-    clientSave = () => localStorage.setItem('team', JSON.stringify(this.state.team));
+    clientSave = () =>
+        localStorage.setItem(
+            'team',
+            JSON.stringify({
+                ...this.state.team,
+                updated: timestamp()
+            })
+        );
 
     /*
      *
@@ -293,6 +404,7 @@ class NewTeam extends Component {
             }
 
             const { position: pos, origin, club } = player;
+
             // map player objs
             newTeam.players[origin][pos].push(player);
 
@@ -311,6 +423,9 @@ class NewTeam extends Component {
         // set captains
         newTeam.captain = newCap;
         newTeam.viceCaptain = newViceCap;
+
+        // update updated
+        newTeam.updated = timestamp();
 
         this.setState(
             ps => ({ ...ps, team: newTeam }),
@@ -792,20 +907,6 @@ class NewTeam extends Component {
     render() {
         const { searchablePlayers, switchers, mobileSearch, buildStage } = this.state.config;
 
-        // NewTeam-funcs in ctx
-        const setters = {
-            updateNewTeam: this.updateNewTeam,
-            addPlayer: this.addPlayer,
-            delPlayer: this.delPlayer,
-            setSwitchers: this.setSwitchers,
-            switchPlayers: this.switchPlayers,
-            openPlayerSearch: this.openPlayerSearch,
-            closePlayerSearch: this.closePlayerSearch,
-            toggleMobileSearch: this.toggleMobileSearch,
-            setStage: this.setStage,
-            updateFilterKeys: this.updateFilterKeys
-        };
-
         const markedMode = switchers.marked && !switchers.target ? true : false;
 
         // filter allPlayers before PlayerSearch
@@ -817,7 +918,7 @@ class NewTeam extends Component {
             <TeamContext.Provider
                 value={{
                     state: this.state,
-                    setters
+                    setters: this.setters
                 }}
             >
                 <Detector
@@ -846,4 +947,4 @@ class NewTeam extends Component {
     }
 }
 
-export default withAuthentication(NewTeam);
+export default withRouter(withAuthentication(NewTeam));
