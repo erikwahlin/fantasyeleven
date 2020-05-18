@@ -193,7 +193,7 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
             <OptionsWrapper
                 className="stepNav"
                 style={{ marginTop: '50px' }}
-                onClick={() => !saved && saveRes()}
+                onClick={() => !saved && saveRes({ key: 'Edited result' })}
             >
                 <ButtonStandard
                     type="default"

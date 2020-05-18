@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
 
-import { clone, updatedStamp } from '../../../constants/helperFuncs';
+import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
 import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
@@ -36,7 +36,7 @@ const Title = styled.h2`
 
 const TitleSpan = styled.span`
     font-size: 14px;
-    color: ${p => (p.state === 'active' ? 'green' : p.state === 'ended' ? 'orange' : '#fff')};
+    color: ${p => (p.status === 'Aktiv' ? 'green' : p.status === 'Avslutad' ? 'orange' : '#fff')};
 `;
 
 const ArrowIcon = styled.img`
@@ -105,6 +105,8 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const round = rounds[roundIndex];
     const { ended } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
+
+    const status = roundStatus({ active, ended });
 
     const [open, setOpen] = useState(false);
     const [resultOpen, setResultOpen] = useState(false);
@@ -188,19 +190,19 @@ const Round = ({ adminContext, roundIndex, active }) => {
     }));
 
     // TEMP 'til we got functionality for ended round
-    const roundClosed = false;
-
-    const statuses = ['Inaktiv', 'Aktiv i spel', 'Färdigspelad'];
-
-    const roundStatus = roundClosed ? statuses[2] : active ? statuses[1] : statuses[0];
 
     return (
         <div className="Result">
             <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title>
-                        {round.alias} {active && <TitleSpan state="active">(Aktiv!)</TitleSpan>}{' '}
-                        {ended && <TitleSpan state="ended">(Avslutad)</TitleSpan>}
+                        {round.alias}
+                        {(active || ended) && (
+                            <>
+                                {' '}
+                                <TitleSpan status={status}>{status.toUpperCase()}</TitleSpan>
+                            </>
+                        )}
                     </Title>
 
                     <span
@@ -239,7 +241,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
                                 placement="bottom"
                             >
                                 <p>
-                                    Status <span>{roundStatus.toUpperCase()}</span>
+                                    Status <span>{status.toUpperCase()}</span>
                                 </p>
                             </CustomTooltip>
                         </InfoCard>

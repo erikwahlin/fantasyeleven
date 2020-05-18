@@ -49,8 +49,8 @@ class ResultState extends Component {
         this.setState({ step, substep });
     };
 
-    saveRes = ({ key }) => {
-        key = key ? `(${key})` : '';
+    saveRes = ({ key = '' }) => {
+        if (key !== '') key = `(${key})`;
         const { rounds, user } = this.props.adminContext.state;
         const newRound = clone(rounds[this.props.roundIndex]);
 

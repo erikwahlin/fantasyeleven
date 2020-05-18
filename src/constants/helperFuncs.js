@@ -24,6 +24,9 @@ export const updatedStamp = ({ user, tag = '' }) => {
     };
 };
 
+export const roundStatus = ({ active, ended }) =>
+    ended ? 'Avslutad' : active ? 'Aktiv' : 'Inaktiv';
+
 //counting players in team.players.pitch or team.players.bench
 export const countPlayers = arrOfObj => {
     let count = 0;
