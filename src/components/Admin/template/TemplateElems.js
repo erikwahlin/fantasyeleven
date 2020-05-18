@@ -27,7 +27,7 @@ export const ButtonStandard = styled(Button)`
         `}
 `;
 
-export const SaveBtn = styled.button`
+export const FloatBtn = styled.button`
     position: fixed;
     bottom: 10px;
     right: 10px;
@@ -40,6 +40,15 @@ export const SaveBtn = styled.button`
     width: 65px;
     height: 65px;
     z-index: 1;
+
+    ${p =>
+        p.customstyle &&
+        css`
+            ${p.customstyle}
+        `}
+`;
+
+export const SaveBtn = styled(FloatBtn)`
     color: ${p => (p.saved ? 'green' : 'black')};
 
     ${p =>

@@ -3,7 +3,7 @@ import { withAdmin } from '../AdminState';
 
 import styled, { css } from 'styled-components';
 
-import { Wrapper } from '../template/wrapperTemplate';
+import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
 
 import { clone } from '../../../constants/helperFuncs';
@@ -86,12 +86,6 @@ const MatchTable = styled(Table)`
     }
 `;
 
-const OptionsWrapper = styled(Wrapper)`
-    width: 100%;
-    flex-direction: row;
-    margin: 20px 0;
-`;
-
 const OptionContainer = styled.div`
     flex: 1;
     display: flex;
@@ -110,6 +104,8 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
+
+    console.log('round', round.alias, 'active', active);
 
     const [open, setOpen] = useState(false);
     const [resultOpen, setResultOpen] = useState(false);
@@ -134,12 +130,12 @@ const Round = ({ adminContext, roundIndex, active }) => {
         deleteRound({ payload: rounds[roundIndex] });
     };
 
-    const setActive = newVal => {
-        const verb = newVal ? 'aktivera' : 'inaktivera';
+    const activateRound = () => {
         const sure = window.confirm(
-            `Är du säker på att du vill ${verb} ${round.alias}? ${
-                newVal ? 'Eventuella redan aktiverade omgångar inaktiveras.' : ''
-            }`
+            `Är du säker på att du vill aktivera ${round.alias}? \n
+            Aktiverad omgång måste avslutas (poäng delas ut) före en
+            ny omgång kan aktiveras.
+            `
         );
 
         if (!sure) return;
@@ -151,11 +147,18 @@ const Round = ({ adminContext, roundIndex, active }) => {
             number: round.number
         };
 
-        updateSettings({ key: 'activeRound', val: newVal ? newActiveRound : {} });
+        console.log('new active round', newActiveRound);
+
+        updateSettings({
+            key: 'activeRound',
+            val: newActiveRound,
+            msg: `${round.alias} är nu aktiv!`
+        });
     };
 
     const matchTableData = round.matches.map((match, nth) => ({
         key: nth + 1,
+        match: nth + 1,
         homeTeam: match.home.club,
         homeGoals: match.home.goals,
         hyphen: '-',
@@ -227,6 +230,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             dataSource={matchTableData}
                             pagination={{ position: ['bottomCenter'], pageSize: 20 }}
                         >
+                            <Column title="Match" dataIndex="match" key="match" />
                             <Column title="HEMMA" dataIndex="homeTeam" key="homeTeam" />
                             <Column title="" dataIndex="homeGoals" key="homeGoals" />
                             <Column title="" dataIndex="hyphen" key="hyphen" />
@@ -239,33 +243,39 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         className="Options"
                         style={{ width: '100%', height: 'fit-content', display: 'flex' }}
                     >
-                        <CustomTooltip title="Radera omgång">
+                        <CustomTooltip
+                            title="Omgången måste avslutas före den kan raderas"
+                            condition={active}
+                        >
                             <ButtonStandard
                                 type="primary"
                                 onClick={() => delHandler()}
                                 customstyle="color: red;"
+                                disabled={active}
                             >
                                 Radera
                             </ButtonStandard>
                         </CustomTooltip>
 
-                        <CustomTooltip
-                            condition={!active && !noneIsActive}
-                            title="Avaktivera andra omgångar först"
-                        >
-                            <ButtonStandard
-                                type="primary"
-                                onClick={() => setActive(!active)}
-                                disabled={!active && !noneIsActive}
+                        {!active && (
+                            <CustomTooltip
+                                condition={!active && !noneIsActive}
+                                title="Aktiverad omgång måste avslutas först"
                             >
-                                {!active ? 'Aktivera' : 'Inaktivera'}
-                            </ButtonStandard>
-                        </CustomTooltip>
+                                <ButtonStandard
+                                    type="default"
+                                    onClick={() => activateRound()}
+                                    disabled={!active && !noneIsActive}
+                                >
+                                    Aktivera
+                                </ButtonStandard>
+                            </CustomTooltip>
+                        )}
 
                         {!resultOpen && (
-                            <CustomTooltip title="Visa/ändra resultat" placement="top">
+                            <CustomTooltip title="Visa/ändra resultat">
                                 <ButtonStandard
-                                    type="primary"
+                                    type="default"
                                     onClick={() => setResultOpen(!resultOpen)}
                                 >
                                     Resultat
@@ -273,9 +283,11 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             </CustomTooltip>
                         )}
 
-                        <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
-                            Stäng
-                        </ButtonStandard>
+                        <CustomTooltip title="Stäng omgång">
+                            <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
+                                Stäng
+                            </ButtonStandard>
+                        </CustomTooltip>
                     </OptionsWrapper>
 
                     {resultOpen && (

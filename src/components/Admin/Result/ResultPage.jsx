@@ -6,7 +6,7 @@ import { withResult } from './ResultState';
 import InputTable from './InputTable';
 import OverView from './OverView';
 
-import { Wrapper } from '../template/wrapperTemplate';
+import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
 
 import { Steps, Divider } from 'antd';
@@ -189,9 +189,10 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
             <SaveBtn className="saveBtn" onClick={saveRes} saved={saved}>
                 {saved ? 'sparat' : 'spara'}
             </SaveBtn>
-            <div className="stepNav" style={{ marginTop: '50px' }}>
+
+            <OptionsWrapper className="stepNav" style={{ marginTop: '50px' }}>
                 <ButtonStandard
-                    type="primary"
+                    type="default"
                     disabled={step === 0 && substep === 0}
                     onClick={() => takeSubstep(-1)}
                 >
@@ -199,21 +200,20 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
                 </ButtonStandard>
                 <CustomTooltip condition={category === 'match'} title="Nästa match">
                     <ButtonStandard
-                        type="primary"
+                        type="default"
                         disabled={category !== 'match'}
                         onClick={() => takeSubstep(1)}
                     >
                         Vidare
                     </ButtonStandard>
-
-                    {category === 'overview' && (
-                        <ButtonStandard type="primary" onClick={() => closeResult()}>
-                            Klar
-                        </ButtonStandard>
-                    )}
                 </CustomTooltip>
-            </div>
-            {/* Render content (forms) for each substep */}
+
+                <CustomTooltip title="Stäng resultat">
+                    <ButtonStandard type="primary" onClick={() => closeResult()}>
+                        {category === 'overview' ? 'Klar' : 'Stäng'}
+                    </ButtonStandard>
+                </CustomTooltip>
+            </OptionsWrapper>
         </Wrapper>
     );
 };

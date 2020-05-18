@@ -7,20 +7,20 @@ import { withAdmin } from '../AdminState';
 import { clone, userMsg } from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
-import { ButtonStandard } from '../template/TemplateElems';
+import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
 import allClubs from '../../../constants/clubs';
 
 import { initialMatches } from '../../../constants/gamePreset';
 
-const { Wrapper } = wrapperTemplate;
+const { Wrapper, OptionsWrapper } = wrapperTemplate;
 
 const { FormContainer, InputTemplate } = formTemplate;
 
 const ClubSelect = styled.select`
-    & > option {
-        color: red !important;
-    }
+    border: none;
+    outline: none;
+    color: ${p => (p.value ? '#fff' : '#000')};
 `;
 
 const ClubWrapper = styled(Wrapper)`
@@ -61,7 +61,7 @@ const NewRound = props => {
     const [prevHome, setPrevHome] = useState(null);
     const [prevAway, setPrevAway] = useState(null);
     const [prevClub, setPrevClub] = useState({ home: '', away: '' });
-    const [takenClubs, setTakenClubs] = useState([]);
+    const [takenClubs, setTakenClubs] = useState(allClubs.map(c => c.long));
     const [newRoundHidden, setNewnewRoundHidden] = useState(true);
 
     const formReady = {
@@ -70,10 +70,10 @@ const NewRound = props => {
         alias: form.alias.length && rounds.every(r => r.alias !== form.alias),
         season: form.season.length,
         number: !isNaN(parseFloat(form.number)) && parseInt(form.number) > 0,
-        matches: true /* (() => {
+        matches: (() => {
             const fullPick = form.matches.every(match => match.home.club && match.away.club);
             return fullPick ? true : false;
-        })() */,
+        })(),
         active: true,
         result: true
     };
@@ -184,13 +184,7 @@ const NewRound = props => {
             </div>
 
             <ToggleWrapper className="toggleWrapper" hidden={newRoundHidden}>
-                <FormContainer
-                    className="FormContainer"
-                    title="Skapa en ny omgång"
-                    onSubmit={submit}
-                    submitVal="Skapa"
-                    submitDisabled={submitDisabled}
-                >
+                <FormContainer className="FormContainer" title="Skapa en ny omgång">
                     <InputTemplate
                         state={form}
                         stateKey="alias"
@@ -224,7 +218,7 @@ const NewRound = props => {
                         onSubmit={submit}
                     />
 
-                    <InputTemplate
+                    {/* <InputTemplate
                         state={form}
                         stateKey="active"
                         label="Sätt som aktiv"
@@ -238,7 +232,7 @@ const NewRound = props => {
                         ready={false}
                         onSubmit={submit}
                         disabled={!noneIsActive}
-                    />
+                    /> */}
                     <Wrapper
                         customStyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
                     >
@@ -320,20 +314,31 @@ const NewRound = props => {
                         ))}
                     </Wrapper>
 
-                    <ButtonStandard
-                        type="primary"
-                        style={{
-                            width: 'fit-content',
-                            margin: '0',
-                            position: 'relative',
-                            bottom: '-70px',
-                            left: '15px',
-                            outline: 'none'
-                        }}
-                        onClick={() => setNewnewRoundHidden(!newRoundHidden)}
+                    <OptionsWrapper
+                        className="Options"
+                        customStyle="flex-direction: row; margin: 20px 0; width: 100%;"
                     >
-                        Stäng
-                    </ButtonStandard>
+                        <ButtonStandard
+                            type="default"
+                            onClick={() => setNewnewRoundHidden(!newRoundHidden)}
+                        >
+                            Stäng
+                        </ButtonStandard>
+
+                        <CustomTooltip
+                            condition={submitDisabled}
+                            title="Obligatoriska fält: Alias, Säsong, Omgångsnummer samt 2 lag/match"
+                        >
+                            <ButtonStandard
+                                type="primary"
+                                htmlType="submit"
+                                onClick={submit}
+                                disabled={submitDisabled}
+                            >
+                                Skapa
+                            </ButtonStandard>
+                        </CustomTooltip>
+                    </OptionsWrapper>
                 </FormContainer>
             </ToggleWrapper>
         </div>
