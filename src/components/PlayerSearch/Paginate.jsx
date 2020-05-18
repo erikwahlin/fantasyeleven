@@ -37,7 +37,7 @@ const PageNumber = styled.div`
 `;
 
 const Paginate = props => {
-    const { settings, playerCount, goToPage, pageCount } = props;
+    const { settings, playerCount, goToPage, pageCount, mobileSearch } = props;
     const { pageNumber, pageSize } = settings;
     const lastPage = Math.ceil(playerCount / pageSize);
 
@@ -74,27 +74,37 @@ const Paginate = props => {
 
     //angle right - left
     //angle double right - left
-    return (
-        <Wrapper className="Paginate unmarkable">
-            <Btn className="firstPage paginationBtn" onClick={clickHandler}>
-                <FaAngleDoubleLeft />
-            </Btn>
+    {
+        if (!mobileSearch) {
+            return (
+                <Wrapper className="Paginate unmarkable">
+                    <Btn className="firstPage paginationBtn" onClick={clickHandler}>
+                        <FaAngleDoubleLeft />
+                    </Btn>
 
-            <Btn className="backward paginationBtn" onClick={clickHandler}>
-                <FaAngleLeft />
-            </Btn>
+                    <Btn className="backward paginationBtn" onClick={clickHandler}>
+                        <FaAngleLeft />
+                    </Btn>
 
-            {<PageNumber>{pageNumber + '/' + Math.ceil(playerCount / pageSize)}</PageNumber>}
+                    {
+                        <PageNumber>
+                            {pageNumber + '/' + Math.ceil(playerCount / pageSize)}
+                        </PageNumber>
+                    }
 
-            <Btn className="forward paginationBtn" onClick={clickHandler}>
-                <FaAngleRight />
-            </Btn>
+                    <Btn className="forward paginationBtn" onClick={clickHandler}>
+                        <FaAngleRight />
+                    </Btn>
 
-            <Btn className="lastPage paginationBtn" onClick={clickHandler}>
-                <FaAngleDoubleRight />
-            </Btn>
-        </Wrapper>
-    );
+                    <Btn className="lastPage paginationBtn" onClick={clickHandler}>
+                        <FaAngleDoubleRight />
+                    </Btn>
+                </Wrapper>
+            );
+        } else {
+            return <></>;
+        }
+    }
 };
 
 export default Paginate;

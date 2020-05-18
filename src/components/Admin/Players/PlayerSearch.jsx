@@ -19,7 +19,6 @@ import '../../PlayerSearch/styles.css';
 import Arrow from '../../../media/arrow.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 
-
 /* import Cap from '../../media/Cap.svg'; */
 /* import ViceCap from '../../media/ViceCap.svg'; */
 
@@ -326,8 +325,9 @@ class PlayerSearch extends Component {
 
     render() {
         const { paginationSettings, posOrClubSelected } = this.state;
-        const { markedMode, adminContext } = this.props;
+        const { markedMode, adminContext, state } = this.props;
         const { players } = adminContext.state;
+        const { mobileSearch } = state;
 
         let resultLabel = posOrClubSelected.label;
 
@@ -483,6 +483,7 @@ class PlayerSearch extends Component {
                                 {paginated.length && (
                                     <ResultContainer className="ResultContainer">
                                         <Paginate
+                                            mobileSearch={mobileSearch}
                                             className="Paginate"
                                             goToPage={this.goToPage}
                                             settings={paginationSettings}
@@ -567,7 +568,6 @@ class PlayerSearch extends Component {
                                 deletePlayerCallback={this.deletePlayerCallback}
                             />
                         )}
-                        
                     </ContentWrapper>
                 </Wrapper>
             </Wrapper>
