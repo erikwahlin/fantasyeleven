@@ -318,7 +318,8 @@ class Plupp extends Component {
         this.state = {
             isMarked: false,
             isSwitchable: false,
-            isQuickSwitchable: false
+            isQuickSwitchable: false,
+            potentialCap: null
         };
 
         this.del = this.del.bind(this);
@@ -336,7 +337,6 @@ class Plupp extends Component {
 
         this.setCap = this.setCap.bind(this);
     }
-
     // on update
     componentDidUpdate = (pp, ps) => {
         this.syncWithSwitchers(pp, ps);
@@ -552,6 +552,11 @@ class Plupp extends Component {
                 switchPlayers();
             }
         );
+    };
+
+    onClickCap = () => {
+        const { player } = this.props;
+        this.setState({ potentialCap: player });
     };
 
     setCap = (role = 'captain') => {
