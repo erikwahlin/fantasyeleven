@@ -130,7 +130,6 @@ class AdminState extends Component {
         await apis
             .read({ action: 'readSettings' })
             .then(res => {
-                console.log('settings return', res);
                 if (res.status <= 200) {
                     // if no activeRound, set empty obj
                     const settings = {
@@ -148,7 +147,7 @@ class AdminState extends Component {
             });
     };
 
-    updateSettings = async ({ key, val }) => {
+    updateSettings = async ({ key, val, msg }) => {
         const { user } = this.state;
         if (!user.roles.includes('ADMIN')) {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
@@ -157,9 +156,13 @@ class AdminState extends Component {
         await apis
             .update({ action: 'updateSettings', payload: { key, val, user } })
             .then(res => {
-                console.log('Updated settings');
+                console.log('Updated settings', key);
 
                 this.readSettings();
+
+                if (typeof msg === 'string') {
+                    updateMsg(msg).add();
+                }
             })
             .catch(err => {
                 console.log(`Failed to update settings ${err}`);
@@ -229,24 +232,7 @@ class AdminState extends Component {
                 if (res.status <= 200) {
                     conf.add();
 
-                    if (payload.active) {
-                        this.updateSettings(
-                            {
-                                key: 'activeRound',
-                                val: {
-                                    _id: res.data.data._id,
-                                    alias: payload.alias,
-                                    season: payload.season,
-                                    number: payload.number
-                                }
-                            },
-                            () => {
-                                this.readSettings(() => {
-                                    this.readRounds();
-                                });
-                            }
-                        );
-                    }
+                    this.readRounds();
 
                     if (typeof onSuccess === 'function') return onSuccess();
                 } else {
@@ -312,9 +298,7 @@ class AdminState extends Component {
         await apis
             .delete({ action: 'deleteRound', _id: payload._id })
             .then(res => {
-                this.setState({ rounds: [] }, () => {
-                    this.readRounds();
-                });
+                this.readRounds();
 
                 const delMsg = userMsg({
                     message: `Omgång ${payload.alias} borttagen!`,

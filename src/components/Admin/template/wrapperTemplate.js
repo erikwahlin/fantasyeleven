@@ -19,6 +19,18 @@ export const Wrapper = styled.div`
         `};
 `;
 
+export const OptionsWrapper = styled(Wrapper)`
+    flex-direction: row;
+    width: 100%;
+    margin: 20px 0;
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
+        `};
+`;
+
 export const ContentWrapper = styled.div`
     background-color: #23334d;
     width: 100%;
