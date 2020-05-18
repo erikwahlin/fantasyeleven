@@ -15,7 +15,7 @@ class ResultState extends Component {
         super(props);
 
         this.state = {
-            step: 0,
+            step: 10,
             substep: 0,
             ready: false,
             newRes: this.props.adminContext.state.rounds[this.props.roundIndex].matches,
