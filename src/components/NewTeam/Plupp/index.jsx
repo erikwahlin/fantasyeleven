@@ -15,6 +15,7 @@ import allClubs from '../../../constants/clubs';
 import InfoModal from '../../InfoModal/index';
 import { toSwe } from '../../../constants/helperFuncs';
 import { IoIosShirt } from 'react-icons/io';
+import { Popover } from 'antd';
 
 const Container = styled.div`
     width: 50px;
@@ -319,10 +320,12 @@ class Plupp extends Component {
             isMarked: false,
             isSwitchable: false,
             isQuickSwitchable: false,
-            potentialCap: null
+            potentialCap: null,
+            capPopOpen: false
         };
 
         this.del = this.del.bind(this);
+        this.capPopToggle = this.capPopToggle.bind(this);
         this.handleClickInside = this.handleClickInside.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.markedPrivilege = this.markedPrivilege.bind(this);
@@ -336,6 +339,36 @@ class Plupp extends Component {
         this.switchRef = createRef(null);
 
         this.setCap = this.setCap.bind(this);
+
+        this.capPopContent = () => {
+            const onChange = e => {
+                this.setCap(e.target.value);
+            };
+            return (
+                <div>
+                    <input
+                        type="radio"
+                        id="captain"
+                        name="role"
+                        value="captain"
+                        onChange={onChange}
+                    />
+                    <label for="captain">Kapten</label>
+                    <br />
+                    <input
+                        type="radio"
+                        id="viceCaptain"
+                        name="role"
+                        value="viceCaptain"
+                        onChange={onChange}
+                    />
+                    <label for="viceCaptain">Vice Kapten</label>
+                    <br />
+                    <br />
+                    <a onClick={this.capPopToggle}>Stäng</a>
+                </div>
+            );
+        };
     }
     // on update
     componentDidUpdate = (pp, ps) => {
@@ -420,6 +453,12 @@ class Plupp extends Component {
         });
     };
 
+    capPopToggle = () => {
+        this.setState({
+            capPopOpen: !this.state.capPopOpen
+        });
+    };
+
     // (runs before click inside)
     handleClickOutside = e => {
         if (!this.state.isMarked) return;
@@ -457,9 +496,11 @@ class Plupp extends Component {
         if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
 
         if (stageName === 'captain') {
-            this.setCap(
+            this.capPopToggle();
+
+            /* this.setCap(
                 !captain || this.props.player._id === captain._id ? 'captain' : 'viceCaptain'
-            );
+            );*/
 
             return;
         }
@@ -566,15 +607,22 @@ class Plupp extends Component {
         const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
 
         // if same player already has a role, clear
-        if (team[otherRole] === player._id) {
-            team[otherRole] = null;
+        if (team[otherRole]) {
+            if (player._id === team[otherRole]._id) {
+                team[otherRole] = null;
+            }
         }
 
-        if (player._id === team[role]) {
-            team[role] = null;
-        } else {
-            team[role] = player._id;
-        }
+        /* if(team[role]){
+
+            if (player._id === team[role]._id) {
+                team[role] = null;
+            } else {
+                team[role] = player;
+            }
+        } */
+
+        team[role] = player;
 
         updateNewTeam(team);
     };
@@ -677,22 +725,30 @@ class Plupp extends Component {
                     </OptionsBottom>
                 )}
 
-                <PluppImg
-                    ref={this.pluppRef}
-                    id={`switch-${origin}-${pos}-${lineupIndex}`}
-                    className={`${isSwitchable && 'Switchable'}Plupp`}
-                    alt={`player-plupp ${origin}`}
-                    src={pluppC}
-                    isMarked={this.state.isMarked}
-                    /* onClick={e => this.handleClickInside(e, stageName)} */
-                    onClick={e => this.handleClickInside(e)}
-                    isSwitchable={isSwitchable}
-                    origin={origin}
-                    player={player}
-                    stageName={stageName}
-                    isCap={isCap}
-                    isViceCap={isViceCap}
-                />
+                <Popover
+                    content={this.capPopContent}
+                    title="Hej"
+                    trigger="click"
+                    visible={this.state.capPopOpen}
+                    /* onVisibleChange={this.handleVisibleChange} */
+                >
+                    <PluppImg
+                        ref={this.pluppRef}
+                        id={`switch-${origin}-${pos}-${lineupIndex}`}
+                        className={`${isSwitchable && 'Switchable'}Plupp`}
+                        alt={`player-plupp ${origin}`}
+                        src={pluppC}
+                        isMarked={this.state.isMarked}
+                        /* onClick={e => this.handleClickInside(e, stageName)} */
+                        onClick={e => this.handleClickInside(e)}
+                        isSwitchable={isSwitchable}
+                        origin={origin}
+                        player={player}
+                        stageName={stageName}
+                        isCap={isCap}
+                        isViceCap={isViceCap}
+                    />
+                </Popover>
 
                 {/* <IoIosShirt
                     ref={this.pluppRef}

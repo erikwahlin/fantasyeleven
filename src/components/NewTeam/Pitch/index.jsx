@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     width: 576px;
     height: 522px;
     margin: 0 auto;
-    margin-bottom:30px;
+    margin-bottom: 30px;
 
     @media all and (max-width: 480px) {
         width: 100vw;
