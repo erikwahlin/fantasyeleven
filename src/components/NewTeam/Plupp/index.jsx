@@ -362,17 +362,17 @@ class Plupp extends Component {
             return (
                 <div
                     className="capPopWrapper unmarkable"
-                    style={{ textAlign: 'center', width: '100px' }}
+                    style={{ textAlign: 'center', width: '150px' }}
                 >
                     <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
-                        Kapten
+                        Gör till kapten
                     </CapPopBtn>
 
                     <CapPopBtn
                         onClick={() => !isVice && this.setCap('viceCaptain')}
                         picked={isVice}
                     >
-                        Vice Kapten
+                        Gör till vice kapten
                     </CapPopBtn>
 
                     <a onClick={this.capPopToggle}>Stäng</a>
