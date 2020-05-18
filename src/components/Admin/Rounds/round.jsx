@@ -288,6 +288,13 @@ const Round = ({ adminContext, roundIndex, active }) => {
                                 Stäng
                             </ButtonStandard>
                         </CustomTooltip>
+
+                        {/* Radera omgång, temp för dev */}
+                        {/* <CustomTooltip title="Radera">
+                            <ButtonStandard type="primary" onClick={() => delHandler()}>
+                                Radera (temp)
+                            </ButtonStandard>
+                        </CustomTooltip> */}
                     </OptionsWrapper>
 
                     {resultOpen && (
