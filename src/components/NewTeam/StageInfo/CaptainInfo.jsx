@@ -7,29 +7,38 @@ import capImg from '../../../media/Cap.svg';
 import viceImg from '../../../media/ViceCap.svg';
 
 const CaptainInfo = ({ teamContext }) => {
-    const { team } = teamContext.state;
+    const { team, config } = teamContext.state;
+    const { mobileSearch } = config;
     const { players, captain, viceCaptain } = team;
 
-    return (
-        <Wrapper className="StageInfo">
-            <Section className="Section">
-                <CaptainCard
-                    role="captain"
-                    obj={captain}
-                    img={capImg}
-                    className="CaptainCard captain"
-                />
-            </Section>
+    const findCaptain = (players, cap) => {
+        if (cap && players) return players.list.filter(player => player._id === cap)[0];
+    };
 
-            <Section className="Section">
-                <CaptainCard
-                    role="viceCaptain"
-                    obj={viceCaptain}
-                    img={viceImg}
-                    className="CaptainCard viceCaptain"
-                />
-            </Section>
-        </Wrapper>
+    return (
+        <>
+            {mobileSearch && (
+                <Wrapper className="StageInfo">
+                    <Section className="Section">
+                        <CaptainCard
+                            role="captain"
+                            obj={captain && captain}
+                            img={capImg}
+                            className="CaptainCard captain"
+                        />
+                    </Section>
+
+                    <Section className="Section">
+                        <CaptainCard
+                            role="viceCaptain"
+                            obj={viceCaptain && viceCaptain}
+                            img={viceImg}
+                            className="CaptainCard viceCaptain"
+                        />
+                    </Section>
+                </Wrapper>
+            )}
+        </>
     );
 };
 

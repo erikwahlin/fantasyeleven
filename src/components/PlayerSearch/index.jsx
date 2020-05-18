@@ -335,6 +335,10 @@ class PlayerSearch extends Component {
         const { team } = teamContext.state;
         const { captain, viceCaptain } = team;
 
+        const findCaptain = (players, cap) => {
+            if (cap && players) return players.filter(player => player._id === cap)[0];
+        };
+
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
             : posOrClubSelected.label;
@@ -442,10 +446,10 @@ class PlayerSearch extends Component {
                     {/* temp */}
                     {buildStage.stageName === 'captain' ? (
                         <CapWrap>
-                            <CaptainCard cap={captain && captain.name}>
+                            <CaptainCard obj={captain && captain}>
                                 <img src={Cap} alt="Captain" /> Kapten:{' '}
                             </CaptainCard>
-                            <CaptainCard cap={viceCaptain && viceCaptain.name}>
+                            <CaptainCard obj={viceCaptain && viceCaptain}>
                                 <img src={ViceCap} alt="Vice Captain" /> Vice Kapten:{' '}
                             </CaptainCard>
                             <p className="capInfo">
@@ -533,7 +537,7 @@ class PlayerSearch extends Component {
                                         this.state.priceSort === 'rising'
                                             ? {
                                                   fontWeight: 'bold',
-                                                backgroundColor: 'rgba(226, 221, 221, 0.5)',
+                                                  backgroundColor: 'rgba(226, 221, 221, 0.5)',
                                                   boxShadow: 'inset 0 0 2px #000000'
                                               }
                                             : { fontWeight: '500' }
