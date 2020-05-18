@@ -24,11 +24,11 @@ const initialForm = {
 };
 
 const RoundSection = props => {
-    const { createRound } = props.adminContext.setters;
+    /* const { createRound } = props.adminContext.setters;
 
-    const [form, setForm] = useState(clone(initialForm));
+    const [form, setForm] = useState(clone(initialForm)); */
 
-    const formReady = {
+    /* const formReady = {
         createdAt: true,
         updatedAt: true,
         alias: form.alias.length,
@@ -36,9 +36,9 @@ const RoundSection = props => {
         round: !isNaN(parseFloat(form.round)) && parseInt(form.round) > 0,
         active: true,
         result: true
-    };
+    }; */
 
-    const submitDisabled = (() => {
+    /* const submitDisabled = (() => {
         let disabled = false;
 
         Object.values(formReady).forEach(field => {
@@ -48,9 +48,9 @@ const RoundSection = props => {
         });
 
         return disabled;
-    })();
+    })(); */
 
-    const submit = e => {
+    /* const submit = e => {
         if (submitDisabled) {
             const invalidMsg = userMsg({
                 message: 'Vänligen fyll i obligatoriska fält.',
@@ -67,7 +67,7 @@ const RoundSection = props => {
         };
 
         createRound(form, onSuccess);
-    };
+    }; */
 
     return (
         <div>

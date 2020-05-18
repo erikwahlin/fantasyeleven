@@ -401,12 +401,12 @@ class PlayerSearch extends Component {
                 ? this.sortByPopularity(filtered)
                 : this.sortByPrice(filtered);
         // WIP-test. split into result-sections based on sort
-        const paginate = (playersList, pageSize, pageNumber) => {
+        const paginate = (playersList, pageSize, pageNumber, mobileSearch) => {
             //stores the amount of players / page in variable;
-            const playersPerPage = playersList.slice(
-                (pageNumber - 1) * pageSize,
-                pageNumber * pageSize
-            );
+
+            const playersPerPage = mobileSearch
+                ? playersList
+                : playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 
             return playersPerPage;
             // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
@@ -415,7 +415,8 @@ class PlayerSearch extends Component {
         const paginated = paginate(
             sorted,
             paginationSettings.pageSize,
-            paginationSettings.pageNumber
+            paginationSettings.pageNumber,
+            this.props.teamContext.state.config.mobileSearch
         );
         //const result = markedMode ? sorted : this.groupByPosition(paginated);
         //const result = this.groupByPosition(paginated);
@@ -560,6 +561,9 @@ class PlayerSearch extends Component {
                             {paginated.length ? (
                                 <ResultContainer className="ResultContainer">
                                     <Paginate
+                                        mobileSearch={
+                                            this.props.teamContext.state.config.mobileSearch
+                                        }
                                         className="Paginate"
                                         goToPage={this.goToPage}
                                         settings={paginationSettings}

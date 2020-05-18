@@ -19,7 +19,6 @@ import '../../PlayerSearch/styles.css';
 import Arrow from '../../../media/arrow.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 
-
 /* import Cap from '../../media/Cap.svg'; */
 /* import ViceCap from '../../media/ViceCap.svg'; */
 
@@ -326,7 +325,7 @@ class PlayerSearch extends Component {
 
     render() {
         const { paginationSettings, posOrClubSelected } = this.state;
-        const { markedMode, adminContext } = this.props;
+        const { markedMode, adminContext, teamContext } = this.props;
         const { players } = adminContext.state;
 
         let resultLabel = posOrClubSelected.label;
@@ -482,16 +481,17 @@ class PlayerSearch extends Component {
                                 {/* RESULT */}
                                 {paginated.length && (
                                     <ResultContainer className="ResultContainer">
-                                        <Paginate
-                                            className="Paginate"
-                                            goToPage={this.goToPage}
-                                            settings={paginationSettings}
-                                            playerCount={filtered.length}
-                                            pageCount={Math.ceil(
-                                                filtered.length / paginationSettings.pageSize
-                                            )}
-                                        />
-
+                                        {!this.props.teamContext.state.config.mobileSearch && (
+                                            <Paginate
+                                                className="Paginate"
+                                                goToPage={this.goToPage}
+                                                settings={paginationSettings}
+                                                playerCount={filtered.length}
+                                                pageCount={Math.ceil(
+                                                    filtered.length / paginationSettings.pageSize
+                                                )}
+                                            />
+                                        )}
                                         <LabelRow className="LabelRow unmarkable">
                                             <div className="labelPosition">
                                                 <p style={{ color: 'white' }}> {resultLabel}</p>
@@ -567,7 +567,6 @@ class PlayerSearch extends Component {
                                 deletePlayerCallback={this.deletePlayerCallback}
                             />
                         )}
-                        
                     </ContentWrapper>
                 </Wrapper>
             </Wrapper>

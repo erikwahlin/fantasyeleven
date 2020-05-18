@@ -1,5 +1,6 @@
 import clubs from '../../constants/clubs';
 import players from '../../constants/players';
+import { timestamp } from '../../constants/helperFuncs';
 /* const players = (async () => {
     let res = null;
     getPlayers(data => {
@@ -12,23 +13,21 @@ const INITIAL_STATE = {
     appOnline: true,
 
     user: null,
+    round: null,
     team: {
-        createdAt: Date.now(),
+        created: timestamp(),
+        updated: timestamp(),
         registrered: false,
-        registreredAt: '',
-        updatedAt: '',
+        registreredAt: null,
 
-        season: '20/21', // e.g. "20/21"
-        round: 666,
+        round: null,
+        result: null,
 
         value: {
             pitch: 0,
             bench: 0,
             tot: 0
         },
-
-        effort: {},
-        points: {},
 
         players: {
             list: [],
@@ -74,8 +73,8 @@ const INITIAL_STATE = {
 
     config: {
         buildStage: {
-            stageName: 'pitch',
-            stageIndex: 0
+            stageName: 'overview',
+            stageIndex: 3
         },
 
         mobileSearch: window.innerWidth < 900 ? true : false,
