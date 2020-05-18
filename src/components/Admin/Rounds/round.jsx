@@ -9,7 +9,7 @@ import Arrow from '../../../media/arrow.svg';
 import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
-import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
+import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
 import { Table, Card, Tooltip } from 'antd';
 const { Column, ColumnGroup } = Table;
