@@ -45,7 +45,7 @@ export const InnerWrapper = styled.div`
             top: 0;
             height: 100%;
             width: 100%;
-            background: #011931;
+            background: rgba(1, 25, 49, 0.5);
         `}
 
     transition: all .5s;
@@ -214,6 +214,7 @@ export const PlayerRow = styled.div`
     display: flex;
     align-items: center;
     background: #e2dddd;
+
     color: black;
     border: 5px solid #ddd;
     border: none;
