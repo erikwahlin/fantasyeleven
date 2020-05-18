@@ -404,9 +404,9 @@ class PlayerSearch extends Component {
         const paginate = (playersList, pageSize, pageNumber, mobileSearch) => {
             //stores the amount of players / page in variable;
 
-            const playersPerPage = !mobileSearch
-                ? playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
-                : playersList;
+            const playersPerPage = mobileSearch
+                ? playersList
+                : playersList.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 
             return playersPerPage;
             // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
