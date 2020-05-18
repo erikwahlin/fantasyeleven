@@ -41,7 +41,7 @@ export const InnerWrapper = styled.div`
             position: fixed;
             z-index: 1;
             opacity: ${p.searchOpen ? '1' : '0'};
-            left: ${p.searchOpen ? '0' : '110vw'};
+            right: ${p.searchOpen ? '0' : '-110vw'};
             top: 0;
             height: 100%;
             width: 100%;
@@ -84,7 +84,7 @@ export const SearchFieldWrapper = styled.div`
         right: 20px;
         top: 16px;
         font-size: 1.5em;
-        color:#005C07;
+        color: #005c07;
     }
 `;
 
@@ -119,7 +119,7 @@ export const Input = styled.input`
     border: none;
     box-sizing: border-box;
     outline: none;
-    background: #E2DDDD;
+    background: #e2dddd;
     cursor: text;
     ::placeholder {
         color: black;
@@ -160,7 +160,7 @@ export const StyledBtn = styled.button`
     border: none;
     outline: none;
     color: black;
-    background: #E2DDDD;
+    background: #e2dddd;
     cursor: pointer;
     padding: 3px;
     &:hover {
@@ -179,7 +179,7 @@ export const ResultContainer = styled.div`
 `;
 
 export const ResultBox = styled.div`
-    background: #E2DDDD;
+    background: #e2dddd;
     width: 100%;
     height: 100%;
     flex: 1;
@@ -202,7 +202,7 @@ export const LabelRow = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: #005C07;
+    background: #005c07;
     color: black;
     font-weight: 700;
     font-size: 1em;
@@ -213,7 +213,7 @@ export const PlayerRow = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    background: #E2DDDD;
+    background: #e2dddd;
     color: black;
     border: 5px solid #ddd;
     border: none;
