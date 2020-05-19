@@ -9,6 +9,7 @@ export const ButtonStandard = styled(Button)`
     min-width: 75px;
     margin: 0 10px;
     transition: 200ms;
+    color: #000;
 
     background: ${p => (p.disabled ? 'whitesmoke' : 'white')};
     color: ${p => (p.disabled ? 'grey' : 'black')};

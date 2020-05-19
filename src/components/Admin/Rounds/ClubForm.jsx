@@ -31,7 +31,7 @@ const ClubForm = ({ adminContext, matches, match, homeAway, autosave, ...props }
             <select
                 type="select"
                 value={home.club}
-                onChange={e => update({ homeAway: 'home', val: e.target.value })}
+                onChange={e => autoSave({ homeAway: 'home', val: e.target.value })}
             >
                 <option disabled value="">
                     - Välj hemmalag -
@@ -50,7 +50,7 @@ const ClubForm = ({ adminContext, matches, match, homeAway, autosave, ...props }
             <select
                 type="select"
                 value={away.club}
-                onChange={e => update({ homeAway: 'away', val: e.target.value })}
+                onChange={e => autoSave({ homeAway: 'away', val: e.target.value })}
             >
                 <option disabled value="">
                     - Välj bortalag -

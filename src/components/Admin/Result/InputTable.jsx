@@ -62,12 +62,15 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
         }
     };
 
+    console.log('match', match, 'side', side, 'players', match[side].players);
+
     const data = match[side].players.map((p, nth) => {
         const res = {
             key: nth + 1,
             name: p.name,
             position: toSwe(p.position, 'positions')
         };
+
         Object.keys(p.effort).forEach(key => {
             if (key === 'fulltime' || key === 'parttime') {
                 res[key] = {};
@@ -102,8 +105,6 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
                 newMatch[side].goals += parseInt(p.effort.goals);
             });
         }
-
-        console.log('new match', newMatch);
 
         matchUpdater(newMatch);
     };

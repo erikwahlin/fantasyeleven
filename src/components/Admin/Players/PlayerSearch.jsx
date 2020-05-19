@@ -19,7 +19,6 @@ import '../../PlayerSearch/styles.css';
 import Arrow from '../../../media/arrow.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 
-
 /* import Cap from '../../media/Cap.svg'; */
 /* import ViceCap from '../../media/ViceCap.svg'; */
 
@@ -567,7 +566,6 @@ class PlayerSearch extends Component {
                                 deletePlayerCallback={this.deletePlayerCallback}
                             />
                         )}
-                        
                     </ContentWrapper>
                 </Wrapper>
             </Wrapper>

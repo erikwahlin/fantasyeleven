@@ -43,6 +43,7 @@ export const Wrapper = styled.div`
     }
 
     & .ant-tabs .ant-tabs-left-bar {
+        background: white;
         border-right: 1px solid #2f3e55;
     }
 
@@ -75,14 +76,13 @@ export const Sel = styled(Select)``;
 export const Opt = styled(Option)``;
 
 export const TabContainer = styled(Tabs)`
-    background: white;
+    /* background: white; */
     z-index: 1;
     width: 100%;
 `;
 
 export const Tab = styled(TabPane)`
     color: #000;
-    background-color: white;
 `;
 
 export const MainTitle = styled.h1`

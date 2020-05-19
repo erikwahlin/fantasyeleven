@@ -1,6 +1,6 @@
 import React, { Component, createContext } from 'react';
 import { withAdmin } from '../AdminState';
-import { userMsg } from '../../../constants/helperFuncs';
+import { clone, userMsg, updatedStamp } from '../../../constants/helperFuncs';
 
 const NewResContext = createContext(null);
 
@@ -31,6 +31,8 @@ class ResultState extends Component {
             stepUpdater: this.stepUpdater,
             saveRes: this.saveRes
         };
+
+        console.log('NEWRES', this.state.newRes);
     }
 
     componentDidMount = () => {};
@@ -46,14 +48,18 @@ class ResultState extends Component {
     };
 
     stepUpdater = ({ step = this.state.step, substep = this.state.substep }) => {
-        this.setState({ step, substep }, () => {
-            if (!this.state.saved) this.saveRes();
-        });
+        this.setState({ step, substep });
     };
 
-    saveRes = () => {
-        const newRound = this.props.adminContext.state.rounds[this.props.roundIndex];
+    saveRes = ({ key = '' }) => {
+        if (key !== '') key = `(${key})`;
+        const { rounds, user } = this.props.adminContext.state;
+        const newRound = clone(rounds[this.props.roundIndex]);
+
         newRound.matches = this.state.newRes;
+
+        newRound.updated.unshift(updatedStamp({ user, tag: `Result ${key}` }));
+
         this.props.adminContext.setters.updateRound(newRound, () => {
             this.setState({ saved: true });
         });

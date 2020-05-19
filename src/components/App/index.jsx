@@ -18,6 +18,7 @@ import About from '../About';
 import Overview from '../Overview';
 import styled, { css, keyframes } from 'styled-components';
 
+
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
@@ -128,16 +129,15 @@ const App = () => (
                     <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                     <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
 
-                    <Route path={'/home'} exact component={HomePage} />
 
-                    {/* <Route path={ROUTES.MYTEAMS} exact component={MyTeams} /> */}
+                    <Route path={ROUTES.OVERVIEW} exact component={Overview} />
                     <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
                     <Route path={ROUTES.ACCOUNT} component={AccountPage} />
                     <Route path={ROUTES.ADMIN} component={AdminPage} />
 
                     <Route path={ROUTES.ABOUT} component={About} />
-                    <Route path={ROUTES.OVERVIEW} component={Overview} />
+
                 </AppContainer>
             </ConfigProvider>
         </>

@@ -5,7 +5,7 @@ import Round from './Round';
 
 const Rounds = ({ adminContext }) => {
     const { rounds, settings } = adminContext.state;
-    const { _id: activeRoundID } = settings.activeRound;
+    const { activeRound } = settings;
 
     return (
         <>
@@ -13,7 +13,7 @@ const Rounds = ({ adminContext }) => {
                 <Round
                     roundIndex={nth}
                     key={`${round.alias}-${nth}`}
-                    active={round._id === activeRoundID}
+                    active={round._id === activeRound._id}
                 />
             ))}
         </>

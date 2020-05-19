@@ -4,14 +4,15 @@ import apis from '../../../constants/api';
 
 import { withAdmin } from '../AdminState';
 
-import { clone, userMsg } from '../../../constants/helperFuncs';
+import { clone, userMsg, updatedStamp } from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
 import allClubs from '../../../constants/clubs';
 
-import { initialMatches } from '../../../constants/gamePreset';
+import { initialMatches, addEffort } from '../../../constants/gamePreset';
+import { FcCheckmark } from 'react-icons/fc';
 
 const { Wrapper, OptionsWrapper } = wrapperTemplate;
 
@@ -20,7 +21,7 @@ const { FormContainer, InputTemplate } = formTemplate;
 const ClubSelect = styled.select`
     border: none;
     outline: none;
-    color: ${p => (p.value ? '#fff' : '#000')};
+    color: #fff;
 `;
 
 const ClubWrapper = styled(Wrapper)`
@@ -49,11 +50,12 @@ const initialForm = {
     season: '',
     number: '',
     matches: initialMatches(),
-    active: false
+    ended: false,
+    users: []
 };
 
 const NewRound = props => {
-    const { rounds, players, settings } = props.adminContext.state;
+    const { rounds, players, settings, user } = props.adminContext.state;
     const { createRound } = props.adminContext.setters;
     const noneIsActive = !settings.activeRound._id;
 
@@ -122,26 +124,13 @@ const NewRound = props => {
     };
 
     const autosave = (key, val) => {
-        const newForm = clone(form);
-
-        newForm[key] = val;
-
-        newForm.createdAt = Date.now();
-
-        newForm.updatedAt = Date.now();
-
-        setForm({ ...form, createdAt: Date.now(), updatedAt: Date.now(), [key]: val });
+        setForm({
+            ...form,
+            created: updatedStamp({ user, tag: 'Round created' }),
+            updated: updatedStamp({ user, tag: 'Round created' }),
+            [key]: val
+        });
     };
-
-    /* const saveMany = (newProps) => {
-        const newForm = clone(form);
-
-        newForm.createdAt = Date.now();
-
-        newForm.updatedAt = Date.now();
-
-        setForm({...form, ...newProps})
-    } */
 
     const updateMatch = ({ index, side, club }) => {
         const newMatches = clone(form.matches);
@@ -156,7 +145,9 @@ const NewRound = props => {
         // add selected club/players to match
         if (club !== '') {
             newMatches[index][side].club = club;
-            newMatches[index][side].players = players.filter(p => p.club === club);
+            newMatches[index][side].players = players
+                .filter(p => p.club === club)
+                .map(p => addEffort(p));
 
             // add club/players to taken-arr
 
@@ -174,14 +165,11 @@ const NewRound = props => {
 
     return (
         <div>
-            <div style={{ margin: '0', width: '100%', textAlign: 'center' }}>
-                <button
-                    onClick={() => setNewnewRoundHidden(!newRoundHidden)}
-                    style={{ outline: 'none' }}
-                >
+            <OptionsWrapper>
+                <ButtonStandard onClick={() => setNewnewRoundHidden(!newRoundHidden)}>
                     {newRoundHidden ? 'Skapa ny omgång' : 'Stäng ny omgång'}
-                </button>
-            </div>
+                </ButtonStandard>
+            </OptionsWrapper>
 
             <ToggleWrapper className="toggleWrapper" hidden={newRoundHidden}>
                 <FormContainer className="FormContainer" title="Skapa en ny omgång">
@@ -243,7 +231,26 @@ const NewRound = props => {
                                 className={`Match-${nth + 1}`}
                                 customStyle={`flex-direction: row; flex-wrap: wrap;`}
                             >
-                                <p style={{ fontSize: '1em', color: 'grey' }}>Match {nth + 1}</p>
+                                <div style={{ position: 'relative' }}>
+                                    <p
+                                        style={{
+                                            fontSize: '1em',
+                                            color: 'white'
+                                        }}
+                                    >
+                                        Match {nth + 1}
+                                    </p>
+
+                                    {match.home.club && match.away.club && (
+                                        <FcCheckmark
+                                            style={{
+                                                position: 'absolute',
+                                                right: '-20px',
+                                                top: '0'
+                                            }}
+                                        />
+                                    )}
+                                </div>
 
                                 <ClubSelect
                                     onClick={e =>
@@ -316,7 +323,7 @@ const NewRound = props => {
 
                     <OptionsWrapper
                         className="Options"
-                        customStyle="flex-direction: row; margin: 20px 0; width: 100%;"
+                        customStyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
                     >
                         <ButtonStandard
                             type="default"

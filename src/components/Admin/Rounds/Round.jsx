@@ -5,13 +5,14 @@ import styled, { css } from 'styled-components';
 
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
+import ArrowB from '../../../media/arrowB.svg';
 
-import { clone } from '../../../constants/helperFuncs';
+import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
-import { ButtonStandard, SaveBtn, CustomTooltip } from '../template/TemplateElems';
+import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
-import { Table, Card, Tooltip } from 'antd';
+import { Table, Card } from 'antd';
 const { Column, ColumnGroup } = Table;
 
 const Header = styled.div`
@@ -19,16 +20,20 @@ const Header = styled.div`
     margin: 10px;
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
-    background: ${p => (p.open ? '#172232' : '#23334d')};
+
     position: relative;
 
     display: flex;
     justify-content: space-between;
 
     cursor: pointer;
+
+    background: ${p => (p.open ? 'rgba(255,255,255,0.1)' : '#fff')};
+    color: ${p => (p.open ? '#fff' : '#000')};
 `;
 
 const Title = styled.h2`
+    color: ${p => (p.open ? '#fff' : '#000')};
     & span {
         font-weight: 700;
     }
@@ -36,15 +41,18 @@ const Title = styled.h2`
 
 const TitleSpan = styled.span`
     font-size: 14px;
-    color: green;
+    color: ${p => (p.status === 'Aktiv' ? 'green' : p.status === 'Avslutad' ? 'orange' : '#fff')};
 `;
 
 const ArrowIcon = styled.img`
     transform: rotate(${p => (p.open ? '180deg' : '0deg')});
+    color: purple;
 `;
 
 const RoundContent = styled.div`
-    background: #23334d;
+    /* background: #23334d; */
+
+    background: rgba(255, 255, 255, 0.1);
 
     display: ${p => (p.open ? 'flex' : 'none')};
 
@@ -103,9 +111,10 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
+    const { ended, users } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
-    console.log('round', round.alias, 'active', active);
+    const status = roundStatus({ active, ended });
 
     const [open, setOpen] = useState(false);
     const [resultOpen, setResultOpen] = useState(false);
@@ -154,6 +163,28 @@ const Round = ({ adminContext, roundIndex, active }) => {
             val: newActiveRound,
             msg: `${round.alias} är nu aktiv!`
         });
+
+        const newRound = clone(round);
+        newRound.updated.unshift(updatedStamp({ user, tag: 'Round activated' }));
+        updateRound(newRound);
+    };
+
+    const endRound = () => {
+        const sure = window.confirm(
+            'Är du säker på att du vill avsluta omgången? \n Poäng utefter resultatet delas ut och omgången arkiveras.'
+        );
+
+        if (!sure) return;
+
+        const endedRound = clone(round);
+
+        endedRound.ended = true;
+
+        updateRound(endedRound);
+
+        if (settings.activeRound._id === round._id) {
+            updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång avslutad' });
+        }
     };
 
     const matchTableData = round.matches.map((match, nth) => ({
@@ -167,18 +198,19 @@ const Round = ({ adminContext, roundIndex, active }) => {
     }));
 
     // TEMP 'til we got functionality for ended round
-    const roundClosed = false;
-
-    const statuses = ['Inaktiv', 'Aktiv i spel', 'Färdigspelad'];
-
-    const roundStatus = roundClosed ? statuses[2] : active ? statuses[1] : statuses[0];
 
     return (
         <div className="Result">
             <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
-                    <Title>
-                        {round.alias} {active && <TitleSpan>(Aktiv!)</TitleSpan>}
+                    <Title open={open}>
+                        {round.alias}
+                        {(active || ended) && (
+                            <>
+                                {' '}
+                                <TitleSpan status={status}>{status.toUpperCase()}</TitleSpan>
+                            </>
+                        )}
                     </Title>
 
                     <span
@@ -191,13 +223,15 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             top: '-15px'
                         }}
                     >
-                        <i>
-                            senast ändrad
-                            {round.updatedAt}
-                        </i>
+                        <i>{`senast ändrad ${round.updated[0].at.date} kl. ${round.updated[0].at.time} av ${round.updated[0].by.username}`}</i>
                     </span>
 
-                    <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
+                    <ArrowIcon
+                        className="arrowIcon"
+                        src={open ? Arrow : ArrowB}
+                        alt="arrow"
+                        open={open}
+                    />
                     {/* Klicka för att {open ? 'dölja' : 'visa'} */}
                 </Header>
 
@@ -220,7 +254,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
                                 placement="bottom"
                             >
                                 <p>
-                                    Status <span>{roundStatus.toUpperCase()}</span>
+                                    Status <span>{status.toUpperCase()}</span>
                                 </p>
                             </CustomTooltip>
                         </InfoCard>
@@ -286,6 +320,12 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         <CustomTooltip title="Stäng omgång">
                             <ButtonStandard type="primary" onClick={() => setOpen(!open)}>
                                 Stäng
+                            </ButtonStandard>
+                        </CustomTooltip>
+
+                        <CustomTooltip title="Omgången markeras som färdigspelad och poäng delas ut till användarna.">
+                            <ButtonStandard type="primary" onClick={() => endRound()}>
+                                Avsluta omgång
                             </ButtonStandard>
                         </CustomTooltip>
 
