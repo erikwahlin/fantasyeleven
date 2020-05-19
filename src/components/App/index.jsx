@@ -15,6 +15,7 @@ import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import About from '../About';
+import Overview from '../Overview';
 import styled, { css, keyframes } from 'styled-components';
 
 import * as ROUTES from '../../constants/routes';
@@ -136,6 +137,7 @@ const App = () => (
                     <Route path={ROUTES.ADMIN} component={AdminPage} />
 
                     <Route path={ROUTES.ABOUT} component={About} />
+                    <Route path={ROUTES.OVERVIEW} component={Overview} />
                 </AppContainer>
             </ConfigProvider>
         </>

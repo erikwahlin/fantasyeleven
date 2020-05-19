@@ -1,0 +1,29 @@
+.header{
+cursor: pointer;
+background-color: #E2DDDD;
+width:300px;
+height:auto;
+color: black;
+font-family: 'Avenir';
+/* padding-left:30px; */
+padding-top:15px;
+padding-left:30px;
+padding-bottom:15px;
+}
+
+.contentWrapper {
+    display:flex;
+    flex-direction:column;
+}
+
+.content{
+justify-content:space-around;
+background-color: #E2DDDD;
+color:black;
+width:300px;
+font-family: 'Avenir';
+font-size: 1em;
+padding-top:15px;
+
+
+}

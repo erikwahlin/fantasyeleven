@@ -44,6 +44,7 @@ const NavigationAuth = ({ authUser, pathname }) => (
 			<li>
 				<Link to={ROUTES.ACCOUNT}>Konto</Link>
 			</li>
+			
 
 			{authUser.roles ? (
 				<>
@@ -57,6 +58,9 @@ const NavigationAuth = ({ authUser, pathname }) => (
 
 			<li>
 				<Link to={ROUTES.ABOUT}>Om</Link>
+			</li>
+			<li>
+				<Link to={ROUTES.OVERVIEW}>Översikt</Link>
 			</li>
 
 			<li>

@@ -74,6 +74,34 @@ h4 {
     font-weight: 500;
 }
 
+h5 {
+    font-family: 'Avenir';
+    font-size: 1.1em;
+    color:black;
+    margin-bottom:-5px;
+}
+
+h6 {
+    font-family: 'Avenir';
+    font-size: 1.1em;
+    color:white;
+    margin-bottom:-5px;
+}
+
+.stakeSum {
+    color:#00840A;
+    font-size:1.2em;
+    font-weight:600;
+    margin:0;
+}
+
+.revenueSum {
+    color:white;
+    font-size:1.2em;
+    font-weight:600;
+    margin:0;
+}
+
 .infoTitle {
     font-size: 1em;
     color: white;
