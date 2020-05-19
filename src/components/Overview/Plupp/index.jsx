@@ -327,437 +327,114 @@ class Plupp extends Component {
 
         this.state = {
             isMarked: false,
-            isSwitchable: false,
-            isQuickSwitchable: false,
-            potentialCap: null,
-            capPopOpen: false
+            popOpen: false
         };
 
-        this.del = this.del.bind(this);
-        this.capPopToggle = this.capPopToggle.bind(this);
+        this.setPop = this.setPop.bind(this);
         this.handleClickInside = this.handleClickInside.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
-        this.markedPrivilege = this.markedPrivilege.bind(this);
-        this.switchablePrivilege = this.switchablePrivilege.bind(this);
-        this.syncWithSwitchers = this.syncWithSwitchers.bind(this);
-        this.quickSwitch = this.quickSwitch.bind(this);
 
-        this.DelBtn = createRef(null);
-        this.SwitchBtn = createRef(null);
         this.pluppRef = createRef(null);
-        this.switchRef = createRef(null);
+        this.popRef = createRef(null);
 
-        this.setCap = this.setCap.bind(this);
-
-        this.capPopContent = () => {
-            const { player, teamContext, pluppIndex } = this.props;
-            const { captain, viceCaptain } = teamContext.state.team;
-            const playerID = player ? player._id : null;
-            const capID = captain ? captain._id : null,
-                viceCapID = viceCaptain ? viceCaptain._id : null;
-
-            const isCap = playerID && capID === playerID;
-            const isVice = playerID && viceCapID === playerID;
-
+        this.popContent = () => {
             return (
                 <div
-                    className="capPopWrapper unmarkable"
+                    className="popContent unmarkable"
                     style={{ textAlign: 'center', width: '150px' }}
                 >
-                    <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
-                        Gör till kapten
-                    </CapPopBtn>
+                    <CapPopBtn onClick={() => alert('Hej')}>Hej</CapPopBtn>
 
-                    <CapPopBtn
-                        onClick={() => !isVice && this.setCap('viceCaptain')}
-                        picked={isVice}
-                    >
-                        Gör till vice kapten
-                    </CapPopBtn>
+                    <CapPopBtn onClick={() => alert('Hå')}>Hå</CapPopBtn>
 
-                    <a onClick={this.capPopToggle}>Stäng</a>
+                    <a onClick={() => this.setPop(false)}>Stäng</a>
                 </div>
             );
         };
     }
     // on update
-    componentDidUpdate = (pp, ps) => {
-        this.syncWithSwitchers(pp, ps);
-    };
+    componentDidUpdate = (pp, ps) => {};
 
-    // check if plupp should be marked
-    markedPrivilege = () => {
-        const { marked } = this.props.teamContext.state.config.switchers;
-        const self = this.pluppRef.current;
+    setPop = val => {
+        if (typeof val !== 'boolean') return;
 
-        if (marked) {
-            if (self === marked.ref) {
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    // check if plupp should be switchable
-    switchablePrivilege = () => {
-        const { player, teamContext, pos, origin } = this.props;
-        const { buildStage, switchers } = teamContext.state.config;
-        const { marked } = switchers;
-        const { stageName } = buildStage;
-        const pluppRef = this.pluppRef.current;
-
-        // is switchable if:
-        // another plupp is marked, it contains a player or is on bench
-        if (origin === stageName) {
-            if ((player || origin === 'bench') && marked) {
-                if (pos === marked.pos && pluppRef !== marked.ref) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-
-    // update marked and switchable
-    syncWithSwitchers = (pp, ps) => {
-        // get new privileges
-        const markedPrivilege = this.markedPrivilege();
-        const switchablePrivilege = this.switchablePrivilege();
-
-        // update state if needed
-        if (this.state.isMarked !== markedPrivilege) {
-            this.setState({ isMarked: markedPrivilege });
-        }
-
-        if (this.state.isSwitchable !== switchablePrivilege) {
-            this.setState({ isSwitchable: switchablePrivilege });
-        }
-
-        // check if bench/pitch has space for another plupp
-        const { isMarked, isQuickSwitchable } = this.state;
-        const { player, pos, origin, teamContext } = this.props;
-        const { config, team } = teamContext.state;
-
-        const quickSwitchable = () => {
-            const oppOrigin = origin === 'pitch' ? 'bench' : 'pitch';
-            const limit = config.limit[oppOrigin][pos].max;
-            const count = team.count[oppOrigin][pos];
-            return count < limit ? true : false;
-        };
-
-        const qs = isMarked && player ? quickSwitchable() : false;
-
-        if (qs !== isQuickSwitchable) {
-            this.setState({ isQuickSwitchable: qs });
-        }
-    };
-
-    del = () => {
-        const { teamContext, player } = this.props;
-        const { delPlayer } = teamContext.setters;
-
-        // unmark, then clear switchers, then del ref
-        this.setState({ isMarked: false }, () => {
-            delPlayer(player);
-        });
-    };
-
-    capPopToggle = () => {
         this.setState({
-            capPopOpen: !this.state.capPopOpen
+            popOpen: val
         });
     };
 
     // (runs before click inside)
     handleClickOutside = e => {
-        const { setSwitchers, closePlayerSearch } = this.props.teamContext.setters;
-        const { buildStage } = this.props.teamContext.state.config;
-        const { stageName } = buildStage;
+        const { popOpen } = this.state;
 
-        if (stageName === 'captain') {
-            if (this.state.capPopOpen && !e.target.closest('.capPopWrapper')) this.capPopToggle();
+        if (popOpen) {
+            this.setPop(false);
         }
-        if (!this.state.isMarked) return;
-
-        // if clicked on switchable plupp on pitch or inside playerSearch, bail
-        const switchablePlupp = e.target.classList.contains('SwitchablePlupp');
-        const playerSearch = e.target.closest('.PlayerSearch');
-
-        if ((e.target.closest('.Pitch') && switchablePlupp) || playerSearch) {
-            return;
-        }
-
-        // else clear switchers and close playersearch (if slide-opened)
-
-        closePlayerSearch();
-
-        setSwitchers({ marked: null, target: null });
     };
 
     // (runs after click outside)
     handleClickInside = e => {
-        const { teamContext, player, pos, origin } = this.props;
-        const { switchers, buildStage } = teamContext.state.config;
-        const { captain } = this.props.teamContext.state.team;
-        const { stageName } = buildStage;
+        const { popOpen } = this.state;
 
-        // if plupp origin and stageName doesn't match, bail
-        // if on pitchStage and plupp origin isn't pitch or captain, bail
-        if (origin !== stageName && !(origin === 'pitch' && stageName === 'captain')) return;
-
-        if (stageName === 'captain') {
-            this.capPopToggle();
-
-            /* this.setCap(
-                !captain || this.props.player._id === captain._id ? 'captain' : 'viceCaptain'
-            );*/
-
-            return;
-        }
-
-        const { setSwitchers, switchPlayers, openPlayerSearch } = teamContext.setters;
-        const { marked } = switchers;
-        const ref = this.pluppRef.current;
-
-        // set lineupIndex only if player (not empty bench-seat)
-        let lineupIndex = null;
-        if (player) {
-            lineupIndex = player.lineupIndex;
-        }
-
-        /* TEMP */
-        /* if (teamContext.state.config.mobileSearch) {
-            openPlayerSearch();
-        } */
-
-        /* TEMP */
-
-        // if switchers dont have a marked, mark this plupp
-        if (!marked) {
-            if (!player && stageName === 'bench') {
-                openPlayerSearch();
-            }
-            // set as marked, then update switchers
-            setSwitchers({
-                marked: {
-                    origin,
-                    pos,
-                    lineupIndex,
-                    player,
-                    ref
-                }
-            });
-            // if switchers do have a marked...
-        } else {
-            // if this is the marked plupp, unmark, clear switchers
-            if (ref === marked.ref) {
-                return setSwitchers({ marked: null, target: null });
-            }
-
-            if (buildStage.stageName !== 'pitch') return;
-
-            // else, target this plupp, prepare switch
-            setSwitchers(
-                {
-                    target: {
-                        origin,
-                        pos,
-                        lineupIndex,
-                        player,
-                        ref
-                    }
-                },
-                () => {
-                    switchPlayers();
-                }
-            );
-        }
-    };
-
-    quickSwitch = () => {
-        const ref = this.pluppRef.current;
-        const { player, pos, origin, lineupIndex, teamContext } = this.props;
-        const { setSwitchers, switchPlayers } = teamContext.setters;
-        const targetOrigin = origin === 'pitch' ? 'bench' : 'pitch';
-        const targetIndex = teamContext.state.team[targetOrigin][pos].length;
-
-        // else, target this plupp, prepare switch
-        setSwitchers(
-            {
-                marked: {
-                    origin,
-                    pos,
-                    lineupIndex,
-                    player,
-                    ref
-                },
-                target: {
-                    origin: targetOrigin,
-                    pos,
-                    lineupIndex: targetIndex,
-                    player: null,
-                    ref: null
-                }
-            },
-            () => {
-                switchPlayers();
-            }
-        );
-    };
-
-    onClickCap = () => {
-        const { player } = this.props;
-        this.setState({ potentialCap: player });
-    };
-
-    setCap = (role = 'captain') => {
-        const { teamContext, player } = this.props;
-        const team = clone(teamContext.state.team);
-        const { updateNewTeam } = teamContext.setters;
-        const otherRole = role !== 'captain' ? 'captain' : 'viceCaptain';
-
-        // if same player already has a role, clear
-        if (team[otherRole]) {
-            if (player._id === team[otherRole]._id) {
-                team[otherRole] = null;
-            }
-        }
-
-        /* if(team[role]){
-
-            if (player._id === team[role]._id) {
-                team[role] = null;
-            } else {
-                team[role] = player;
-            }
-        } */
-
-        team[role] = player;
-
-        updateNewTeam(team);
+        const newPop = popOpen ? false : true;
+        this.setPop(newPop);
     };
 
     render() {
-        const { isMarked, isSwitchable } = this.state;
-        const { player, pos, origin, lineupIndex, teamContext } = this.props;
-        const { config, team } = teamContext.state;
-        const { captain, viceCaptain } = team;
-        const { buildStage, mobileSearch } = config;
-        const { stageName } = buildStage;
-
-        let isCap = false,
-            isViceCap = false;
-
-        if (player) {
-            if (captain) {
-                isCap = player._id === captain._id ? true : false;
-            }
-            if (viceCaptain) {
-                isViceCap = player._id === viceCaptain._id ? true : false;
-            }
-        }
-
-        //console.log(stageName, isSwitchable);
+        const { isMarked, popOpen } = this.state;
+        const { isCap, isVice, player, pos, origin, lineupIndex, overviewContext } = this.props;
 
         return (
             <Container>
                 {player && !isMarked && (
                     <PlayerName className="PlayerName">
-                        {(stageName === 'pitch' ||
-                            stageName === 'bench' ||
-                            stageName === 'overview') && (
-                            <InfoModal
-                                isPitch
-                                title={player.name}
-                                subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
-                                img="https://source.unsplash.com/random"
-                                display={this.state.playerModal}
-                                togglePlayerModal={this.togglePlayerModal}
-                            />
-                        )}
+                        <InfoModal
+                            isPitch
+                            title={player.name}
+                            subtitle={`${player.club} - ${toSwe(player.position, 'positions')}`}
+                            img="https://source.unsplash.com/random"
+                            display={this.state.playerModal}
+                            /* togglePlayerModal={this.togglePlayerModal} */
+                        />
+
                         <div>{shortenName(player.name)}</div>
                     </PlayerName>
                 )}
-                {(stageName === 'pitch' || stageName === 'bench' || stageName === 'overview') &&
-                    player &&
-                    !isMarked && (
-                        <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
+
+                <PlayerPrice className="PlayerPrice">{player.price + ' kr'} </PlayerPrice>
+
+                <OptionsTop className="OptionsTop">
+                    {isCap && (
+                        <OptionsBtn className="OptionsBtn" player={player}>
+                            <Cap src={cap} alt="Captain" />
+                        </OptionsBtn>
                     )}
-                {(stageName === 'pitch' || stageName === 'captain' || stageName === 'bench') && (
-                    <OptionsTop stageName={stageName} className="OptionsTop">
-                        {isCap && (
-                            <OptionsBtn
-                                className="OptionsBtn"
-                                player={player}
-                                onClick={() => this.setState({ isPlayerClicked: true })}
-                                /* onClick={() => this.setCap('')} */
-                                stageName={stageName}
-                            >
-                                <Cap src={cap} alt="Captain" />
-                            </OptionsBtn>
-                        )}
 
-                        {isViceCap && (
-                            <OptionsBtn
-                                player={player}
-                                onClick={() => this.setCap('vice')}
-                                stageName={stageName}
-                            >
-                                <Vcap src={ViceCap} alt="Vice Captain" />
-                            </OptionsBtn>
-                        )}
-                    </OptionsTop>
-                )}
-                {isMarked && player && (
-                    <OptionsBottom className="OptionsBottom">
-                        <OptionsBottomBtn
-                            className="OptionsBottomBtn"
-                            ref={this.DelBtn}
-                            onClick={this.del}
-                        >
-                            {/* <OptionsImg className="OptionsImg" src={Delete} /> */}
-                            <GiCrossMark color="red" alt="DelIcon" className="DelIcon" />
-                        </OptionsBottomBtn>
-
-                        {mobileSearch && (
-                            <OptionsBottomBtn
-                                className="OptionsBottomBtn"
-                                ref={this.SwitchBtn}
-                                onClick={this.props.teamContext.setters.openPlayerSearch}
-                            >
-                                <GiBodySwapping
-                                    color="#14521D"
-                                    alt="SwitchIcon"
-                                    className="SwitchIcon"
-                                />
-                            </OptionsBottomBtn>
-                        )}
-                    </OptionsBottom>
-                )}
+                    {isVice && (
+                        <OptionsBtn player={player}>
+                            <Vcap src={ViceCap} alt="Vice Captain" />
+                        </OptionsBtn>
+                    )}
+                </OptionsTop>
 
                 <Popover
-                    content={this.capPopContent}
+                    content={this.popContent}
                     trigger="click"
-                    visible={this.state.capPopOpen}
+                    visible={this.state.popOpen}
                     width={500}
-                    /* onVisibleChange={this.handleVisibleChange} */
+                    ref={this.popRef}
+                    /* onVisibleChange={val => this.setPop(val)} */
                 >
                     <PluppImg
                         ref={this.pluppRef}
                         id={`switch-${origin}-${pos}-${lineupIndex}`}
-                        className={`${isSwitchable && 'Switchable'}Plupp`}
+                        className={`Plupp`}
                         alt={`player-plupp ${origin}`}
                         src={pluppC}
                         isMarked={this.state.isMarked}
-                        /* onClick={e => this.handleClickInside(e, stageName)} */
                         onClick={e => this.handleClickInside(e)}
-                        isSwitchable={isSwitchable}
                         origin={origin}
                         player={player}
-                        stageName={stageName}
-                        isCap={isCap}
-                        isViceCap={isViceCap}
                     />
                 </Popover>
 
@@ -773,16 +450,9 @@ class Plupp extends Component {
                     player={player}
                     stageName={stageName}
                     isCap={isCap}
-                    isViceCap={isViceCap}
+                    isViceCap={isVice}
                     style={style}
                 /> */}
-
-                {/* {(isCap || isViceCap) && <PluppRole player={player}>{isCap ? 'C' : 'V'}</PluppRole>} */}
-                {(stageName === 'pitch' || stageName === 'bench') && (
-                    <SwitchIcon className="SwitchContainer" isSwitchable={isSwitchable}>
-                        <GiBodySwapping alt="SwitchIcon" className="SwitchIcon" player={player} />
-                    </SwitchIcon>
-                )}
             </Container>
         );
     }

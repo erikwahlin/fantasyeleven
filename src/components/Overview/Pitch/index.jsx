@@ -103,7 +103,7 @@ const Pitch = ({ overviewContext }) => {
 
     if (!team) return <PitchImg src={pitchImg} className="PitchImg" />;
 
-    const { players } = team;
+    const { players, captain, viceCaptain } = team;
 
     return (
         <Wrapper className="Pitch Wrapper" bg={pitchImg}>
@@ -111,7 +111,6 @@ const Pitch = ({ overviewContext }) => {
 
             <FormationContainer className="FormationContainer">
                 {positions.map((pos, nth) => {
-                    console.log('pos', pos);
                     return (
                         <PositionContainer
                             key={`lineup-${nth}`}
@@ -123,13 +122,15 @@ const Pitch = ({ overviewContext }) => {
                                     className={`PlayerContainer ${pos} unmarkable`}
                                     player={player}
                                 >
-                                    {/* <Plupp
+                                    <Plupp
                                         pluppIndex={nth}
                                         origin="pitch"
                                         player={player}
                                         pos={player.position}
                                         lineupCount={players.pitch[pos].length}
-                                    /> */}
+                                        isCap={player._id === captain._id}
+                                        isVice={player._id === viceCaptain._id}
+                                    />
                                 </PlayerContainer>
                             ))}
                         </PositionContainer>
