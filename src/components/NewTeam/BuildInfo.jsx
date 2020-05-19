@@ -164,7 +164,9 @@ const BuildInfo = ({ teamContext, origin }) => {
             stagename === 'bench' ? (
                 <ClearBtn onClick={clearPlayers}>'Autofyll'</ClearBtn>
             ) : (
-                <ClearBtn>`Nollställ ${toSwe(stageName, 'origins')}`</ClearBtn>
+                <FillBtn onClick={this.autofill}>
+                    `Nollställ ${toSwe(stageName, 'origins')}`
+                </FillBtn>
             )}
 
             {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
