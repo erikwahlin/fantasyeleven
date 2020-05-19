@@ -19,16 +19,20 @@ const Header = styled.div`
     margin: 10px;
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
-    background: ${p => (p.open ? '#172232' : '#23334d')};
+
     position: relative;
 
     display: flex;
     justify-content: space-between;
 
     cursor: pointer;
+
+    background: ${p => (p.open ? 'rgba(255,255,255,0.1)' : '#fff')};
+    color: ${p => (p.open ? '#fff' : '#000')};
 `;
 
 const Title = styled.h2`
+    color: ${p => (p.open ? '#fff' : '#000')};
     & span {
         font-weight: 700;
     }
@@ -44,7 +48,9 @@ const ArrowIcon = styled.img`
 `;
 
 const RoundContent = styled.div`
-    background: #23334d;
+    /* background: #23334d; */
+
+    background: rgba(255, 255, 255, 0.1);
 
     display: ${p => (p.open ? 'flex' : 'none')};
 
@@ -195,7 +201,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
         <div className="Result">
             <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
-                    <Title>
+                    <Title open={open}>
                         {round.alias}
                         {(active || ended) && (
                             <>
