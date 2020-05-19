@@ -2,17 +2,23 @@ import * as LEX from './lexicon';
 import stadiums from './stadiums';
 import { store } from 'react-notifications-component';
 
-export const timestamp = () => {
+export const timestamp = (tag = null) => {
     const d = new Date();
     const date = d.toLocaleDateString(),
         time = d.toLocaleTimeString();
 
     const weekday = d.getDay() === 0 ? 6 : d.getDay() === 1 ? 0 : d.getDay();
 
-    return {
+    let res = {
         date,
         time
     };
+
+    if (tag && typeof tag === 'string') {
+        res.tag = tag;
+    }
+
+    return res;
 };
 
 export const updatedStamp = ({ user, tag = '' }) => {
@@ -23,6 +29,13 @@ export const updatedStamp = ({ user, tag = '' }) => {
         tag
     };
 };
+
+export const userTemplate = user => ({
+    uid: user.uid,
+    username: user.username,
+    email: user.email,
+    roles: user.roles
+});
 
 export const roundStatus = ({ active, ended }) =>
     ended ? 'Avslutad' : active ? 'Aktiv' : 'Inaktiv';
@@ -165,3 +178,17 @@ export const userMsg = props => {
 
     return self;
 };
+
+export const errMsg = (msg = 'Något gick fel!', duration = 2000) =>
+    userMsg({
+        message: msg,
+        dismiss: { duration },
+        type: 'danger'
+    });
+
+export const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
+    userMsg({
+        message: msg,
+        dismiss: { duration },
+        type: 'success'
+    });

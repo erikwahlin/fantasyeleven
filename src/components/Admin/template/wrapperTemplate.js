@@ -29,6 +29,10 @@ export const OptionsWrapper = styled(Wrapper)`
         css`
             ${p.customStyle}
         `};
+
+    & * {
+        color: #000 !important;
+    }
 `;
 
 export const ContentWrapper = styled.div`

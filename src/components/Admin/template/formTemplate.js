@@ -27,14 +27,19 @@ import { CustomTooltip } from './TemplateElems';
 export const FormTitle = styled.h1`
     text-align: center;
     font-size: 3em;
-    color: ${p => (p.mode === 'dark' ? 'white' : 'black')};
+    color: #fff;
 `;
 
 export const Form = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: #23334d;
+    /* background: #23334d; */
+    background: rgba(255, 255, 255, 0.1);
+
+    & * {
+        color: #fff;
+    }
 `;
 
 export const Field = styled.div`

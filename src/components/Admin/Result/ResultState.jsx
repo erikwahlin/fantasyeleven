@@ -15,7 +15,7 @@ class ResultState extends Component {
         super(props);
 
         this.state = {
-            step: 10,
+            step: 0,
             substep: 0,
             ready: false,
             newRes: this.props.adminContext.state.rounds[this.props.roundIndex].matches,
@@ -31,6 +31,8 @@ class ResultState extends Component {
             stepUpdater: this.stepUpdater,
             saveRes: this.saveRes
         };
+
+        console.log('NEWRES', this.state.newRes);
     }
 
     componentDidMount = () => {};

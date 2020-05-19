@@ -5,14 +5,18 @@ import { toSwe, countPlayers } from '../../../constants/helperFuncs';
 import { Wrapper, Section, Key, Val, Button, AddPlayerIcon } from './template';
 
 const PitchInfo = ({ teamContext }) => {
-    const { team } = teamContext.state;
-    const { value, round } = team;
+    const { team, round } = teamContext.state;
+    const { value } = team;
 
     const pitchValue = value.pitch;
 
     const ready = true;
 
-    const notReady = false;
+    let roundOutput = 'För tillfället finnsingen aktiv omgång';
+
+    if (round) {
+        roundOutput = round.alias;
+    }
 
     return (
         <Wrapper className="StageInfo">
@@ -24,8 +28,8 @@ const PitchInfo = ({ teamContext }) => {
             </Section>
 
             <Section>
-                <Key className="Key">Spelomgång</Key>
-                <Val className="Val round">{round}</Val>
+                <Key className="Key">Omgång</Key>
+                <Val className="Val round">{roundOutput}</Val>
             </Section>
         </Wrapper>
     );

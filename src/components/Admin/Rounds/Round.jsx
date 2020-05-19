@@ -5,13 +5,14 @@ import styled, { css } from 'styled-components';
 
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
+import ArrowB from '../../../media/arrowB.svg';
 
 import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
-import { Table, Card, Tooltip } from 'antd';
+import { Table, Card } from 'antd';
 const { Column, ColumnGroup } = Table;
 
 const Header = styled.div`
@@ -19,16 +20,20 @@ const Header = styled.div`
     margin: 10px;
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
-    background: ${p => (p.open ? '#172232' : '#23334d')};
+
     position: relative;
 
     display: flex;
     justify-content: space-between;
 
     cursor: pointer;
+
+    background: ${p => (p.open ? 'rgba(255,255,255,0.1)' : '#fff')};
+    color: ${p => (p.open ? '#fff' : '#000')};
 `;
 
 const Title = styled.h2`
+    color: ${p => (p.open ? '#fff' : '#000')};
     & span {
         font-weight: 700;
     }
@@ -41,10 +46,13 @@ const TitleSpan = styled.span`
 
 const ArrowIcon = styled.img`
     transform: rotate(${p => (p.open ? '180deg' : '0deg')});
+    color: purple;
 `;
 
 const RoundContent = styled.div`
-    background: #23334d;
+    /* background: #23334d; */
+
+    background: rgba(255, 255, 255, 0.1);
 
     display: ${p => (p.open ? 'flex' : 'none')};
 
@@ -103,7 +111,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
-    const { ended } = round;
+    const { ended, users } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
     const status = roundStatus({ active, ended });
@@ -195,7 +203,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
         <div className="Result">
             <Wrapper className="Result" customStyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
-                    <Title>
+                    <Title open={open}>
                         {round.alias}
                         {(active || ended) && (
                             <>
@@ -218,7 +226,12 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         <i>{`senast ändrad ${round.updated[0].at.date} kl. ${round.updated[0].at.time} av ${round.updated[0].by.username}`}</i>
                     </span>
 
-                    <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
+                    <ArrowIcon
+                        className="arrowIcon"
+                        src={open ? Arrow : ArrowB}
+                        alt="arrow"
+                        open={open}
+                    />
                     {/* Klicka för att {open ? 'dölja' : 'visa'} */}
                 </Header>
 
