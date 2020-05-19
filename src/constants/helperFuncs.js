@@ -30,6 +30,13 @@ export const updatedStamp = ({ user, tag = '' }) => {
     };
 };
 
+export const userTemplate = user => ({
+    uid: user.uid,
+    username: user.username,
+    email: user.email,
+    roles: user.roles
+});
+
 export const roundStatus = ({ active, ended }) =>
     ended ? 'Avslutad' : active ? 'Aktiv' : 'Inaktiv';
 
