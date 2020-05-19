@@ -126,7 +126,7 @@ const BuildInfo = ({ teamContext, origin }) => {
     const notReady = teamValue > maxValue;
     //checks how many of players of each value there is, could be could for
     //continuing dev on autofill.
-    const countOccur = allPlayers => {
+    const countOccur = players => {
         var counts = {};
         // looping through your array
         players.forEach(players => {
@@ -208,28 +208,6 @@ const BuildInfo = ({ teamContext, origin }) => {
         delPlayer({ delAll: true });
     };
 
-    const autofill = stage => {
-        if (stage === 'bench') {
-            this.setState({
-                [bench[0]]: getRandomPlayers(1, get('', posPriceSort('Defender', players))),
-                [bench[1]]: getRandomPlayers(1, get('', posPriceSort('Forward', players))),
-                [bench[2]]: getRandomPlayers(1, get('', posPriceSort('Goalkeeper', players))),
-                [bench[3]]: getRandomPlayers(1, get('', posPriceSort('Midfielder', players)), () =>
-                    console.log(this.state)
-                )
-            });
-        }
-        if (stage === 'pitch') {
-            this.setState({
-                [pitch[0]]: getRandomPlayers(4, get('', posPriceSort('Defender', players))),
-                [pitch[1]]: getRandomPlayers(2, get('', posPriceSort('Forward', players))),
-                [pitch[2]]: getRandomPlayers(1, get('', posPriceSort('Goalkeeper', players))),
-                [pitch[3]]: getRandomPlayers(4, get('', posPriceSort('Midfielder', players)), () =>
-                    console.log(this.state)
-                )
-            });
-        }
-    };
     return (
         <Wrapper className="BuildInfo unmarkable">
             <ChosenPlayers>
