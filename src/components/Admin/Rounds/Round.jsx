@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
+import ArrowB from '../../../media/arrowB.svg';
 
 import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
 
@@ -45,6 +46,7 @@ const TitleSpan = styled.span`
 
 const ArrowIcon = styled.img`
     transform: rotate(${p => (p.open ? '180deg' : '0deg')});
+    color: purple;
 `;
 
 const RoundContent = styled.div`
@@ -224,7 +226,12 @@ const Round = ({ adminContext, roundIndex, active }) => {
                         <i>{`senast ändrad ${round.updated[0].at.date} kl. ${round.updated[0].at.time} av ${round.updated[0].by.username}`}</i>
                     </span>
 
-                    <ArrowIcon className="arrowIcon" src={Arrow} alt="arrow" open={open} />
+                    <ArrowIcon
+                        className="arrowIcon"
+                        src={open ? Arrow : ArrowB}
+                        alt="arrow"
+                        open={open}
+                    />
                     {/* Klicka för att {open ? 'dölja' : 'visa'} */}
                 </Header>
 
