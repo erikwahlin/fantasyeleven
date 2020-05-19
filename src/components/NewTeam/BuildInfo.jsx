@@ -160,15 +160,12 @@ const BuildInfo = ({ teamContext, origin }) => {
                     </InfoP>
                 </ChosenPlayers>
             )}
-
-            {stageName === 'pitch' || stageName === 'bench' ? (
-                <ClearBtn onClick={clearPlayers}>
-                    {(stageName === 'pitch' && countPlayers(players.pitch) === 0) ||
-                    (stageName === 'bench' && countPlayers(players.bench) === 0)
-                        ? 'Autofyll'
-                        : `Nollställ ${toSwe(stageName, 'origins')}`}
-                </ClearBtn>
-            ) : null}
+            {(stageName === 'pitch' && countPlayers(players.pitch) === 0) ||
+            stagename === 'bench' ? (
+                <ClearBtn onClick={clearPlayers}>'Autofyll'</ClearBtn>
+            ) : (
+                <ClearBtn>`Nollställ ${toSwe(stageName, 'origins')}`</ClearBtn>
+            )}
 
             {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
                 <AddPlayerBtn className="AddPlayerBtn" onClick={openPlayerSearch} />
