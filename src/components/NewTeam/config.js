@@ -17,8 +17,8 @@ const INITIAL_STATE = {
     team: {
         created: timestamp(),
         updated: timestamp(),
-        registrered: false,
-        registreredAt: null,
+        registered: false,
+        registeredAt: null,
 
         round: null,
         result: null,

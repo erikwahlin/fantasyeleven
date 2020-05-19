@@ -11,8 +11,10 @@ const OverviewContext = createContext(null);
 
 const initialState = {
     user: null,
-    teams: [],
-    selectedTeam: -1
+    playedTeams: [],
+    activeRound: null,
+    playedRounds: [],
+    roundInView: null
 };
 
 class OverviewState extends Component {
@@ -21,12 +23,14 @@ class OverviewState extends Component {
 
         this.state = clone(initialState);
 
-        this.readRegisteredTeams = this.readRegisteredTeams.bind(this);
-        this.selectTeam = this.selectTeam.bind(this);
+        this.readPlayedTeams = this.readPlayedTeams.bind(this);
+        this.setRoundInView = this.setRoundInView.bind(this);
+        this.readActiveRound = this.readActiveRound.bind(this);
+        this.readPlayedRounds = this.readPlayedRounds.bind(this);
 
         // Share
         this.setters = {
-            selectTeam: this.selectTeam
+            setRoundInView: this.setRoundInView
         };
     }
 
@@ -44,9 +48,14 @@ class OverviewState extends Component {
             }
 
             // if user, get data
-            this.readRegisteredTeams(() => {
-                this.selectTeam(0);
+            this.readPlayedTeams(() => {
+                this.readPlayedRounds(() => {
+                    const { playedRounds } = this.state;
+                    if (playedRounds.length) this.setRoundInView(playedRounds[0]._id);
+                });
             });
+
+            this.readActiveRound();
         });
     };
 
@@ -65,12 +74,39 @@ class OverviewState extends Component {
         );
     };
 
-    readRegisteredTeams = async callback => {
+    setRoundInView = _id => {
+        let index = -1;
+        this.state.playedRounds.forEach((r, nth) => {
+            if (r._id === _id) index = nth;
+            return;
+        });
+
+        if (index < 0) return;
+
+        this.setState({ roundInView: { _id, index } });
+    };
+
+    readActiveRound = async callback => {
         await apis
-            .read({ action: 'readRegisteredTeams', _id: this.state.user._id })
+            .read({ action: 'readActiveRound' })
             .then(res => {
                 if (res.status <= 200) {
-                    this.setState({ teams: res.data.data }, () => {
+                    this.setState({ activeRound: res.data.data });
+                } else {
+                    console.log('Active round not found.');
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to get active round (${err})`);
+            });
+    };
+
+    readPlayedTeams = async callback => {
+        await apis
+            .read({ action: 'readPlayedTeams', _id: this.state.user._id })
+            .then(res => {
+                if (res.status <= 200) {
+                    this.setState({ playedTeams: res.data.data }, () => {
                         if (typeof callback === 'function') callback();
                     });
                 } else {
@@ -82,8 +118,25 @@ class OverviewState extends Component {
             });
     };
 
-    selectTeam = selectedTeam => {
-        this.setState({ selectedTeam });
+    readPlayedRounds = async callback => {
+        const payload = { IDs: this.state.playedTeams.map(team => team.round) };
+
+        if (!payload.IDs.length) return;
+
+        await apis
+            .create({ action: 'readPlayedRounds', payload })
+            .then(res => {
+                if (res.status <= 200) {
+                    this.setState({ playedRounds: res.data.data }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
+                } else {
+                    console.log('Played rounds not found.');
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to get played rounds (${err})`);
+            });
     };
 
     render() {

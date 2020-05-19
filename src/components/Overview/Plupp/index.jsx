@@ -382,7 +382,7 @@ class Plupp extends Component {
 
     render() {
         const { isMarked, popOpen } = this.state;
-        const { isCap, isVice, player, pos, origin, lineupIndex, overviewContext } = this.props;
+        const { isCap, isVice, player, pos, origin, lineupIndex } = this.props;
 
         return (
             <Container>
@@ -420,7 +420,7 @@ class Plupp extends Component {
                 <Popover
                     content={this.popContent}
                     trigger="click"
-                    visible={this.state.popOpen}
+                    visible={popOpen}
                     width={500}
                     ref={this.popRef}
                     /* onVisibleChange={val => this.setPop(val)} */
@@ -431,7 +431,7 @@ class Plupp extends Component {
                         className={`Plupp`}
                         alt={`player-plupp ${origin}`}
                         src={pluppC}
-                        isMarked={this.state.isMarked}
+                        isMarked={isMarked}
                         onClick={e => this.handleClickInside(e)}
                         origin={origin}
                         player={player}

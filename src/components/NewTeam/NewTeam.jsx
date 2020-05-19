@@ -160,28 +160,6 @@ class NewTeam extends Component {
                 if (typeof callback === 'function') callback(false);
             }
         );
-
-        /* await this.props.firebase.auth.onAuthStateChanged(user => {
-            // if logged in, use/load from mongo
-
-            if (user) {
-                this.setState({ user: user.uid }, async () => {
-                    this.load();
-                });
-            }
-
-            // if not logged in, use client storage
-            else {
-                console.log('Not logged in. Using client-storage.');
-                // if local data, load, else create
-                if (localStorage.getItem('team')) {
-                    this.load();
-                } else {
-                    this.save();
-                    this.updatesearchablePlayers();
-                }
-            }
-        }); */
     };
 
     /*
@@ -202,7 +180,6 @@ class NewTeam extends Component {
             : this.clientLoad();
 
     // MONGO
-
     mongoLoad = async () => {
         // user/team exists?
         await apis
@@ -300,8 +277,13 @@ class NewTeam extends Component {
             .read({ action: 'readActiveRound' })
             .then(res => {
                 if (res.status <= 200) {
+                    console.log('round res ', res.data.data);
                     this.setState({ round: res.data.data }, () => {
-                        if (typeof callback === 'function') callback();
+                        const newTeam = clone(this.state.team);
+
+                        this.setState({ team: newTeam }, () => {
+                            if (typeof callback === 'function') callback();
+                        });
                     });
                 } else {
                     console.log('Active round not found.');
@@ -312,8 +294,15 @@ class NewTeam extends Component {
             });
     };
 
-    registerTeam = onSuccess => {
+    registerTeam = async onSuccess => {
         const { round, user, team } = this.state;
+
+        // save team in ls
+        const lsTeam = {
+            ...clone(this.state.team),
+            round: null
+        };
+        this.clientSave(lsTeam);
 
         if (!round) {
             return userMsg({
@@ -330,11 +319,11 @@ class NewTeam extends Component {
             }).add();
         }
 
-        const newRound = clone(round);
+        /*         const newRound = clone(round); */
 
         let alreadyRegistered = false;
-        newRound.users.forEach(u => {
-            if (u.user._id === user._id) {
+        round.users.forEach(item => {
+            if (item.user === user._id) {
                 alreadyRegistered = true;
             }
         });
@@ -346,40 +335,26 @@ class NewTeam extends Component {
             }).add();
         }
 
-        newRound.users.push({
-            user,
-            team: this.state.team._id
-        });
-
-        newRound.updated.unshift(updatedStamp({ user, tag: `Registered team: ${team._id}` }));
-
-        const toUser = async callback => {
-            await apis
-                .read({ action: 'registerTeam', _id: user._id })
-                .then(res => {
-                    if (typeof callback === 'function') callback();
-                })
-                .catch(err => {
-                    console.log('err when registering to round', err);
-                    errMsg().add();
-                });
+        const registeredTeam = {
+            ...clone(team),
+            registered: true,
+            registeredAt: timestamp(),
+            updated: updatedStamp('Team registered')
         };
 
-        const toRound = async () => {
-            await apis
-                .update({ action: 'updateRound', payload: newRound })
-                .then(res => {
-                    this.props.history.push({
-                        pathname: '/overview'
-                    });
-                })
-                .catch(err => {
-                    console.log('err when registering to round', err);
-                    errMsg().add();
-                });
-        };
+        const payload = { userID: user._id, roundID: round._id, registeredTeam };
 
-        toUser(toRound);
+        await apis
+            .create({ action: 'registerTeam', payload })
+            .then(res => {
+                this.props.history.push({
+                    pathname: '/overview'
+                });
+            })
+            .catch(err => {
+                console.log('err when registering to round', err);
+                errMsg().add();
+            });
     };
 
     // CLIENT
@@ -395,11 +370,11 @@ class NewTeam extends Component {
         console.log('No team was loaded, starting fresh.');
     };
 
-    clientSave = () =>
+    clientSave = (team = this.state.team) =>
         localStorage.setItem(
             'team',
             JSON.stringify({
-                ...this.state.team,
+                ...team,
                 updated: timestamp()
             })
         );
@@ -472,6 +447,14 @@ class NewTeam extends Component {
         this.setState(
             ps => ({ ...ps, team: newTeam }),
             () => {
+                if (this.state.round && !this.state.team.round) {
+                    console.log('updating team with active round');
+                    const teamWithRound = {
+                        ...clone(this.state.team),
+                        round: this.state.round._id
+                    };
+                    this.setState({ team: teamWithRound });
+                }
                 this.updateLimit();
 
                 if (typeof callback === 'function') callback();

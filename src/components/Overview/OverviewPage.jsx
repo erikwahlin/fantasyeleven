@@ -16,6 +16,7 @@ import {
 } from './overview.styles';
 
 import Pitch from './Pitch';
+import Rounds from './Rounds';
 
 const InfoTitle = styled.h2`
     margin: 0;
@@ -32,7 +33,7 @@ const InfoTitle = styled.h2`
 `;
 
 const OverviewPage = ({ overviewContext }) => {
-    const { user, teams, selectedTeam } = overviewContext.state;
+    const { user, teams, roundInView } = overviewContext.state;
 
     return (
         <div className="Overview">
@@ -53,6 +54,7 @@ const OverviewPage = ({ overviewContext }) => {
                             </Revenue>
                         </ResultWrap>
                         <Collapsible />
+                        <Rounds />
                     </InnerWrapper>
                 </OuterWrapper>
             </ContentWrap>

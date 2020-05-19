@@ -98,10 +98,20 @@ const AddContainer = styled.div`
 `;
 
 const Pitch = ({ overviewContext }) => {
-    const { teams, selectedTeam } = overviewContext.state;
-    const team = teams[selectedTeam];
+    const fallback = <PitchImg src={pitchImg} className="PitchImg" />;
 
-    if (!team) return <PitchImg src={pitchImg} className="PitchImg" />;
+    const { playedTeams, playedRounds, roundInView, user } = overviewContext.state;
+
+    if (!roundInView || roundInView < 0) return fallback;
+
+    const round = playedRounds.filter(r => r._id === roundInView._id)[0];
+
+    if (!round) return fallback;
+
+    const teamID = round.users.filter(item => item.user === user._id)[0].team;
+    const team = playedTeams.filter(t => t._id === teamID)[0];
+
+    if (!team) return fallback;
 
     const { players, captain, viceCaptain } = team;
 
