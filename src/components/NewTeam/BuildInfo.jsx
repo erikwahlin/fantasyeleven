@@ -83,6 +83,7 @@ const ClearBtn = styled.button`
         font-size: 5vw;
     }
 `;
+const FillBtn = styled(ClearBtn)``;
 
 const AddPlayerBtn = styled(FaUserPlus)`
     width: 65px;
@@ -105,10 +106,10 @@ const AddPlayerBtn = styled(FaUserPlus)`
 const BuildInfo = ({ teamContext, origin }) => {
     const { team, config } = teamContext.state;
     const { value, players } = team;
-    const { buildStage, limit, mobileSearch } = config;
+    const { buildStage, limit, mobileSearch, allPlayers } = config;
     const { stageName } = buildStage;
     const { delPlayer, openPlayerSearch } = teamContext.setters;
-
+    const { bench, pitch } = players;
     const maxPlayers = limit[origin].tot;
     const maxValue = limit.value[origin];
 
@@ -123,6 +124,83 @@ const BuildInfo = ({ teamContext, origin }) => {
             : true;
 
     const notReady = teamValue > maxValue;
+    //checks how many of players of each value there is, could be could for
+    //continuing dev on autofill.
+    const countOccur = allPlayers => {
+        var counts = {};
+        // looping through your array
+        players.forEach(players => {
+            let num = players.price;
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+        });
+        return counts;
+    };
+
+    const posPriceSort = (position, players) => {
+        return players
+            .filter(player => player.position === position)
+            .sort((a, b) => a.price - b.price);
+    }; //ger tillbaka array med specifik spelarposition sorterad på pris.
+
+    //console.log(posPriceSort('Defender', players))
+    //value is top, middle or low
+    const get = (value, playersArr) => {
+        switch (value) {
+            case 'high':
+                return playersArr.slice(
+                    Math.floor(playersArr.length - playersArr.length / 3),
+                    playersArr.length
+                );
+                break;
+            case 'middle':
+                return playersArr.slice(
+                    Math.floor(playersArr.length - 2 * (playersArr.length / 3)),
+                    Math.floor(playersArr.length - playersArr.length / 3)
+                );
+                break;
+            case 'low':
+                return playersArr.slice(0, Math.floor(playersArr.length / 3));
+                break;
+            default:
+                return playersArr;
+                break;
+        }
+    };
+
+    const getRandomPlayers = (amount, playersArr) => {
+        const getRandPlayer = (players, n) => {
+            return players[Math.floor(Math.random() * n)];
+        };
+
+        const team = [];
+
+        for (let i = 0; i < amount; i++) {
+            team.push(getRandPlayer(playersArr, playersArr.length));
+        }
+        return team;
+    };
+
+    const team = [
+        ...getRandomPlayers(1, get('top', posPriceSort('Goalkeeper', players))),
+        ...getRandomPlayers(2, get('top', posPriceSort('Forward', players))),
+        ...getRandomPlayers(4, get('top', posPriceSort('Defender', players))),
+        ...getRandomPlayers(4, get('top', posPriceSort('Midfielder', players)))
+    ];
+
+    const sumOfTeam = team => {
+        let sum = 0;
+        team.forEach(player => (sum += Number(player.price)));
+        return sum;
+    };
+
+    const benchPlayers = [
+        ...getRandomPlayers(1, get('', posPriceSort('Goalkeeper', players))),
+        ...getRandomPlayers(1, get('', posPriceSort('Forward', players))),
+        ...getRandomPlayers(1, get('', posPriceSort('Defender', players))),
+        ...getRandomPlayers(1, get('', posPriceSort('Midfielder', players)))
+    ];
+
+    console.log(sumOfTeam(bench));
 
     const clearPlayers = () => {
         // alla spelare på []
@@ -130,6 +208,28 @@ const BuildInfo = ({ teamContext, origin }) => {
         delPlayer({ delAll: true });
     };
 
+    const autofill = stage => {
+        if (stage === 'bench') {
+            this.setState({
+                [bench[0]]: getRandomPlayers(1, get('', posPriceSort('Defender', players))),
+                [bench[1]]: getRandomPlayers(1, get('', posPriceSort('Forward', players))),
+                [bench[2]]: getRandomPlayers(1, get('', posPriceSort('Goalkeeper', players))),
+                [bench[3]]: getRandomPlayers(1, get('', posPriceSort('Midfielder', players)), () =>
+                    console.log(this.state)
+                )
+            });
+        }
+        if (stage === 'pitch') {
+            this.setState({
+                [pitch[0]]: getRandomPlayers(4, get('', posPriceSort('Defender', players))),
+                [pitch[1]]: getRandomPlayers(2, get('', posPriceSort('Forward', players))),
+                [pitch[2]]: getRandomPlayers(1, get('', posPriceSort('Goalkeeper', players))),
+                [pitch[3]]: getRandomPlayers(4, get('', posPriceSort('Midfielder', players)), () =>
+                    console.log(this.state)
+                )
+            });
+        }
+    };
     return (
         <Wrapper className="BuildInfo unmarkable">
             <ChosenPlayers>
@@ -161,12 +261,10 @@ const BuildInfo = ({ teamContext, origin }) => {
                 </ChosenPlayers>
             )}
             {(stageName === 'pitch' && countPlayers(players.pitch) === 0) ||
-            stagename === 'bench' ? (
-                <ClearBtn onClick={clearPlayers}>'Autofyll'</ClearBtn>
+            (stagename === 'bench' && countPlayers(players.bench) === 0) ? (
+                <ClearBtn onClick={clearPlayers}>'Nollställ'</ClearBtn>
             ) : (
-                <FillBtn onClick={this.autofill}>
-                    `Nollställ ${toSwe(stageName, 'origins')}`
-                </FillBtn>
+                <FillBtn onClick={autofill('pitch')}>'Autofyll'</FillBtn>
             )}
 
             {(stageName === 'pitch' || stageName === 'bench') && mobileSearch && (
