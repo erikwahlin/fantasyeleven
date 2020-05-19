@@ -55,9 +55,9 @@ class OverviewState extends Component {
                                 if (typeof callback === 'function') callback(true);
 
                                 // GET TEAMS (all registered teams) FROM MONGO INSTEAD
-                                this.setState({
+                                /* this.setState({
                                     teams: [this.props.location.state.newTeam, ...this.state.teams]
-                                });
+                                }); */
                             }
                         );
                     });
