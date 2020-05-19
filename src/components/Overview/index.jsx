@@ -1,11 +1,11 @@
 import React from 'react';
 import OverviewState from './OverviewState';
-import Main from './Main';
+import OverviewPage from './OverviewPage';
 
 const Overview = props => {
     return (
         <OverviewState>
-            <Main />
+            <OverviewPage />
         </OverviewState>
     );
 };

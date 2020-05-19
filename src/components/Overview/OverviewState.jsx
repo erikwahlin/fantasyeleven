@@ -3,13 +3,16 @@ import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase/context';
 
+import apis from '../../constants/api';
+
 import { clone, userMsg, errMsg, userTemplate } from '../../constants/helperFuncs';
 
 const OverviewContext = createContext(null);
 
 const initialState = {
     user: null,
-    teams: []
+    teams: [],
+    selectedTeam: -1
 };
 
 class OverviewState extends Component {
@@ -18,12 +21,18 @@ class OverviewState extends Component {
 
         this.state = clone(initialState);
 
+        this.readRegisteredTeams = this.readRegisteredTeams.bind(this);
+        this.selectTeam = this.selectTeam.bind(this);
+
         // Share
-        this.setters = {};
+        this.setters = {
+            selectTeam: this.selectTeam
+        };
     }
 
     componentDidMount = () => {
         this.userInit(user => {
+            // if no user, prompt signin/up
             if (!user) {
                 userMsg({
                     message: 'Kunde inte hitta din användar-data. Vänligen logga in på nytt.',
@@ -33,6 +42,11 @@ class OverviewState extends Component {
                 }).add();
                 return;
             }
+
+            // if user, get data
+            this.readRegisteredTeams(() => {
+                this.selectTeam(0);
+            });
         });
     };
 
@@ -49,6 +63,27 @@ class OverviewState extends Component {
                 if (typeof callback === 'function') callback(false);
             }
         );
+    };
+
+    readRegisteredTeams = async callback => {
+        await apis
+            .read({ action: 'readRegisteredTeams', _id: this.state.user._id })
+            .then(res => {
+                if (res.status <= 200) {
+                    this.setState({ teams: res.data.data }, () => {
+                        if (typeof callback === 'function') callback();
+                    });
+                } else {
+                    console.log('Teams not found.');
+                }
+            })
+            .catch(err => {
+                console.log(`Failed to get teams (${err})`);
+            });
+    };
+
+    selectTeam = selectedTeam => {
+        this.setState({ selectedTeam });
     };
 
     render() {

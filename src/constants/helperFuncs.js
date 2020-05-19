@@ -31,7 +31,7 @@ export const updatedStamp = ({ user, tag = '' }) => {
 };
 
 export const userTemplate = user => ({
-    uid: user.uid,
+    _id: user.uid,
     username: user.username,
     email: user.email,
     roles: user.roles

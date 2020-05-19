@@ -6,7 +6,8 @@ import {
     updatedStamp,
     userMsg,
     updateMsg,
-    errMsg
+    errMsg,
+    userTemplate
 } from '../../constants/helperFuncs';
 import * as preset from '../../constants/gamePreset';
 import TeamContext from './ctx';
@@ -84,7 +85,7 @@ class NewTeam extends Component {
         this.mongoSave = this.mongoSave.bind(this);
         this.readPlayers = this.readPlayers.bind(this);
         this.readActiveRound = this.readActiveRound.bind(this);
-        this.registerToRound = this.registerToRound.bind(this);
+        this.registerTeam = this.registerTeam.bind(this);
 
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
@@ -100,7 +101,7 @@ class NewTeam extends Component {
             toggleMobileSearch: this.toggleMobileSearch,
             setStage: this.setStage,
             updateFilterKeys: this.updateFilterKeys,
-            registerToRound: this.registerToRound
+            registerTeam: this.registerTeam
         };
     }
 
@@ -108,7 +109,22 @@ class NewTeam extends Component {
         this.readActiveRound();
         this.readPlayers(() => {
             this.updatesearchablePlayers(async () => {
-                await this.userInit();
+                await this.userInit(loggedIn => {
+                    if (loggedIn) {
+                        this.load();
+                    }
+                    // if not logged in, use client storage
+                    else {
+                        console.log('Not logged in. Using client-storage.');
+                        // if local data, load, else create
+                        if (localStorage.getItem('team')) {
+                            this.load();
+                        } else {
+                            this.save();
+                            this.updatesearchablePlayers();
+                        }
+                    }
+                });
             });
         });
     };
@@ -123,15 +139,29 @@ class NewTeam extends Component {
     };
 
     // get curr user
-    userInit = async () => {
+    userInit = async callback => {
         if (!this.state.appOnline) {
             this.save();
             this.updatesearchablePlayers();
             return;
         }
 
-        console.log('user init');
-        await this.props.firebase.auth.onAuthStateChanged(user => {
+        console.log('user init...');
+
+        await this.props.firebase.onAuthUserListener(
+            user => {
+                this.setState({ user: userTemplate(user) }, () => {
+                    // got user
+                    if (typeof callback === 'function') callback(true);
+                });
+            },
+            () => {
+                // no user
+                if (typeof callback === 'function') callback(false);
+            }
+        );
+
+        /* await this.props.firebase.auth.onAuthStateChanged(user => {
             // if logged in, use/load from mongo
 
             if (user) {
@@ -151,7 +181,7 @@ class NewTeam extends Component {
                     this.updatesearchablePlayers();
                 }
             }
-        });
+        }); */
     };
 
     /*
@@ -176,7 +206,7 @@ class NewTeam extends Component {
     mongoLoad = async () => {
         // user/team exists?
         await apis
-            .read({ action: 'readUser', _id: this.state.user })
+            .read({ action: 'readUser', _id: this.state.user._id })
             .then(async res => {
                 // if no, create new user
                 if (!res.data || res.data === '') {
@@ -185,6 +215,11 @@ class NewTeam extends Component {
 
                 // if yes, load user
                 const user = res.data.data;
+
+                if (!user.newTeam) {
+                    return this.clientLoad();
+                }
+
                 this.setState(
                     ps => ({
                         ...ps,
@@ -206,7 +241,7 @@ class NewTeam extends Component {
     mongoCreate = async () => {
         // mongo user-obj
         const newUser = {
-            _id: this.state.user,
+            _id: this.state.user._id,
             newTeam: {
                 ...this.state.team
             },
@@ -225,10 +260,8 @@ class NewTeam extends Component {
     mongoSave = async () => {
         console.log('mongo-save');
 
-        const _id = this.state.user;
-
         const payload = {
-            _id,
+            _id: this.state.user._id,
             newTeam: { ...this.state.team, updated: timestamp() }
         };
 
@@ -279,8 +312,8 @@ class NewTeam extends Component {
             });
     };
 
-    registerToRound = async onSuccess => {
-        const { round, user } = this.state;
+    registerTeam = onSuccess => {
+        const { round, user, team } = this.state;
 
         if (!round) {
             return userMsg({
@@ -301,7 +334,7 @@ class NewTeam extends Component {
 
         let alreadyRegistered = false;
         newRound.users.forEach(u => {
-            if (u.user === user) {
+            if (u.user._id === user._id) {
                 alreadyRegistered = true;
             }
         });
@@ -318,26 +351,35 @@ class NewTeam extends Component {
             team: this.state.team._id
         });
 
-        newRound.updated.unshift(
-            updatedStamp({ user, tag: `Registered team: ${this.state.team._id}` })
-        );
+        newRound.updated.unshift(updatedStamp({ user, tag: `Registered team: ${team._id}` }));
 
-        await apis
-            .update({ action: 'updateRound', payload: newRound })
-            .then(res => {
-                //this.readActiveRound();
-
-                this.props.history.push({
-                    pathname: '/overview',
-                    state: { newTeam: this.state.team }
+        const toUser = async callback => {
+            await apis
+                .read({ action: 'registerTeam', _id: user._id })
+                .then(res => {
+                    if (typeof callback === 'function') callback();
+                })
+                .catch(err => {
+                    console.log('err when registering to round', err);
+                    errMsg().add();
                 });
+        };
 
-                //if (typeof onSuccess === 'function') onSuccess();
-            })
-            .catch(err => {
-                console.log('err when registering to round', err);
-                errMsg().add();
-            });
+        const toRound = async () => {
+            await apis
+                .update({ action: 'updateRound', payload: newRound })
+                .then(res => {
+                    this.props.history.push({
+                        pathname: '/overview'
+                    });
+                })
+                .catch(err => {
+                    console.log('err when registering to round', err);
+                    errMsg().add();
+                });
+        };
+
+        toUser(toRound);
     };
 
     // CLIENT

@@ -126,7 +126,7 @@ const stageContent = stage => {
 };
 
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
-    const { setStage, updateFilterKeys, registerToRound } = teamContext.setters;
+    const { setStage, updateFilterKeys, registerTeam } = teamContext.setters;
     const { team, round } = teamContext.state;
     const { players, captain, viceCaptain, value } = team;
 
@@ -138,7 +138,7 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
     };
 
     const register = () => {
-        registerToRound();
+        registerTeam();
     };
 
     const navHandler = input => {
