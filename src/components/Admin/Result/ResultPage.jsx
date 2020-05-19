@@ -62,7 +62,7 @@ const stepData = {
     }
 };
 
-const StepContainer = styled(Steps)`
+const StepsHorizontal = styled(Steps)`
     overflow-x: scroll;
 
     & .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
@@ -71,6 +71,16 @@ const StepContainer = styled(Steps)`
 
     & .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
         background-color: #1890ff;
+    }
+
+    & * {
+        color: #fff !important;
+    }
+`;
+
+const StepsVertical = styled(Steps)`
+    & * {
+        color: #fff !important;
     }
 `;
 
@@ -150,7 +160,7 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
         >
             <h2>RESULTAT FÖR OMGÅNG {round.alias}</h2>
 
-            <StepContainer progressDot current={step}>
+            <StepsHorizontal progressDot current={step}>
                 {stepData.step.map((data, nth) => {
                     const active = data === nth ? true : false;
                     const hidden = !active && nth < step - hiddenStepIndex ? true : false;
@@ -164,19 +174,19 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
                         />
                     );
                 })}
-            </StepContainer>
+            </StepsHorizontal>
             <Divider />
-            <Steps progressDot direction="vertical" current={substep}>
+            <StepsVertical progressDot direction="vertical" current={substep}>
                 {stepData.substep[category].map((sub, nth) => (
                     <Step key={`${sub.name}-step-${nth}`} title={sub.label} />
                 ))}
-            </Steps>
+            </StepsVertical>
 
             {category === 'match' && (
-                <>
-                    {stepData.substep[category][substep].label.toUpperCase()}
+                <div style={{ color: '#fff' }}>
+                    <p>{stepData.substep[category][substep].label.toUpperCase()}</p>
                     <p>Match {step + 1}</p>
-                </>
+                </div>
             )}
 
             {content &&

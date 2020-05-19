@@ -12,6 +12,7 @@ import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 import allClubs from '../../../constants/clubs';
 
 import { initialMatches } from '../../../constants/gamePreset';
+import { FcCheckmark } from 'react-icons/fc';
 
 const { Wrapper, OptionsWrapper } = wrapperTemplate;
 
@@ -20,7 +21,7 @@ const { FormContainer, InputTemplate } = formTemplate;
 const ClubSelect = styled.select`
     border: none;
     outline: none;
-    color: ${p => (p.value ? '#fff' : '#000')};
+    color: #fff;
 `;
 
 const ClubWrapper = styled(Wrapper)`
@@ -162,14 +163,11 @@ const NewRound = props => {
 
     return (
         <div>
-            <div style={{ margin: '0', width: '100%', textAlign: 'center' }}>
-                <button
-                    onClick={() => setNewnewRoundHidden(!newRoundHidden)}
-                    style={{ outline: 'none' }}
-                >
+            <OptionsWrapper>
+                <ButtonStandard onClick={() => setNewnewRoundHidden(!newRoundHidden)}>
                     {newRoundHidden ? 'Skapa ny omgång' : 'Stäng ny omgång'}
-                </button>
-            </div>
+                </ButtonStandard>
+            </OptionsWrapper>
 
             <ToggleWrapper className="toggleWrapper" hidden={newRoundHidden}>
                 <FormContainer className="FormContainer" title="Skapa en ny omgång">
@@ -231,7 +229,26 @@ const NewRound = props => {
                                 className={`Match-${nth + 1}`}
                                 customStyle={`flex-direction: row; flex-wrap: wrap;`}
                             >
-                                <p style={{ fontSize: '1em', color: 'grey' }}>Match {nth + 1}</p>
+                                <div style={{ position: 'relative' }}>
+                                    <p
+                                        style={{
+                                            fontSize: '1em',
+                                            color: 'white'
+                                        }}
+                                    >
+                                        Match {nth + 1}
+                                    </p>
+
+                                    {match.home.club && match.away.club && (
+                                        <FcCheckmark
+                                            style={{
+                                                position: 'absolute',
+                                                right: '-20px',
+                                                top: '0'
+                                            }}
+                                        />
+                                    )}
+                                </div>
 
                                 <ClubSelect
                                     onClick={e =>
@@ -304,7 +321,7 @@ const NewRound = props => {
 
                     <OptionsWrapper
                         className="Options"
-                        customStyle="flex-direction: row; margin: 20px 0; width: 100%;"
+                        customStyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
                     >
                         <ButtonStandard
                             type="default"
