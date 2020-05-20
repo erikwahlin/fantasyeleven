@@ -18,9 +18,23 @@ import About from '../About';
 import Overview from '../Overview';
 import styled, { css, keyframes } from 'styled-components';
 
-
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
+import { isMobile } from 'react-device-detect';
+
+const AppWrapper = styled.div`
+    height: 100vh;
+
+    /* Kill the extra bottom padding on mobile (keep the nav visible) */
+    ${isMobile &&
+    css`
+        height: 100%;
+        min-height: unset;
+        max-height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    `};
+`;
 
 import ReactNotification from 'react-notifications-component';
 
@@ -129,7 +143,6 @@ const App = () => (
                     <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                     <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
 
-
                     <Route path={ROUTES.OVERVIEW} exact component={Overview} />
                     <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
 
@@ -137,7 +150,6 @@ const App = () => (
                     <Route path={ROUTES.ADMIN} component={AdminPage} />
 
                     <Route path={ROUTES.ABOUT} component={About} />
-
                 </AppContainer>
             </ConfigProvider>
         </>
