@@ -13,6 +13,7 @@ import './DrawerStyle.css';
 const Wrapper = styled(WrapperRow)`
     justify-content: space-between;
     position: fixed;
+    z-index: 2;
     width: fit-content;
     right: 0;
     top: 0;
@@ -52,7 +53,7 @@ const DrawerStyled = styled(Drawer)`
     }
 `;
 
-const DrawerNav = ({ user, children: links, ...props }) => {
+const DrawerNav = ({ user, location, children: links, ...props }) => {
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
         setVisible(true);
@@ -62,13 +63,16 @@ const DrawerNav = ({ user, children: links, ...props }) => {
     };
 
     return (
-        <Wrapper className={`Navigation Drawer ${user ? 'logged-out' : 'logged-in'} unmarkable`}>
+        <Wrapper
+            pathname={location.pathname}
+            className={`Navigation Drawer ${user ? 'logged-out' : 'logged-in'} unmarkable`}
+        >
             <MenuBtn type="primary" onClick={showDrawer}>
                 <MenuIcon />
             </MenuBtn>
 
             <DrawerStyled
-                drawerStyle={{ background: '#021f3d' }}
+                drawerStyle={{ background: location.pathname === '/admin' ? '#000' : '#021f3d' }}
                 placement="right"
                 closable={false}
                 onClose={onClose}

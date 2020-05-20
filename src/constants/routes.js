@@ -23,7 +23,7 @@ export const topNav = [
     ABOUT
 ];
 
-export const slideNav = [NEWTEAM, OVERVIEW];
+export const slideNav = [NEWTEAM, OVERVIEW, ADMIN];
 
 export const loggedIn = [
     { pathname: LANDING, title: 'Start' },
