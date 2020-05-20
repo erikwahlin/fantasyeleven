@@ -15,9 +15,13 @@ const LinkContainer = styled.div`
 
 const NavType = ({ location, children, ...props }) =>
     ROUTES.slideNav.includes(location.pathname) ? (
-        <DrawerNav {...props}>{children}</DrawerNav>
+        <DrawerNav location={location} {...props}>
+            {children}
+        </DrawerNav>
     ) : (
-        <DefaultNav {...props}>{children}</DefaultNav>
+        <DefaultNav location={location} {...props}>
+            {children}
+        </DefaultNav>
     );
 
 const NavRoutes = ({ routeList, user }) => {
