@@ -21,6 +21,10 @@ import styled, { css, keyframes } from 'styled-components';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import { isMobile } from 'react-device-detect';
+import ReactNotification from 'react-notifications-component';
+
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
 const AppWrapper = styled.div`
     height: 100vh;
@@ -35,11 +39,6 @@ const AppWrapper = styled.div`
         overflow-x: hidden;
     `};
 `;
-
-import ReactNotification from 'react-notifications-component';
-
-import 'react-notifications-component/dist/theme.css';
-import 'animate.css';
 
 const rotate = keyframes`
 	0% {

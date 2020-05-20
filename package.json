@@ -19,6 +19,7 @@
         "rc-tween-one": "^2.6.8",
         "react": "^16.13.1",
         "react-detect-offline": "^2.4.0",
+        "react-device-detect": "^1.12.1",
         "react-dom": "^16.13.1",
         "react-dropdown": "^1.7.0",
         "react-icons": "^3.10.0",
