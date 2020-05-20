@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { compose } from 'recompose';
 
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+
 import { withAdmin } from './AdminState';
 
 import Navigation from '../Navigation';
@@ -84,10 +86,12 @@ const AdminPage = ({ location }) => {
                 <Tab
                     tab={
                         <span>
-                            <img
-                                src={FLogo}
-                                style={{ width: '130px', marginLeft: '5px', marginTop: '10px' }}
-                            />
+                            <Link to="/">
+                                <img
+                                    src={FLogo}
+                                    style={{ width: '130px', marginLeft: '5px', marginTop: '10px' }}
+                                />
+                            </Link>
                         </span>
                     }
                     key="0"

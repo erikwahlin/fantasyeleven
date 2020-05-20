@@ -2,7 +2,7 @@ import axios from 'axios';
 import backend from './backend';
 
 console.log(
-    `Running backend branch ${process.env.REACT_APP_BACKEND_BRANCH.toUpperCase()} @ `,
+    `Running backend branch ${process.env.REACT_APP_BACKEND_BRANCH} @ `,
     backend(process.env.REACT_APP_BACKEND_BRANCH)
 );
 
