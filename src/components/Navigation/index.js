@@ -5,100 +5,50 @@ import { AuthUserContext, withAuthentication } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-
-const Wrapper = styled.div`
-    margin: 0;
-`;
-
-const NavList = styled.ul`
-    margin: 0;
-`;
-
-const NavWrapper = styled.div`
-    width: 100%;
-    margin: 0;
-    height: fit-content;
-    padding: 5px;
-`;
-
-const TopNav = styled.div`
-    position: fixed;
-    width: 100%;
-    left: 0;
-    top: 0;
-`;
+import DefaultNav from './DefaultNav';
+import DrawerNav from './DrawerNav';
 
 // styled(drawer)
-const SlideNav = styled.div`
-    position: fixed; /* temp */
-    bottom: 0; /* temp */
-    z-index: 1;
+const LinkContainer = styled.div`
+    margin: 20px;
 `;
 
-const NavType = ({ pathname, children }) =>
-    ROUTES.slideNav.includes(pathname) ? (
-        <SlideNav>{children}</SlideNav>
+const NavType = ({ location, children, ...props }) =>
+    ROUTES.slideNav.includes(location.pathname) ? (
+        <DrawerNav {...props}>{children}</DrawerNav>
     ) : (
-        <TopNav>{children}</TopNav>
+        <DefaultNav {...props}>{children}</DefaultNav>
     );
 
-const NavRoutes = ({ routeList, user }) =>
-    ROUTES[routeList].map(route => (
-        <li key={route.pathname} className={`navlink-${route.pathname}`}>
+const NavRoutes = ({ routeList, user }) => {
+    const routes = ROUTES[routeList].filter(r =>
+        r.pathname === '/admin' && !user.roles.includes('ADMIN') ? false : true
+    );
+
+    return routes.map(route => (
+        <LinkContainer key={route.pathname} className={`navlink-${route.pathname} navLink`}>
             <Link to={route.pathname}>
                 {route.pathname === '/account' ? user.username : route.title}
             </Link>
-        </li>
+        </LinkContainer>
     ));
+};
 
-const Navigation = ({ user, location, ...props }) => (
-    <NavType
-        pathname={location.pathname}
-        className={`Navigation ${user ? 'logged-out' : 'logged-in'} unmarkable`}
-    >
-        <NavList className="NavList">
-            {user ? (
-                <>
-                    {<NavRoutes routeList="loggedIn" user={user} />}
-                    <li>
-                        <SignOutButton />
-                    </li>
-                </>
-            ) : (
-                <NavRoutes routeList="loggedOut" />
-            )}
-        </NavList>
+const Navigation = ({ user, ...props }) => (
+    <NavType {...props}>
+        {user ? (
+            <>
+                {<NavRoutes routeList="loggedIn" user={user} />}
+                <hr />
+                <br />
+                <LinkContainer>
+                    <SignOutButton />
+                </LinkContainer>
+            </>
+        ) : (
+            <NavRoutes routeList="loggedOut" />
+        )}
     </NavType>
-);
-
-const LoggedInRoutes = ({ user, pathname }) => (
-    <>
-        <NavList className="NavList">
-            <li>
-                <SignOutButton />
-            </li>
-        </NavList>
-    </>
-);
-
-const LoggedOutRoutes = ({ pathname }) => (
-    <ul className="landing-nav">
-        <li>
-            <Link className="logo" to={ROUTES.LANDING}></Link>
-        </li>
-
-        <li className="landing-btn-container">
-            <Link className="landing-btn" to={ROUTES.SIGN_UP}>
-                Skapa konto
-            </Link>
-        </li>
-
-        <li>
-            <Link className="landing-btn" to={ROUTES.SIGN_IN}>
-                Logga in
-            </Link>
-        </li>
-    </ul>
 );
 
 export default withAuthentication(withRouter(Navigation));
