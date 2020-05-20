@@ -122,8 +122,6 @@ const NotifContainer = styled(ReactNotification)`
     }
 `;
 
-console.log('path', window.location.pathname);
-
 const App = () => (
     <Router>
         <>
@@ -138,6 +136,7 @@ const App = () => (
 
             <ConfigProvider locale={svSe}>
                 <AppContainer className="App" route={window.location.pathname}>
+                    <Navigation />
                     <Route exact path={ROUTES.LANDING} component={LandingPage} />
                     <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
                     <Route path={ROUTES.SIGN_IN} component={SignInPage} />

@@ -2,9 +2,9 @@ import React from 'react';
 import './index.css';
 import Navigation from '../Navigation';
 
-const Landing = ({ location }) => (
+const Landing = () => (
     <div className="landing-bg">
-        <Navigation pathname={location.pathname} />
+        {/* <Navigation pathname={location.pathname} /> */}
 
         <div className="landing-container">
             <p className="landing-big-logo"></p>

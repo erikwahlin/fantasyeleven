@@ -75,7 +75,12 @@ class OverviewState extends Component {
     };
 
     setRoundInView = _id => {
+        if (this.state.roundInView) {
+            if (_id === this.state.roundInView._id) return;
+        }
+
         let index = -1;
+
         this.state.playedRounds.forEach((r, nth) => {
             if (r._id === _id) index = nth;
             return;
