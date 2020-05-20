@@ -35,7 +35,9 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "localMode": "REACT_APP_BACKEND_BRANCH=local react-scripts start",
+        "testBuild": "REACT_APP_BACKEND_BRANCH=test react-scripts build"
     },
     "eslintConfig": {
         "extends": "react-app"
