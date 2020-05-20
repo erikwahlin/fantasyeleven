@@ -1,93 +1,104 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { AuthUserContext } from '../Session';
+import { Link, withRouter } from 'react-router-dom';
+import { AuthUserContext, withAuthentication } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
 const Wrapper = styled.div`
-	margin: 0;
+    margin: 0;
 `;
 
 const NavList = styled.ul`
-	margin: 0;
+    margin: 0;
 `;
 
-const Navigation = ({ pathname }) => (
-	<AuthUserContext.Consumer>
-		{authUser =>
-			authUser ? (
-				<NavigationAuth authUser={authUser} pathname={pathname} />
-			) : (
-				<NavigationNonAuth pathname={pathname} />
-			)
-		}
-	</AuthUserContext.Consumer>
+const NavWrapper = styled.div`
+    width: 100%;
+    margin: 0;
+    height: fit-content;
+    padding: 5px;
+`;
+
+const TopNav = styled.div`
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+`;
+
+// styled(drawer)
+const SlideNav = styled.div`
+    position: fixed; /* temp */
+    bottom: 0; /* temp */
+    z-index: 1;
+`;
+
+const NavType = ({ pathname, children }) =>
+    ROUTES.slideNav.includes(pathname) ? (
+        <SlideNav>{children}</SlideNav>
+    ) : (
+        <TopNav>{children}</TopNav>
+    );
+
+const NavRoutes = ({ routeList, user }) =>
+    ROUTES[routeList].map(route => (
+        <li key={route.pathname} className={`navlink-${route.pathname}`}>
+            <Link to={route.pathname}>
+                {route.pathname === '/account' ? user.username : route.title}
+            </Link>
+        </li>
+    ));
+
+const Navigation = ({ user, location, ...props }) => (
+    <NavType
+        pathname={location.pathname}
+        className={`Navigation ${user ? 'logged-out' : 'logged-in'} unmarkable`}
+    >
+        <NavList className="NavList">
+            {user ? (
+                <>
+                    {<NavRoutes routeList="loggedIn" user={user} />}
+                    <li>
+                        <SignOutButton />
+                    </li>
+                </>
+            ) : (
+                <NavRoutes routeList="loggedOut" />
+            )}
+        </NavList>
+    </NavType>
 );
 
-const NavigationAuth = ({ authUser, pathname }) => (
-	<Wrapper className="Navigation" pathname={pathname}>
-		{/* <img src={Logo} className="logotype"/> */}
-		{pathname !== '/' && (
-			<p style={{ margin: '0' }}>
-				<i>(Will become a side-nav on this page){pathname}</i>
-			</p>
-		)}
-		<NavList className="NavList">
-			<li>
-				<Link to={ROUTES.LANDING}>*Logga*</Link>
-			</li>
-			<li>
-				<Link to={ROUTES.HOME}>Mitt lag</Link>
-			</li>
-			<li>
-				<Link to={ROUTES.ACCOUNT}>Konto</Link>
-			</li>
-			
-
-			{authUser.roles ? (
-				<>
-					{authUser.roles.includes(ROLES.ADMIN) && (
-						<li>
-							<Link to={ROUTES.ADMIN}>Admin</Link>
-						</li>
-					)}
-				</>
-			) : null}
-
-			<li>
-				<Link to={ROUTES.ABOUT}>Om</Link>
-			</li>
-			<li>
-				<Link to={ROUTES.OVERVIEW}>Översikt</Link>
-			</li>
-
-			<li>
-				<SignOutButton />
-			</li>
-		</NavList>
-	</Wrapper>
+const LoggedInRoutes = ({ user, pathname }) => (
+    <>
+        <NavList className="NavList">
+            <li>
+                <SignOutButton />
+            </li>
+        </NavList>
+    </>
 );
 
-const NavigationNonAuth = ({ pathname }) => (
-	<ul className="landing-nav">
-		<li>
-			<Link className="logo" to={ROUTES.LANDING}></Link>
-		</li>
+const LoggedOutRoutes = ({ pathname }) => (
+    <ul className="landing-nav">
+        <li>
+            <Link className="logo" to={ROUTES.LANDING}></Link>
+        </li>
 
-		<li className="landing-btn-container">
-			<Link className="landing-btn" to={ROUTES.SIGN_UP}>
-				Skapa konto
-			</Link>
-		</li>
+        <li className="landing-btn-container">
+            <Link className="landing-btn" to={ROUTES.SIGN_UP}>
+                Skapa konto
+            </Link>
+        </li>
 
-		<li>
-			<Link className="landing-btn" to={ROUTES.SIGN_IN}>
-				Logga in
-			</Link>
-		</li>
-	</ul>
+        <li>
+            <Link className="landing-btn" to={ROUTES.SIGN_IN}>
+                Logga in
+            </Link>
+        </li>
+    </ul>
 );
 
-export default Navigation;
+export default withAuthentication(withRouter(Navigation));

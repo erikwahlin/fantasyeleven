@@ -18,7 +18,6 @@ import About from '../About';
 import Overview from '../Overview';
 import styled, { css, keyframes } from 'styled-components';
 
-
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
@@ -108,8 +107,6 @@ const NotifContainer = styled(ReactNotification)`
     }
 `;
 
-console.log('path', window.location.pathname);
-
 const App = () => (
     <Router>
         <>
@@ -124,11 +121,11 @@ const App = () => (
 
             <ConfigProvider locale={svSe}>
                 <AppContainer className="App" route={window.location.pathname}>
+                    <Navigation />
                     <Route exact path={ROUTES.LANDING} component={LandingPage} />
                     <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
                     <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                     <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-
 
                     <Route path={ROUTES.OVERVIEW} exact component={Overview} />
                     <Route path={ROUTES.NEWTEAM} exact component={NewTeam} />
@@ -137,7 +134,6 @@ const App = () => (
                     <Route path={ROUTES.ADMIN} component={AdminPage} />
 
                     <Route path={ROUTES.ABOUT} component={About} />
-
                 </AppContainer>
             </ConfigProvider>
         </>

@@ -65,7 +65,7 @@ const AccountPage = ({ location }) => (
     <AuthUserContext.Consumer>
         {authUser => (
             <div>
-                <Navigation pathname={location.pathname} />
+                {/* <Navigation pathname={location.pathname} /> */}
                 <OuterWrap>
                     <InnerWrap>
                         <StyledH1>Account: {authUser.email}</StyledH1>
