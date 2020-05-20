@@ -19,6 +19,8 @@ const NavList = styled.ul`
 		list-style-type:none;
 		color:white;
 	}
+
+	}
 `;
 
 const StyledLink = styled(Link)`
@@ -26,6 +28,10 @@ const StyledLink = styled(Link)`
 	font-family:'Avenir';
 	font-weight:500;
 	font-size:1.2em;
+
+	&:hover {
+		color:#aaaaaa;
+	}
 `;
 
 const Navigation = ({ pathname }) => (
