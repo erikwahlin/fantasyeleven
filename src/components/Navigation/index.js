@@ -5,6 +5,8 @@ import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import Logo from '../Landing/fantasy11-white-logo.png';
+
 
 const Wrapper = styled.div`
 	margin: 0;
@@ -12,6 +14,18 @@ const Wrapper = styled.div`
 
 const NavList = styled.ul`
 	margin: 0;
+	
+	& li {
+		list-style-type:none;
+		color:white;
+	}
+`;
+
+const StyledLink = styled(Link)`
+	color:white;
+	font-family:'Avenir';
+	font-weight:500;
+	font-size:1.2em;
 `;
 
 const Navigation = ({ pathname }) => (
@@ -28,7 +42,7 @@ const Navigation = ({ pathname }) => (
 
 const NavigationAuth = ({ authUser, pathname }) => (
 	<Wrapper className="Navigation" pathname={pathname}>
-		{/* <img src={Logo} className="logotype"/> */}
+		
 		{pathname !== '/' && (
 			<p style={{ margin: '0' }}>
 				<i>(Will become a side-nav on this page){pathname}</i>
@@ -36,31 +50,28 @@ const NavigationAuth = ({ authUser, pathname }) => (
 		)}
 		<NavList className="NavList">
 			<li>
-				<Link to={ROUTES.LANDING}>*Logga*</Link>
+				<Link to={ROUTES.LANDING}> <img src={Logo} style={{width:'200px'}}/></Link>
 			</li>
 			<li>
-				<Link to={ROUTES.HOME}>Mitt lag</Link>
+				<StyledLink to={ROUTES.HOME}>Skapa ett lag</StyledLink>
 			</li>
-			<li>
-				<Link to={ROUTES.ACCOUNT}>Konto</Link>
-			</li>
+{/* 			<li>
+				<StyledLink to={ROUTES.ACCOUNT}>Hur fungerar det?</StyledLink>
+			</li> */}
 			
 
-			{authUser.roles ? (
+{/* 			{authUser.roles ? (
 				<>
 					{authUser.roles.includes(ROLES.ADMIN) && (
 						<li>
-							<Link to={ROUTES.ADMIN}>Admin</Link>
+							<StyledLink to={ROUTES.ADMIN}>Admin</StyledLink>
 						</li>
 					)}
 				</>
-			) : null}
+			) : null} */}
 
 			<li>
-				<Link to={ROUTES.ABOUT}>Om</Link>
-			</li>
-			<li>
-				<Link to={ROUTES.OVERVIEW}>Översikt</Link>
+				<StyledLink to={ROUTES.ABOUT}>Hur fungerar det?</StyledLink>
 			</li>
 
 			<li>
@@ -73,16 +84,22 @@ const NavigationAuth = ({ authUser, pathname }) => (
 const NavigationNonAuth = ({ pathname }) => (
 	<ul className="landing-nav">
 		<li>
-			<Link className="logo" to={ROUTES.LANDING}></Link>
+			<StyledLink to={ROUTES.LANDING}><img src={Logo} style={{ width: '200px' }} /></StyledLink>
+		</li>
+
+		<li>
+			<StyledLink to={ROUTES.HOME}>Skapa ett lag</StyledLink>
+		</li>
+
+		<li>
+			<StyledLink to={ROUTES.ABOUT}>Hur fungerar det?</StyledLink>
 		</li>
 
 		<li className="landing-btn-container">
 			<Link className="landing-btn" to={ROUTES.SIGN_UP}>
 				Skapa konto
 			</Link>
-		</li>
 
-		<li>
 			<Link className="landing-btn" to={ROUTES.SIGN_IN}>
 				Logga in
 			</Link>
