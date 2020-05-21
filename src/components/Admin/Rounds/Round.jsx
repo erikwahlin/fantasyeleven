@@ -7,10 +7,12 @@ import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
 import Arrow from '../../../media/arrow.svg';
 import ArrowB from '../../../media/arrowB.svg';
 
-import { clone, updatedStamp, roundStatus } from '../../../constants/helperFuncs';
+import { clone, updatedStamp, roundStatus, timestamp } from '../../../constants/helperFuncs';
 
 import Result from '../Result';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
+
+import { CustomConfirm } from '../../Elements';
 
 import { Table, Card } from 'antd';
 const { Column, ColumnGroup } = Table;
@@ -170,21 +172,25 @@ const Round = ({ adminContext, roundIndex, active }) => {
     };
 
     const endRound = () => {
-        const sure = window.confirm(
-            'Är du säker på att du vill avsluta omgången? \n Poäng utefter resultatet delas ut och omgången arkiveras.'
-        );
-
-        if (!sure) return;
-
         const endedRound = clone(round);
 
         endedRound.ended = true;
+        endedRound.endedAt = timestamp('Round ended');
 
         updateRound(endedRound);
 
         if (settings.activeRound._id === round._id) {
-            updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång avslutad' });
+            updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång färdigspelad!' });
         }
+
+        /* 
+        1. round marked as ended
+        2. reset active round in settings
+        3. calc points
+        4. add points to round/matches/homeAway/players
+        5. 
+
+        */
     };
 
     const matchTableData = round.matches.map((match, nth) => ({
@@ -323,12 +329,19 @@ const Round = ({ adminContext, roundIndex, active }) => {
                             </ButtonStandard>
                         </CustomTooltip>
 
-                        <CustomTooltip title="Omgången markeras som färdigspelad och poäng delas ut till användarna.">
-                            <ButtonStandard type="primary" onClick={() => endRound()}>
-                                Avsluta omgång
-                            </ButtonStandard>
-                        </CustomTooltip>
-
+                        {active && (
+                            <CustomConfirm
+                                condition={true}
+                                title="Säker? Omgången markeras som avslutad och poäng delas ut till användarna. Detta kan inte ångras."
+                                okText="Avsluta omgång!"
+                                cancelText="Avbryt"
+                                onConfirm={() => endRound()}
+                            >
+                                <ButtonStandard type="primary" /* onClick={() => endRound()} */>
+                                    Markera som färdigspelad
+                                </ButtonStandard>
+                            </CustomConfirm>
+                        )}
                         {/* Radera omgång, temp för dev */}
                         {/* <CustomTooltip title="Radera">
                             <ButtonStandard type="primary" onClick={() => delHandler()}>

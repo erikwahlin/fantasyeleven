@@ -1,9 +1,19 @@
 import axios from 'axios';
 import backend from './backend';
 
+const backendColors = {
+    dev: 'purple',
+    undefined: 'purple',
+    local: 'green',
+    test: 'pink'
+};
+
+const backendColor = backendColors[process.env.REACT_APP_BACKEND_BRANCH];
+
 console.log(
-    `Running backend branch ${process.env.REACT_APP_BACKEND_BRANCH.toUpperCase()} @ `,
-    backend(process.env.REACT_APP_BACKEND_BRANCH)
+    `Running backend branch %c ${process.env.REACT_APP_BACKEND_BRANCH.toUpperCase()}`,
+    `color: ${backendColor}; border: white solid 1px; padding: 5px;`,
+    `\n @ ${backend(process.env.REACT_APP_BACKEND_BRANCH)}`
 );
 
 const api = axios.create({

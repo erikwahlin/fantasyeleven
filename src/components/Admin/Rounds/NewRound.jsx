@@ -4,14 +4,20 @@ import apis from '../../../constants/api';
 
 import { withAdmin } from '../AdminState';
 
-import { clone, userMsg, updatedStamp } from '../../../constants/helperFuncs';
+import {
+    clone,
+    userMsg,
+    updatedStamp,
+    addEffort,
+    createEffort
+} from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 
 import allClubs from '../../../constants/clubs';
 
-import { initialMatches, addEffort } from '../../../constants/gamePreset';
+import { initialMatches } from '../../../constants/gamePreset';
 import { FcCheckmark } from 'react-icons/fc';
 
 const { Wrapper, OptionsWrapper } = wrapperTemplate;
@@ -111,7 +117,30 @@ const NewRound = props => {
             setNewnewRoundHidden(!newRoundHidden);
         };
 
-        createRound({ payload: form, onSuccess });
+        const addEffort = form => {
+            //let res = clone(form);
+
+            const newMatches = form.matches.map(match => {
+                return {
+                    home: match.home.players.map(player => createEffort(player)),
+                    away: match.away.players.map(player => createEffort(player)),
+                    ...match
+                };
+            });
+
+            //res.matches = newMatches;
+            return {
+                yeah: 'ok',
+                matches: newMatches,
+                ...form
+            };
+        };
+
+        const resultAdded = addEffort(form);
+
+        console.log('added res', resultAdded);
+
+        createRound({ payload: resultAdded, onSuccess });
     };
 
     const trackTaken = club => {

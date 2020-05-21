@@ -52,6 +52,7 @@ export const efforts = {
     red: { sing: 'rött', plur: 'röda' },
     penaltyMisses: { sing: 'straffmiss', plur: 'straffmissar' },
     penaltySaves: { sing: 'straffräddning', plur: 'straffräddningar' },
+    tripleSaves: { sing: 'trippel-räddning', plur: 'trippel-räddningar' },
     playtime: { sing: 'speltid', plur: 'speltider' }
 };
 
@@ -76,5 +77,6 @@ export const prestationer = {
     rött: { sing: 'red', plur: 'reds' },
     straffmissar: { sing: 'penaltyMiss', plur: 'penaltyMisses' },
     straffräddningar: { sing: 'penaltySave', plur: 'penaltySaves' },
+    'trippel-räddningar': { sing: 'tripleSave', plur: 'tripleSaves' },
     speltid: { sing: 'playetime', plur: 'playtimes' }
 };

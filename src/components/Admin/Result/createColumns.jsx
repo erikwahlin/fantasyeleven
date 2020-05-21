@@ -8,6 +8,7 @@ import {
 } from '../../../constants/gamePreset';
 
 const createCol = ({ col, setters }) => {
+    if (col === 'tripleSaves') console.log('col === tripleSaves');
     const { updatePlayer, setOrderBy } = setters;
 
     const wordForm = col === 'cleanSheet' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
@@ -20,6 +21,7 @@ const createCol = ({ col, setters }) => {
         red: 60,
         penaltyMisses: 100,
         penaltySaves: 120,
+        tripleSaves: 130,
         playtime: 100
     };
 
@@ -27,7 +29,7 @@ const createCol = ({ col, setters }) => {
         title: toSwe(col, 'efforts', wordForm) + (col === 'playtime' ? ' (min)' : ''),
         dataIndex: col,
         key: col,
-        width: width[col],
+        width: width[col] || 100,
         align: 'left'
     };
 
@@ -44,7 +46,7 @@ const createCol = ({ col, setters }) => {
                             val: e.target.checked
                         })
                     }
-                    disabled={col === 'cleanSheet'}
+                    /* disabled={col === 'cleanSheet'} */
                 />
             </>
         );
@@ -113,10 +115,10 @@ const createCol = ({ col, setters }) => {
     return res;
 };
 
-const Columns = ({ setters }) => {
-    const columns = Object.keys(initialEffort).map(col => createCol({ col, setters }));
+const createColumns = ({ setters }) => {
+    const res = Object.keys(initialEffort).map(col => createCol({ col, setters }));
 
-    columns.unshift({
+    res.unshift({
         title: 'position',
         dataIndex: 'position',
         key: 'position',
@@ -137,7 +139,7 @@ const Columns = ({ setters }) => {
         defaultSortOrder: 'ascend'
     });
 
-    columns.unshift({
+    res.unshift({
         title: 'namn',
         dataIndex: 'name',
         key: 'name',
@@ -148,7 +150,7 @@ const Columns = ({ setters }) => {
         defaultSortOrder: 'ascend'
     });
 
-    return columns;
+    return res;
 };
 
-export default Columns;
+export default createColumns;

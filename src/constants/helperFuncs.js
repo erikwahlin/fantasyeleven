@@ -1,6 +1,8 @@
 import * as LEX from './lexicon';
 import stadiums from './stadiums';
 import { store } from 'react-notifications-component';
+import { initialEffort, initialPoints } from './gamePreset';
+import pointSheet from './pointSheet';
 
 export const timestamp = (tag = null) => {
     const d = new Date();
@@ -192,3 +194,122 @@ export const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
         dismiss: { duration },
         type: 'success'
     });
+
+export const addEffort = player => ({ ...player, effort: initialEffort, points: initialPoints });
+
+export const effortToPoints = ({ key: effort, val, player }) => {
+    console.log('effort', effort, 'val', val, 'pos', player.position);
+    const { position: pos } = player;
+
+    // booleans (cleanSheet, red)
+    if (effort === 'cleanSheet' || effort === 'red') {
+        if (!val) return 0;
+
+        return pointSheet.points[effort][pos];
+    }
+
+    //options (playtime)
+    if (effort === 'playtime') {
+        return pointSheet.points[effort][val][pos];
+    }
+
+    // numbers (rest)
+    let res = 0;
+    for (let nth = 0; nth < val; nth++) {
+        res += pointSheet.points[effort][pos];
+    }
+    return res;
+};
+
+export const calcEffort = (stat, limit, key, pos) => {
+    const calc = num => {
+        const rand = Math.random();
+        let res = Math.floor(num / rand);
+
+        if (res > limit) res = limit;
+
+        return res;
+    };
+
+    // TEMP HARD CODE TWEAKS
+    // limit keeper/defender/midfielder score
+    if (key === 'score') {
+        switch (pos) {
+            case 'Midfielder':
+                limit = 2;
+                break;
+            case 'Defender':
+                limit = 1;
+                stat = stat * 0.67;
+                break;
+            case 'Goalkeeper':
+                stat = stat * 0.33;
+                limit = 1;
+                break;
+            default:
+        }
+    } else if (key === 'assist') {
+        // limit keeper/defender assist
+        switch (pos) {
+            case 'Defender':
+                limit = 1;
+                stat = stat * 0.67;
+                break;
+            case 'Goalkeeper':
+                limit = 1;
+                stat = stat * 0.33;
+                break;
+            default:
+        }
+    }
+
+    if (typeof stat === 'number') return calc(stat);
+
+    // test rand-val on each limit, return when fail
+    const limitPass = (arr, i) => {
+        let res = calc(arr[i]);
+
+        if (i >= arr.length - 1 || res < 1) return res;
+
+        i++;
+        return limitPass(arr, i);
+    };
+
+    return limitPass(stat, 0);
+};
+
+export const createEffort = player => {
+    let res = clone(player);
+    let effort = {};
+
+    Object.keys(initialEffort).forEach(key => {
+        if (key === 'playtime') {
+            effort[key] = 0;
+            return;
+        }
+
+        //console.log('eff key', key, 'pos', player.position);
+
+        const ignoreVal =
+            key === 'cleanSheet' || key === 'red' ? false : key === 'playtime' ? '0' : 0;
+
+        const ignore = pointSheet.limits[key].ignore.indexOf(player.position) > -1;
+
+        const effortVal = calcEffort(
+            pointSheet.stats[key],
+            pointSheet.limits[key].times,
+            key,
+            player.position
+        );
+
+        effort[key] = ignore ? ignoreVal : effortVal;
+
+        /* if (player.club === 'Tottenham')
+            console.log('returned val: for', key, effort[key], player.name, '- ignore', ignore); */
+    });
+
+    res.effort = effort;
+
+    //if (player.club === 'Tottenham') console.log(res);
+    return res;
+};
