@@ -40,12 +40,17 @@ const Rounds = ({ overviewContext }) => {
     const { user, playedRounds, roundInView } = overviewContext.state;
     const { setRoundInView } = overviewContext.setters;
 
+    const [collapseKey, setCollapseKey] = useState(false);
+
+    if (!roundInView) return null;
+
     return (
         <CustomCollapse
-            /* onChange={} */
+            className="unmarkable"
+            onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel header="Omgångar" key="1">
+            <Panel header={`Visar omgång ${roundInView.alias}`} key="1">
                 <List
                     itemLayout="vertical"
                     dataSource={playedRounds}
@@ -53,24 +58,24 @@ const Rounds = ({ overviewContext }) => {
                         <List.Item
                             key={round._id}
                             style={{ cursor: 'pointer' }}
-                            onClick={() => setRoundInView(round._id)}
+                            onClick={() => setRoundInView(round)}
                         >
                             <List.Item.Meta
-                                /* avatar={
+                                title={
                                     <>
-                                        <span>{round.alias}</span>
-                                        säsong <span>{round.season}</span>
-                                        omgångsnr <span>{round.number}</span>
+                                        <p
+                                            style={{
+                                                fontWeight:
+                                                    round._id === roundInView._id ? '700' : 'normal'
+                                            }}
+                                        >
+                                            {round.alias}
+                                        </p>
                                     </>
-                                } */
-                                title={round.alias}
+                                }
                                 description={`säsong ${round.season} - omgångsnr ${round.number}`}
                             />
-                            {/*  <div>
-                                <p>Satsning {round.value.tot} kr</p>
-                                <p>Kapten {round.captain.name}</p>
-                                <p>Vice kapten {round.viceCaptain.name}</p>
-                            </div> */}
+                            {/* content... */}
                         </List.Item>
                     )}
                 ></List>

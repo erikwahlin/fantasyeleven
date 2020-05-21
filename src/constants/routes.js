@@ -1,3 +1,7 @@
+import React from 'react';
+import Logo from '../components/Landing/fantasy11-white-logo.png';
+   
+
 export const LANDING = '/';
 export const SIGN_UP = '/signup';
 export const SIGN_IN = '/signin';
@@ -26,19 +30,16 @@ export const topNav = [
 export const slideNav = [NEWTEAM, OVERVIEW, ADMIN];
 
 export const loggedIn = [
-    { pathname: LANDING, title: 'Start' },
+    { pathname: LANDING, title: <img src={Logo} style={{width:'200px'}} /> },
     { pathname: ADMIN, title: 'Admin' },
     { pathname: ACCOUNT, title: 'Konto' },
     { pathname: NEWTEAM, title: 'Bygg ditt lag' },
     { pathname: OVERVIEW, title: 'Mitt spel' },
-    { pathname: ABOUT, title: 'Om' }
+    { pathname: ABOUT, title: 'Hur fungerar' }
 ];
 
 export const loggedOut = [
-    { pathname: LANDING, title: 'Start' },
+    { pathname: LANDING, title: <img src={Logo} style={{ width: '200px' }} /> },
     { pathname: NEWTEAM, title: 'Bygg ditt lag' },
-    { pathname: SIGN_IN, title: 'Logga in' },
-    { pathname: SIGN_UP, title: 'Registrera konto' },
-    { pathname: PASSWORD_FORGET, title: 'Glömt lösenord' },
-    { pathname: ABOUT, title: 'Om' }
+    { pathname: ABOUT, title: 'Hur fungerar det?' }
 ];

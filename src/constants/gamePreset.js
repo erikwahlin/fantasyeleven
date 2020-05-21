@@ -2,6 +2,7 @@ import allClubs from './clubs';
 import { clone } from './helperFuncs';
 import player_backup from './players_backup';
 import players_backup from './players_backup';
+import { addEffort } from './helperFuncs';
 
 export const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
 
@@ -52,12 +53,23 @@ export const initialEffort = {
     red: false,
     penaltyMisses: 0,
     penaltySaves: 0,
+    tripleSaves: 0,
     playtime: '0'
 };
 
-export const clubPlayers = club => players_backup.filter(p => p.club === club);
+export const initialPoints = {
+    goals: 0,
+    assists: 0,
+    cleanSheet: 0,
+    yellows: 0,
+    red: 0,
+    penaltyMisses: 0,
+    penaltySaves: 0,
+    tripleSaves: 0,
+    playtime: 0
+};
 
-export const addEffort = player => ({ ...player, effort: initialEffort });
+export const clubPlayers = club => players_backup.filter(p => p.club === club);
 
 export const initialMatch = (index = '') => {
     const initialHome = {

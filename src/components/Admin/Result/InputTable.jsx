@@ -5,9 +5,9 @@ import { withResult } from './ResultState';
 import { Wrapper } from '../template/wrapperTemplate';
 
 import { Table } from 'antd';
-import { clone, toSwe } from '../../../constants/helperFuncs';
+import { clone, toSwe, effortToPoints } from '../../../constants/helperFuncs';
 
-import Columns from './Columns';
+import createColumns from './createColumns';
 
 const TableStyled = styled(Table)`
     width: 100%;
@@ -47,8 +47,6 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
     const match = newRes[step];
     const { club, players } = match[side];
 
-    console.log('side', side, 'club', club);
-
     const { updateRound } = adminContext.setters;
     const { rounds } = adminContext.state;
     const round = rounds[roundIndex];
@@ -61,8 +59,6 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
             Forward: 4
         }
     };
-
-    console.log('match', match, 'side', side, 'players', match[side].players);
 
     const data = match[side].players.map((p, nth) => {
         const res = {
@@ -97,6 +93,9 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
         if (pIndex < 0) return console.log('could not find player to update');
 
         newMatch[side].players[pIndex].effort[key] = val;
+        newMatch[side].players[pIndex].points[key] = effortToPoints({ key, val, player });
+
+        // update poinst here***
 
         // update team goals
         if (key === 'goals') {
@@ -109,7 +108,7 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
         matchUpdater(newMatch);
     };
 
-    const columns = Columns({ setters: { updatePlayer } });
+    const columns = createColumns({ setters: { updatePlayer } });
 
     return (
         <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">

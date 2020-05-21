@@ -15,7 +15,7 @@ const Wrapper = styled(WrapperRow)`
     position: fixed;
     z-index: 2;
     width: fit-content;
-    right: 0;
+    left: 0;
     top: 0;
 `;
 
@@ -49,7 +49,7 @@ const DrawerStyled = styled(Drawer)`
     }
 
     & a:hover {
-        color: #1890ff;
+        color: whitesmoke;
     }
 `;
 
@@ -72,8 +72,8 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
             </MenuBtn>
 
             <DrawerStyled
-                drawerStyle={{ background: location.pathname === '/admin' ? '#000' : '#021f3d' }}
-                placement="right"
+                drawerStyle={{ background: 'rgba(36,132,10, 0.8)' }}
+                placement="left"
                 closable={false}
                 onClose={onClose}
                 visible={visible}

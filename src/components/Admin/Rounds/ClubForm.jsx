@@ -4,7 +4,7 @@ import allClubs from '../../../constants/clubs';
 import { withAdmin } from '../AdminState';
 import { withResult } from './NewResState';
 import { clone } from '../../../constants/helperFuncs';
-import { initialEffort } from '../../../constants/gamePreset';
+import { initialEffort, initialPoints } from '../../../constants/gamePreset';
 
 const ClubForm = ({ adminContext, matches, match, homeAway, autosave, ...props }) => {
     const autoSave = ({ homeAway, val }) => {
@@ -18,7 +18,8 @@ const ClubForm = ({ adminContext, matches, match, homeAway, autosave, ...props }
             .filter(p => p.club === val)
             .map(p => ({
                 ...p,
-                effort: clone(initialEffort)
+                effort: clone(initialEffort),
+                points: clone(initialPoints)
             }));
 
         newMatch[homeAway].players = players;

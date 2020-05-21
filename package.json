@@ -12,7 +12,6 @@
         "axios": "^0.19.2",
         "core-js": "^3.6.4",
         "firebase": "^7.14.4",
-        "i": "^0.3.6",
         "normalize.css": "^8.0.1",
         "prop-types": "^15.7.2",
         "rc-queue-anim": "^1.8.5",
@@ -36,7 +35,10 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "localMode": "REACT_APP_BACKEND_BRANCH=local react-scripts start",
+        "testMode": "REACT_APP_BACKEND_BRANCH=test react-scripts start",
+        "testBuild": "REACT_APP_BACKEND_BRANCH=test react-scripts build"
     },
     "eslintConfig": {
         "extends": "react-app"

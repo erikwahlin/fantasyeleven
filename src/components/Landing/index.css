@@ -1,10 +1,9 @@
-/* @font-face {
-	src: local('Mr Eaves Reg'), local('MrEavesReg'), url('../fonts/MrEavesXLModOT-Reg.ttf');
+html, body {
+	background-color:none;
+	margin:0;
+	padding:0;
+	
 }
-
-@font-face {
-	src: local('Mr Eaves Bold'), local('MrEavesBold'), url('../fonts/MrEavesXLModOT-Bold.ttf');
-} need to fix import-bug */
 
 .landing-bg {
 	background-image: url(landing-img.jpg);
@@ -13,13 +12,17 @@
 	background-position: center;
 	width: 100%;
 	height: 100vh;
+	overflow:hidden;
 }
 
 .landing-nav {
-	background-color: transparent;
-	position: fixed;
-	width: 100%;
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
 	list-style-type: none;
+	align-items:center;
+	margin-top:20px;
+	width:97%;
 }
 
 hr {
@@ -30,83 +33,91 @@ hr {
 	display: none;
 } */
 
-.logo {
-	background-image: url(fantasy11-white-logo.png);
-	height: 70px;
-	width: 300px;
-	background-repeat: no-repeat;
-	margin-top: 10px;
-	position: fixed;
-}
 
 .landing-btn {
-	background-color:#061E2F;
+	background-color:rgba(36,132,10, 0.6);
 	text-decoration: none;
 	color: white;
-	border: solid white 1px;
-	padding: 13px;
+	width:121px;
+	padding:10px;
 	float: right;
-	margin-left: 10px;
+	margin-left: 6px;
 	font-weight: 500;
+	font-size:1.2em;
 	position: relative;
 	font-family: 'Avenir';
+	margin-top: 10px;
+	text-align:center;
 }
 
-.landing-btn-container {
-	margin-right: 80px;
+.landing-btn:hover {
+background-color:rgba(91, 170, 69, 0.3);
 }
+
+a:hover {
+color:white;
+}
+
+/* .landing-btn-container {
+	margin-right: 80px;
+} */
 
 .landing-container {
-	height: 100%;
+	height: 85%;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-end;
 	color: whitesmoke;
 	font-size: 50px;
 	width: 100%;
+	/* height:80%; */
 	display: inline-flex;
 }
 
 .landing-big-logo {
-	background-image: url(fantasy11-white-logo.png);
-	background-repeat: no-repeat;
 	display: flex;
 	display: inline-flex;
 	align-items: center;
-	height: 15%;
-	width: 50%;
-	background-color: #011931;
-	margin-left: 5%;
-	margin-bottom: -35px;
+	justify-content:flex-end;
+	padding:20px;
+	height:auto;
+	width: 40%;
+	background-color: rgba(0, 0, 0, 0.5);
+	/* margin-bottom: -35px; */
 }
 
 .landing-info {
 	display: flex;
 	align-items: center;
-	background-color: #011931;
-	height: 15%;
-	width: 60%;
-	font-family: 'MrEavesBold';
-	font-size: 40px;
-	margin-left: 15%;
-	margin-bottom: -25px;
-	display: inline-flex;
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 10%;
+	width: 38%;
+	font-family: 'Avenir';
+	font-size: 30px;
+	margin-left: 25%;
+	padding-left:40px;
+	padding-right:40px;
+	margin-bottom: 0px;
+
 }
 
 .landing-price {
 	display: flex;
 	align-items: center;
-	background-color: #011931;
-	height: 15%;
-	width: 30%;
-	font-family: 'MrEavesBold';
-	font-size: 40px;
-	margin-left: 57%;
-	opacity: 80%;
+	background-color:rgba(0, 0, 0, 0.5);
+	height: 10%;
+	width: 15%;
+	font-family: 'Avenir';
+	font-size: 30px;
+	margin-left: 48%;
+	padding-left:40px;
+	padding-right:40px;
 }
 
 .landing-container p {
 	display: flex;
-	justify-content: center;
+	/* justify-content: flex-start; */
 	opacity: 100%;
 }
+
+
