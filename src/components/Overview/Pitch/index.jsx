@@ -108,8 +108,12 @@ const Pitch = ({ overviewContext }) => {
 
     if (!round) return fallback;
 
-    const teamID = round.users.filter(item => item.user === user._id)[0].team;
-    const team = playedTeams.filter(t => t._id === teamID)[0];
+    //const teamID = round.users.filter(item => item.user === user._id)[0].team;
+    const team = playedTeams.filter(t => t.round === roundInView._id)[0];
+
+    //const team = playedTeams.filter(t => t._id === teamID)[0];
+
+    console.log('team', team);
 
     if (!team) return fallback;
 
