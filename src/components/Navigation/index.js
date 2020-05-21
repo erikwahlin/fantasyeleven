@@ -12,7 +12,7 @@ import Logo from '../Landing/fantasy11-white-logo.png';
 
 // styled(drawer)
 const LinkContainer = styled.div`
-    margin: 20px;
+	margin: 20px;
 `;
 
 const StyledLink = styled(Link)`

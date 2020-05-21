@@ -2,8 +2,10 @@ import React from 'react';
 import './index.css';
 import Navigation from '../Navigation';
 import Logo from './fantasy11-white-logo.png';
+import About from '../About'
 
 const Landing = () => (
+    <React.Fragment>
     <div className="landing-bg">
         {/* <Navigation /> */}
         
@@ -16,6 +18,10 @@ const Landing = () => (
             <p className="landing-price">245 000kr</p> 
         </div> 
     </div>
+   
+    <About />
+    </React.Fragment>
 );
+
 
 export default Landing;
