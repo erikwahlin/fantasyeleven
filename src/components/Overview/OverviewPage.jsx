@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+
+import * as Scroll from 'react-scroll';
+import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
+import { IoIosArrowDown } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import Navigation from '../Navigation';
 import { withOverview } from './OverviewState';
-<<<<<<< HEAD
 import Round from './Round';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-=======
->>>>>>> dev
 import Collapsible from './Collapsible.js';
 import {
     ContentWrap,
@@ -25,6 +26,16 @@ import Pitch from './Pitch';
 import Rounds from './Rounds';
 import Bench from './Bench';
 
+const Arrow = styled.div`
+    position: absolute;
+    top: 90vh;
+    left: 50vw;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
 const InfoTitle = styled.h2`
     margin: 0;
     margin-bottom: 0.2rem;
@@ -41,10 +52,10 @@ const InfoTitle = styled.h2`
 
 const OverviewPage = ({ overviewContext }) => {
     const { user, teams, roundInView, playedTeams, activeRound } = overviewContext.state;
-
+    var scroll = Scroll.animateScroll;
     const bet =
         playedTeams[0] && roundInView && roundInView._id === playedTeams[0].round ? (
-            playedTeams[0].value.tot
+            playedTeams[0].value.tot + ' kr'
         ) : (
             <LoadingOutlined style={{ fontSize: 20 }} spin />
         );
@@ -72,7 +83,14 @@ const OverviewPage = ({ overviewContext }) => {
                     </InnerWrapper>
                 </OuterWrapper>
             </ContentWrap>
-            {<Round round={activeRound} roundIndex={roundInView && roundInView._id} />}
+            <Arrow onClick={() => scroll.scrollToBottom()}>
+                <IoIosArrowDown style={{ fontSize: '40px' }} />
+            </Arrow>
+            {roundInView ? (
+                <Round round={roundInView} roundIndex={roundInView && roundInView._id} />
+            ) : (
+                <LoadingOutlined style={{ fontSize: 20 }} spin />
+            )}
         </div>
     );
 };
