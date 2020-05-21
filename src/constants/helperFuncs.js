@@ -1,8 +1,12 @@
+import React from 'react';
 import * as LEX from './lexicon';
 import stadiums from './stadiums';
 import { store } from 'react-notifications-component';
 import { initialEffort, initialPoints } from './gamePreset';
 import pointSheet from './pointSheet';
+import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+const { confirm } = Modal;
 
 export const timestamp = (tag = null) => {
     const d = new Date();
@@ -158,6 +162,9 @@ export const userMsg = props => {
             duration: 10000,
             waitForAnimation: true,
             pausOnHover: true
+        },
+        onRemoval: (id, removedBy) => {
+            if (typeof props.callback === 'function') props.callback();
         }
     };
 
@@ -194,6 +201,27 @@ export const updateMsg = (msg = 'Uppdaterad!', duration = 2000) =>
         dismiss: { duration },
         type: 'success'
     });
+
+export const modalConfirm = ({
+    condition = true,
+    confirmCallback = null,
+    cancelCallback = null,
+    ...props
+}) => {
+    if (!condition) return;
+
+    confirm({
+        title: props.title || '',
+        icon: <ExclamationCircleOutlined />,
+        content: props.content || '',
+        onOk() {
+            if (typeof confirmCallback === 'function') confirmCallback();
+        },
+        onCancel() {
+            if (typeof cancelCallback === 'function') cancelCallback();
+        }
+    });
+};
 
 export const addEffort = player => ({ ...player, effort: initialEffort, points: initialPoints });
 
