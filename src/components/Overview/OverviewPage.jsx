@@ -67,7 +67,7 @@ const OverviewPage = ({ overviewContext }) => {
                     </InnerWrapper>
                 </OuterWrapper>
             </ContentWrap>
-            <Round round={activeRound} roundIndex={roundInView && roundInView._id} />
+            {<Round round={activeRound} roundIndex={roundInView && roundInView._id} />}
         </div>
     );
 };

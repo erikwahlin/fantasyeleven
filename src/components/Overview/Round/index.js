@@ -106,6 +106,8 @@ const Round = ({ round, roundIndex, active }) => {
     //const noneIsActive = !settings.activeRound._id;
     console.log(round && round.matches);
 
+    const [open, setOpen] = useState(false);
+
     const matchTableData =
         round &&
         round.matches.map((match, nth) => ({
@@ -123,22 +125,22 @@ const Round = ({ round, roundIndex, active }) => {
                 <Title>{round && round.alias}</Title>
             </Header>
 
-            <RoundContent className="RoundContent">
-                <div>
-                    <MatchTable
-                        className="MatchTable unmarkable"
-                        dataSource={matchTableData}
-                        pagination={{ position: ['bottomCenter'], pageSize: 20 }}
-                    >
-                        <Column title="Match" dataIndex="match" key="match" />
-                        <Column title="HEMMA" dataIndex="homeTeam" key="homeTeam" />
-                        <Column title="" dataIndex="homeGoals" key="homeGoals" />
-                        <Column title="" dataIndex="hyphen" key="hyphen" />
-                        <Column title="" dataIndex="awayGoals" key="awayGoals" />
-                        <Column title="BORTA" dataIndex="awayTeam" key="awayTeam" />
-                    </MatchTable>
-                </div>
-            </RoundContent>
+            {/* <RoundContent open={open} className="RoundContent"> */}
+            <div>
+                <MatchTable
+                    className="MatchTable unmarkable"
+                    dataSource={matchTableData}
+                    pagination={{ position: ['bottomCenter'], pageSize: 20 }}
+                >
+                    <Column title="Match" dataIndex="match" key="match" />
+                    <Column title="HEMMA" dataIndex="homeTeam" key="homeTeam" />
+                    <Column title="" dataIndex="homeGoals" key="homeGoals" />
+                    <Column title="" dataIndex="hyphen" key="hyphen" />
+                    <Column title="" dataIndex="awayGoals" key="awayGoals" />
+                    <Column title="BORTA" dataIndex="awayTeam" key="awayTeam" />
+                </MatchTable>
+            </div>
+            {/* </RoundContent> */}
         </div>
     );
 };
