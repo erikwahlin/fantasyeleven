@@ -398,7 +398,11 @@ class Plupp extends Component {
 
         const { roundInView } = overviewContext.state;
 
-        const result = roundInView.result.list.length ? true : false;
+        let result = false;
+
+        if (roundInView.result.list.length > 0) {
+            result = true;
+        }
 
         return (
             <Container>
@@ -441,23 +445,25 @@ class Plupp extends Component {
                     ref={this.popRef}
                     /* onVisibleChange={val => this.setPop(val)} */
                 >
-                    <PluppImg
-                        ref={this.pluppRef}
-                        id={`switch-${origin}-${pos}-${lineupIndex}`}
-                        className={`Plupp`}
-                        alt={`player-plupp ${origin}`}
-                        src={pluppC}
-                        isMarked={isMarked}
-                        onClick={e => this.handleClickInside(e)}
-                        origin={origin}
-                        player={player}
-                    />
+                    <>
+                        <PluppImg
+                            ref={this.pluppRef}
+                            id={`switch-${origin}-${pos}-${lineupIndex}`}
+                            className={`Plupp`}
+                            alt={`player-plupp ${origin}`}
+                            src={pluppC}
+                            isMarked={isMarked}
+                            onClick={e => this.handleClickInside(e)}
+                            origin={origin}
+                            player={player}
+                        />
 
-                    {result && (
-                        <Points>
-                            <span>{player.points.tot}</span>
-                        </Points>
-                    )}
+                        {result && player.points && (
+                            <Points>
+                                <span>{player.points.tot}</span>
+                            </Points>
+                        )}
+                    </>
                 </Popover>
 
                 {/* <IoIosShirt
