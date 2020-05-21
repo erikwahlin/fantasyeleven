@@ -51,7 +51,7 @@ class OverviewState extends Component {
             this.readPlayedTeams(() => {
                 this.readPlayedRounds(() => {
                     const { playedRounds } = this.state;
-                    if (playedRounds.length) this.setRoundInView(playedRounds[0]._id);
+                    if (playedRounds.length) this.setRoundInView(playedRounds[0]);
                 });
             });
 
@@ -74,21 +74,12 @@ class OverviewState extends Component {
         );
     };
 
-    setRoundInView = _id => {
+    setRoundInView = round => {
         if (this.state.roundInView) {
-            if (_id === this.state.roundInView._id) return;
+            if (round._id === this.state.roundInView._id) return;
         }
 
-        let index = -1;
-
-        this.state.playedRounds.forEach((r, nth) => {
-            if (r._id === _id) index = nth;
-            return;
-        });
-
-        if (index < 0) return;
-
-        this.setState({ roundInView: { _id, index } });
+        this.setState({ roundInView: round });
     };
 
     readActiveRound = async callback => {
@@ -96,7 +87,9 @@ class OverviewState extends Component {
             .read({ action: 'readActiveRound' })
             .then(res => {
                 if (res.status <= 200) {
-                    this.setState({ activeRound: res.data.data });
+                    const activeRound = clone(res.data.data);
+
+                    this.setState({ activeRound });
                 } else {
                     console.log('Active round not found.');
                 }
@@ -113,6 +106,11 @@ class OverviewState extends Component {
                 if (res.status <= 200) {
                     this.setState({ playedTeams: res.data.data }, () => {
                         if (typeof callback === 'function') callback();
+
+                        // put result in played teams
+                        /* this.state.playedTeams.forEach(team => {
+                            this.state.playedRounds;
+                        }); */
                     });
                 } else {
                     console.log('Teams not found.');
@@ -124,12 +122,12 @@ class OverviewState extends Component {
     };
 
     readPlayedRounds = async callback => {
-        const payload = { IDs: this.state.playedTeams.map(team => team.round) };
+        //const IDs = this.state.playedTeams.map(team => team.round);
 
-        if (!payload.IDs.length) return;
+        if (!this.state.playedTeams.length) return;
 
         await apis
-            .create({ action: 'readPlayedRounds', payload })
+            .create({ action: 'readPlayedRounds', payload: { teams: this.state.playedTeams } })
             .then(res => {
                 if (res.status <= 200) {
                     this.setState({ playedRounds: res.data.data }, () => {

@@ -222,6 +222,8 @@ export const effortToPoints = ({ key: effort, val, player }) => {
 };
 
 export const calcEffort = (stat, limit, key, pos) => {
+    if (key === 'playtime') return '60+';
+
     const calc = num => {
         const rand = Math.random();
         let res = Math.floor(num / rand);
@@ -278,20 +280,26 @@ export const calcEffort = (stat, limit, key, pos) => {
     return limitPass(stat, 0);
 };
 
-export const createEffort = player => {
+export const createEffort = (player, info) => {
     let res = clone(player);
     let effort = {};
 
     Object.keys(initialEffort).forEach(key => {
-        if (key === 'playtime') {
-            effort[key] = 0;
-            return;
-        }
-
-        //console.log('eff key', key, 'pos', player.position);
-
         const ignoreVal =
             key === 'cleanSheet' || key === 'red' ? false : key === 'playtime' ? '0' : 0;
+
+        /*  if (
+            key === 'playtime'
+            
+        ) {
+            if (info.count.fullTimers[player.position] >= info.limit.playtime[pos]){
+
+                effort.playtime = ignoreVal;
+            }else {
+                effort.playtime = '60+';
+            }
+        } else { */
+        //console.log('eff key', key, 'pos', player.position);
 
         const ignore = pointSheet.limits[key].ignore.indexOf(player.position) > -1;
 
@@ -304,12 +312,24 @@ export const createEffort = player => {
 
         effort[key] = ignore ? ignoreVal : effortVal;
 
-        /* if (player.club === 'Tottenham')
-            console.log('returned val: for', key, effort[key], player.name, '- ignore', ignore); */
+        if (player.club === 'Tottenham') {
+            console.log(
+                player.name,
+                key,
+                effort[key],
+                '(ignore: ' +
+                    ignore +
+                    ', effortVal: ' +
+                    effortVal +
+                    ', ignoreVal: ' +
+                    ignoreVal +
+                    ')'
+            );
+        }
+        /*    } */
     });
 
     res.effort = effort;
 
-    //if (player.club === 'Tottenham') console.log(res);
     return res;
 };

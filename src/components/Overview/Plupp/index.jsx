@@ -321,6 +321,18 @@ const CapPopBtn = styled.button`
     cursor: pointer;
 `;
 
+const Points = styled.div`
+    position: absolute;
+    top: 8px;
+    left: 0px;
+    color: black;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+`;
+
 class Plupp extends Component {
     constructor(props) {
         super(props);
@@ -382,7 +394,11 @@ class Plupp extends Component {
 
     render() {
         const { isMarked, popOpen } = this.state;
-        const { isCap, isVice, player, pos, origin, lineupIndex } = this.props;
+        const { isCap, isVice, player, pos, origin, lineupIndex, overviewContext } = this.props;
+
+        const { roundInView } = overviewContext.state;
+
+        const result = roundInView.result.list.length ? true : false;
 
         return (
             <Container>
@@ -436,6 +452,12 @@ class Plupp extends Component {
                         origin={origin}
                         player={player}
                     />
+
+                    {result && (
+                        <Points>
+                            <span>{player.points.tot}</span>
+                        </Points>
+                    )}
                 </Popover>
 
                 {/* <IoIosShirt
