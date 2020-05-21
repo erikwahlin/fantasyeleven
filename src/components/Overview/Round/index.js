@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 import styled, { css } from 'styled-components';
 
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
 import Arrow from '../../../media/arrow.svg';
 import ArrowB from '../../../media/arrowB.svg';
 
@@ -108,8 +111,7 @@ const Round = ({ round, roundIndex, active }) => {
 
     const [open, setOpen] = useState(false);
 
-    const matchTableData =
-        round &&
+    const matchTableData = round ? (
         round.matches.map((match, nth) => ({
             key: nth + 1,
             match: nth + 1,
@@ -118,7 +120,10 @@ const Round = ({ round, roundIndex, active }) => {
             hyphen: '-',
             awayGoals: match.away.goals,
             awayTeam: match.away.club
-        }));
+        }))
+    ) : (
+        <LoadingOutlined style={{ fontSize: 80 }} spin />
+    );
     return (
         <div className="Result" div className="Result" customStyle="margin: 10px auto;">
             <Header className="Header">
