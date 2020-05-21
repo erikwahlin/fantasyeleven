@@ -32,22 +32,22 @@ const pointSheet = {
         penaltyMisses: [0.0123, 0.242],
         penaltySaves: 0.0383,
         tripleSaves: 0.9508,
-        cleanSheet: 0.2724
-        // playtime...
+        cleanSheet: 0.2724,
+        playtime: 1 //temp
     },
 
     // GAME RULES
     // max limits and blacklisted positions
     limits: {
-        goals: { times: 3, ignore: [] },
-        assists: { times: 2, ignore: [] },
+        goals: { times: 1, ignore: ['Goalkeeper', 'Defender', 'Midfielder'] },
+        assists: { times: 1, ignore: ['Goalkeeper', 'Defender', 'Midfielder'] },
         yellows: { times: 1, ignore: [] },
         red: { times: 1, ignore: [] },
-        penaltyMisses: { times: 1, ignore: [] },
+        penaltyMisses: { times: 1, ignore: ['Goalkeeper', 'Defender', 'Midfielder'] },
         penaltySaves: { times: 1, ignore: ['Defender', 'Midfielder', 'Forward'] },
         tripleSaves: { times: 3, ignore: ['Defender', 'Midfielder', 'Forward'] },
-        cleanSheet: { times: 1, ignore: ['Forward'] }
-        // playtime...
+        cleanSheet: { times: 1, ignore: [] },
+        playtime: { times: 1, ignore: [] } // temp
     },
 
     // point table

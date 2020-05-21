@@ -103,22 +103,23 @@ const Pitch = ({ overviewContext }) => {
 
     const { playedTeams, playedRounds, roundInView, user } = overviewContext.state;
 
-    if (!roundInView || roundInView < 0) return fallback;
-
-    const round = playedRounds.filter(r => r._id === roundInView._id)[0];
-
-    if (!round) return fallback;
+    if (!roundInView) return fallback;
 
     //const teamID = round.users.filter(item => item.user === user._id)[0].team;
+
     const team = playedTeams.filter(t => t.round === roundInView._id)[0];
-
-    //const team = playedTeams.filter(t => t._id === teamID)[0];
-
-    console.log('team', team);
 
     if (!team) return fallback;
 
-    const { players, captain, viceCaptain } = team;
+    const { captain, viceCaptain } = team;
+
+    let players = team.players;
+
+    if (roundInView) {
+        if (roundInView.result.list.length > 0) {
+            players = roundInView.result;
+        }
+    }
 
     return (
         <Wrapper className="Pitch Wrapper" bg={pitchImg}>
