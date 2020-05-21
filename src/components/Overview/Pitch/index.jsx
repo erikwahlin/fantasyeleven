@@ -4,6 +4,7 @@ import { withOverview } from '../OverviewState';
 import { positions } from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 
+
 import pitchImg from '../../../media/pitch.png';
 //import { AddPlayerIcon } from '../StageInfo/template';
 
