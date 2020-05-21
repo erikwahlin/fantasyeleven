@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import Navigation from '../Navigation';
 import { withOverview } from './OverviewState';
+<<<<<<< HEAD
 import Round from './Round';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
+=======
+>>>>>>> dev
 import Collapsible from './Collapsible.js';
 import {
     ContentWrap,
@@ -20,6 +23,7 @@ import {
 
 import Pitch from './Pitch';
 import Rounds from './Rounds';
+import Bench from './Bench';
 
 const InfoTitle = styled.h2`
     margin: 0;
@@ -49,6 +53,7 @@ const OverviewPage = ({ overviewContext }) => {
             <ContentWrap>
                 <PitchWrap>
                     <Pitch />
+                    <Bench />
                 </PitchWrap>
                 <OuterWrapper>
                     <InnerWrapper>

@@ -11,7 +11,7 @@ const backendColors = {
 const backendColor = backendColors[process.env.REACT_APP_BACKEND_BRANCH];
 
 console.log(
-    `Running backend branch %c ${process.env.REACT_APP_BACKEND_BRANCH.toUpperCase()}`,
+    `Running backend branch %c ${process.env.REACT_APP_BACKEND_BRANCH}`,
     `color: ${backendColor}; border: white solid 1px; padding: 5px;`,
     `\n @ ${backend(process.env.REACT_APP_BACKEND_BRANCH)}`
 );

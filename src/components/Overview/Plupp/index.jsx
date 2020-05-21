@@ -321,6 +321,18 @@ const CapPopBtn = styled.button`
     cursor: pointer;
 `;
 
+const Points = styled.div`
+    position: absolute;
+    top: 8px;
+    left: 0px;
+    color: black;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+`;
+
 class Plupp extends Component {
     constructor(props) {
         super(props);
@@ -382,7 +394,15 @@ class Plupp extends Component {
 
     render() {
         const { isMarked, popOpen } = this.state;
-        const { isCap, isVice, player, pos, origin, lineupIndex } = this.props;
+        const { isCap, isVice, player, pos, origin, lineupIndex, overviewContext } = this.props;
+
+        const { roundInView } = overviewContext.state;
+
+        let result = false;
+
+        if (roundInView.result.list.length > 0) {
+            result = true;
+        }
 
         return (
             <Container>
@@ -425,17 +445,25 @@ class Plupp extends Component {
                     ref={this.popRef}
                     /* onVisibleChange={val => this.setPop(val)} */
                 >
-                    <PluppImg
-                        ref={this.pluppRef}
-                        id={`switch-${origin}-${pos}-${lineupIndex}`}
-                        className={`Plupp`}
-                        alt={`player-plupp ${origin}`}
-                        src={pluppC}
-                        isMarked={isMarked}
-                        onClick={e => this.handleClickInside(e)}
-                        origin={origin}
-                        player={player}
-                    />
+                    <>
+                        <PluppImg
+                            ref={this.pluppRef}
+                            id={`switch-${origin}-${pos}-${lineupIndex}`}
+                            className={`Plupp`}
+                            alt={`player-plupp ${origin}`}
+                            src={pluppC}
+                            isMarked={isMarked}
+                            onClick={e => this.handleClickInside(e)}
+                            origin={origin}
+                            player={player}
+                        />
+
+                        {result && player.points && (
+                            <Points>
+                                <span>{player.points.tot}</span>
+                            </Points>
+                        )}
+                    </>
                 </Popover>
 
                 {/* <IoIosShirt
