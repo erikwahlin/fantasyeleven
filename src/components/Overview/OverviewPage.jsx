@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import Navigation from '../Navigation';
 import { withOverview } from './OverviewState';
+import Round from './Round';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import Collapsible from './Collapsible.js';
 import {
@@ -33,8 +36,14 @@ const InfoTitle = styled.h2`
 `;
 
 const OverviewPage = ({ overviewContext }) => {
-    const { user, teams, roundInView } = overviewContext.state;
+    const { user, teams, roundInView, playedTeams, activeRound } = overviewContext.state;
 
+    const bet =
+        playedTeams[0] && roundInView && roundInView._id === playedTeams[0].round ? (
+            playedTeams[0].value.tot
+        ) : (
+            <LoadingOutlined style={{ fontSize: 20 }} spin />
+        );
     return (
         <div className="Overview">
             <ContentWrap>
@@ -46,7 +55,7 @@ const OverviewPage = ({ overviewContext }) => {
                         <ResultWrap>
                             <Stake>
                                 <h5>Din insats</h5>
-                                <p className="stakeSum">178kr</p>
+                                <p className="stakeSum">{bet}</p>
                             </Stake>
                             <Revenue>
                                 <h6>Omsättning inför helgens omgång</h6>
@@ -58,6 +67,7 @@ const OverviewPage = ({ overviewContext }) => {
                     </InnerWrapper>
                 </OuterWrapper>
             </ContentWrap>
+            <Round round={activeRound} roundIndex={roundInView && roundInView._id} />
         </div>
     );
 };

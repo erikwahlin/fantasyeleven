@@ -92,7 +92,7 @@ const MatchTable = styled(Table)`
     }
 
     & th {
-        font-weigth: 700;
+        font-weight: 700;
     }
 `;
 
