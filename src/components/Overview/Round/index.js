@@ -124,7 +124,7 @@ const Round = ({ round, roundIndex, active }) => {
         <LoadingOutlined style={{ fontSize: 80 }} spin />
     );
     return (
-        <div className="Result" div className="Result" customStyle="margin: 10px auto;">
+        <div className="Result" customstyle="margin: 10px auto;">
             <Header className="Header">
                 <Title>{round && round.alias}</Title>
             </Header>

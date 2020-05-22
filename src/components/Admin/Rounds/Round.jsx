@@ -207,7 +207,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
 
     return (
         <div className="Result">
-            <Wrapper className="Result" customStyle="margin: 10px auto;">
+            <Wrapper className="Result" customstyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title open={open}>
                         {round.alias}

@@ -51,11 +51,35 @@ const InfoTitle = styled.h2`
 
 const OverviewPage = ({ overviewContext }) => {
     const { user, teams, roundInView, playedTeams, activeRound } = overviewContext.state;
-    var scroll = Scroll.animateScroll;
+    const scroll = Scroll.animateScroll;
+
+    if (!playedTeams.length || !roundInView)
+        return (
+            <LoadingOutlined
+                style={{ fontSize: 40, position: 'fixed', right: '50vw', top: '50vh' }}
+                spin
+            />
+        );
+
+    const team = playedTeams.filter(t => t.round === roundInView._id)[0];
+
+    /* const team = playedTeams.filter(t => t.round === roundInView._id)[0];
+
+    let players = team.players;
+
+    if (roundInView) {
+        if (roundInView.result.list.length > 0) {
+            players = roundInView.result;
+        }
+    } */
+
     const bet =
-        playedTeams[0] && roundInView && roundInView._id === playedTeams[0].round ? (
-            playedTeams[0].value.tot + ' kr'
-        ) : (
+        playedTeams[0] && roundInView && roundInView._id === playedTeams[0].round ? null : (
+            /* players.list
+                .filter(p => p.origin === 'pitch')
+                .reduce((tot, player) => {
+                    return tot + player;
+                }) */
             <LoadingOutlined style={{ fontSize: 20 }} spin />
         );
     return (
@@ -69,8 +93,8 @@ const OverviewPage = ({ overviewContext }) => {
                     <InnerWrapper>
                         <ResultWrap>
                             <Stake>
-                                <h5>Din insats</h5>
-                                <p className="stakeSum">{bet}</p>
+                                <h5>Din insats {/*   */}</h5>
+                                <p className="stakeSum">{team.value.tot}</p>
                             </Stake>
                             <Revenue>
                                 <h6>Omsättning inför helgens omgång</h6>

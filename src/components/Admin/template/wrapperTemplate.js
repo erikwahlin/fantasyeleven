@@ -13,9 +13,9 @@ export const Wrapper = styled.div`
     margin: 0 auto;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 
@@ -25,9 +25,9 @@ export const OptionsWrapper = styled(Wrapper)`
     margin: 20px 0;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 
     & * {

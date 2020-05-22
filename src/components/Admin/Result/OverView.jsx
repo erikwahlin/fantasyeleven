@@ -88,7 +88,7 @@ const OverView = ({ adminContext, resultContext }) => {
         <Wrapper className="OverView Wrapper unmarkable">
             <h2>Översikt</h2>
 
-            <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
+            <Wrapper className="Effort Inner unmarkable" customstyle="width: 100%;">
                 <TableStyled
                     className="InputTable unmarkable"
                     columns={columns}

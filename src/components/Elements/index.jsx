@@ -10,9 +10,9 @@ export const Wrapper = styled.div`
     margin: 0 auto;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 
@@ -21,9 +21,9 @@ export const WrapperCol = styled(Wrapper)`
     flex-direction: column;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 
@@ -33,9 +33,9 @@ export const WrapperRow = styled(Wrapper)`
     justify-content: center;
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 
