@@ -38,6 +38,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "localMode": "REACT_APP_BACKEND_BRANCH=local react-scripts start",
+        "testMode": "REACT_APP_BACKEND_BRANCH=test react-scripts start",
         "testBuild": "REACT_APP_BACKEND_BRANCH=test react-scripts build"
     },
     "eslintConfig": {
