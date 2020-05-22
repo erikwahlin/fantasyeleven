@@ -62,17 +62,20 @@ const OverviewPage = ({ overviewContext }) => {
         );
 
     const team = playedTeams.filter(t => t.round === roundInView._id)[0];
+    console.log(team);
 
-    /* const team = playedTeams.filter(t => t.round === roundInView._id)[0];
+    let totalPoints = 0;
 
-    let players = team.players;
-
-    if (roundInView) {
-        if (roundInView.result.list.length > 0) {
-            players = roundInView.result;
+    if (roundInView.result) {
+        if (roundInView.result.list.length) {
+            totalPoints = roundInView.result.list.reduce(
+                (tot, player) => tot + player.points.tot,
+                0
+            );
         }
-    } */
+    }
 
+    console.log('totalPoints', totalPoints);
     const bet =
         playedTeams[0] && roundInView && roundInView._id === playedTeams[0].round ? null : (
             /* players.list
@@ -93,15 +96,15 @@ const OverviewPage = ({ overviewContext }) => {
                     <InnerWrapper>
                         <ResultWrap>
                             <Stake>
-                                <h5>Din insats {/*   */}</h5>
-                                <p className="stakeSum">{team.value.tot}</p>
+                                <h5>Din insats{/*   */}</h5>
+                                <p className="stakeSum">{team.value.tot} kr</p>
                             </Stake>
                             <Revenue>
                                 <h6>Omsättning inför helgens omgång</h6>
-                                <p className="revenueSum">120 000kr</p>
+                                <p className="revenueSum"></p>
                             </Revenue>
                         </ResultWrap>
-                        <Collapsible />
+                        <Collapsible totalPoints={totalPoints} />
                         <Rounds />
                     </InnerWrapper>
                 </OuterWrapper>
