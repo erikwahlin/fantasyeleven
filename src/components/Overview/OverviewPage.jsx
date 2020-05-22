@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import * as Scroll from 'react-scroll';
-import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 import { IoIosArrowDown } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import Navigation from '../Navigation';
@@ -83,9 +82,11 @@ const OverviewPage = ({ overviewContext }) => {
                     </InnerWrapper>
                 </OuterWrapper>
             </ContentWrap>
-            <Arrow onClick={() => scroll.scrollToBottom()}>
-                <IoIosArrowDown style={{ fontSize: '40px' }} />
-            </Arrow>
+            {roundInView && (
+                <Arrow onClick={() => scroll.scrollToBottom()}>
+                    <IoIosArrowDown style={{ fontSize: '40px' }} />
+                </Arrow>
+            )}
             {roundInView ? (
                 <Round round={roundInView} roundIndex={roundInView && roundInView._id} />
             ) : (

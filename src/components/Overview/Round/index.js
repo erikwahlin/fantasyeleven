@@ -15,7 +15,6 @@ const { Column, ColumnGroup } = Table;
 
 const Header = styled.div`
     width: 100%;
-    margin: 10px;
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
 
