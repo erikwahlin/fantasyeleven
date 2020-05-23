@@ -375,14 +375,14 @@ const NewRound = props => {
                         disabled={!noneIsActive}
                     /> */}
                     <Wrapper
-                        customStyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
+                        customstyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
                     >
                         <h4>Matcher</h4>
                         {form.matches.map((match, nth) => (
                             <ClubWrapper
                                 key={nth}
                                 className={`Match-${nth + 1}`}
-                                customStyle={`flex-direction: row; flex-wrap: wrap;`}
+                                customstyle={`flex-direction: row; flex-wrap: wrap;`}
                             >
                                 <div style={{ position: 'relative' }}>
                                     <p
@@ -476,7 +476,7 @@ const NewRound = props => {
 
                     <OptionsWrapper
                         className="Options"
-                        customStyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
+                        customstyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
                     >
                         <ButtonStandard
                             type="default"

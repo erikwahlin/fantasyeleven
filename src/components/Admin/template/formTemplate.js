@@ -259,7 +259,7 @@ export const FormContainer = ({
     };
 
     return (
-        <Wrapper className="Wrapper form" customStyle="height: auto;">
+        <Wrapper className="Wrapper form" customstyle="height: auto;">
             <FormTitle className="FormTitle">{title}</FormTitle>
             <Form onSubmit={onSubmit} className="Form">
                 {children}
@@ -267,7 +267,7 @@ export const FormContainer = ({
                 {/* <Wrapper
                     className="UnderlayContainer submit"
                     onClick={submitHandler}
-                    customStyle="height:fit-content; width: 100%;"
+                    customstyle="height:fit-content; width: 100%;"
                 > */}
                 {/* <ButtonStandard
                     className="Submit"

@@ -14,7 +14,7 @@ const Main = props => {
                     <Link to={ROUTES.NEWTEAM}>Skapa ett nytt lag</Link>
                 </ButtonStandard>
             </WrapperRow>
-            <WrapperCol customStyle="margin-top: 20px;">
+            <WrapperCol customstyle="margin-top: 20px;">
                 <h2>Tidigare spel</h2>
             </WrapperCol>
         </WrapperCol>

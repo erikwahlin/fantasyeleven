@@ -129,10 +129,10 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
     const columns = createColumns({ setters: { updatePlayer } });
 
     return (
-        <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">
+        <Wrapper className="Effort Outer unmarkable" customstyle="width: 100%;">
             <h3>{club}</h3>
 
-            <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
+            <Wrapper className="Effort Inner unmarkable" customstyle="width: 100%;">
                 <TableStyled
                     className="InputTable unmarkable"
                     columns={columns}
