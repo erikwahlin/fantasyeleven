@@ -316,6 +316,15 @@ const NewRound = props => {
         autosave('matches', newMatches);
     };
 
+    const copyRound = roundId => {
+        const round =
+            roundId !== '' ? rounds.filter(r => r._id === roundId)[0] : clone(initialForm);
+
+        if (!round) return console.log('Did not find round to copy...', roundId);
+
+        autosave('matches', clone(round.matches));
+    };
+
     return (
         <div>
             <OptionsWrapper>
@@ -358,6 +367,28 @@ const NewRound = props => {
                         ready={formReady.number}
                         onSubmit={submit}
                     />
+
+                    <InputTemplate
+                        type="select"
+                        state={form}
+                        autosave={copyRound}
+                        defaultValue=""
+                        defaultOption=" - "
+                        options={rounds}
+                        label="Kopiera resultat från"
+                        onSubmit={submit}
+                    />
+
+                    {/* <select defaultValue="" onChange={e => copyRound(e.target.value)}>
+                        <option disabled value="">
+                            - kopiera resultat från -
+                        </option>
+                        {rounds.map(round => (
+                            <option key={round._id} value={round._id}>
+                                {round.alias}
+                            </option>
+                        ))}
+                    </select> */}
 
                     {/* <InputTemplate
                         state={form}

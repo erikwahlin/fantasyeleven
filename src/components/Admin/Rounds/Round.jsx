@@ -182,15 +182,6 @@ const Round = ({ adminContext, roundIndex, active }) => {
         if (settings.activeRound._id === round._id) {
             updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång färdigspelad!' });
         }
-
-        /* 
-        1. round marked as ended
-        2. reset active round in settings
-        3. calc points
-        4. add points to round/matches/homeAway/players
-        5. 
-
-        */
     };
 
     const matchTableData = round.matches.map((match, nth) => ({

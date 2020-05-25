@@ -38,6 +38,7 @@ class ResultState extends Component {
     componentDidMount = () => {};
 
     matchUpdater = newMatch => {
+        console.log('matchupdater...');
         const { newRes } = this.state;
 
         newRes[this.state.step] = newMatch;
