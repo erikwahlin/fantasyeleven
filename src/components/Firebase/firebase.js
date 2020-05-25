@@ -31,6 +31,8 @@ class Firebase {
         //this.googleProvider = new app.auth.GoogleAuthProvider();
         //this.facebookProvider = new app.auth.FacebookAuthProvider();
         //this.twitterProvider = new app.auth.TwitterAuthProvider();
+
+        //this.listAll();
     }
 
     // *** Auth API ***
@@ -82,6 +84,8 @@ class Firebase {
                             providerData: authUser.providerData,
                             ...dbUser
                         };
+
+                        //console.log('usersss', this.users());
 
                         next(authUser);
                     });
