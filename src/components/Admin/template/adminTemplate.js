@@ -65,9 +65,9 @@ export const Wrapper = styled.div`
     }
 
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Wrapper } from './wrapperTemplate';
-import { InputNumber } from 'antd';
+import { InputNumber, Dropdown } from 'antd';
 
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FcCheckmark } from 'react-icons/fc';
@@ -49,6 +49,12 @@ export const Field = styled.div`
     padding: 25px 0 0;
     box-shadow: inset 0px -7px 15px -15px black;
     min-height: 50px;
+
+    ${p =>
+        p.inputType === 'select' &&
+        css`
+            padding-top: 40px;
+        `}
 `;
 
 export const Input = styled.input`
@@ -104,6 +110,32 @@ export const Input = styled.input`
             margin-left: -50px;
             margin-top: 4px;
         `}
+`;
+
+export const Select = styled.select`
+    text-indent: 10px;
+
+    background: none !important;
+
+    font-size: 18px;
+    padding: 40px 10px 10px 5px;
+    display: block;
+    min-width: 150px;
+    min-height: 15px;
+    flex: 1;
+    border: none;
+    border-radius: 0;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus ~ .form-input-label,
+    &:not([value='']) ~ .form-input-label {
+        top: 10px;
+        font-size: 12px;
+        opacity: 0.6;
+    }
 `;
 
 export const PercentInput = styled(Input)``;
@@ -186,6 +218,9 @@ export const InputTemplate = ({
     autosave,
     ready,
     onSubmit,
+    defaultValue,
+    defaultOption,
+    options,
     ...props
 }) => {
     const keyHandler = e => {
@@ -213,18 +248,36 @@ export const InputTemplate = ({
     const value = state[stateKey];
 
     return (
-        <Field className="InputContainer">
+        <Field className="InputContainer" inputType={type}>
             <CustomTooltip title={helper} placement="left">
-                <Input
-                    {...props}
-                    type={type}
-                    value={value}
-                    className={`form-input`}
-                    onChange={e => {
-                        autosave(stateKey, type === 'checkbox' ? e.target.checked : e.target.value);
-                    }}
-                    onKeyDown={keyHandler}
-                />
+                {type === 'select' ? (
+                    <Select
+                        {...props}
+                        onChange={e => autosave(e.target.value)}
+                        defaultValue={defaultValue}
+                    >
+                        <option value={defaultValue}>{defaultOption}</option>
+                        {options.map(round => (
+                            <option key={round._id} value={round._id}>
+                                {round.alias}
+                            </option>
+                        ))}
+                    </Select>
+                ) : (
+                    <Input
+                        {...props}
+                        type={type}
+                        value={value}
+                        className={`form-input`}
+                        onChange={e => {
+                            autosave(
+                                stateKey,
+                                type === 'checkbox' ? e.target.checked : e.target.value
+                            );
+                        }}
+                        onKeyDown={keyHandler}
+                    />
+                )}
             </CustomTooltip>
 
             {type === 'number' && (
@@ -259,7 +312,7 @@ export const FormContainer = ({
     };
 
     return (
-        <Wrapper className="Wrapper form" customStyle="height: auto;">
+        <Wrapper className="Wrapper form" customstyle="height: auto;">
             <FormTitle className="FormTitle">{title}</FormTitle>
             <Form onSubmit={onSubmit} className="Form">
                 {children}
@@ -267,7 +320,7 @@ export const FormContainer = ({
                 {/* <Wrapper
                     className="UnderlayContainer submit"
                     onClick={submitHandler}
-                    customStyle="height:fit-content; width: 100%;"
+                    customstyle="height:fit-content; width: 100%;"
                 > */}
                 {/* <ButtonStandard
                     className="Submit"

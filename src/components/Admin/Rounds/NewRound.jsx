@@ -316,6 +316,15 @@ const NewRound = props => {
         autosave('matches', newMatches);
     };
 
+    const copyRound = roundId => {
+        const round =
+            roundId !== '' ? rounds.filter(r => r._id === roundId)[0] : clone(initialForm);
+
+        if (!round) return console.log('Did not find round to copy...', roundId);
+
+        autosave('matches', clone(round.matches));
+    };
+
     return (
         <div>
             <OptionsWrapper>
@@ -359,6 +368,28 @@ const NewRound = props => {
                         onSubmit={submit}
                     />
 
+                    <InputTemplate
+                        type="select"
+                        state={form}
+                        autosave={copyRound}
+                        defaultValue=""
+                        defaultOption=" - "
+                        options={rounds}
+                        label="Kopiera resultat från"
+                        onSubmit={submit}
+                    />
+
+                    {/* <select defaultValue="" onChange={e => copyRound(e.target.value)}>
+                        <option disabled value="">
+                            - kopiera resultat från -
+                        </option>
+                        {rounds.map(round => (
+                            <option key={round._id} value={round._id}>
+                                {round.alias}
+                            </option>
+                        ))}
+                    </select> */}
+
                     {/* <InputTemplate
                         state={form}
                         stateKey="active"
@@ -375,14 +406,14 @@ const NewRound = props => {
                         disabled={!noneIsActive}
                     /> */}
                     <Wrapper
-                        customStyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
+                        customstyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
                     >
                         <h4>Matcher</h4>
                         {form.matches.map((match, nth) => (
                             <ClubWrapper
                                 key={nth}
                                 className={`Match-${nth + 1}`}
-                                customStyle={`flex-direction: row; flex-wrap: wrap;`}
+                                customstyle={`flex-direction: row; flex-wrap: wrap;`}
                             >
                                 <div style={{ position: 'relative' }}>
                                     <p
@@ -476,7 +507,7 @@ const NewRound = props => {
 
                     <OptionsWrapper
                         className="Options"
-                        customStyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
+                        customstyle="flex-direction: row; margin: 20px 0; width: 100%; color:#000;"
                     >
                         <ButtonStandard
                             type="default"

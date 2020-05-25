@@ -92,7 +92,7 @@ const MatchTable = styled(Table)`
     }
 
     & th {
-        font-weigth: 700;
+        font-weight: 700;
     }
 `;
 
@@ -182,15 +182,6 @@ const Round = ({ adminContext, roundIndex, active }) => {
         if (settings.activeRound._id === round._id) {
             updateSettings({ key: 'activeRound', val: {}, msg: 'Omgång färdigspelad!' });
         }
-
-        /* 
-        1. round marked as ended
-        2. reset active round in settings
-        3. calc points
-        4. add points to round/matches/homeAway/players
-        5. 
-
-        */
     };
 
     const matchTableData = round.matches.map((match, nth) => ({
@@ -207,7 +198,7 @@ const Round = ({ adminContext, roundIndex, active }) => {
 
     return (
         <div className="Result">
-            <Wrapper className="Result" customStyle="margin: 10px auto;">
+            <Wrapper className="Result" customstyle="margin: 10px auto;">
                 <Header className="Header" open={open} onClick={toggleHandler}>
                     <Title open={open}>
                         {round.alias}

@@ -64,7 +64,7 @@ const AdminPage = ({ location }) => {
             className="Admin unmarkable"
             tabPos={tabPos}
             winW={winW}
-            customStyle="width: 100%;"
+            customstyle="width: 100%;"
         >
             {/*             <MainTitle>
                 

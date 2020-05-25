@@ -5,9 +5,12 @@ import { withResult } from './ResultState';
 import { Wrapper } from '../template/wrapperTemplate';
 
 import { Table } from 'antd';
-import { clone, toSwe, effortToPoints } from '../../../constants/helperFuncs';
+import { clone, toSwe, effortToPoints, userMsg } from '../../../constants/helperFuncs';
+
+import handleResultConflicts from '../../../constants/handleResultConflicts';
 
 import createColumns from './createColumns';
+import NewResult from '.';
 
 const TableStyled = styled(Table)`
     width: 100%;
@@ -42,6 +45,7 @@ const TableStyled = styled(Table)`
 `;
 
 const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side, ...props }) => {
+    const otherside = side === 'home' ? 'away' : 'home';
     const { matchUpdater } = resultContext.setters;
     const { newRes, step, substep } = resultContext.state;
     const match = newRes[step];
@@ -78,7 +82,7 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
     });
 
     const updatePlayer = ({ player, key, val }) => {
-        const newMatch = clone(match);
+        let newMatch = clone(match);
 
         const pIndex = (() => {
             let index = -1;
@@ -91,6 +95,9 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
         })();
 
         if (pIndex < 0) return console.log('could not find player to update');
+
+        // RULES
+        // if goals > 0, no cleanSheet for vs-team
 
         newMatch[side].players[pIndex].effort[key] = val;
         newMatch[side].players[pIndex].points[key] = effortToPoints({ key, val, player });
@@ -106,15 +113,27 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
         }
 
         matchUpdater(newMatch);
+
+        /* handleResultConflicts({
+            match: newMatch,
+            player,
+            key,
+            val,
+            side,
+            otherside,
+            pIndex,
+            updater: matchUpdater
+        });
+        */
     };
 
     const columns = createColumns({ setters: { updatePlayer } });
 
     return (
-        <Wrapper className="Effort Outer unmarkable" customStyle="width: 100%;">
+        <Wrapper className="Effort Outer unmarkable" customstyle="width: 100%;">
             <h3>{club}</h3>
 
-            <Wrapper className="Effort Inner unmarkable" customStyle="width: 100%;">
+            <Wrapper className="Effort Inner unmarkable" customstyle="width: 100%;">
                 <TableStyled
                     className="InputTable unmarkable"
                     columns={columns}

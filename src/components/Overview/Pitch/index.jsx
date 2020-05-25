@@ -4,7 +4,6 @@ import { withOverview } from '../OverviewState';
 import { positions } from '../../../constants/gamePreset';
 import Plupp from '../Plupp';
 
-
 import pitchImg from '../../../media/pitch.png';
 //import { AddPlayerIcon } from '../StageInfo/template';
 
@@ -120,6 +119,13 @@ const Pitch = ({ overviewContext }) => {
             players = roundInView.result;
         }
     }
+    console.log(players);
+    // team value
+    const teamValue = players.list
+        .filter(p => p.origin === 'pitch')
+        .reduce((tot, player) => {
+            return tot + player;
+        });
 
     return (
         <Wrapper className="Pitch Wrapper" bg={pitchImg}>

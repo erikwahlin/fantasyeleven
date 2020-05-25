@@ -61,9 +61,9 @@ export const SaveBtn = styled(FloatBtn)`
 
 const TooltipStyled = styled(Tooltip)`
     ${p =>
-        p.customStyle &&
+        p.customstyle &&
         css`
-            ${p.customStyle}
+            ${p.customstyle}
         `};
 `;
 
@@ -71,14 +71,14 @@ export const CustomTooltip = ({
     condition = true,
     title,
     placement = 'top',
-    customStyle,
+    customstyle,
     children
 }) => (
     <>
         {condition ? (
             <TooltipStyled
                 placement={placement}
-                customStyle={customStyle}
+                customstyle={customstyle}
                 title={typeof title === 'string' ? <span>{title}</span> : null}
             >
                 {children}

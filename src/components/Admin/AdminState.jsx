@@ -10,6 +10,7 @@ const AdminContext = createContext(null);
 
 const initialState = {
     user: '',
+    allUsers: [],
     settings: {
         updatedBy: '',
         activeRound: ''
@@ -30,6 +31,7 @@ class AdminState extends Component {
 
         // General updater
         this.updateAdminState = this.updateAdminState.bind(this);
+        this.getUsers = this.getUsers.bind(this);
 
         // Settings
         this.readSettings = this.readSettings.bind(this);
@@ -71,6 +73,8 @@ class AdminState extends Component {
                 ).add();
                 return;
             }
+            // admin-funcs
+            this.getUsers();
             this.readSettings();
             this.readRounds();
             this.readResults();
@@ -102,6 +106,23 @@ class AdminState extends Component {
                     });
             } else if (typeof callback === 'function') callback(false);
         });
+    };
+
+    getUsers = async () => {
+        await this.props.firebase.users().on(
+            'value',
+            snap => {
+                const users = Object.entries(snap.val()).map(user => ({
+                    uid: user[0],
+                    username: user[1].username,
+                    email: user[1].email
+                }));
+                this.setState({ users });
+            },
+            err => {
+                console.log('get users fail', err);
+            }
+        );
     };
 
     updateAdminState = (key, val) => {

@@ -156,7 +156,7 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
     return (
         <Wrapper
             className="NewResult Wrapper unmarkable"
-            customStyle="margin: 50px 0; width: 100%; position: relative;"
+            customstyle="margin: 50px 0; width: 100%; position: relative;"
         >
             <h2>RESULTAT FÖR OMGÅNG {round.alias}</h2>
 
