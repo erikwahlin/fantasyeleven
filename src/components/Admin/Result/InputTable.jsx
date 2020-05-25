@@ -123,7 +123,8 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
             otherside,
             pIndex,
             updater: matchUpdater
-        }); */
+        });
+        */
     };
 
     const columns = createColumns({ setters: { updatePlayer } });
