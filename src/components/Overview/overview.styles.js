@@ -22,7 +22,7 @@ export const OuterWrapper = styled.div`
     width: 100%;
     height: 100vh;
     min-width: 420px;
-    /* margin: 0; */
+    margin: 0;
     position: relative;
 
     /*   @media all and (max-width: 899px) {
