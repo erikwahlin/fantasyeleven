@@ -114,7 +114,7 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
 
         matchUpdater(newMatch);
 
-        handleResultConflicts({
+        /* handleResultConflicts({
             match: newMatch,
             player,
             key,
@@ -123,7 +123,7 @@ const InputTable = ({ adminContext, resultContext, roundIndex, matchIndex, side,
             otherside,
             pIndex,
             updater: matchUpdater
-        });
+        }); */
     };
 
     const columns = createColumns({ setters: { updatePlayer } });
