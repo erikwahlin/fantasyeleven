@@ -14,7 +14,8 @@ const initialState = {
     playedTeams: [],
     activeRound: null,
     playedRounds: [],
-    roundInView: null
+    roundInView: null,
+    isMobile: window.innerWidth < 900 ? true : false
 };
 
 class OverviewState extends Component {

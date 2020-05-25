@@ -14,9 +14,10 @@ const Wrapper = styled.div`
     margin: 0 auto;
     margin-bottom: 30px;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 570px) {
         width: 100vw;
         height: 90vw;
+        margin: 0;
     }
 
     ${p =>

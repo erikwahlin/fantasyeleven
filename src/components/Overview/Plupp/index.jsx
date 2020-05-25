@@ -331,6 +331,11 @@ const Points = styled.div`
     font-size: 24px;
     width: 100%;
     text-align: center;
+
+    @media all and (max-width: 570px) {
+        font-size: 4vw;
+        top: 2vw;
+    }
 `;
 
 class Plupp extends Component {

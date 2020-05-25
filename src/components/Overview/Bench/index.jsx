@@ -43,7 +43,7 @@ const Wrapper = styled.div`
     margin: 0 auto;
     padding: 5px 0;
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 570px) {
         margin: 10px 0;
         padding: 0;
         width: 100vw;
@@ -51,12 +51,12 @@ const Wrapper = styled.div`
     }
 
 /*     ${p =>
-        p.stageName !== 'bench' &&
-        p.stageName !== 'overview' &&
-        css`
-            opacity: 0.2;
-            filter: grayscale(1);
-        `}; */
+    p.stageName !== 'bench' &&
+    p.stageName !== 'overview' &&
+    css`
+        opacity: 0.2;
+        filter: grayscale(1);
+    `}; */
 `;
 
 const Bench = ({ overviewContext }) => {
@@ -85,7 +85,6 @@ const Bench = ({ overviewContext }) => {
         <Wrapper className="Bench Wrapper">
             {preset.positions.map((pos, nth) => (
                 <PlayerContainer key={`pos-${nth}`} className={`PlayerContainer ${pos}`}>
-
                     <Plupp
                         pos={pos}
                         player={team.players.bench[pos][0]}

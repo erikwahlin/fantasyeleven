@@ -6,19 +6,18 @@ styles.css
 } need to fix import-bug */
 
 html {
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
 }
 body {
     /* background-color: #101d33;  #001c3e; */
-    background-image: url("../Landing/landing-imgB.jpg");
+    background-image: url('../Landing/landing-imgB.jpg');
     font-family: 'Avenir';
     color: white;
     /* background-repeat: no-repeat; */
     background-size: cover;
-    height:100vh;
-    z-index:1;
-
+    height: 100vh;
+    z-index: 1;
 }
 
 nav {
@@ -32,13 +31,13 @@ nav {
 }
 
 p {
-    font-size:0.9em;
+    font-size: 0.9em;
 }
 
 .capInfo {
-    font-size:1.1em;
-    font-weight:500;
-    margin-top:3rem;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-top: 3rem;
 }
 
 nav li {
@@ -74,32 +73,32 @@ h4 {
     font-weight: 500;
 }
 
-h5 {
+/* h5 {
     font-family: 'Avenir';
     font-size: 1.1em;
     color:black;
     margin-bottom:-5px;
-}
+} */
 
 h6 {
     font-family: 'Avenir';
     font-size: 1.1em;
-    color:white;
-    margin-bottom:-5px;
+    color: white;
+    margin-bottom: -5px;
 }
 
 .stakeSum {
-    color:#00840A;
-    font-size:1.2em;
-    font-weight:600;
-    margin:0;
+    color: #00840a;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
 }
 
 .revenueSum {
-    color:white;
-    font-size:1.2em;
-    font-weight:600;
-    margin:0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
 }
 
 .infoTitle {
@@ -113,7 +112,6 @@ h6 {
     font-size: 1em !important;
     font-weight: 500;
     cursor: pointer;
-    
 }
 
 .sum {
@@ -132,7 +130,7 @@ h6 {
 }
 
 .Cap {
-    color:white;
+    color: white;
 }
 
 .info {
@@ -143,7 +141,7 @@ h6 {
     font-style: italic;
     font-weight: 600;
     font-size: 1.1em;
-    color:white;
+    color: white;
 }
 
 .labelPosition p {
@@ -161,7 +159,6 @@ h6 {
 .labelPercentage div {
     margin: 0;
     margin-left: 4rem;
-   
 }
 .amount {
     font-size: 1.5rem;
@@ -171,11 +168,11 @@ h6 {
 }
 
 .block {
-    display:flex;
-    width:10px;
-    height:10px;
-    background:white;
-    border-radius:50%;
+    display: flex;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
     flex: 0.8;
     text-align: center;
     min-width: 35px;
@@ -257,8 +254,4 @@ h6 {
     cursor: pointer;
 }
 
-
-
 /************************************************************/
-
-
