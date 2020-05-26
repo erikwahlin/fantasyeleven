@@ -16,30 +16,25 @@ const StyledH1 = styled.h1`
     text-align: center;
     /* margin-top: 20px; */
     font-size: 3em;
+    padding: 20px;
+`;
+
+const Title = styled.h1`
+    text-align: center;
 `;
 const OuterWrap = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    height: 100vh;
 `;
 const InnerWrap = styled.div`
+    margin-top: 200px;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-around;
     /* border-radius: 10px; */
-    border: 1px solid #001233;
-    width: 40%;
-    background-color: #001c3e;
+    width: 100%;
 
-    @media all and (max-width: 480px) {
-        width: 100vw;
-        box-shadow: none;
-        justify-content: space-between;
-        height: 100vh;
-    }
-    @media all and (min-width: 481px) and (max-width: 1200px) {
-        width: 70vw;
+    @media all and (max-width: 749px) {
+        flex-direction: column;
+        margin-top: 0px;
     }
 `;
 const SIGN_IN_METHODS = [
@@ -66,11 +61,17 @@ const AccountPage = ({ location }) => (
         {authUser => (
             <div>
                 {/* <Navigation pathname={location.pathname} /> */}
-                <OuterWrap>
-                    <InnerWrap>
-                        <StyledH1>Account: {authUser.email}</StyledH1>
-                        <PasswordForgetForm />
-                        <PasswordChangeForm />
+                <OuterWrap className="outerwrap">
+                    <StyledH1>Användare: {authUser.username}</StyledH1>
+                    <InnerWrap className="innerwrap">
+                        <div>
+                            <Title>Glömt ditt lösenord?</Title>
+                            <PasswordForgetForm />
+                        </div>
+                        <div>
+                            <Title>Ändra lösenord</Title>
+                            <PasswordChangeForm />
+                        </div>
                     </InnerWrap>
                 </OuterWrap>
                 {/* <LoginManagement authUser={authUser} /> */}

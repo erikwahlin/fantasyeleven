@@ -42,7 +42,7 @@ export const loggedIn = [
     { pathname: ADMIN, title: 'Admin' },
     { pathname: ACCOUNT, title: 'Konto' },
     { pathname: NEWTEAM, title: 'Bygg ditt lag' },
-    { pathname: OVERVIEW, title: 'Mitt spel' },
+    { pathname: OVERVIEW, title: 'Mina spel' },
     { pathname: ABOUT, title: 'Hur fungerar det?' }
 ];
 

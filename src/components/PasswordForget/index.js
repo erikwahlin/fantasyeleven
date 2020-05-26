@@ -5,15 +5,6 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import FormInput from '../FormInput/FormInput';
 
-import {
-    Form,
-    Button,
-    StyledH1,
-    OuterWrap,
-    InnerWrap,
-    Myh1
-} from '../../general-form-styled/form-styling';
-
 const InputWrap = styled.div`
     color: white;
     display: flex;
@@ -49,6 +40,18 @@ const Placeholder = styled.span`
     justify-content: center;
 `;
 
+const Form = styled.form`
+    margin: 0 auto;
+    width: 55%;
+    min-width: 320px;
+    height: 200px;
+    /*   padding: 100px; */
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+`;
 const SubmitButton = styled.button`
     padding: 12px;
     background-color: rgba(36, 132, 10, 0.6);
