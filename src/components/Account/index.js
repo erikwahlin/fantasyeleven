@@ -28,9 +28,8 @@ const InnerWrap = styled.div`
     justify-content: center;
     flex-direction: column;
     /* border-radius: 10px; */
-    border: 1px solid #001233;
-    width: 40%;
-    background-color: #001c3e;
+    width:100%;
+
 
     @media all and (max-width: 480px) {
         width: 100vw;
@@ -68,7 +67,7 @@ const AccountPage = ({ location }) => (
                 {/* <Navigation pathname={location.pathname} /> */}
                 <OuterWrap>
                     <InnerWrap>
-                        <StyledH1>Account: {authUser.email}</StyledH1>
+                        {/* <StyledH1>Account: {authUser.email}</StyledH1> */}
                         <PasswordForgetForm />
                         <PasswordChangeForm />
                     </InnerWrap>

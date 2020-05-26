@@ -45,7 +45,7 @@
 }
 
 .Dropdown-menu {
-    background-color: rgba(35, 51, 77, 1);
+    background-color: #E2DDDD !important;
     border: none;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;

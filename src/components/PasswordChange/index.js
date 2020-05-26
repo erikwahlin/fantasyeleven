@@ -55,7 +55,7 @@ class PasswordChangeForm extends Component {
                     value={passwordTwo}
                     onChange={this.onChange}
                     type="password"
-                    label="bekräfra nytt lösenord"
+                    label="bekräfta nytt lösenord"
                 />
                 <Button disabled={isInvalid} type="submit">
                     Återställ lösenord

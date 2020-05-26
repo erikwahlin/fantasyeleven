@@ -8,6 +8,7 @@ import * as ROLES from '../../constants/roles';
 import DefaultNav from './DefaultNav';
 import DrawerNav from './DrawerNav';
 import Logo from '../Landing/fantasy11-white-logo.png';
+import { UserOutlined } from '@ant-design/icons';
 
 
 // styled(drawer)

@@ -2,6 +2,17 @@ import React from 'react';
 import Navigation from '../Navigation';
 import pitchImg from '../../media/pitch.png';
 import styled, { css } from 'styled-components';
+import ScrollAnimation from 'react-animate-on-scroll';
+
+const Wrapper = styled.div`
+    display:flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    justify-content: center;
+    overflow: hidden;
+`;
+
+
 
 const PitchWrap = styled.div`
     position: relative;
@@ -37,17 +48,9 @@ const InfoText = styled.div`
 `;
 
 const About = ({ location }) => (
-    <div
-        className="AboutPage"
-        style={{
-            display: 'flex',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            height: '100vh',
-            justifyContent: 'center',
-            overflow: 'hidden'
-        }}
-    >
-        {/* <Navigation pathname={location.pathname} /> */}
+    <ScrollAnimation animateIn="fadeIn">
+    <Wrapper>
+    
         <div
             className="How"
             style={{
@@ -82,7 +85,9 @@ const About = ({ location }) => (
                 </p>
             </InfoText>
         </div>
-    </div>
+        
+    </Wrapper>
+    </ScrollAnimation>
 );
 
 export default About;

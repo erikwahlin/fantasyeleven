@@ -71,6 +71,7 @@ const SubmitButton = styled.button`
     margin-bottom: -20px;
     border: none;
     width: 30%;
+    outline:none;
 `;
 
 const GoogleButton = styled.button`

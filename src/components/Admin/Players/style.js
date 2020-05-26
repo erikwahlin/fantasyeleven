@@ -5,6 +5,7 @@ export const OuterWrapper = styled.div`
     height: 90vh;
     min-width: 420px;
     margin: 0;
+    background:none;
 
     /* @media all and (max-width: 899px) {
         position: fixed;
@@ -45,7 +46,7 @@ export const InnerWrapper = styled.div`
             top: 0;
             height: 100%;
             width: 100%;
-            background: #011931;
+            background: #e2dddd;
         `}
 
     transition: all .5s;
@@ -84,6 +85,7 @@ export const SearchFieldWrapper = styled.div`
         right: 48px;
         top: 16px;
         font-size: 1.5em;
+        color:green;
     }
 `;
 
@@ -113,15 +115,16 @@ export const Input = styled.input`
     font-family: 'Avenir';
     font-size: 1em;
     font-weight: 500;
-    color: white;
+    color: black;
     padding: 13px 52px 13px 12px;
     border: none;
     box-sizing: border-box;
     outline: none;
-    background: rgba(35, 51, 77, 1);
+    background: #e2dddd;
     cursor: text;
     ::placeholder {
-        color: white;
+        color: black;
+        font-size:1.2em;
     }
     ::focus {
         border: 2px solid white;
@@ -169,6 +172,7 @@ export const StyledBtn = styled.button`
 export const ButtonDes = styled(StyledBtn)``;
 export const ButtonAsc = styled(StyledBtn)``;
 export const ButtonReset = styled(StyledBtn)`
+background-color: #00840A;
     margin-bottom: 20px;
     width: 100%;
     border: 1px solid #2f3e55;
@@ -183,7 +187,7 @@ export const ResultContainer = styled.div`
 `;
 
 export const ResultBox = styled.div`
-    background: rgba(35, 51, 77, 1);
+    background: none;
     width: 100%;
     height: 100%;
     flex: 1;
@@ -206,7 +210,7 @@ export const LabelRow = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: none;
+    background:none;
     color: black;
     font-weight: 700;
     font-size: 1em;
@@ -217,11 +221,11 @@ export const PlayerRow = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    background: rgba(35, 51, 77, 1);
-    color: white;
+    background:  #E2DDDD;
+    color: black;
     border: 5px solid #ddd;
     border: none;
-    border-bottom: 1px solid #2f3e55;
+    border-bottom: 3px solid black;
     font-size: 1em !important;
     min-height: 60px !important;
 `;

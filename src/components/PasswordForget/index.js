@@ -14,6 +14,16 @@ import {
     Myh1
 } from '../../general-form-styled/form-styling';
 
+const Heading = styled.h1`
+    font-family:'Avenir';
+    font-size:2.3em;
+    font-weight:500;
+    color:white;
+    display:block;
+    margin:0 auto;
+    margin-bottom:30px;
+`;
+
 const InputWrap = styled.div`
     color: white;
     display: flex;
@@ -116,6 +126,7 @@ class PasswordForgetFormBase extends Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
+                <Heading>Återställ lösenord</Heading>
                 <InputWrap>
                     <Placeholder>E-postadress</Placeholder>
                     <Input

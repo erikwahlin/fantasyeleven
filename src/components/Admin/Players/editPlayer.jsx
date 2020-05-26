@@ -15,9 +15,9 @@ const MyForm = styled.form`
 `;
 
 const MyInput = styled.input`
-    background: #2f3e55;
+    background-color: #e2dddd;
     border: none;
-    color: white;
+    color: black;
     padding: 8px;
     margin-bottom: 20px;
     min-width: 230px;
@@ -26,9 +26,9 @@ const MyInput = styled.input`
 `;
 
 const MySelect = styled.select`
-    background: #2f3e55;
+    background-color: #e2dddd;
     border: none;
-    color: white;
+    color: black;
     margin-bottom: 20px;
     outline: none;
     -webkit-appearance: menulist-button;
@@ -36,7 +36,7 @@ const MySelect = styled.select`
 `;
 
 const MyButton = styled.button`
-    border: 1px solid #2f3e55;
+    background-color:#438510;
     color: white;
     padding: 5px;
     margin-bottom: 5px;
