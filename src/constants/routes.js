@@ -26,7 +26,16 @@ export const topNav = [
     ABOUT
 ];
 
-export const slideNav = [NEWTEAM, OVERVIEW, ADMIN];
+export const slideNav = [
+    ACCOUNT,
+    NEWTEAM,
+    OVERVIEW,
+    ADMIN,
+    ABOUT,
+    SIGN_IN,
+    SIGN_UP,
+    PASSWORD_FORGET
+];
 
 export const loggedIn = [
     { pathname: LANDING, title: <img src={Logo} style={{ width: '200px' }} /> },

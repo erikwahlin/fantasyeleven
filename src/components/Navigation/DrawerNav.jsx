@@ -15,7 +15,7 @@ const Wrapper = styled(WrapperRow)`
     position: fixed;
     z-index: 2;
     width: fit-content;
-    left: 0;
+    right: 0;
     top: 0;
 `;
 
@@ -73,7 +73,7 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
 
             <DrawerStyled
                 drawerStyle={{ background: 'rgba(36,132,10, 0.8)' }}
-                placement="left"
+                placement="right"
                 closable={false}
                 onClose={onClose}
                 visible={visible}
