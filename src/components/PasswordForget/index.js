@@ -1,24 +1,81 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import styled from 'styled-components';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import FormInput from '../FormInput/FormInput';
+
 import {
     Form,
     Button,
     StyledH1,
     OuterWrap,
-    InnerWrap
+    InnerWrap,
+    Myh1
 } from '../../general-form-styled/form-styling';
 
+const InputWrap = styled.div`
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+`;
+
+const Input = styled.input`
+    background-color: #e2dddd;
+    outline: none;
+    height: 3em;
+    width: 90%;
+    font-size: 1.2em;
+    font-weight: 500;
+    border-radius: 0 4px 4px 0;
+    border: 1px solid lightgray;
+    color: black;
+    padding-left: 15px;
+    font-family: 'Avenir';
+`;
+
+const Placeholder = styled.span`
+    background: rgba(36, 132, 10, 0.6);
+    color: white;
+    border-radius: 4px 0 0 4px;
+    height: 3em;
+    width: 10em;
+    font-size: 1.2em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const SubmitButton = styled.button`
+    padding: 12px;
+    background-color: rgba(36, 132, 10, 0.6);
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    border: none;
+    width: 30%;
+`;
+
+const ButtonWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const Wrapper = styled.div``;
+
 const PasswordForgetPage = () => (
-    <OuterWrap>
-        <InnerWrap>
-            <StyledH1>Glömt lösenord?</StyledH1>
-            <PasswordForgetForm />
-        </InnerWrap>
-    </OuterWrap>
+    <Wrapper>
+        <PasswordForgetForm />
+    </Wrapper>
 );
 
 const INITIAL_STATE = {
@@ -59,16 +116,20 @@ class PasswordForgetFormBase extends Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormInput
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                    type="text"
-                    label="Mailadress"
-                />
-                <Button disabled={isInvalid} type="submit">
-                    Återställ lösenord
-                </Button>
+                <InputWrap>
+                    <Placeholder>E-postadress</Placeholder>
+                    <Input
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.onChange}
+                        type="text"
+                    />
+                </InputWrap>
+                <ButtonWrap>
+                    <SubmitButton disabled={isInvalid} type="submit">
+                        Återställ lösenord
+                    </SubmitButton>
+                </ButtonWrap>
 
                 {error && <p>{error.message}</p>}
             </Form>
@@ -78,7 +139,9 @@ class PasswordForgetFormBase extends Component {
 
 const PasswordForgetLink = () => (
     <p>
-        <Link to={ROUTES.PASSWORD_FORGET}>Glömt lösenord?</Link>
+        <Link to={ROUTES.PASSWORD_FORGET} style={{ color: 'rgb(36, 132, 10)' }}>
+            Glömt lösenord?
+        </Link>
     </p>
 );
 

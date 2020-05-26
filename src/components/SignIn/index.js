@@ -6,25 +6,135 @@ import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-import FormInput from '../FormInput/FormInput';
-import {
-    Form,
-    Button,
-    StyledH1,
-    OuterWrap,
-    InnerWrap
-} from '../../general-form-styled/form-styling';
+import styled from 'styled-components';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookF, FaTwitter } from 'react-icons/fa';
+
+import { Form } from '../../general-form-styled/form-styling';
+
+const Input = styled.input`
+    background-color: #e2dddd;
+    outline: none;
+    height: 3em;
+    width: 90%;
+    font-size: 1.2em;
+    font-weight: 500;
+    border-radius: 0 4px 4px 0;
+    border: 1px solid lightgray;
+    color: black;
+    padding-left: 15px;
+    font-family: 'Avenir';
+`;
+
+const InputWrap = styled.div`
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+`;
+
+/* const Form = styled.form`
+    margin: 0 auto;
+    width: 55%;
+    height: 400px;
+    padding: 100px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+`;
+ */
+const Placeholder = styled.span`
+    background: rgba(36, 132, 10, 0.6);
+    color: white;
+    border-radius: 4px 0 0 4px;
+    height: 3em;
+    width: 10em;
+    font-size: 1.2em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const SubmitButton = styled.button`
+    padding: 12px;
+    background-color: rgba(36, 132, 10, 0.6);
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    border: none;
+    width: 30%;
+`;
+
+const GoogleButton = styled.button`
+    padding: 12px;
+    background-color: rgb(5, 66, 122);
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    border: none;
+    width: 60%;
+`;
+
+const FacebookButton = styled.button`
+    padding: 12px;
+    background-color: rgb(5, 66, 122);
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    border: none;
+    width: 60%;
+`;
+const TwitterButton = styled.button`
+    padding: 12px;
+    background-color: rgb(5, 66, 122);
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    border: none;
+    width: 60%;
+`;
+const ButtonWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const SocialButtonWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const Wrapper = styled.div`
+    background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const SignInPage = () => (
-    <OuterWrap>
-        <InnerWrap>
-            <StyledH1>Logga in</StyledH1>
-            <SignInForm />
-            {/*         <SignInGoogle />
-        <SignInFacebook />
-        <SignInTwitter /> */}
-        </InnerWrap>
-    </OuterWrap>
+    <Wrapper>
+        <SignInForm />
+    </Wrapper>
 );
 
 const INITIAL_STATE = {
@@ -76,26 +186,32 @@ class SignInFormBase extends Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
-                <FormInput
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    label="Mailadress"
-                />
-                <FormInput
-                    name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="password"
-                    label="Lösenord"
-                />
-                <PasswordForgetLink />
-                <SignUpLink />
-                <Button disabled={isInvalid} type="submit">
-                    Logga in
-                </Button>
+                <InputWrap>
+                    <Placeholder>E-postadress</Placeholder>
+                    <Input name="email" value={email} onChange={this.onChange} type="text" />
+                </InputWrap>
+                <InputWrap>
+                    <Placeholder>Lösenord</Placeholder>
+                    <Input
+                        name="password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="password"
+                    />
+                </InputWrap>
 
+                <ButtonWrap>
+                    <SubmitButton disabled={isInvalid} type="normal submit">
+                        Logga in
+                    </SubmitButton>
+                    {/*                     <SignInGoogle />
+                    <SignInFacebook /> */}
+                    {/* <SignInTwitter /> */}
+                    <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                        <PasswordForgetLink />
+                        <SignUpLink />
+                    </div>
+                </ButtonWrap>
                 {error && <p>{error.message}</p>}
             </Form>
         );
@@ -139,11 +255,14 @@ class SignInGoogleBase extends Component {
         const { error } = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <Button type="submit">Logga in med Google</Button>
+            <SocialButtonWrap onSubmit={this.onSubmit}>
+                <GoogleButton type="submit">
+                    {' '}
+                    <FcGoogle /> &nbsp; Logga in med Google
+                </GoogleButton>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SocialButtonWrap>
         );
     }
 }
@@ -185,11 +304,14 @@ class SignInFacebookBase extends Component {
         const { error } = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <button type="submit">Logga in med Facebook</button>
+            <SocialButtonWrap onSubmit={this.onSubmit}>
+                <FacebookButton type="submit">
+                    {' '}
+                    <FaFacebookF /> &nbsp; Logga in med Facebook
+                </FacebookButton>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SocialButtonWrap>
         );
     }
 }
@@ -231,11 +353,21 @@ class SignInTwitterBase extends Component {
         const { error } = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <button type="submit">Logga in med Twitter</button>
+            <div
+                style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column' }}
+            >
+                <SocialButtonWrap onSubmit={this.onSubmit}>
+                    <TwitterButton type="submit">
+                        <FaTwitter /> &nbsp; Logga in med Twitter
+                    </TwitterButton>
 
-                {error && <p>{error.message}</p>}
-            </form>
+                    {error && <p>{error.message}</p>}
+                </SocialButtonWrap>
+                <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                    <PasswordForgetLink />
+                    <SignUpLink />
+                </div>
+            </div>
         );
     }
 }
@@ -246,8 +378,8 @@ const SignInGoogle = compose(withRouter, withFirebase)(SignInGoogleBase);
 
 const SignInFacebook = compose(withRouter, withFirebase)(SignInFacebookBase);
 
-const SignInTwitter = compose(withRouter, withFirebase)(SignInTwitterBase);
+/* const SignInTwitter = compose(withRouter, withFirebase)(SignInTwitterBase); */
 
 export default SignInPage;
 
-export { SignInForm, SignInGoogle, SignInFacebook, SignInTwitter };
+export { SignInForm, SignInGoogle, SignInFacebook };

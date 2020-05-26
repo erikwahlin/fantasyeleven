@@ -4,21 +4,89 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import FormInput from '../FormInput/FormInput';
-import {
-    Form,
-    Button,
-    StyledH1,
-    OuterWrap,
-    InnerWrap
-} from '../../general-form-styled/form-styling';
+import styled from 'styled-components';
+import { Form } from '../../general-form-styled/form-styling';
+const Input = styled.input`
+    background-color: #e2dddd;
+    outline: none;
+    height: 3em;
+    width: 90%;
+    font-size: 1.2em;
+    font-weight: 500;
+    border-radius: 0 4px 4px 0;
+    border: 1px solid lightgray;
+    color: black;
+    padding-left: 15px;
+    font-family: 'Avenir';
+`;
+
+const InputWrap = styled.div`
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+`;
+
+/* const Form = styled.form`
+    margin: 0 auto;
+    width: 55%;
+    height: 400px;
+    /* padding: 100px; */
+/* display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+`; */
+
+const Placeholder = styled.span`
+    background: rgba(36, 132, 10, 0.6);
+    color: white;
+    border-radius: 4px 0 0 4px;
+    height: 3em;
+    width: 10em;
+    min-width: 50px;
+    font-size: 1.2em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const SubmitButton = styled.button`
+    padding: 12px;
+    background-color: rgba(36, 132, 10, 0.6);
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    border: none;
+    width: 30%;
+`;
+
+const ButtonWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`;
+
+const Wrapper = styled.div`
+    background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const Admin = styled.label`
+    color: white;
+`;
 
 const SignUpPage = () => (
-    <OuterWrap>
-        <InnerWrap>
-            <StyledH1>Skapa ett konto</StyledH1>
-            <SignUpForm />
-        </InnerWrap>
-    </OuterWrap>
+    <Wrapper>
+        <SignUpForm />
+    </Wrapper>
 );
 
 const INITIAL_STATE = {
@@ -112,44 +180,34 @@ class SignUpFormBase extends Component {
             passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
 
         return (
-            <Form onSubmit={e => this.onSubmit(e)}>
-                <FormInput
-                    name="username"
-                    value={username}
-                    onChange={this.onChange}
-                    type="text"
-                    label="Användarnamn"
-                    required
-                />
-                <FormInput
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    label="Mailadress"
-                    required
-                />
-                <FormInput
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    isInvalid={isPWInvalid}
-                    label="Lösenord"
-                    required
-                />
-                {error && <p>{error.message}</p>}
-                <FormInput
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    isInvalid={isPWInvalid}
-                    label="Lösenord Igen"
-                    required
-                />
-                {<p>{pwValidation(passwordOne, passwordTwo)}</p>}
-                {/*                 <label>
+            <Form onSubmit={this.onSubmit}>
+                <InputWrap>
+                    <Placeholder>Namn</Placeholder>
+                    <Input name="username" value={username} onChange={this.onChange} type="text" />
+                </InputWrap>
+                <InputWrap>
+                    <Placeholder>E-postadress</Placeholder>
+                    <Input name="email" value={email} onChange={this.onChange} type="text" />
+                </InputWrap>
+                <InputWrap>
+                    <Placeholder>Lösenord</Placeholder>
+                    <Input
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                    />
+                </InputWrap>
+                <InputWrap>
+                    <Placeholder>Lösenord igen</Placeholder>
+                    <Input
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                    />
+                </InputWrap>
+                {/*                 <Admin>
                     Admin:
                     <input
                         name="isAdmin"
@@ -157,12 +215,14 @@ class SignUpFormBase extends Component {
                         checked={isAdmin}
                         onChange={this.onChangeCheckbox}
                     />
-                </label> */}
-                <Button disabled={isInvalid} type="submit">
-                    Registrera
-                </Button>
+                </Admin> */}
+                <ButtonWrap>
+                    <SubmitButton disabled={isInvalid} type="submit">
+                        Registrera
+                    </SubmitButton>
+                </ButtonWrap>
 
-                {/* error && <p>{error.message}</p> */}
+                {error && <p>{error.message}</p>}
             </Form>
         );
     }

@@ -1,8 +1,20 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
+    margin: 0 auto;
+    width: 55%;
+    min-width: 320px;
+    height: 400px;
+    /*   padding: 100px; */
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+`;
+
+export const Myh1 = styled.h1`
+    color: green;
 `;
 
 export const Button = styled.button`

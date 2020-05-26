@@ -78,7 +78,6 @@ const Title = styled.h1`
 `;
 
 const InfoWrapper = styled.div`
-    margin-right: 50px;
     @media all and (max-width: 899px) {
         order: 1;
         width: 90vw;
