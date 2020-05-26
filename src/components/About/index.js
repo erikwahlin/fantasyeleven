@@ -6,9 +6,7 @@ import styled, { css } from 'styled-components';
 const PitchWrap = styled.div`
     position: relative;
     min-width: 576px;
-    height: 522px;
-
-    margin-bottom: 30px;
+    height: 20%;
 
     @media all and (max-width: 480px) {
         width: 100vw;
@@ -25,12 +23,7 @@ const PitchWrap = styled.div`
 
 const PitchImg = styled.img`
     width: 100%;
-
     max-width: 576px;
-    position:fixed;
-    bottom:0px;
-
-}
 
     ${p =>
         p.stageName === 'bench' &&
@@ -39,16 +32,19 @@ const PitchImg = styled.img`
         `};
 `;
 
-const InfoText = styled.div``;
+const InfoText = styled.div`
+    background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const About = ({ location }) => (
     <div
         className="AboutPage"
         style={{
             display: 'flex',
-            backgroundColor: '#E2DDDD',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             height: '100vh',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            overflow: 'hidden'
         }}
     >
         {/* <Navigation pathname={location.pathname} /> */}
@@ -66,15 +62,15 @@ const About = ({ location }) => (
             <PitchWrap>
                 <PitchImg src={pitchImg} className="PitchImg" />
             </PitchWrap>
-            {/* <div className="wrap" style={{ height: '80%' }}> */}
+
             <InfoText style={{ height: '20%' }}>
-                <h1 style={{ fontSize: '2.1em', color: '#00840A' }}>Hur fungerar det?</h1>
+                <h1 style={{ fontSize: '2.1em', color: 'white' }}>Hur fungerar det?</h1>
                 <p
                     style={{
                         width: '380px',
                         fontSize: '1.1em',
                         lineHeight: '1.5em',
-                        color: 'black'
+                        color: 'white'
                     }}
                 >
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -85,7 +81,6 @@ const About = ({ location }) => (
                     culpa qui officia deserunt mollit anim id est laborum.
                 </p>
             </InfoText>
-            {/* </div> */}
         </div>
     </div>
 );
