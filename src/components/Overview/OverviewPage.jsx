@@ -118,20 +118,6 @@ const OverviewPage = ({ overviewContext }) => {
             <SuperWrapper className="SuperWrapper">
                 <MainContent>
                     <PitchWrap className="PitchWrap">
-                        {true === false && (
-                            <>
-                                <Stake isMobile={isMobile} style={{}}>
-                                    <h5>Din insats{/*   */}</h5>
-                                    <p className="stakeSum">{team.value.tot} kr</p>
-                                </Stake>
-                                <Revenue isMobile={isMobile}>
-                                    <h6>Omsättning inför helgens omgång</h6>
-                                    <p className="revenueSum">128 000 kr</p>
-                                </Revenue>
-                                <Collapsible totalPoints={totalPoints} />
-                                <Rounds />
-                            </>
-                        )}
                         <Pitch />
                         <Bench />
                     </PitchWrap>
@@ -139,7 +125,7 @@ const OverviewPage = ({ overviewContext }) => {
                     <InfoWrapper>
                         <Title>Översikt över dina spel</Title>
                         <Stake isMobile={isMobile} style={{}}>
-                            <h5>Din insats{/*   */}</h5>
+                            <h5>Din insats</h5>
                             <p className="stakeSum">{team.value.tot} kr</p>
                         </Stake>
                         <Revenue isMobile={isMobile}>
@@ -152,31 +138,6 @@ const OverviewPage = ({ overviewContext }) => {
                     </InfoWrapper>
                 </MainContent>
                 <Round round={roundInView} roundIndex={roundInView && roundInView._id} />
-
-                {true === false && (
-                    <>
-                        <OuterWrapper>
-                            <InnerWrapper>
-                                <ResultWrap>
-                                    <Stake>
-                                        <h5>Din insats{/*   */}</h5>
-                                        <p className="stakeSum">{team.value.tot} kr</p>
-                                    </Stake>
-                                    <Revenue>
-                                        <h6>Omsättning inför helgens omgång</h6>
-                                        <p className="revenueSum"></p>
-                                    </Revenue>
-                                </ResultWrap>
-                                <Collapsible totalPoints={totalPoints} />
-                                <Rounds />
-                            </InnerWrapper>
-                        </OuterWrapper>
-                        <Arrow onClick={() => scroll.scrollToBottom()}>
-                            <IoIosArrowDown style={{ fontSize: '40px' }} />
-                        </Arrow>
-                        <Round round={roundInView} roundIndex={roundInView && roundInView._id} />
-                    </>
-                )}
             </SuperWrapper>
         </div>
     );
