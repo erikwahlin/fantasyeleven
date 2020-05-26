@@ -7,6 +7,22 @@ import apis from '../../constants/api';
 
 import { clone, userMsg, errMsg, userTemplate } from '../../constants/helperFuncs';
 
+import * as ROUTES from '../../constants/routes';
+
+const routeToNewteamMsg = userMsg({
+    message: 'Första gången? Klicka för att skapa ett nytt lag!',
+    type: 'info',
+    container: 'top-center',
+    dismiss: false
+});
+
+const routeToSigninMsg = userMsg({
+    message: 'Inte inloggad? Klicka för att logga in.',
+    type: 'info',
+    container: 'top-center',
+    dismiss: false
+});
+
 const OverviewContext = createContext(null);
 
 const initialState = {
@@ -15,7 +31,8 @@ const initialState = {
     activeRound: null,
     playedRounds: [],
     roundInView: null,
-    isMobile: window.innerWidth < 900 ? true : false
+    isMobile: window.innerWidth < 900 ? true : false,
+    notifPush: false
 };
 
 class OverviewState extends Component {
@@ -39,13 +56,16 @@ class OverviewState extends Component {
         this.userInit(user => {
             // if no user, prompt signin/up
             if (!user) {
-                userMsg({
-                    message: 'Kunde inte hitta din användar-data. Vänligen logga in på nytt.',
-                    type: 'danger',
-                    dismiss: false,
-                    onRemoval: () => this.props.history.push('/signin')
-                }).add();
-                return;
+                // suggest -> /signin
+                routeToSigninMsg.notif.onRemoval = () => {
+                    // cleanup self before redirect
+                    routeToSigninMsg.notif.onRemoval = () => {};
+                    routeToSigninMsg.remove();
+                    // go
+                    this.props.history.push(ROUTES.SIGN_IN);
+                };
+
+                return routeToSigninMsg.add();
             }
 
             // if user, get data
@@ -106,6 +126,21 @@ class OverviewState extends Component {
             .then(res => {
                 if (res.status <= 200) {
                     this.setState({ playedTeams: res.data.data }, () => {
+                        if (res.data.data.length < 1) {
+                            console.log('No registered teams found.');
+
+                            // suggest -> /newteam
+                            routeToNewteamMsg.notif.onRemoval = () => {
+                                // cleanup self before redirect
+                                routeToNewteamMsg.notif.onRemoval = () => {};
+                                routeToNewteamMsg.remove();
+                                // go
+                                this.props.history.push(ROUTES.NEWTEAM);
+                            };
+
+                            routeToNewteamMsg.add();
+                        }
+
                         if (typeof callback === 'function') callback();
 
                         // put result in played teams

@@ -12,10 +12,14 @@ const PitchInfo = ({ teamContext }) => {
 
     const ready = true;
 
-    let roundOutput = 'För tillfället finnsingen aktiv omgång';
+    let roundOutput = 'Just nu är ingen omgång aktiv.';
+    let roundReady = false;
+    let roundNotReady = true;
 
     if (round) {
         roundOutput = round.alias;
+        roundReady = true;
+        roundNotReady = false;
     }
 
     return (
@@ -29,7 +33,9 @@ const PitchInfo = ({ teamContext }) => {
 
             <Section>
                 <Key className="Key">Omgång</Key>
-                <Val className="Val round">{roundOutput}</Val>
+                <Val ready={roundReady} notReady={roundNotReady} className="Val round">
+                    {roundOutput}
+                </Val>
             </Section>
         </Wrapper>
     );

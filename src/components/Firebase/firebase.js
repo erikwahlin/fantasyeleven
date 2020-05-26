@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import * as ROUTES from '../../constants/routes';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -37,8 +38,9 @@ class Firebase {
 
     // *** Auth API ***
 
-    doCreateUserWithEmailAndPassword = (email, password) =>
+    doCreateUserWithEmailAndPassword = (email, password) => {
         this.auth.createUserWithEmailAndPassword(email, password);
+    };
 
     doSignInWithEmailAndPassword = (email, password) =>
         this.auth.signInWithEmailAndPassword(email, password);
@@ -49,7 +51,11 @@ class Firebase {
 
     doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider);
 
-    doSignOut = () => this.auth.signOut();
+    doSignOut = props => {
+        this.auth.signOut().then(() => {
+            props.history.push(ROUTES.LANDING);
+        });
+    };
 
     doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 

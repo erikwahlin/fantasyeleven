@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { AuthUserContext, withAuthentication } from '../Session';
@@ -8,94 +8,92 @@ import * as ROLES from '../../constants/roles';
 import DefaultNav from './DefaultNav';
 import DrawerNav from './DrawerNav';
 import Logo from '../Landing/fantasy11-white-logo.png';
-
+import { withAdmin } from '../Admin/AdminState';
 
 // styled(drawer)
 const LinkContainer = styled.div`
-	margin: 20px;
+    margin: 20px;
 `;
 
 const StyledLink = styled(Link)`
-	color:white;
-	font-family:'Avenir';
-	font-weight:500;
-	font-size:1.2em;
+    color: white;
+    font-family: 'Avenir';
+    font-weight: 500;
+    font-size: 1.2em;
 
-	&:hover {
-		color:#aaaaaa;
-	}
+    &:hover {
+        color: #aaaaaa;
+    }
 `;
 
 const CustomLink = styled.a`
-	color:white;
-	font-family:'Avenir';
-	font-weight:500;
-	font-size:1.2em;
+    color: white;
+    font-family: 'Avenir';
+    font-weight: 500;
+    font-size: 1.2em;
 
-	&:hover {
-		color:#aaaaaa;
-	}
+    &:hover {
+        color: #aaaaaa;
+    }
 `;
 
 const NavType = ({ location, children, ...props }) =>
-	ROUTES.slideNav.includes(location.pathname) ? (
-		<DrawerNav location={location} {...props}>
-			{children}
-		</DrawerNav>
-	) : (
-			<DefaultNav location={location} {...props}>
-				{children}
-			</DefaultNav>
-		);
+    ROUTES.slideNav.includes(location.pathname) ? (
+        <DrawerNav location={location} {...props}>
+            {children}
+        </DrawerNav>
+    ) : (
+        <DefaultNav location={location} {...props}>
+            {children}
+        </DefaultNav>
+    );
 
 const NavRoutes = ({ routeList, user }) => {
-	const routes = ROUTES[routeList].filter(r =>
-		r.pathname === '/admin' && !user.roles.includes('ADMIN') ? false : true
-	);
+    const routes = ROUTES[routeList].filter(r =>
+        r.pathname === '/admin' && !user.roles.includes('ADMIN') ? false : true
+    );
 
-	return routes.map(route => (
-		<LinkContainer key={route.pathname} className={`navlink-${route.pathname} navLink`}>
-			<StyledLink to={route.pathname}>
-				{route.pathname === '/account' ? user.username : route.title}
-			</StyledLink>
-		</LinkContainer>
-	));
+    return routes.map(route => (
+        <LinkContainer key={route.pathname} className={`navlink-${route.pathname} navLink`}>
+            <StyledLink to={route.pathname}>
+                {route.pathname === '/account' ? user.username : route.title}
+            </StyledLink>
+        </LinkContainer>
+    ));
 };
 
 const Navigation = ({ user, ...props }) => (
-	<NavType {...props}>
-		{user ? (
-			<>
-				{<NavRoutes routeList="loggedIn" user={user} />}
-				<hr />
-				<br />
+    <NavType {...props}>
+        {user ? (
+            <>
+                {<NavRoutes routeList="loggedIn" user={user} />}
+                <hr />
+                <br />
+            </>
+        ) : (
+            <NavRoutes routeList="loggedOut" />
+        )}
+        {!user && (
+            <LinkContainer className="landing-btn-container">
+                <Link className="landing-btn" to={ROUTES.SIGN_UP}>
+                    Skapa konto
+                </Link>
 
-			</>
-		) : (
-				<NavRoutes routeList="loggedOut" />
-			)}
-		{!user &&
-			<LinkContainer className='landing-btn-container'>
-				<Link className="landing-btn" to={ROUTES.SIGN_UP}>
-					Skapa konto
-					</Link>
+                <Link className="landing-btn" to={ROUTES.SIGN_IN}>
+                    Logga in
+                </Link>
+            </LinkContainer>
+        )}
 
-				<Link className="landing-btn" to={ROUTES.SIGN_IN}>
-					Logga in
-					</Link>
-
-			</LinkContainer>
-		}
-
-		{user &&
-			<LinkContainer className={`navLink`}>
-				<CustomLink onClick={() => props.firebase.doSignOut()}>
-					Logga ut
-				</CustomLink>
-			</LinkContainer>
-		}
-	</NavType>
-)
+        {user && (
+            <LinkContainer className={`navLink`}>
+                <CustomLink onClick={() => props.firebase.doSignOut({ ...props })}>
+                    Logga ut
+                </CustomLink>
+            </LinkContainer>
+        )}
+    </NavType>
+);
 
 /* const Navigation = ({ pathname }) => (
 	<AuthUserContext.Consumer>
@@ -124,8 +122,6 @@ export default withAuthentication(withRouter(Navigation));
 
  */
 
-
-
 /* const NavigationAuth = ({ authUser, pathname }) => (
 	<Wrapper className="Navigation" pathname={pathname}>
 
@@ -144,7 +140,6 @@ export default withAuthentication(withRouter(Navigation));
 /* 			<li>
 				<StyledLink to={ROUTES.ACCOUNT}>Hur fungerar det?</StyledLink>
 			</li> */
-
 
 /* 			{authUser.roles ? (
 				<>
@@ -192,5 +187,3 @@ export default withAuthentication(withRouter(Navigation));
 		</li>
 	</ul>
 ); */
-
-

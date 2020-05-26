@@ -40,7 +40,7 @@ export const Key = styled.h2`
 `;
 
 export const Val = styled.p`
-    color: ${p => (p.notReady ? 'red' : p.ready ? '#35892A' : 'white')};
+    color: ${p => (p.notReady ? 'red' : p.ready ? '#00840A' : 'white')};
     font-size: 24px;
 
     @media all and (max-width: 899px) {
@@ -60,9 +60,9 @@ export const Val = styled.p`
 export const Button = styled.button`
     width: 100px;
     height: 35px;
-    background: #005C07;
+    background: #005c07;
     color: white;
-    border: #005C07 solid 2px;
+    border: #005c07 solid 2px;
     border-radius: 1px;
     outline: none;
     cursor: pointer;
