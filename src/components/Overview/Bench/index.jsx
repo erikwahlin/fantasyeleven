@@ -79,7 +79,15 @@ const Bench = ({ overviewContext }) => {
 
     if (!team) return fallback;
 
-    const { players, captain, viceCaptain } = team;
+    const { captain, viceCaptain } = team;
+
+    let players = team.players;
+
+    if (roundInView) {
+        if (roundInView.result.list.length > 0) {
+            players = roundInView.result;
+        }
+    }
 
     return (
         <Wrapper className="Bench Wrapper">
@@ -87,10 +95,12 @@ const Bench = ({ overviewContext }) => {
                 <PlayerContainer key={`pos-${nth}`} className={`PlayerContainer ${pos}`}>
                     <Plupp
                         pos={pos}
-                        player={team.players.bench[pos][0]}
+                        player={players.bench[pos][0]}
                         lineupCount={players.bench[pos].length}
                         lineupIndex={0}
                         origin="bench"
+                        isCap={players.bench[pos]._id === captain._id}
+                        isVice={players.bench[pos]._id === viceCaptain._id}
                     />
                 </PlayerContainer>
             ))}
