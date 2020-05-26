@@ -19,7 +19,6 @@ const Title = styled.div`
 `;
 
 const CaptainCard = ({ children, cap, obj }) => {
-    console.log('captain card', obj);
     return (
         <Wrapper>
             <Title>{children}</Title>

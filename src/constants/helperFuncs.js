@@ -157,7 +157,7 @@ export const userMsg = props => {
         insert: 'top',
         container: 'bottom-center',
         animationIn: ['animated', 'fadeIn'],
-        animationOut: ['animated', 'fadeOut', 'slow'],
+        animationOut: ['animated', 'fadeOut', 'fast'],
         dismiss: {
             duration: 10000,
             waitForAnimation: true,
@@ -183,6 +183,13 @@ export const userMsg = props => {
         if (!self.id) return console.error('Notification has no id.');
 
         store.removeNotification(self.id);
+    };
+
+    self.update = props => {
+        Object.keys(props).forEach(prop => {
+            self[prop] = props[prop];
+            console.log('updated notif prop', prop, 'to', props[prop]);
+        });
     };
 
     return self;

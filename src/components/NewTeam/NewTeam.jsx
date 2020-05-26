@@ -11,6 +11,7 @@ import {
 } from '../../constants/helperFuncs';
 import * as preset from '../../constants/gamePreset';
 import TeamContext from './ctx';
+import * as ROUTES from '../../constants/routes';
 import INITIAL_STATE, { allPlayers } from './config';
 import PlayerSearch from '../PlayerSearch';
 import '../PlayerSearch/styles.css';
@@ -21,6 +22,12 @@ import { withAuthentication } from '../Session';
 import { withRouter } from 'react-router-dom';
 
 import apis from '../../constants/api';
+
+const routeToSignupMsg = userMsg({
+    message: 'Klicka här för att skapa ett konto och lämna in ditt lag!',
+    type: 'info',
+    container: 'top-center'
+});
 
 const ContentWrap = styled.div`
     margin-top: 50px !important;
@@ -90,6 +97,9 @@ class NewTeam extends Component {
         this.clientLoad = this.clientLoad.bind(this);
         this.clientSave = this.clientSave.bind(this);
 
+        this.saveStageInSession = this.saveStageInSession.bind(this);
+        this.loadStageFromSession = this.loadStageFromSession.bind(this);
+
         this.setters = {
             updateNewTeam: this.updateNewTeam,
             addPlayer: this.addPlayer,
@@ -101,11 +111,13 @@ class NewTeam extends Component {
             toggleMobileSearch: this.toggleMobileSearch,
             setStage: this.setStage,
             updateFilterKeys: this.updateFilterKeys,
-            registerTeam: this.registerTeam
+            registerTeam: this.registerTeam,
+            saveStageInSession: this.saveStageInSession
         };
     }
 
     componentDidMount = () => {
+        this.loadStageFromSession();
         this.readActiveRound();
         this.readPlayers(() => {
             this.updatesearchablePlayers(async () => {
@@ -160,6 +172,32 @@ class NewTeam extends Component {
                 if (typeof callback === 'function') callback(false);
             }
         );
+    };
+
+    /*
+     * LATEST BUILDSTAGE
+     * * * * * * * * * * */
+    saveStageInSession = () => {
+        sessionStorage.setItem('buildStage', JSON.stringify(this.state.config.buildStage));
+        console.log('Remembering current buildStage in sessionStorage.');
+    };
+
+    loadStageFromSession = () => {
+        if (this.props.history.action !== 'POP') {
+            return console.log('Came from other route. Serving first buildStage.');
+        }
+
+        const latestStage = sessionStorage.getItem('buildStage') || null;
+        if (!latestStage) {
+            return console.log('Latest buildStage not found in session. Serving first buildStage.');
+        }
+
+        const config = clone(this.state.config);
+        config.buildStage = JSON.parse(latestStage);
+
+        this.setState({ config }, () => {
+            console.log('Serving latest buildStage from sessionStorage.');
+        });
     };
 
     /*
@@ -304,17 +342,23 @@ class NewTeam extends Component {
         };
         this.clientSave(lsTeam);
 
+        if (!user) {
+            // suggest -> /signup
+            routeToSignupMsg.notif.onRemoval = () => {
+                // cleanup self before redirection
+                routeToSignupMsg.notif.onRemoval = () => {};
+                routeToSignupMsg.remove();
+                // go
+                this.props.history.push(ROUTES.SIGN_UP, this.props.history.location.pathname);
+            };
+
+            return routeToSignupMsg.add();
+        }
+
         if (!round) {
             return userMsg({
                 message:
-                    'Ingen kommande omgång registrerad för tillfället, vänligen återkom senare.',
-                type: 'warning'
-            }).add();
-        }
-
-        if (!user) {
-            return userMsg({
-                message: 'Vänligen skapa ett konto',
+                    'Just nu finns ingen aktiv omgång att delta i. Kom tillbaka och prova snart igen!',
                 type: 'warning'
             }).add();
         }
@@ -696,7 +740,12 @@ class NewTeam extends Component {
      * INDIRECT DOM INTERACTION
      * * * * * * * * * * * * * * */
     setStage = newStage => {
-        this.setState(ps => ({ config: { ...ps.config, buildStage: newStage } }));
+        this.setState(
+            ps => ({ config: { ...ps.config, buildStage: newStage } }),
+            () => {
+                this.saveStageInSession();
+            }
+        );
     };
 
     toggleMobileSearch = () => {
