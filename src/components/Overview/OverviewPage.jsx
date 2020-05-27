@@ -75,16 +75,15 @@ const MainContent = styled.div`
 
 const Title = styled.h1`
     text-align: center;
-    font-weight:500;
-    font-size:1.8em;
-
+    font-weight: 500;
+    font-size: 1.8em;
 `;
 
 const Title2 = styled.h1`
     text-align: left;
-    font-weight:500;
-    font-size:1.8em;
-    margin-left:5%;
+    font-weight: 500;
+    font-size: 1.8em;
+    margin-left: 5%;
 `;
 
 const InfoWrapper = styled.div`
@@ -128,37 +127,14 @@ const OverviewPage = ({ overviewContext }) => {
             <SuperWrapper className="SuperWrapper">
                 <MainContent>
                     <PitchWrap className="PitchWrap">
-<<<<<<< HEAD
-                        <Title2>Ditt lag</Title2>
-                        {true === false && (
-                            <>
-                                <Stake>
-                                    <h5>Din insats{/*   */}</h5>
-                                    <p className="stakeSum">{team.value.tot} kr</p>
-                                </Stake>
-                                <Revenue>
-                                    <h6>Omsättning inför helgens omgång</h6>
-                                    <p className="revenueSum">128 000 kr</p>
-                                </Revenue>
-                                <Collapsible totalPoints={totalPoints} />
-                                <Rounds />
-                            </>
-                        )}
-=======
->>>>>>> dev
                         <Pitch />
                         <Bench />
                     </PitchWrap>
 
                     <InfoWrapper>
                         <Title>Översikt över dina spel</Title>
-<<<<<<< HEAD
-                        <Stake>
-                            <h5>Din insats{/*   */}</h5>
-=======
-                        <Stake isMobile={isMobile} style={{}}>
+                        <Stake /* isMobile={isMobile} */ style={{}}>
                             <h5>Din insats</h5>
->>>>>>> dev
                             <p className="stakeSum">{team.value.tot} kr</p>
                         </Stake>
                         <Revenue>
