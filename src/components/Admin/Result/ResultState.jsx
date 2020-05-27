@@ -46,6 +46,11 @@ class ResultState extends Component {
         this.setState({ newRes }, () => {
             this.setState({ saved: false });
         });
+
+        console.log(
+            'ROUND STAT USERS',
+            this.props.adminContext.state.rounds[this.props.roundIndex].users
+        );
     };
 
     stepUpdater = ({ step = this.state.step, substep = this.state.substep }) => {
@@ -58,6 +63,8 @@ class ResultState extends Component {
         const newRound = clone(rounds[this.props.roundIndex]);
 
         newRound.matches = this.state.newRes;
+
+        console.log('ROUND STAT USERS', newRound.users);
 
         newRound.updated.unshift(updatedStamp({ user, tag: `Result ${key}` }));
 

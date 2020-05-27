@@ -108,7 +108,11 @@ const Navigation = ({ user, ...props }) => (
             <LinkContainer className={`navLink`}>
                 <MdExitToApp />
                 &nbsp;&nbsp;
-                <CustomLink onClick={() => props.firebase.doSignOut({ ...props })}>
+                <CustomLink
+                    onClick={() => {
+                        props.firebase.doSignOut({ ...props });
+                    }}
+                >
                     Logga ut
                 </CustomLink>
             </LinkContainer>

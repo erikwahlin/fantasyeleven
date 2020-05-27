@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Button, Popconfirm } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const Wrapper = styled.div`
     align-items: center;
@@ -86,5 +87,29 @@ export const ButtonStandard = styled(Button)`
         p.customstyle &&
         css`
             ${p.customstyle}
+        `}
+`;
+
+export const Loading = styled(LoadingOutlined)`
+    font-size: 40px;
+    position: fixed;
+    right: 50vw;
+    top: 50vh;
+
+    ${p =>
+        p.position === 'relative' &&
+        css`
+            position: relative;
+            left: 0;
+            right: unset;
+            top: 0;
+            bottom: unset;
+            text-align: center;
+        `}
+
+    ${p =>
+        p.customStyle &&
+        css`
+            ${p.customStyle}
         `}
 `;

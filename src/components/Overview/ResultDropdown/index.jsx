@@ -42,10 +42,11 @@ const ResultDropdown = ({
     totalPoints,
     rank,
     award,
+    awardPercent,
+    totalTeamValue,
     attendedPlayers = 0,
     highestPoint,
-    lowestPoint,
-    awardPercent
+    lowestPoint
 }) => {
     const { user, playedRounds, roundInView } = overviewContext.state;
     const { setRoundInView } = overviewContext.setters;
@@ -66,7 +67,7 @@ const ResultDropdown = ({
                     : totalPoints <= 5
                     ? 'red'
                     : '#000',
-            description: `Högst: ${highestPoint}, lägst: ${lowestPoint}`
+            description: attendedPlayers > 1 ? `Omfång: ${lowestPoint} - ${highestPoint}` : null
         },
         {
             key: 'Rankingplats',
@@ -83,13 +84,14 @@ const ResultDropdown = ({
                     : rank > 100
                     ? 'red'
                     : '#000',
-            description: `utav totalt ${attendedPlayers} deltagare`
+            description: `Deltagare: ${attendedPlayers}`
         },
         {
             key: 'Utdelning',
             val: `${award} kr`,
+            extraVal: `(${awardPercent}%)`,
             color: award >= 99 ? '#00840A' : award >= 49 ? '#19261A' : award < 1 ? 'red' : '#000',
-            description: `${awardPercent}% av totalpotten`
+            description: `Potten: ${totalTeamValue} kr`
         }
     ];
 
@@ -101,7 +103,45 @@ const ResultDropdown = ({
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel header={'Resultat'} key="1" style={{ fontSize: '1.1em', fontWeight: '500' }}>
+            <Panel
+                header={
+                    <p style={{ margin: '0' }}>
+                        RESULTAT
+                        <span
+                            style={{
+                                marginLeft: '5vw',
+                                fontSize: '3vw',
+                                fontWeight: '700',
+                                color: config[0].color
+                            }}
+                        >
+                            {totalPoints}p
+                        </span>
+                        <span
+                            style={{
+                                marginLeft: '5vw',
+                                fontSize: '3vw',
+                                fontWeight: '700',
+                                color: config[1].color
+                            }}
+                        >
+                            {rank}:plats
+                        </span>
+                        <span
+                            style={{
+                                marginLeft: '5vw',
+                                fontSize: '3vw',
+                                fontWeight: '700',
+                                color: config[2].color
+                            }}
+                        >
+                            {award} kr
+                        </span>
+                    </p>
+                }
+                key="1"
+                style={{ fontSize: '1.1em', fontWeight: '500' }}
+            >
                 <List
                     itemLayout="vertical"
                     dataSource={config}
@@ -122,6 +162,11 @@ const ResultDropdown = ({
                                             >
                                                 {result.val}
                                             </span>
+                                            {result.extraVal && (
+                                                <span style={{ marginLeft: '10px' }}>
+                                                    {result.extraVal}
+                                                </span>
+                                            )}
                                         </p>
                                     </>
                                 }

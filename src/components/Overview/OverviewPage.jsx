@@ -65,7 +65,7 @@ const SuperWrapper = styled.div`
 `;
 
 const MainContent = styled.div`
-    width: 90%;
+    width: 100%;
     height: fit-content;
     display: flex;
     flex-wrap: wrap;
@@ -87,6 +87,7 @@ const Title2 = styled.h1`
 `;
 
 const InfoWrapper = styled.div`
+    margin: auto;
     @media all and (max-width: 899px) {
         order: 1;
         width: 100vw;
@@ -144,8 +145,12 @@ const OverviewPage = ({ overviewContext }) => {
                 }
             });
 
+            totalTeamValue = Math.round(totalTeamValue);
+
             if (rank > 0) {
                 award = rank === 1 ? totalTeamValue * 0.75 : rank === 2 ? totalTeamValue * 0.25 : 0;
+                award = Math.round(award);
+
                 awardPercent = rank === 1 ? 75 : rank === 2 ? 25 : 0;
             }
         }
@@ -169,12 +174,13 @@ const OverviewPage = ({ overviewContext }) => {
                             <p className="stakeSum">{team.value.tot} kr</p>
                         </Stake>
                         <Revenue>
-                            <h6>Omsättning inför helgens omgång</h6>
-                            <p className="revenueSum">128 000 kr</p>
+                            <h6>Total omsättning för denna omgång</h6>
+                            <p className="revenueSum">{totalTeamValue} kr</p>
                         </Revenue>
                         {/* <Collapsible totalPoints={totalPoints} /> */}
                         <ResultDropdown
                             totalPoints={totalPoints}
+                            totalTeamValue={totalTeamValue}
                             rank={rank}
                             award={award}
                             awardPercent={awardPercent}

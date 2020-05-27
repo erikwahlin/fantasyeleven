@@ -53,7 +53,10 @@ class Firebase {
 
     doSignOut = props => {
         this.auth.signOut().then(() => {
-            props.history.push(ROUTES.LANDING);
+            //console.log(window.location, window.location.href, window.location.hostname);
+            window.location.href = window.location.origin;
+
+            //props.history.push(ROUTES.LANDING);
         });
     };
 

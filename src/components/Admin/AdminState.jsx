@@ -260,6 +260,8 @@ class AdminState extends Component {
             return errMsg('Logga in på nytt med admin-rättigheter.').add();
         }
 
+        console.log('round to update', newRound.users);
+
         const update = async (round, conf = true) => {
             await apis
                 .update({ action: 'updateRound', payload: round })
