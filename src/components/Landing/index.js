@@ -76,17 +76,16 @@ const PlayBtn = styled.button`
         background-color: rgba(91, 170, 69, 0.3);
     }
     @media all and (max-width: 1200px) {
-        right: 40vw;
+        right: 33vw;
         bottom: 10%;
+        width: 33vw;
     }
     @media all and (max-width: 931px) {
-        right: 30vw;
-        width: 30vw;
         font-size: 30px;
     }
     @media all and (max-width: 776px) {
         width: 100vw;
-        font-size: 5vw;
+        font-size: 35px;
         right: 0;
         bottom: 0;
     }
