@@ -120,6 +120,7 @@ const Pitch = ({ overviewContext }) => {
             players = roundInView.result;
         }
     }
+
     console.log(players);
     // team value
     const teamValue = players.list

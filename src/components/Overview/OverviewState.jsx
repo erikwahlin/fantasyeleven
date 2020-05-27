@@ -13,14 +13,14 @@ const routeToNewteamMsg = userMsg({
     message: 'Första gången? Klicka för att skapa ett nytt lag!',
     type: 'info',
     container: 'top-center',
-    dismiss: false
+    dismiss: { duration: 10000 }
 });
 
 const routeToSigninMsg = userMsg({
     message: 'Inte inloggad? Klicka för att logga in.',
     type: 'info',
     container: 'top-center',
-    dismiss: false
+    dismiss: { duration: 10000 }
 });
 
 const OverviewContext = createContext(null);

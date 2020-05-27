@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { withOverview } from '../OverviewState';
 
 import {
-    ContentWrap,
+    valWrap,
     OuterWrapper,
     InnerWrapper,
     PitchWrap,
@@ -17,7 +17,7 @@ import { Collapse, Select, List } from 'antd';
 const { Panel } = Collapse;
 const { Option } = Select;
 
-const InfoTitle = styled.h2`
+const Infokey = styled.h2`
     margin: 0;
     margin-bottom: 0.2rem;
 
@@ -33,7 +33,7 @@ const InfoTitle = styled.h2`
 
 const CustomCollapse = styled(Collapse)`
     width: 100%;
-    max-width:576px;
+    max-width: 576px;
     margin: 20px auto;
 `;
 
@@ -43,18 +43,32 @@ const Rounds = ({ overviewContext, totalPoints }) => {
     console.log(playedRounds);
     const [collapseKey, setCollapseKey] = useState(false);
 
+    // TEMP
+    const rank = Math.floor(Math.random * 12);
+    const award = Math.floor(Math.random * 120);
+
     const config = [
         {
-            title: 'Totalpoäng',
-            content: totalPoints
+            key: 'TotalPoäng',
+            val: totalPoints,
+            color:
+                totalPoints > 20
+                    ? '#00840A'
+                    : totalPoints > 10
+                    ? '#19261A'
+                    : totalPoints <= 0
+                    ? 'red'
+                    : '#000'
         },
         {
-            title: 'Din anking',
-            content: '1'
+            key: 'Din Ranking',
+            val: '1',
+            color: rank <= 3 ? '#00840A' : rank <= 20 ? '#19261A' : rank > 100 ? 'red' : '#000'
         },
         {
-            title: 'Utdelning',
-            content: '22 000 kr'
+            key: 'Utdelning',
+            val: '22 000 kr',
+            color: award >= 99 ? '#00840A' : award >= 49 ? '#19261A' : award < 1 ? 'red' : '#000'
         }
     ];
 
@@ -62,7 +76,7 @@ const Rounds = ({ overviewContext, totalPoints }) => {
 
     return (
         <CustomCollapse
-            className="unmarkable"
+            classkey="unmarkable"
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
@@ -70,26 +84,27 @@ const Rounds = ({ overviewContext, totalPoints }) => {
                 <List
                     itemLayout="vertical"
                     dataSource={config}
-                    renderItem={round => (
-                        <List.Item
-                            key={config.title}
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => setRoundInView(round)}
-                        >
+                    renderItem={result => (
+                        <List.Item key={config.key}>
                             <List.Item.Meta
                                 title={
                                     <>
-                                        <p
-                                            style={{
-                                                fontWeight:
-                                                    round._id === roundInView._id ? '700' : 'normal'
-                                            }}
-                                        >
-                                            {round.title}
+                                        <p>
+                                            {result.key}{' '}
+                                            <span
+                                                style={{
+                                                    fontSize: '1.2em',
+                                                    fontWeight: '700',
+                                                    marginLeft: '10px',
+                                                    color: result.color
+                                                }}
+                                            >
+                                                {result.val}
+                                            </span>
                                         </p>
                                     </>
                                 }
-                                description={`${round.content}`}
+                                /* description={`${round.val}`} */
                             />
                         </List.Item>
                     )}
