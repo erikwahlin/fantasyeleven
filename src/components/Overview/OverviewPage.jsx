@@ -87,7 +87,7 @@ const Title2 = styled.h1`
 `;
 
 const InfoWrapper = styled.div`
-    margin: auto;
+    margin: 0 auto;
     @media all and (max-width: 899px) {
         order: 1;
         width: 100vw;
@@ -163,6 +163,7 @@ const OverviewPage = ({ overviewContext }) => {
             <SuperWrapper className="SuperWrapper">
                 <MainContent>
                     <PitchWrap className="PitchWrap">
+                        <Title2>Ditt lag</Title2>
                         <Pitch />
                         <Bench />
                     </PitchWrap>

@@ -32,9 +32,13 @@ const Infokey = styled.h2`
 `;
 
 const CustomCollapse = styled(Collapse)`
-    width: 100%;
+    width: 300px;
     max-width: 576px;
     margin: 20px auto;
+
+       @media all and (max-width: 899px) {
+       min-width:576px;
+    }
 `;
 
 const ResultDropdown = ({
@@ -57,16 +61,16 @@ const ResultDropdown = ({
 
     const config = [
         {
-            key: 'TotalPoäng',
+            key: 'Totalpoäng',
             val: totalPoints,
             color:
                 totalPoints > 30
                     ? '#00840A'
                     : totalPoints > 15
-                    ? '#23540A'
-                    : totalPoints <= 5
-                    ? 'red'
-                    : '#000',
+                        ? '#23540A'
+                        : totalPoints <= 5
+                            ? 'red'
+                            : '#000',
             description: attendedPlayers > 1 ? `Omfång: ${lowestPoint} - ${highestPoint}` : null
         },
         {
@@ -76,14 +80,14 @@ const ResultDropdown = ({
                 rank === roundInView.users.length
                     ? 'red'
                     : rank <= 3
-                    ? '#00840A'
-                    : rank <= 10
-                    ? '#23540A'
-                    : rank > 10
-                    ? 'orange'
-                    : rank > 100
-                    ? 'red'
-                    : '#000',
+                        ? '#00840A'
+                        : rank <= 10
+                            ? '#23540A'
+                            : rank > 10
+                                ? 'orange'
+                                : rank > 100
+                                    ? 'red'
+                                    : '#000',
             description: `Deltagare: ${attendedPlayers}`
         },
         {
@@ -106,11 +110,11 @@ const ResultDropdown = ({
             <Panel
                 header={
                     <p style={{ margin: '0' }}>
-                        RESULTAT
+                        RESULTAT<br />
                         <span
                             style={{
-                                marginLeft: '5vw',
-                                fontSize: '3vw',
+                                /* marginLeft: '2vw', */
+                                fontSize: '1.2em',
                                 fontWeight: '700',
                                 color: config[0].color
                             }}
@@ -119,8 +123,8 @@ const ResultDropdown = ({
                         </span>
                         <span
                             style={{
-                                marginLeft: '5vw',
-                                fontSize: '3vw',
+                                marginLeft: '2vw',
+                                fontSize: '1.2em',
                                 fontWeight: '700',
                                 color: config[1].color
                             }}
@@ -129,8 +133,8 @@ const ResultDropdown = ({
                         </span>
                         <span
                             style={{
-                                marginLeft: '5vw',
-                                fontSize: '3vw',
+                                marginLeft: '2vw',
+                                fontSize: '1.2em',
                                 fontWeight: '700',
                                 color: config[2].color
                             }}
