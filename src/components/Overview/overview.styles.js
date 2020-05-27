@@ -54,8 +54,8 @@ export const InnerWrapper = styled.div`
     margin: 0 auto;
 
 /*     ${p =>
-    p.isMobile &&
-    css`
+        p.isMobile &&
+        css`
         position: fixed;
         z-index: 1;
         height: 100%;
@@ -122,26 +122,41 @@ export const Stake = styled.div`
         font-size: 1.1em;
         color: black;
         margin-bottom: -5px;
+        
     }
 
-    background-color: ${p => (p.isMobile ? '#e2dddd' : '#e2dddd')};
-    width: ${p => (p.isMobile ? '100%' : '300px')};
+    background-color: #e2dddd;
+    max-width:576px;
+    width: 300px;
     height: auto;
     padding-left: 30px;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 3px;
+    margin:0 auto;
+
+      @media all and (max-width: 899px) {
+        width:100%;
+        max-width:576px;
+    }
 `;
 
 export const Revenue = styled.div`
     background-color: #00840a;
     color: white;
-    width: ${p => (p.isMobile ? '100%' : '300px')};
+    width: 300px;
+    max-width:576px;
     height: auto;
     padding-left: 30px;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 50px;
+    margin:0 auto;
+
+        @media all and (max-width: 899px) {
+        width:100%;
+        max-width:576px;
+    }
 `;
 
 export const Payout = styled.div`

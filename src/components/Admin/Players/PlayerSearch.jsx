@@ -418,15 +418,7 @@ class PlayerSearch extends Component {
                     <OuterWrapper className="OuterWrapper PlayerSearch">
                         <InnerWrapper className="InnerWrapper PlayerSearch">
                             <>
-                                <button
-                                    style={{
-                                        border: '1px solid #2f3e55',
-                                        color: 'white',
-                                        padding: '5px',
-                                        marginBottom: '5px',
-                                        fontWeight: '700',
-                                        outline: 'none'
-                                    }}
+                                <ButtonReset
                                     onClick={() =>
                                         this.setState({
                                             newPlayer: !this.state.newPlayer,
@@ -436,7 +428,7 @@ class PlayerSearch extends Component {
                                 >
                                     Lägg till ny spelare
                                     <FaUserPlus style={{ position: 'relative', left: '10px' }} />
-                                </button>
+                                </ButtonReset>
                                 <Title className="SearchPlayer-Title unmarkable">
                                     Sök befintlig spelare
                                 </Title>

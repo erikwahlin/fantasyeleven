@@ -28,6 +28,7 @@ export const Wrapper = styled.div`
     }
 
     & .ant-tabs-bar {
+    
         ${p =>
             (p.tabPos === 'top' || p.tabPos === 'bottom') &&
             css`

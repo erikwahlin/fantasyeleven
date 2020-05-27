@@ -33,7 +33,8 @@ const InfoTitle = styled.h2`
 
 const CustomCollapse = styled(Collapse)`
     width: 100%;
-    margin: 20px 0;
+    max-width:576px;
+    margin: 20px auto;
 `;
 
 const Rounds = ({ overviewContext }) => {
@@ -50,7 +51,7 @@ const Rounds = ({ overviewContext }) => {
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel header={`Visar omgång ${roundInView.alias}`} key="1">
+            <Panel header={`Visar omgång ${roundInView.alias}`} key="1" style={{ fontSize: '1.1em', fontWeight: '500' }}>
                 <List
                     itemLayout="vertical"
                     dataSource={playedRounds}

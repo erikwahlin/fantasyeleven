@@ -4,7 +4,7 @@ import { withAdmin } from '../AdminState';
 import styled, { css } from 'styled-components';
 
 import { Wrapper, OptionsWrapper } from '../template/wrapperTemplate';
-import Arrow from '../../../media/arrow.svg';
+import Arrow from '../../../media/arrowG.svg';
 import ArrowB from '../../../media/arrowB.svg';
 
 import { clone, updatedStamp, roundStatus, timestamp } from '../../../constants/helperFuncs';
@@ -30,20 +30,23 @@ const Header = styled.div`
 
     cursor: pointer;
 
-    background: ${p => (p.open ? 'rgba(255,255,255,0.1)' : '#fff')};
-    color: ${p => (p.open ? '#fff' : '#000')};
+    background: ${p => (p.open ? '#E2DDDD' : '#E2DDDD')};
+    color: ${p => (p.open ? '#000' : '#000')};
 `;
 
 const Title = styled.h2`
-    color: ${p => (p.open ? '#fff' : '#000')};
+    color: ${p => (p.open ? '#000' : '#000')};
+    font-weight:500;
+    font-size:1.2em;
     & span {
-        font-weight: 700;
+        font-weight: 500;
     }
 `;
 
 const TitleSpan = styled.span`
-    font-size: 14px;
-    color: ${p => (p.status === 'Aktiv' ? 'green' : p.status === 'Avslutad' ? 'orange' : '#fff')};
+    font-size: 13px;
+    color: ${p => (p.status === 'Aktiv' ? 'green' : p.status === 'Avslutad' ? 'red' : '#fff')};
+    font-style:italic;
 `;
 
 const ArrowIcon = styled.img`

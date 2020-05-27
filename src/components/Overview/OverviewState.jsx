@@ -15,7 +15,7 @@ const initialState = {
     activeRound: null,
     playedRounds: [],
     roundInView: null,
-    isMobile: window.innerWidth < 900 ? true : false
+
 };
 
 class OverviewState extends Component {

@@ -101,7 +101,7 @@ export const ArrowWrapper = styled.div`
 `;
 
 export const Title = styled.h2`
-    font-size: 1em;
+    font-size: 1.3em;
     line-height: 30px; /* in line with titles above pitch */
     margin: 0;
     margin-bottom: 12px;
@@ -172,13 +172,14 @@ export const StyledBtn = styled.button`
 export const ButtonDes = styled(StyledBtn)``;
 export const ButtonAsc = styled(StyledBtn)``;
 export const ButtonReset = styled(StyledBtn)`
-background-color: #00840A;
+background-color: rgba(36,132,10, 0.6);
     margin-bottom: 20px;
+    font-weight:500;
     width: 100%;
-    border: 1px solid #2f3e55;
+    border: none;
     padding: 10px;
     &:hover {
-        background: #2b3854;
+        background: rgba(91, 170, 69, 0.3);
     }
 `;
 
@@ -215,6 +216,7 @@ export const LabelRow = styled.div`
     font-weight: 700;
     font-size: 1em;
     min-height: 30px !important;
+    padding-left:20px;
 `;
 
 export const PlayerRow = styled.div`
@@ -228,6 +230,7 @@ export const PlayerRow = styled.div`
     border-bottom: 3px solid black;
     font-size: 1em !important;
     min-height: 60px !important;
+    padding-left:20px;
 `;
 
 export const PlayerInfoBtn = styled.button`

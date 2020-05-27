@@ -10,12 +10,23 @@ const MyForm = styled.form`
     flex-direction: column;
     color: #d3d6dc;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     font-family: 'Avenir';
+    width:300px;
+
+    & p {
+        
+    font-family: 'Avenir';
+    font-size: 1.2em;
+    color: white; 
+    margin-bottom:4px;
+    font-weight:500;
+
+    }
 `;
 
 const MyInput = styled.input`
-    background-color: #e2dddd;
+    background: #e2dddd;
     border: none;
     color: black;
     padding: 8px;
@@ -26,26 +37,28 @@ const MyInput = styled.input`
 `;
 
 const MySelect = styled.select`
-    background-color: #e2dddd;
+    background: #e2dddd;
     border: none;
     color: black;
     margin-bottom: 20px;
     outline: none;
     -webkit-appearance: menulist-button;
-    height: 33px;
+    height: 40px;
+    padding:8px;
 `;
 
 const MyButton = styled.button`
-    background-color:#438510;
+    border:none;
+    background-color:rgba(36,132,10, 0.6);
     color: white;
     padding: 5px;
     margin-bottom: 5px;
     min-width: 230px;
-    font-weight: normal;
-    outline: none;
+    font-weight: 500;
+    height:40px;
 
     &:hover {
-        background: #2f3e55;
+        background: rgba(91, 170, 69, 0.3);
     }
 `;
 
@@ -157,8 +170,9 @@ const EditPlayer = ({ adminContext, editPlayer, deletePlayerCallback }) => {
                     />
                 </MySelect>
                 <MyButton type="submit">Spara</MyButton>
+                <MyButton onClick={deleteConfirm}>Ta bort spelare</MyButton>
             </MyForm>
-            <MyButton onClick={deleteConfirm}>Ta bort spelare</MyButton>
+            
         </div>
     );
 };
