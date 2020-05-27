@@ -54,8 +54,9 @@ const DrawerStyled = styled(Drawer)`
     }
 `;
 
+const iconConfig = [];
+
 const DrawerNav = ({ user, location, children: links, ...props }) => {
-    console.log(links);
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
         setVisible(true);

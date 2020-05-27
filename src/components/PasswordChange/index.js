@@ -133,7 +133,7 @@ class PasswordChangeForm extends Component {
                 </InputWrap>
                 <ButtonWrap>
                     <SubmitButton disabled={isInvalid} type="submit">
-                        Återställ lösenord
+                        Ändra lösenord
                     </SubmitButton>
                 </ButtonWrap>
                 {error && <p>{error.message}</p>}

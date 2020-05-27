@@ -11,11 +11,12 @@ import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 import Navigation from '../Navigation';
 import styled from 'styled-components';
+import { FaUser } from 'react-icons/fa';
 
 const StyledH1 = styled.h1`
     text-align: center;
     /* margin-top: 20px; */
-    font-size: 3em;
+    font-size: 1.1em;
     padding: 20px;
 `;
 
@@ -62,12 +63,16 @@ const AccountPage = ({ location }) => (
             <div>
                 {/* <Navigation pathname={location.pathname} /> */}
                 <OuterWrap className="outerwrap">
-                    <StyledH1>Användare: {authUser.username}</StyledH1>
+                    <StyledH1>
+                        <FaUser />
+                        &nbsp;
+                        {authUser.username}
+                    </StyledH1>
                     <InnerWrap className="innerwrap">
-                        <div>
+                        {/*                         <div>
                             <Title>Glömt ditt lösenord?</Title>
                             <PasswordForgetForm />
-                        </div>
+                        </div> */}
                         <div>
                             <Title>Ändra lösenord</Title>
                             <PasswordChangeForm />

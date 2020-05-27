@@ -73,6 +73,8 @@ const ButtonWrap = styled.div`
     width: 100%;
 `;
 
+const Heading = styled.h1``;
+
 const Wrapper = styled.div``;
 
 const PasswordForgetPage = () => (
