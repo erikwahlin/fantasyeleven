@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../components/Landing/fantasy11-white-logo.png';
+import { UserOutlined } from '@ant-design/icons';
 
 export const LANDING = '/';
 export const SIGN_UP = '/signup';
@@ -41,7 +42,7 @@ export const slideNav = [
 export const loggedIn = [
     { pathname: LANDING, title: <img src={Logo} style={{ width: '200px' }} /> },
     { pathname: ADMIN, title: 'Admin' },
-    { pathname: ACCOUNT, title: 'Konto' },
+    { pathname: ACCOUNT, title: 'Konto'  },
     { pathname: NEWTEAM, title: 'Bygg ditt lag' },
     { pathname: OVERVIEW, title: 'Mina spel' },
     { pathname: ABOUT, title: 'Hur fungerar det?' }

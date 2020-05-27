@@ -75,18 +75,28 @@ const MainContent = styled.div`
 
 const Title = styled.h1`
     text-align: center;
+    font-weight:500;
+    font-size:1.8em;
+
+`;
+
+const Title2 = styled.h1`
+    text-align: left;
+    font-weight:500;
+    font-size:1.8em;
+    margin-left:5%;
 `;
 
 const InfoWrapper = styled.div`
     @media all and (max-width: 899px) {
         order: 1;
-        width: 90vw;
+        width: 100vw;
         margin: 0 5%;
     }
 `;
 
 const OverviewPage = ({ overviewContext }) => {
-    const { user, teams, roundInView, playedTeams, activeRound, isMobile } = overviewContext.state;
+    const { user, teams, roundInView, playedTeams, activeRound } = overviewContext.state;
     const scroll = Scroll.animateScroll;
 
     if (!playedTeams.length || !roundInView)
@@ -118,13 +128,14 @@ const OverviewPage = ({ overviewContext }) => {
             <SuperWrapper className="SuperWrapper">
                 <MainContent>
                     <PitchWrap className="PitchWrap">
+                        <Title2>Ditt lag</Title2>
                         {true === false && (
                             <>
-                                <Stake isMobile={isMobile} style={{}}>
+                                <Stake>
                                     <h5>Din insats{/*   */}</h5>
                                     <p className="stakeSum">{team.value.tot} kr</p>
                                 </Stake>
-                                <Revenue isMobile={isMobile}>
+                                <Revenue>
                                     <h6>Omsättning inför helgens omgång</h6>
                                     <p className="revenueSum">128 000 kr</p>
                                 </Revenue>
@@ -138,11 +149,11 @@ const OverviewPage = ({ overviewContext }) => {
 
                     <InfoWrapper>
                         <Title>Översikt över dina spel</Title>
-                        <Stake isMobile={isMobile} style={{}}>
+                        <Stake>
                             <h5>Din insats{/*   */}</h5>
                             <p className="stakeSum">{team.value.tot} kr</p>
                         </Stake>
-                        <Revenue isMobile={isMobile}>
+                        <Revenue>
                             <h6>Omsättning inför helgens omgång</h6>
                             <p className="revenueSum">128 000 kr</p>
                         </Revenue>

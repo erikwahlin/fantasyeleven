@@ -3,6 +3,7 @@ import { Button, Tooltip } from 'antd';
 import styled, { css } from 'styled-components';
 
 export const ButtonStandard = styled(Button)`
+    
     outline: none;
     border: none;
     width: fit-content;

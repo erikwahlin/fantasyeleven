@@ -6,6 +6,18 @@ import * as ROLES from '../../constants/roles';
 import FormInput from '../FormInput/FormInput';
 import styled from 'styled-components';
 import { Form } from '../../general-form-styled/form-styling';
+
+
+const Heading = styled.h1`
+    font-family:'Avenir';
+    font-size:2.3em;
+    font-weight:500;
+    color:white;
+    display:block;
+    margin:0 auto;
+    margin-bottom:30px;
+`;
+
 const Input = styled.input`
     background-color: #e2dddd;
     outline: none;
@@ -66,6 +78,7 @@ const SubmitButton = styled.button`
     margin-bottom: -20px;
     border: none;
     width: 30%;
+    outline:none;
 `;
 
 const ButtonWrap = styled.div`
@@ -182,6 +195,7 @@ class SignUpFormBase extends Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
+                <Heading>Skapa konto</Heading>
                 <InputWrap>
                     <Placeholder>Namn</Placeholder>
                     <Input name="username" value={username} onChange={this.onChange} type="text" />
@@ -231,7 +245,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
     <p>
-        Har du inget konto? <Link to={ROUTES.SIGN_UP}>Registrera dig</Link>
+        Har du inget konto? <Link to={ROUTES.SIGN_UP} style={{ color: 'rgb(36, 132, 10)'}}>Registrera dig</Link>
     </p>
 );
 

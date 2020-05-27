@@ -18,7 +18,7 @@ const ResultHeader = styled.div`
     margin-bottom: ${p => (p.open ? '0' : '10px')};
     padding: 10px;
     background: ${p => (p.open ? '#172232' : '#23334d')};
-
+    font-weight:500;
     display: flex;
     justify-content: space-between;
 
@@ -27,7 +27,7 @@ const ResultHeader = styled.div`
 
 const ResultTitle = styled.h2`
     & span {
-        font-weight: 700;
+        font-weight: 500;
     }
 `;
 

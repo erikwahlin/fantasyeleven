@@ -6,9 +6,10 @@ import { WrapperRow } from '../Elements';
 const Wrapper = styled(WrapperRow)`
     justify-content: space-between;
     position: fixed;
-    width: 100%;
-    left: 0;
-    top: 0;
+    width: 97%;
+    left: 15px;
+    top: 5px;
+    z-index:1;
 `;
 
 const DefaultNav = ({ user, children: links, ...props }) => (

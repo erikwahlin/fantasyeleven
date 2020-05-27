@@ -30,9 +30,7 @@ const initialState = {
     playedTeams: [],
     activeRound: null,
     playedRounds: [],
-    roundInView: null,
-    isMobile: window.innerWidth < 900 ? true : false,
-    notifPush: false
+    roundInView: null
 };
 
 class OverviewState extends Component {

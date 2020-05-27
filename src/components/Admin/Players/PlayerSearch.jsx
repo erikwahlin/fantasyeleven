@@ -16,7 +16,7 @@ import DropDown from 'react-dropdown';
 /* import 'react-dropdown/style.css'; */
 import './dropdown_admin.css';
 import '../../PlayerSearch/styles.css';
-import Arrow from '../../../media/arrow.svg';
+import Arrow from '../../../media/arrowG.svg';
 import { Wrapper, ContentWrapper } from '../template/wrapperTemplate';
 
 /* import Cap from '../../media/Cap.svg'; */
@@ -418,15 +418,7 @@ class PlayerSearch extends Component {
                     <OuterWrapper className="OuterWrapper PlayerSearch">
                         <InnerWrapper className="InnerWrapper PlayerSearch">
                             <>
-                                <button
-                                    style={{
-                                        border: '1px solid #2f3e55',
-                                        color: 'white',
-                                        padding: '5px',
-                                        marginBottom: '5px',
-                                        fontWeight: '700',
-                                        outline: 'none'
-                                    }}
+                                <ButtonReset
                                     onClick={() =>
                                         this.setState({
                                             newPlayer: !this.state.newPlayer,
@@ -436,7 +428,7 @@ class PlayerSearch extends Component {
                                 >
                                     Lägg till ny spelare
                                     <FaUserPlus style={{ position: 'relative', left: '10px' }} />
-                                </button>
+                                </ButtonReset>
                                 <Title className="SearchPlayer-Title unmarkable">
                                     Sök befintlig spelare
                                 </Title>
@@ -465,7 +457,7 @@ class PlayerSearch extends Component {
                                         name="name"
                                         className="FilterByName unmarkable"
                                         onChange={this.setFilter_name}
-                                        placeholder="Fritext"
+                                        placeholder="Sök spelare"
                                         onFocus={e => (e.target.placeholder = '')}
                                         onBlur={e => (e.target.placeholder = 'Sök spelare')}
                                     ></Input>
@@ -516,7 +508,7 @@ class PlayerSearch extends Component {
                                                                 this.playerClickHandler(player)
                                                             }
                                                         >
-                                                            <p className="player">
+                                                            <p className="player" style={{color:'black'}}>
                                                                 {shortenName(player.name)}
                                                             </p>
                                                             <p className="sum">

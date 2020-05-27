@@ -36,7 +36,7 @@ export const OptionsWrapper = styled(Wrapper)`
 `;
 
 export const ContentWrapper = styled.div`
-    background-color: #23334d;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     padding: 10px;
     display: flex;

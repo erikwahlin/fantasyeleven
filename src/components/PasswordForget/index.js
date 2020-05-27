@@ -119,6 +119,7 @@ class PasswordForgetFormBase extends Component {
 
         return (
             <Form onSubmit={this.onSubmit}>
+                <Heading>Återställ lösenord</Heading>
                 <InputWrap>
                     <Placeholder>E-postadress</Placeholder>
                     <Input

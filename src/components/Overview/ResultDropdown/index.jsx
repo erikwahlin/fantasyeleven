@@ -33,7 +33,8 @@ const InfoTitle = styled.h2`
 
 const CustomCollapse = styled(Collapse)`
     width: 100%;
-    margin: 20px 0;
+    max-width:576px;
+    margin: 20px auto;
 `;
 
 const Rounds = ({ overviewContext, totalPoints }) => {
@@ -44,11 +45,11 @@ const Rounds = ({ overviewContext, totalPoints }) => {
 
     const config = [
         {
-            title: 'TotalPoäng',
+            title: 'Totalpoäng',
             content: totalPoints
         },
         {
-            title: 'Din Ranking',
+            title: 'Din anking',
             content: '1'
         },
         {
@@ -65,7 +66,7 @@ const Rounds = ({ overviewContext, totalPoints }) => {
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel header={'Resultat'} key="1">
+            <Panel header={'Resultat'} key="1" style={{ fontSize: '1.1em', fontWeight: '500' }}>
                 <List
                     itemLayout="vertical"
                     dataSource={config}
