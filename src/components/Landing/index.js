@@ -6,26 +6,28 @@ import About from '../About';
 import styled from 'styled-components';
 import SignIn from '../SignIn/';
 import { Link } from 'react-router-dom';
+import { IoMdFootball } from 'react-icons/io';
 const Wrapper = styled.div``;
 const Container = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items:center;
     color: whitesmoke;
     font-size: 50px;
     width: 100%;
 `;
 
 const Ptag = styled.div`
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color:rgba(0, 0, 0, 0.5); 
     height: auto;
-    width: 550px;
+    width: 100vw;
     font-family: 'Avenir';
     font-size: 30px;
-    margin-left: 300px;
     text-align: center;
     padding: 20px;
+    padding-bottom:0px;
     @media all and (max-width: 776px) {
         width: 100vw;
         margin-left: 0px;
@@ -36,14 +38,14 @@ const Ptag = styled.div`
 `;
 
 const Ptag2 = styled.div`
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color:rgba(0, 0, 0, 0.5); 
     height: auto;
-    width: 200px;
+    width: 100vw;
     font-family: 'Avenir';
     font-size: 35px;
-    margin-left: 700px;
     text-align: center;
     padding: 20px;
+    padding-top:0px;
     @media all and (max-width: 776px) {
         width: 100vw;
         margin-left: 0px;
@@ -52,30 +54,34 @@ const Ptag2 = styled.div`
 //breakpoing at 776px. do something else.
 const LogoDiv = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 30px;
     height: auto;
-    width: 480px;
-    background-color: rgba(0, 0, 0, 0.5);
-    @media all and (max-width: 776px) {
+    width: 100vw;
+    background-color: rgba(36, 132, 10, 0.3);
+/*     @media all and (max-width: 776px) {
         width: 100vw;
         justify-content: center;
-    }
+    } */
 `;
 
 const PlayBtn = styled.button`
-    background-color: rgba(36, 132, 10, 0.6);
-    position: absolute;
-    right: 10%;
+    background-color: rgba(36, 132, 10, 0.3);
     color: white;
-    font-size: 25px;
-    height: 10%;
-    width: 20vw;
+    font-size: 20px;
+    height: 7vh;
+    width: 15vw;
     border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+   
     outline:none;
+    cursor:pointer;
+    margin-top:35px;
 
     &:hover {
-        background-color: rgba(91, 170, 69, 0.3);
+        background-color: rgba(0, 0, 0, 0.5); 
     }
     @media all and (max-width: 1200px) {
         right: 33vw;
@@ -108,7 +114,7 @@ const Landing = () => (
                 <Ptag className="landing-info">Omsättning inför helgens omgång</Ptag>
                 <Ptag2 className="landing-price">245 000kr</Ptag2>
                 <Link to="/signIn">
-                    <PlayBtn>Börja spela nu!</PlayBtn>
+                    <PlayBtn><IoMdFootball /> {"        "} Börja spela nu!</PlayBtn>
                 </Link>
             </Container>
         </Wrapper>
