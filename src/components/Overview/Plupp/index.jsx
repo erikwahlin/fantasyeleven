@@ -405,9 +405,17 @@ class Plupp extends Component {
 
         let result = false;
 
-        if (roundInView.result.list.length > 0) {
-            result = true;
+        if (roundInView.result.myTeam) {
+            if (roundInView.result.myTeam.list.length > 0) {
+                result = true;
+            }
         }
+
+        if (!player) {
+            console.log('NO PLAYER', player, pos, origin, lineupIndex);
+        }
+
+        if (!player) return null;
 
         return (
             <Container>

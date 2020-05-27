@@ -225,31 +225,6 @@ const Round = ({ round, roundIndex, active }) => {
                 mobileBreakPoint={319}
             />
         </Wrapper>
-        /* <Wrapper className="Result" customstyle="margin: 10px auto;">
-                <Header className="Header">
-                    <Title>{round && round.alias} </Title>
-                    <Title>{'säsong:' + round.season}</Title>
-                    <Title>{'omgångsnr:' + round.number}</Title>
-                </Header> */
-
-        /* <RoundContent open={open} className="RoundContent"> */
-        /*                <div>
-                    <MatchTable
-                        className="MatchTable unmarkable"
-                        dataSource={matchTableData}
-                        pagination={{ position: ['bottomCenter'], pageSize: 20 }}
-                        scroll={{ y: 600, x: 100 }}
-                    >
-                        <Column width={'50vw'} title="Match" dataIndex="match" key="match" />
-                        <Column title="HEMMA" dataIndex="homeTeam" key="homeTeam" />
-                        <Column title="" dataIndex="homeGoals" key="homeGoals" />
-                        <Column title="" dataIndex="hyphen" key="hyphen" />
-                        <Column title="" dataIndex="awayGoals" key="awayGoals" />
-                        <Column title="BORTA" dataIndex="awayTeam" key="awayTeam" />
-                    </MatchTable>
-                </div> */
-        /* </RoundContent> */
-        /* </Wrapper> */
     );
 };
 

@@ -36,15 +36,13 @@ const CustomCollapse = styled(Collapse)`
     margin: 20px 0;
 `;
 
-const Rounds = ({ overviewContext, totalPoints }) => {
+const ResultDropdown = ({ overviewContext, totalPoints, rank, award }) => {
     const { user, playedRounds, roundInView } = overviewContext.state;
     const { setRoundInView } = overviewContext.setters;
     console.log(playedRounds);
     const [collapseKey, setCollapseKey] = useState(false);
 
     // TEMP
-    const rank = Math.floor(Math.random * 12);
-    const award = Math.floor(Math.random * 120);
 
     const config = [
         {
@@ -61,7 +59,7 @@ const Rounds = ({ overviewContext, totalPoints }) => {
         },
         {
             key: 'Din Ranking',
-            val: '1',
+            val: rank,
             color: rank <= 3 ? '#00840A' : rank <= 20 ? '#19261A' : rank > 100 ? 'red' : '#000'
         },
         {
@@ -113,4 +111,4 @@ const Rounds = ({ overviewContext, totalPoints }) => {
     );
 };
 
-export default withOverview(Rounds);
+export default withOverview(ResultDropdown);

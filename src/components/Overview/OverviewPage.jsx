@@ -101,13 +101,23 @@ const OverviewPage = ({ overviewContext }) => {
     console.log(team);
 
     let totalPoints = 0;
+    let rank = 0;
+    let award = 0;
 
-    if (roundInView.result) {
-        if (roundInView.result.list.length) {
-            totalPoints = roundInView.result.list.reduce(
+    if (roundInView.result.myTeam) {
+        if (roundInView.result.myTeam.list.length) {
+            totalPoints = roundInView.result.myTeam.list.reduce(
                 (tot, player) => tot + player.points.tot,
                 0
             );
+
+            const users = roundInView.users
+                .sort((a, b) => (a.totalPoints > b.totalPoints ? -1 : 1))
+                .forEach((userObj, nth) => {
+                    if (userObj.user === user._id) {
+                        rank = nth + 1;
+                    }
+                });
         }
     }
 
@@ -133,7 +143,7 @@ const OverviewPage = ({ overviewContext }) => {
                             <p className="revenueSum">128 000 kr</p>
                         </Revenue>
                         {/* <Collapsible totalPoints={totalPoints} /> */}
-                        <ResultDropdown totalPoints={totalPoints} />
+                        <ResultDropdown totalPoints={totalPoints} rank={rank} />
                         <Rounds />
                     </InfoWrapper>
                 </MainContent>
