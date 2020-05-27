@@ -151,6 +151,9 @@ const OverviewPage = ({ overviewContext }) => {
         }
     }
 
+    const revenue =
+        roundInView.users === [] ? roundInView.users.reduce((acc, cur) => acc + cur) : 0;
+
     console.log('totalpoints', totalPoints, 'rank', rank, 'award', award);
 
     return (
@@ -170,7 +173,7 @@ const OverviewPage = ({ overviewContext }) => {
                         </Stake>
                         <Revenue>
                             <h6>Omsättning inför helgens omgång</h6>
-                            <p className="revenueSum">128 000 kr</p>
+                            <p className="revenueSum">{revenue} kr</p>
                         </Revenue>
                         {/* <Collapsible totalPoints={totalPoints} /> */}
                         <ResultDropdown
