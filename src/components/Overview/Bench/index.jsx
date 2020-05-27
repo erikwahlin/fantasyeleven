@@ -83,9 +83,9 @@ const Bench = ({ overviewContext }) => {
 
     let players = team.players;
 
-    if (roundInView) {
-        if (roundInView.result.list.length > 0) {
-            players = roundInView.result;
+    if (roundInView.result.myTeam) {
+        if (roundInView.result.myTeam.list.length > 0) {
+            players = roundInView.result.myTeam;
         }
     }
 
