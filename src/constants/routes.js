@@ -27,6 +27,7 @@ export const topNav = [
 ];
 
 export const slideNav = [
+    LANDING,
     ACCOUNT,
     NEWTEAM,
     OVERVIEW,

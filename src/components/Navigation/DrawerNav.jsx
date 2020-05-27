@@ -9,6 +9,7 @@ import { WrapperRow, ButtonStandard } from '../Elements';
 import { Drawer } from 'antd';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './DrawerStyle.css';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const Wrapper = styled(WrapperRow)`
     justify-content: space-between;
@@ -54,6 +55,7 @@ const DrawerStyled = styled(Drawer)`
 `;
 
 const DrawerNav = ({ user, location, children: links, ...props }) => {
+    console.log(links);
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
         setVisible(true);

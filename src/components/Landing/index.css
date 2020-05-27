@@ -15,7 +15,7 @@ body {
     overflow: hidden;
 }
 
-.landing-nav {
+/* .landing-nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -23,7 +23,7 @@ body {
     align-items: center;
     margin-top: 20px;
     width: 97%;
-}
+} */
 
 hr {
     display: none;
