@@ -103,25 +103,46 @@ const OverviewPage = ({ overviewContext }) => {
     let totalPoints = 0;
     let rank = 0;
     let award = 0;
+    let totalTeamValue = 0;
+    let attendedPlayers = 0;
+    let awardPercent = 0;
+    let highestPoint = 0;
+    let lowestPoint = 0;
 
     if (roundInView.result.myTeam) {
         if (roundInView.result.myTeam.list.length) {
+            attendedPlayers = roundInView.users.length;
+
             totalPoints = roundInView.result.myTeam.list.reduce(
                 (tot, player) => tot + player.points.tot,
                 0
             );
 
-            const users = roundInView.users
-                .sort((a, b) => (a.totalPoints > b.totalPoints ? -1 : 1))
-                .forEach((userObj, nth) => {
-                    if (userObj.user === user._id) {
-                        rank = nth + 1;
-                    }
-                });
+            highestPoint = Math.max(...roundInView.users.map(u => u.totalPoints));
+            lowestPoint = Math.min(...roundInView.users.map(u => u.totalPoints));
+
+            const users = roundInView.users.sort((a, b) =>
+                a.totalPoints > b.totalPoints ? -1 : 1
+            );
+
+            users.forEach((userObj, nth) => {
+                if (userObj.user === user._id) {
+                    rank = nth + 1;
+                }
+
+                if (userObj.teamValue) {
+                    totalTeamValue += userObj.teamValue;
+                }
+            });
+
+            if (rank > 0) {
+                award = rank === 1 ? totalTeamValue * 0.75 : rank === 2 ? totalTeamValue * 0.25 : 0;
+                awardPercent = rank === 1 ? 75 : rank === 2 ? 25 : 0;
+            }
         }
     }
 
-    console.log('totalPoints', totalPoints);
+    console.log('totalpoints', totalPoints, 'rank', rank, 'award', award);
 
     return (
         <div className="Overview">
@@ -143,7 +164,15 @@ const OverviewPage = ({ overviewContext }) => {
                             <p className="revenueSum">128 000 kr</p>
                         </Revenue>
                         {/* <Collapsible totalPoints={totalPoints} /> */}
-                        <ResultDropdown totalPoints={totalPoints} rank={rank} />
+                        <ResultDropdown
+                            totalPoints={totalPoints}
+                            rank={rank}
+                            award={award}
+                            awardPercent={awardPercent}
+                            attendedPlayers={attendedPlayers}
+                            highestPoint={highestPoint}
+                            lowestPoint={lowestPoint}
+                        />
                         <Rounds />
                     </InfoWrapper>
                 </MainContent>
