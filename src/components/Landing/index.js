@@ -8,7 +8,7 @@ import SignIn from '../SignIn/';
 import { Link } from 'react-router-dom';
 const Wrapper = styled.div``;
 const Container = styled.div`
-    height: 85%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,13 +19,13 @@ const Container = styled.div`
 
 const Ptag = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
-    height: 7vh;
-    width: 400px;
+    height: auto;
+    width: 550px;
     font-family: 'Avenir';
-    font-size: 25px;
+    font-size: 30px;
     margin-left: 300px;
     text-align: center;
-    padding: 4px;
+    padding: 20px;
     @media all and (max-width: 776px) {
         width: 100vw;
         margin-left: 0px;
@@ -37,13 +37,13 @@ const Ptag = styled.div`
 
 const Ptag2 = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
-    height: 7vh;
-    width: 150px;
+    height: auto;
+    width: 200px;
     font-family: 'Avenir';
-    font-size: 30px;
-    margin-left: 620px;
+    font-size: 35px;
+    margin-left: 700px;
     text-align: center;
-    padding: 4px;
+    padding: 20px;
     @media all and (max-width: 776px) {
         width: 100vw;
         margin-left: 0px;
@@ -71,6 +71,8 @@ const PlayBtn = styled.button`
     font-size: 25px;
     height: 10%;
     width: 20vw;
+    border:none;
+    outline:none;
 
     &:hover {
         background-color: rgba(91, 170, 69, 0.3);
