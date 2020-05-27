@@ -13,43 +13,36 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items:center;
+    align-items: center;
     color: whitesmoke;
     font-size: 50px;
     width: 100%;
 `;
 
 const Ptag = styled.div`
-    background-color:rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     height: auto;
     width: 100vw;
     font-family: 'Avenir';
     font-size: 30px;
     text-align: center;
     padding: 20px;
-    padding-bottom:0px;
+    padding-bottom: 0px;
+
     @media all and (max-width: 776px) {
-        width: 100vw;
-        margin-left: 0px;
-    }
-    @media all and (max-width: 776px) {
-        font-size: 20px;
+        font-size: 5vw;
     }
 `;
 
 const Ptag2 = styled.div`
-    background-color:rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     height: auto;
     width: 100vw;
     font-family: 'Avenir';
     font-size: 35px;
     text-align: center;
     padding: 20px;
-    padding-top:0px;
-    @media all and (max-width: 776px) {
-        width: 100vw;
-        margin-left: 0px;
-    }
+    padding-top: 0px;
 `;
 //breakpoing at 776px. do something else.
 const LogoDiv = styled.div`
@@ -59,10 +52,15 @@ const LogoDiv = styled.div`
     height: auto;
     width: 100vw;
     background-color: rgba(36, 132, 10, 0.3);
-/*     @media all and (max-width: 776px) {
+    /*     @media all and (max-width: 776px) {
         width: 100vw;
         justify-content: center;
     } */
+`;
+
+const StyledLink = styled(Link)`
+    position: relative;
+    top: 40px;
 `;
 
 const PlayBtn = styled.button`
@@ -71,19 +69,21 @@ const PlayBtn = styled.button`
     font-size: 20px;
     height: 7vh;
     width: 15vw;
-    border:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-   
-    outline:none;
-    cursor:pointer;
-    margin-top:35px;
+    min-width: 200px;
+    padding: 5px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    outline: none;
+    cursor: pointer;
+    /* margin-top: 35px; */
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.5); 
+        background-color: rgba(0, 0, 0, 0.5);
     }
-    @media all and (max-width: 1200px) {
+    /*     @media all and (max-width: 1200px) {
         right: 33vw;
         bottom: 10%;
         width: 33vw;
@@ -96,7 +96,7 @@ const PlayBtn = styled.button`
         font-size: 35px;
         right: 0;
         bottom: 0;
-    }
+    } */
 `;
 
 const isMobile = window.innerWidth < 776 ? true : false;
@@ -113,9 +113,12 @@ const Landing = () => (
 
                 <Ptag className="landing-info">Omsättning inför helgens omgång</Ptag>
                 <Ptag2 className="landing-price">245 000kr</Ptag2>
-                <Link to="/signIn">
-                    <PlayBtn><IoMdFootball /> {"        "} Börja spela nu!</PlayBtn>
-                </Link>
+                <StyledLink to="/signIn">
+                    <PlayBtn>
+                        <IoMdFootball />
+                        &nbsp;Börja spela nu!
+                    </PlayBtn>
+                </StyledLink>
             </Container>
         </Wrapper>
 

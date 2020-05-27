@@ -74,7 +74,7 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
             </MenuBtn>
 
             <DrawerStyled
-                drawerStyle={{ background: 'rgba(36,132,10, 0.8)' }}
+                drawerStyle={{ background: 'rgba(0, 0, 0, 0.9)' }}
                 placement="right"
                 closable={false}
                 onClose={onClose}
