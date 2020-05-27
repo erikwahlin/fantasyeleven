@@ -162,7 +162,7 @@ const Landing = () => {
 
                     <Ptag className="landing-info">Omsättning inför helgens omgång</Ptag>
                     <Ptag2 className="landing-price">
-                        {activeRound ? `${roundValue} kr` : <Loading spin position="relative" />}
+                        {activeRound ? `${roundValue} kr` : '0 kr'}
                     </Ptag2>
 
                     {activeRound ? (
@@ -170,9 +170,7 @@ const Landing = () => {
                             Antal spelare {activeRound.users.length}
                         </PtagSmall>
                     ) : (
-                        <PtagSmall>
-                            <Loading spin position="relative" />
-                        </PtagSmall>
+                        <PtagSmall>0 spelare</PtagSmall>
                     )}
                     <StyledLink to="/signIn">
                         <PlayBtn>
