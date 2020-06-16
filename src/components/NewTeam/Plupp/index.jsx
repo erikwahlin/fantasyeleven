@@ -319,6 +319,7 @@ const CapPopBtn = styled.button`
     margin-bottom: 5px;
     font-weight: ${p => (p.picked === true ? '700' : 'normal')};
     cursor: pointer;
+    background: none;
 `;
 
 class Plupp extends Component {
@@ -365,14 +366,14 @@ class Plupp extends Component {
                     style={{ textAlign: 'center', width: '150px' }}
                 >
                     <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
-                        Gör till kapten
+                        Kapten
                     </CapPopBtn>
 
                     <CapPopBtn
                         onClick={() => !isVice && this.setCap('viceCaptain')}
                         picked={isVice}
                     >
-                        Gör till vice kapten
+                        Vice kapten
                     </CapPopBtn>
 
                     <a onClick={this.capPopToggle}>Stäng</a>

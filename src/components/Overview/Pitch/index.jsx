@@ -121,7 +121,8 @@ const Pitch = ({ overviewContext }) => {
         }
     }
 
-    console.log(players);
+    //console.log(players);
+
     // team value
     const teamValue = players.list
         .filter(p => p.origin === 'pitch')

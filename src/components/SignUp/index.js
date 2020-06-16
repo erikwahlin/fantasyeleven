@@ -7,15 +7,14 @@ import FormInput from '../FormInput/FormInput';
 import styled from 'styled-components';
 import { Form } from '../../general-form-styled/form-styling';
 
-
 const Heading = styled.h1`
-    font-family:'Avenir';
-    font-size:2.3em;
-    font-weight:500;
-    color:white;
-    display:block;
-    margin:0 auto;
-    margin-bottom:30px;
+    font-family: 'Avenir';
+    font-size: 2.3em;
+    font-weight: 500;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 30px;
 `;
 
 const Input = styled.input`
@@ -78,7 +77,7 @@ const SubmitButton = styled.button`
     margin-bottom: -20px;
     border: none;
     width: 30%;
-    outline:none;
+    outline: none;
 `;
 
 const ButtonWrap = styled.div`
@@ -129,30 +128,43 @@ class SignUpFormBase extends Component {
     }
 
     onSubmit = event => {
+        event.preventDefault();
+
         const { username, email, passwordOne, isAdmin } = this.state;
-        const roles = [];
+        const roles = ['ADMIN'];
 
         if (isAdmin) {
-            roles.push(ROLES.ADMIN);
+            roles.push(roles);
         }
 
         this.props.firebase
             .doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(authUser => {
                 // Create a user in your Firebase realtime database
-                return this.props.firebase.user(authUser.user.uid).set({
+                this.props.firebase.user(authUser.user.uid).set({
                     username,
                     email,
                     roles
                 });
+
+                return this.setState({ ...INITIAL_STATE });
             })
             //      .then(() => {
             //        return this.props.firebase.doSendEmailVerification();
             //      })
             .then(() => {
-                this.setState({ ...INITIAL_STATE });
+                console.log('then 2');
 
-                this.props.history.push(ROUTES.NEWTEAM);
+                const destination = this.props.location.state.destination || '/newteam';
+
+                console.log('dest', destination);
+
+                const locationState = {
+                    buildStage: this.props.location.state.buildStage || null,
+                    newUser: true
+                };
+
+                return this.props.history.push(destination, locationState);
             })
             .catch(error => {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
@@ -161,8 +173,6 @@ class SignUpFormBase extends Component {
 
                 this.setState({ error });
             });
-
-        event.preventDefault();
     };
 
     onChange = event => {
@@ -237,7 +247,7 @@ class SignUpFormBase extends Component {
                     </SubmitButton>
                 </ButtonWrap>
 
-                {error && <p>{error.message}</p>}
+                {/* {error && <p>{error.message}</p>} */}
             </Form>
         );
     }
@@ -245,7 +255,10 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
     <p>
-        Har du inget konto? <Link to={ROUTES.SIGN_UP} style={{ color: 'rgb(36, 132, 10)'}}>Registrera dig</Link>
+        Har du inget konto?{' '}
+        <Link to={ROUTES.SIGN_UP} style={{ color: 'rgb(36, 132, 10)' }}>
+            Registrera dig
+        </Link>
     </p>
 );
 

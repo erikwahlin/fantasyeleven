@@ -123,6 +123,20 @@ class NewTeam extends Component {
             this.updatesearchablePlayers(async () => {
                 await this.userInit(loggedIn => {
                     if (loggedIn) {
+                        if (this.props.location.state) {
+                            if (this.props.location.state.newUser) {
+                                console.log(
+                                    'new user created, loading from client, saving to mongo...'
+                                );
+
+                                this.clientLoad(() => {
+                                    this.save();
+                                });
+
+                                return (this.props.location.state.newUser = false);
+                            }
+                        }
+
                         this.load();
                     }
                     // if not logged in, use client storage
@@ -184,7 +198,19 @@ class NewTeam extends Component {
 
     loadStageFromSession = () => {
         if (this.props.history.action !== 'POP') {
-            return console.log('Came from other route. Serving first buildStage.');
+            if (!this.props.location.state)
+                return console.log('Came from other route. Serving first buildStage.');
+
+            const buildStage = this.props.location.state.buildStage;
+
+            if (!buildStage) return console.log('Came from other route. Serving first buildStage.');
+
+            const config = clone(this.state.config);
+            config.buildStage = buildStage;
+
+            return this.setState({ config }, () => {
+                console.log('Serving last buildStage');
+            });
         }
 
         const latestStage = sessionStorage.getItem('buildStage') || null;
@@ -344,12 +370,21 @@ class NewTeam extends Component {
 
         if (!user) {
             // suggest -> /signup
-            routeToSignupMsg.notif.onRemoval = () => {
+            routeToSignupMsg.notif.onRemoval = (id, removedBy) => {
                 // cleanup self before redirection
                 routeToSignupMsg.notif.onRemoval = () => {};
                 routeToSignupMsg.remove();
                 // go
-                this.props.history.push(ROUTES.SIGN_UP, this.props.history.location.pathname);
+
+                if (removedBy === 'click') {
+                    this.props.history.push(ROUTES.SIGN_UP, {
+                        destination: this.props.history.location.pathname,
+                        buildStage: {
+                            stageName: 'overview',
+                            stageIndex: 3
+                        }
+                    });
+                }
             };
 
             return routeToSignupMsg.add();
@@ -359,7 +394,8 @@ class NewTeam extends Component {
             return userMsg({
                 message:
                     'Just nu finns ingen aktiv omgång att delta i. Kom tillbaka och prova snart igen!',
-                type: 'warning'
+                type: 'warning',
+                container: 'top-center'
             }).add();
         }
 
@@ -403,12 +439,12 @@ class NewTeam extends Component {
 
     // CLIENT
 
-    clientLoad = () => {
+    clientLoad = callback => {
         const data = JSON.parse(localStorage.getItem('team'));
         if (data) {
             console.log('Loaded team from Client storage.');
             return this.setState({ team: data }, () => {
-                this.updateTeam();
+                this.updateTeam(callback);
             });
         }
         console.log('No team was loaded, starting fresh.');

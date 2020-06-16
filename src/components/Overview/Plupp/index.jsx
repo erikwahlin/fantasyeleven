@@ -404,6 +404,7 @@ class Plupp extends Component {
         const { roundInView } = overviewContext.state;
 
         let result = false;
+        const roundEnded = roundInView.ended;
 
         if (roundInView.result.myTeam) {
             if (roundInView.result.myTeam.list.length > 0) {
@@ -471,7 +472,7 @@ class Plupp extends Component {
                             player={player}
                         />
 
-                        {result && player.points && (
+                        {roundEnded && result && player.points && (
                             <Points>
                                 <span>{player.points.tot}</span>
                             </Points>

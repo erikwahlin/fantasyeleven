@@ -38,9 +38,8 @@ class Firebase {
 
     // *** Auth API ***
 
-    doCreateUserWithEmailAndPassword = (email, password) => {
+    doCreateUserWithEmailAndPassword = (email, password) =>
         this.auth.createUserWithEmailAndPassword(email, password);
-    };
 
     doSignInWithEmailAndPassword = (email, password) =>
         this.auth.signInWithEmailAndPassword(email, password);
@@ -77,11 +76,13 @@ class Firebase {
                 this.user(authUser.uid)
                     .once('value')
                     .then(snapshot => {
-                        const dbUser = snapshot.val();
+                        const dbUser = snapshot.val() || { roles: [] };
 
                         // default empty roles
-                        if (!dbUser.roles) {
-                            dbUser.roles = [];
+                        if (dbUser) {
+                            if (!dbUser.roles) {
+                                dbUser.roles = [];
+                            }
                         }
 
                         // merge auth and db user

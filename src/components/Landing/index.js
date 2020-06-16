@@ -172,7 +172,7 @@ const Landing = () => {
                     ) : (
                         <PtagSmall>0 spelare</PtagSmall>
                     )}
-                    <StyledLink to="/signIn">
+                    <StyledLink to="/signin">
                         <PlayBtn>
                             <IoMdFootball />
                             &nbsp;Börja spela nu!

@@ -36,8 +36,8 @@ const CustomCollapse = styled(Collapse)`
     max-width: 576px;
     margin: 20px auto;
 
-       @media all and (max-width: 899px) {
-       min-width:576px;
+    @media all and (max-width: 899px) {
+        min-width: 576px;
     }
 `;
 
@@ -54,11 +54,9 @@ const ResultDropdown = ({
 }) => {
     const { user, playedRounds, roundInView } = overviewContext.state;
     const { setRoundInView } = overviewContext.setters;
-    console.log(playedRounds);
     const [collapseKey, setCollapseKey] = useState(false);
 
     // TEMP
-
     const config = [
         {
             key: 'Totalpoäng',
@@ -67,10 +65,10 @@ const ResultDropdown = ({
                 totalPoints > 30
                     ? '#00840A'
                     : totalPoints > 15
-                        ? '#23540A'
-                        : totalPoints <= 5
-                            ? 'red'
-                            : '#000',
+                    ? '#23540A'
+                    : totalPoints <= 5
+                    ? 'red'
+                    : '#000',
             description: attendedPlayers > 1 ? `Omfång: ${lowestPoint} - ${highestPoint}` : null
         },
         {
@@ -80,14 +78,14 @@ const ResultDropdown = ({
                 rank === roundInView.users.length
                     ? 'red'
                     : rank <= 3
-                        ? '#00840A'
-                        : rank <= 10
-                            ? '#23540A'
-                            : rank > 10
-                                ? 'orange'
-                                : rank > 100
-                                    ? 'red'
-                                    : '#000',
+                    ? '#00840A'
+                    : rank <= 10
+                    ? '#23540A'
+                    : rank > 10
+                    ? 'orange'
+                    : rank > 100
+                    ? 'red'
+                    : '#000',
             description: `Deltagare: ${attendedPlayers}`
         },
         {
@@ -107,79 +105,84 @@ const ResultDropdown = ({
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel
-                header={
-                    <p style={{ margin: '0' }}>
-                        RESULTAT<br />
-                        <span
-                            style={{
-                                /* marginLeft: '2vw', */
-                                fontSize: '1.2em',
-                                fontWeight: '700',
-                                color: config[0].color
-                            }}
-                        >
-                            {totalPoints}p
-                        </span>
-                        <span
-                            style={{
-                                marginLeft: '2vw',
-                                fontSize: '1.2em',
-                                fontWeight: '700',
-                                color: config[1].color
-                            }}
-                        >
-                            {rank}:plats
-                        </span>
-                        <span
-                            style={{
-                                marginLeft: '2vw',
-                                fontSize: '1.2em',
-                                fontWeight: '700',
-                                color: config[2].color
-                            }}
-                        >
-                            {award} kr
-                        </span>
-                    </p>
-                }
-                key="1"
-                style={{ fontSize: '1.1em', fontWeight: '500' }}
-            >
-                <List
-                    itemLayout="vertical"
-                    dataSource={config}
-                    renderItem={result => (
-                        <List.Item key={config.key}>
-                            <List.Item.Meta
-                                title={
-                                    <>
-                                        <p>
-                                            {result.key}{' '}
-                                            <span
-                                                style={{
-                                                    fontSize: '1.2em',
-                                                    fontWeight: '700',
-                                                    marginLeft: '10px',
-                                                    color: result.color
-                                                }}
-                                            >
-                                                {result.val}
-                                            </span>
-                                            {result.extraVal && (
-                                                <span style={{ marginLeft: '10px' }}>
-                                                    {result.extraVal}
+            {!roundInView.ended ? (
+                <Panel header="RESULTAT (inväntar...)"></Panel>
+            ) : (
+                <Panel
+                    header={
+                        <p style={{ margin: '0' }}>
+                            RESULTAT
+                            <br />
+                            <span
+                                style={{
+                                    /* marginLeft: '2vw', */
+                                    fontSize: '1.2em',
+                                    fontWeight: '700',
+                                    color: config[0].color
+                                }}
+                            >
+                                {totalPoints}p
+                            </span>
+                            <span
+                                style={{
+                                    marginLeft: '2vw',
+                                    fontSize: '1.2em',
+                                    fontWeight: '700',
+                                    color: config[1].color
+                                }}
+                            >
+                                {rank}:plats
+                            </span>
+                            <span
+                                style={{
+                                    marginLeft: '2vw',
+                                    fontSize: '1.2em',
+                                    fontWeight: '700',
+                                    color: config[2].color
+                                }}
+                            >
+                                {award} kr
+                            </span>
+                        </p>
+                    }
+                    key="1"
+                    style={{ fontSize: '1.1em', fontWeight: '500' }}
+                >
+                    <List
+                        itemLayout="vertical"
+                        dataSource={config}
+                        renderItem={result => (
+                            <List.Item key={config.key}>
+                                <List.Item.Meta
+                                    title={
+                                        <>
+                                            <p>
+                                                {result.key}{' '}
+                                                <span
+                                                    style={{
+                                                        fontSize: '1.2em',
+                                                        fontWeight: '700',
+                                                        marginLeft: '10px',
+                                                        color: result.color
+                                                    }}
+                                                >
+                                                    {result.val}
                                                 </span>
-                                            )}
-                                        </p>
-                                    </>
-                                }
-                                description={result.description}
-                            />
-                        </List.Item>
-                    )}
-                ></List>
-            </Panel>
+                                                {result.extraVal && (
+                                                    <span style={{ marginLeft: '10px' }}>
+                                                        {result.extraVal}
+                                                    </span>
+                                                )}
+                                            </p>
+                                        </>
+                                    }
+                                    description={result.description}
+                                />
+                            </List.Item>
+                        )}
+                    ></List>
+                </Panel>
+            )}
         </CustomCollapse>
     );
 };

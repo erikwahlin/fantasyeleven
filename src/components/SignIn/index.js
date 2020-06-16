@@ -71,7 +71,7 @@ const SubmitButton = styled.button`
     margin-bottom: -20px;
     border: none;
     width: 30%;
-    outline:none;
+    outline: none;
 `;
 
 const GoogleButton = styled.button`
@@ -167,7 +167,8 @@ class SignInFormBase extends Component {
             .doSignInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE }, () => {
-                    this.props.history.push(ROUTES.OVERVIEW);
+                    //this.props.history.push(ROUTES.OVERVIEW);
+                    this.props.history.push(ROUTES.NEWTEAM);
                 });
             })
             .catch(error => {

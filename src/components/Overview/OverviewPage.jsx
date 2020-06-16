@@ -108,7 +108,7 @@ const OverviewPage = ({ overviewContext }) => {
         );
 
     const team = playedTeams.filter(t => t.round === roundInView._id)[0];
-    console.log(team);
+    //console.log(team);
 
     let totalPoints = 0;
     let rank = 0;
@@ -156,7 +156,7 @@ const OverviewPage = ({ overviewContext }) => {
         }
     }
 
-    console.log('totalpoints', totalPoints, 'rank', rank, 'award', award);
+    //console.log('totalpoints', totalPoints, 'rank', rank, 'award', award);
 
     return (
         <div className="Overview">

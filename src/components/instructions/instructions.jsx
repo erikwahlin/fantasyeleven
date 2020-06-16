@@ -6,7 +6,7 @@ const StyledDiv = styled.div`
     box-sizing: border-box;
     background-color: none;
     position: relative;
-    font-family:'Avenir';
+    font-family: 'Avenir';
     font-size: 1.3em;
     width: inherit;
     width: 90%;
@@ -16,8 +16,6 @@ const StyledP = styled.p`
     padding: 10px;
 `;
 const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, list }) => {
-    //posOrClub = toSwe(posOrClub, 'positions', 'plural')
-
     const expr = () =>
         posOrClub.label === 'Alla spelare'
             ? 'spelare'
@@ -39,8 +37,6 @@ const Instructions = ({ benchPlayers, pitchPlayers, buildStagePage, posOrClub, l
                       }`}
             </StyledP>
         </StyledDiv>
-        
     );
-    
 };
 export default Instructions;
