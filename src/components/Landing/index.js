@@ -11,6 +11,7 @@ import apis from '../../constants/api';
 import { Loading } from '../Elements';
 
 const Wrapper = styled.div``;
+
 const Container = styled.div`
     height: 100%;
     display: flex;
