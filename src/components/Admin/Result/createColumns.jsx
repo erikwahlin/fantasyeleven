@@ -9,7 +9,7 @@ import {
 
 const createCol = ({ col, setters }) => {
     if (col === 'tripleSaves') console.log('col === tripleSaves');
-    const { updatePlayer, setOrderBy } = setters;
+    const { updatePlayer } = setters;
 
     const wordForm = col === 'cleanSheet' || col === 'red' || col === 'playtime' ? 'sing' : 'plur';
 
@@ -57,7 +57,7 @@ const createCol = ({ col, setters }) => {
             return (
                 <>
                     <select
-                        style={{ fontWeight: val != '0' ? '700' : 'normal' }}
+                        style={{ fontWeight: val !== '0' && val !== 0 ? '700' : 'normal' }}
                         value={val}
                         onChange={e =>
                             updatePlayer({

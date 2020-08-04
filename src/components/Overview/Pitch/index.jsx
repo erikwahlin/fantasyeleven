@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { withOverview } from '../OverviewState';
 import { positions } from '../../../constants/gamePreset';
@@ -76,32 +76,10 @@ const PlayerContainer = styled.div`
     }
 `;
 
-const AddContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    top: 48%;
-    display: flex;
-    justify-content: center;
-
-    & > svg {
-        width: 47px;
-        position: relative;
-        left: 5px;
-    }
-
-    @media all and (max-width: 480px) {
-        top: 43.5vw;
-        & > svg {
-            width: 9.7vw;
-            left: 1.5vw;
-        }
-    }
-`;
-
 const Pitch = ({ overviewContext }) => {
     const fallback = <PitchImg src={pitchImg} className="PitchImg" />;
 
-    const { playedTeams, playedRounds, roundInView, user } = overviewContext.state;
+    const { playedTeams, roundInView } = overviewContext.state;
 
     if (!roundInView) return fallback;
 
@@ -120,15 +98,6 @@ const Pitch = ({ overviewContext }) => {
             players = roundInView.result.myTeam;
         }
     }
-
-    //console.log(players);
-
-    // team value
-    const teamValue = players.list
-        .filter(p => p.origin === 'pitch')
-        .reduce((tot, player) => {
-            return tot + player;
-        });
 
     return (
         <Wrapper className="Pitch Wrapper" bg={pitchImg}>

@@ -6,10 +6,7 @@ import {
     withAuthorization
     //  withEmailVerification,
 } from '../Session';
-import { withFirebase } from '../Firebase';
-import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import Navigation from '../Navigation';
 import styled from 'styled-components';
 import { FaUser } from 'react-icons/fa';
 
@@ -236,8 +233,6 @@ class DefaultLoginToggle extends Component {
         );
     }
 }
-
-const LoginManagement = withFirebase(LoginManagementBase);
 
 const condition = authUser => !!authUser;
 

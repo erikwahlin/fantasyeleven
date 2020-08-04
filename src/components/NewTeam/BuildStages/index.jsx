@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
-import { firstCap, toSwe } from '../../../constants/helperFuncs';
+import { toSwe } from '../../../constants/helperFuncs';
 import styled from 'styled-components';
 import StageTemplate from '../StageTemplate';
 import PitchStage from '../PitchStage';
 import CaptainStage from '../CaptainStage';
 import BenchStage from '../BenchStage';
 import OverviewStage from '../OverviewStage';
-import Pitch from '../Pitch';
-import Bench from '../Bench';
 import './index.css';
-import { Steps, Popconfirm } from 'antd';
+import { Steps } from 'antd';
 import StepContainer from './StepContainer';
 import { CustomConfirm } from '../../Elements';
 
@@ -91,51 +89,13 @@ const StageNavBtnLeft = styled(StageNavBtn)`
 `;
 const StageNavBtnRight = styled(StageNavBtn)``;
 
-const stageContent = stage => {
-    let stageTitle = toSwe(stage, 'stages').toUpperCase();
-
-    switch (stage) {
-        case 'pitch':
-            return <PitchStage />;
-
-        case 'captain':
-            return (
-                <>
-                    <CaptainStage />
-                </>
-            );
-
-        case 'bench':
-            return (
-                <>
-                    {/* <h2>{stageTitle}</h2> */}
-                    <BenchStage />
-                </>
-            );
-        case 'overview':
-            return (
-                <>
-                    {/* <h2>{stageTitle}</h2> */}
-                    <OverviewStage />
-                </>
-            );
-
-        default:
-            return <h2>{stageTitle}</h2>;
-    }
-};
-
 const BuildStages = ({ buildStage, teamContext, ...props }) => {
     const { setStage, updateFilterKeys, registerTeam } = teamContext.setters;
-    const { team, round } = teamContext.state;
+    const { team } = teamContext.state;
     const { players, captain, viceCaptain, value } = team;
 
     const { stageName, stageIndex } = buildStage;
     const playerCount = players.list.filter(player => player.origin === stageName).length;
-
-    const callback = key => {
-        console.log('tab change callback...');
-    };
 
     const register = () => {
         registerTeam();
@@ -179,20 +139,6 @@ const BuildStages = ({ buildStage, teamContext, ...props }) => {
                 return true;
         }
     };
-    const steps = [
-        {
-            title: 'First',
-            content: 'First-content'
-        },
-        {
-            title: 'Second',
-            content: 'Second-content'
-        },
-        {
-            title: 'Last',
-            content: 'Last-content'
-        }
-    ];
 
     return (
         <Wrapper className="BuildStages">

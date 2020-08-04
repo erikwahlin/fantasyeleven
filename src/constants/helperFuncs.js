@@ -13,8 +13,6 @@ export const timestamp = (tag = null) => {
     const date = d.toLocaleDateString(),
         time = d.toLocaleTimeString();
 
-    const weekday = d.getDay() === 0 ? 6 : d.getDay() === 1 ? 0 : d.getDay();
-
     let res = {
         date,
         time

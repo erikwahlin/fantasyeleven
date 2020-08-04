@@ -1,54 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import * as Scroll from 'react-scroll';
-import { IoIosArrowDown } from 'react-icons/io';
-import styled, { css } from 'styled-components';
-import Navigation from '../Navigation';
+import styled from 'styled-components';
 import { withOverview } from './OverviewState';
 import Round from './Round';
 import ResultDropdown from './ResultDropdown';
-import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-import Collapsible from './Collapsible.js';
-import {
-    ContentWrap,
-    OuterWrapper,
-    InnerWrapper,
-    PitchWrap,
-    PitchImg,
-    ResultWrap,
-    Stake,
-    Revenue
-} from './overview.styles';
+import { PitchWrap, Stake, Revenue } from './overview.styles';
 
 import Pitch from './Pitch';
 import Rounds from './Rounds';
 import Bench from './Bench';
-
-const Arrow = styled.div`
-    position: absolute;
-    top: 90vh;
-    left: 50vw;
-    text-align: center;
-
-    &:hover {
-        cursor: pointer;
-    }
-`;
-const InfoTitle = styled.h2`
-    margin: 0;
-    margin-bottom: 0.2rem;
-
-    @media all and (max-width: 899px) {
-        /* prev 480 */
-        font-size: 14px;
-    }
-
-    @media all and (max-width: 350px) {
-        font-size: 4vw;
-    }
-`;
 
 const SuperWrapper = styled.div`
     width: 100%;
@@ -96,8 +59,7 @@ const InfoWrapper = styled.div`
 `;
 
 const OverviewPage = ({ overviewContext }) => {
-    const { user, teams, roundInView, playedTeams, activeRound } = overviewContext.state;
-    const scroll = Scroll.animateScroll;
+    const { user, roundInView, playedTeams } = overviewContext.state;
 
     if (!playedTeams.length || !roundInView)
         return (
@@ -156,8 +118,6 @@ const OverviewPage = ({ overviewContext }) => {
         }
     }
 
-    //console.log('totalpoints', totalPoints, 'rank', rank, 'award', award);
-
     return (
         <div className="Overview">
             <SuperWrapper className="SuperWrapper">
@@ -170,7 +130,7 @@ const OverviewPage = ({ overviewContext }) => {
 
                     <InfoWrapper>
                         <Title>Översikt över dina spel</Title>
-                        <Stake /* isMobile={isMobile} */ style={{}}>
+                        <Stake style={{}}>
                             <h5>Din insats</h5>
                             <p className="stakeSum">{team.value.tot} kr</p>
                         </Stake>
@@ -178,7 +138,6 @@ const OverviewPage = ({ overviewContext }) => {
                             <h6>Total omsättning för denna omgång</h6>
                             <p className="revenueSum">{totalTeamValue} kr</p>
                         </Revenue>
-                        {/* <Collapsible totalPoints={totalPoints} /> */}
                         <ResultDropdown
                             totalPoints={totalPoints}
                             totalTeamValue={totalTeamValue}

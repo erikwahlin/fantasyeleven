@@ -15,7 +15,7 @@ import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
 import { CustomConfirm } from '../../Elements';
 
 import { Table, Card } from 'antd';
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 const Header = styled.div`
     width: 100%;
@@ -36,8 +36,8 @@ const Header = styled.div`
 
 const Title = styled.h2`
     color: ${p => (p.open ? '#000' : '#000')};
-    font-weight:500;
-    font-size:1.2em;
+    font-weight: 500;
+    font-size: 1.2em;
     & span {
         font-weight: 500;
     }
@@ -46,7 +46,7 @@ const Title = styled.h2`
 const TitleSpan = styled.span`
     font-size: 13px;
     color: ${p => (p.status === 'Aktiv' ? 'green' : p.status === 'Avslutad' ? 'red' : '#fff')};
-    font-style:italic;
+    font-style: italic;
 `;
 
 const ArrowIcon = styled.img`
@@ -99,33 +99,17 @@ const MatchTable = styled(Table)`
     }
 `;
 
-const OptionContainer = styled.div`
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-
-    ${p =>
-        p.customstyle &&
-        css`
-            ${p.customstyle}
-        `};
-`;
-
 const Round = ({ adminContext, roundIndex, active }) => {
     const { rounds, settings, user } = adminContext.state;
     const noneIsActive = !settings.activeRound._id;
     const round = rounds[roundIndex];
-    const { ended, users } = round;
+    const { ended } = round;
     const { updateRound, deleteRound, updateSettings } = adminContext.setters;
 
     const status = roundStatus({ active, ended });
 
     const [open, setOpen] = useState(false);
     const [resultOpen, setResultOpen] = useState(false);
-    const closeResult = () => {
-        setResultOpen(false);
-    };
 
     const toggleHandler = e => {
         setOpen(!open);

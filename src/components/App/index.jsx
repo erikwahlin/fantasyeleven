@@ -9,36 +9,20 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
 //import MyTeams from '../MyTeams';
 import NewTeam from '../NewTeam';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import About from '../About';
 import Overview from '../Overview';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
-import { isMobile } from 'react-device-detect';
 import ReactNotification from 'react-notifications-component';
 
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
-
-const AppWrapper = styled.div`
-    height: 100vh;
-
-    /* Kill the extra bottom padding on mobile (keep the nav visible) */
-    ${isMobile &&
-    css`
-        height: 100%;
-        min-height: unset;
-        max-height: 100%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-    `};
-`;
 
 const rotate = keyframes`
 	0% {

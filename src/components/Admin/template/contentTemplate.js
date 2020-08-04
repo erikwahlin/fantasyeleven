@@ -13,17 +13,6 @@ const Box = styled.div`
         `};
 `;
 
-const Row = styled(Box)`
-    flex-direction: row;
-    flex-wrap: wrap;
-`;
-
-const Col = styled(Box)`
-    flex-direction: column;
-
-    min-width: 25%;
-`;
-
 const contentTemplate = ({ className, title, children }) => {
     return (
         <Wrapper className={`${className} Wrapper FlexList`}>

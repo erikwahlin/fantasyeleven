@@ -100,10 +100,7 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
 
     const { rounds } = adminContext.state;
     const round = rounds[roundIndex];
-    const { matches } = round;
-    const match = matches[step];
 
-    const { updateRound } = adminContext.setters;
     const hiddenStepIndex = window.innerWidth >= 650 ? 3 : window.innerWidth >= 480 ? 2 : 1;
 
     const { category } = stepData.step[step];
@@ -111,8 +108,6 @@ const ResultPage = ({ adminContext, resultContext, roundIndex, closeResult }) =>
 
     const lastStep = stepData.step.length - 1;
     const lastSubstep = stepData.substep[category].length - 1;
-
-    const nextReady = stepData.substep[category][substep].ready(match);
 
     const takeSubstep = input => {
         let newSubstep = substep;
