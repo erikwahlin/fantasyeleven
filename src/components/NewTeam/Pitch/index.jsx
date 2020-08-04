@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { withTeam } from '../ctx';
 import * as preset from '../../../constants/gamePreset';
@@ -104,11 +104,6 @@ const Pitch = props => {
     const { stageName } = buildStage;
     const { togglePlayerSearch, openPlayerSearch } = props.teamContext.setters;
     const playerCount = players.list.filter(p => p.origin === 'pitch').length;
-    /* const anims = {
-        initial: pitchInitial,
-        next: pitchNext,
-        prev: pitchPrev
-    }; */
 
     return (
         <Wrapper
@@ -118,12 +113,6 @@ const Pitch = props => {
             stageName={stageName}
         >
             <PitchImg src={pitchImg} className="PitchImg" stageName={stageName} />
-
-            {/* <img
-                src={anims[pitchAnim]}
-                alt="pitchAnim"
-                style={{ margin: 'auto', width: '100%', position: 'absolute' }}
-            /> */}
 
             <FormationContainer className="FormationContainer">
                 {preset.positions.map((pos, nth) => (

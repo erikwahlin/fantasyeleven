@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import apis from '../../../constants/api';
 
 import { withAdmin } from '../AdminState';
 
-import {
-    clone,
-    userMsg,
-    updatedStamp,
-    addEffort,
-    createEffort
-} from '../../../constants/helperFuncs';
+import { clone, userMsg, updatedStamp, addEffort } from '../../../constants/helperFuncs';
 
 import { formTemplate, wrapperTemplate } from '../template';
 import { ButtonStandard, CustomTooltip } from '../template/TemplateElems';
@@ -61,13 +54,10 @@ const initialForm = {
 };
 
 const NewRound = props => {
-    const { rounds, players, settings, user } = props.adminContext.state;
+    const { rounds, players, user } = props.adminContext.state;
     const { createRound } = props.adminContext.setters;
-    const noneIsActive = !settings.activeRound._id;
 
     const [form, setForm] = useState(clone(initialForm));
-    const [prevHome, setPrevHome] = useState(null);
-    const [prevAway, setPrevAway] = useState(null);
     const [prevClub, setPrevClub] = useState({ home: '', away: '' });
     const [takenClubs, setTakenClubs] = useState(allClubs.map(c => c.long));
     const [newRoundHidden, setNewnewRoundHidden] = useState(true);
@@ -117,153 +107,6 @@ const NewRound = props => {
             setNewnewRoundHidden(!newRoundHidden);
         };
 
-        const addEffort = ({ matches, ...form }) => {
-            //let res = clone(form);
-
-            const newMatches = matches.map(match => {
-                let res = clone(match);
-
-                let homeInfo = {
-                    count: {
-                        tot: res.home.players.length,
-                        Goalkeeper: res.home.players.filter(p => p.position === 'Goalkeeper')
-                            .length,
-                        Defender: res.home.players.filter(p => p.position === 'Defender').length,
-                        Midfielder: res.home.players.filter(p => p.position === 'Midfielder')
-                            .length,
-                        Forward: res.home.players.filter(p => p.position === 'Forward').length,
-
-                        fullTimers: {
-                            tot: res.home.players.filter(p => p.effort.playtime === '60+').length,
-                            Goalkeeper: res.home.players.filter(
-                                p => p.position === 'Goalkeeper' && p.effort.playtime === '60+'
-                            ).length,
-                            Defender: res.home.players.filter(
-                                p => p.position === 'Defender' && p.effort.playtime === '60+'
-                            ).length,
-                            Midfielder: res.home.players.filter(
-                                p => p.position === 'Midfielder' && p.effort.playtime === '60+'
-                            ).length,
-                            Forward: res.home.players.filter(
-                                p => p.position === 'Forward' && p.effort.playtime === '60+'
-                            ).length
-                        }
-                    },
-                    limit: {
-                        '60+': {
-                            // 2-4-2
-                            tot: 11,
-                            Goalkeeper: 1,
-                            Defender: 4,
-                            Midfielder: 4,
-                            Forward: 2
-                        },
-                        goals: {
-                            tot: 5,
-                            Goalkeeper: 0,
-                            Defender: 1,
-                            Midfielder: 2,
-                            Forward: 3
-                        },
-                        assists: {
-                            tot: 5,
-                            Goalkeeper: 0,
-                            Defender: 1,
-                            Midfielder: 2,
-                            Forward: 3
-                        }
-                    }
-                };
-
-                res.home.players.forEach((p, nth) => {
-                    let newPlayer = createEffort(p);
-                    res.home.players[nth] = newPlayer;
-
-                    res.home.goals +=
-                        newPlayer.effort.goals; /*
-
-                    // limit player-goals
-                    if (res.home.players[nth].effort.goals > homeInfo.limit.goals[p.position]) {
-                        let diff =
-                            homeInfo.limit.goals[p.position] - res.home.players[nth].effort.goals;
-                        res.home.players[nth].effort.goals -= diff;
-                    }
-
-                    res.home.goals += newPlayer.effort.goals;
-
-                    // limit club-goals
-                    if (res.home.goals > 5) {
-                        let diff = res.home.goals - 5;
-
-                        res.home.players[nth].effort.goals -= diff;
-                        res.home.goals -= diff;
-                    }
-
-                    // limit player assists
-                    if (res.home.players[nth].effort.assists > homeInfo.limit.assists[p.position]) {
-                        let diff =
-                            homeInfo.limit.assists[p.position] -
-                            res.home.players[nth].effort.assists;
-                        res.home.players[nth].effort.assists -= diff;
-                    }
-
-                    // clear penaltySaves for non keepers
-                    if (p.position !== 'Goalkeeper') {
-                        res.home.players[nth].effort.penaltySaves = 0;
-                    } */
-
-                    /* let newPlayer = createEffort(p, homeInfo);
-                    res.home.players[nth] = newPlayer;
-
-                    res.home.players[nth].effort.cleanSheet = true;
-
-                    /* // limit fullTimers
-                    if (
-                        res.home.players.filter(p => p.effort.playtime === '60+').length >
-                        homeInfo.limit['60+'][p.position]
-                    ) {
-                        res.home.players[nth].effort.playtime = '0';
-                    } */
-                });
-
-                res.away.players.forEach((p, nth) => {
-                    let newPlayer = createEffort(p);
-                    res.away.players[nth] = newPlayer;
-
-                    res.away.goals += newPlayer.effort.goals;
-                });
-
-                const cleanup = (club, side) => {
-                    const otherSide = side === 'home' ? 'away' : 'home';
-
-                    // clean up this club
-                    res[side].players.forEach((p, nth) => {
-                        // cleanSheet
-                        if (res[otherSide].goals > 0) {
-                            res[side].players[nth].effort.cleanSheet = false;
-                        }
-
-                        // playtime
-                    });
-
-                    // cleanup opposite club
-                };
-
-                res.home = cleanup(res.home, 'home');
-                res.away = cleanup(res.away, 'away');
-
-                return res;
-            });
-
-            //res.matches = newMatches;
-            return {
-                matches: newMatches,
-                ...form
-            };
-        };
-
-        //const resultAdded = addEffort(clone(form));
-
         createRound({ payload: form, onSuccess });
     };
 
@@ -303,7 +146,6 @@ const NewRound = props => {
                 .map(p => addEffort(p));
 
             // add club/players to taken-arr
-
             setTakenClubs([...takenClubs, club]);
         }
 
@@ -379,32 +221,6 @@ const NewRound = props => {
                         onSubmit={submit}
                     />
 
-                    {/* <select defaultValue="" onChange={e => copyRound(e.target.value)}>
-                        <option disabled value="">
-                            - kopiera resultat från -
-                        </option>
-                        {rounds.map(round => (
-                            <option key={round._id} value={round._id}>
-                                {round.alias}
-                            </option>
-                        ))}
-                    </select> */}
-
-                    {/* <InputTemplate
-                        state={form}
-                        stateKey="active"
-                        label="Sätt som aktiv"
-                        autosave={autosave}
-                        type="checkbox"
-                        helper={
-                            noneIsActive
-                                ? 'Om aktiv knyts kommande registreringar till denna omgång'
-                                : 'Andra omgångar måste avaktiveras först'
-                        }
-                        ready={false}
-                        onSubmit={submit}
-                        disabled={!noneIsActive}
-                    /> */}
                     <Wrapper
                         customstyle={`flex-direction: row; flex-wrap: wrap; margin-top: 30px;`}
                     >

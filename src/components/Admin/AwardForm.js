@@ -18,8 +18,6 @@ const initialState = {
 const AwardForm = () => {
     const [state, setState] = useState({ ...initialState });
 
-    const setShrink = () => {};
-
     const autosave = (key, val, type) => {
         const newState = clone(state);
         console.log('vaaal', val);
@@ -44,8 +42,6 @@ const AwardForm = () => {
 
     const submit = e => {
         e.preventDefault();
-
-        //alert('award hej!');
     };
 
     return (
@@ -92,12 +88,7 @@ const AwardForm = () => {
                 max={100}
             />
 
-            <ButtonStandard
-                className="Submit"
-                /* disabled={!ready} */
-                type="primary"
-                htmlType="submit"
-            >
+            <ButtonStandard className="Submit" type="primary" htmlType="submit">
                 Skapa
             </ButtonStandard>
         </FormContainer>

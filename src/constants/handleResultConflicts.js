@@ -1,4 +1,4 @@
-import { clone, userMsg, effortToPoints, toSwe } from './helperFuncs';
+import { clone, userMsg, effortToPoints } from './helperFuncs';
 
 const handleResultConflicts = ({ match, key, val, player, side, otherside, pIndex, updater }) => {
     let res = clone(match);
@@ -115,7 +115,7 @@ const handleResultConflicts = ({ match, key, val, player, side, otherside, pInde
     }
 
     // penaltySaves vs position
-    if (key == 'penaltySaves' && player.position !== 'Goalkeeper') {
+    if (key === 'penaltySaves' && player.position !== 'Goalkeeper') {
         savesVsPosition();
     }
 

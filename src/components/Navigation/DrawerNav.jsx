@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { AuthUserContext } from '../Session';
-import SignOutButton from '../SignOut';
-import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
 import { WrapperRow, ButtonStandard } from '../Elements';
 import { Drawer } from 'antd';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import './DrawerStyle.css';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const Wrapper = styled(WrapperRow)`
     justify-content: space-between;
@@ -53,8 +47,6 @@ const DrawerStyled = styled(Drawer)`
         color: whitesmoke;
     }
 `;
-
-const iconConfig = [];
 
 const DrawerNav = ({ user, location, children: links, ...props }) => {
     const [visible, setVisible] = useState(false);

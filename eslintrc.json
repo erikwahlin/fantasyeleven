@@ -1,5 +1,5 @@
 {
-    "plugins": ["react-hooks"],
+    "plugins": ["react-hooks", "styled-components"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn"

@@ -34,18 +34,6 @@ const InputWrap = styled.div`
     margin: 5px;
 `;
 
-/* const Form = styled.form`
-    margin: 0 auto;
-    width: 55%;
-    height: 400px;
-    padding: 100px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-`;
- */
 const Placeholder = styled.span`
     background: rgba(36, 132, 10, 0.6);
     color: white;
@@ -167,7 +155,6 @@ class SignInFormBase extends Component {
             .doSignInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE }, () => {
-                    //this.props.history.push(ROUTES.OVERVIEW);
                     this.props.history.push(ROUTES.NEWTEAM);
                 });
             })
@@ -207,9 +194,6 @@ class SignInFormBase extends Component {
                     <SubmitButton disabled={isInvalid} type="normal submit">
                         Logga in
                     </SubmitButton>
-                    {/*                     <SignInGoogle />
-                    <SignInFacebook /> */}
-                    {/* <SignInTwitter /> */}
                     <div style={{ textAlign: 'center', marginTop: '30px' }}>
                         <PasswordForgetLink />
                         <SignUpLink />

@@ -1,35 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { withOverview } from '../OverviewState';
 
-import {
-    valWrap,
-    OuterWrapper,
-    InnerWrapper,
-    PitchWrap,
-    PitchImg,
-    ResultWrap,
-    Stake,
-    Revenue
-} from '../overview.styles';
-
-import { Collapse, Select, List } from 'antd';
+import { Collapse, List } from 'antd';
 const { Panel } = Collapse;
-const { Option } = Select;
-
-const Infokey = styled.h2`
-    margin: 0;
-    margin-bottom: 0.2rem;
-
-    @media all and (max-width: 899px) {
-        /* prev 480 */
-        font-size: 14px;
-    }
-
-    @media all and (max-width: 350px) {
-        font-size: 4vw;
-    }
-`;
 
 const CustomCollapse = styled(Collapse)`
     width: 300px;
@@ -52,8 +26,7 @@ const ResultDropdown = ({
     highestPoint,
     lowestPoint
 }) => {
-    const { user, playedRounds, roundInView } = overviewContext.state;
-    const { setRoundInView } = overviewContext.setters;
+    const { roundInView } = overviewContext.state;
     const [collapseKey, setCollapseKey] = useState(false);
 
     // TEMP
@@ -115,7 +88,6 @@ const ResultDropdown = ({
                             <br />
                             <span
                                 style={{
-                                    /* marginLeft: '2vw', */
                                     fontSize: '1.2em',
                                     fontWeight: '700',
                                     color: config[0].color

@@ -26,8 +26,6 @@ import ViceCap from '../../media/ViceCap.svg';
 import { GiCancel } from 'react-icons/gi';
 import { FiSearch } from 'react-icons/fi';
 
-//import '../fonts/MrEavesXLModNarOT-Reg.ttf';
-
 import {
     OuterWrapper,
     InnerWrapper,
@@ -59,7 +57,6 @@ class PlayerSearch extends Component {
 
         this.goToFirstPage = this.goToFirstPage.bind(this);
         this.resetSettings = this.resetSettings.bind(this);
-        //this.paginate = this.paginate.bind(this)
         this.setFilter_posClub = this.setFilter_posClub.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.goToPage = this.goToPage.bind(this);
@@ -70,8 +67,8 @@ class PlayerSearch extends Component {
         this.togglePlayerModal = this.togglePlayerModal.bind(this);
         this.checkIfSlider = this.checkIfSlider.bind(this);
         this.handleSortByClick = this.handleSortByClick.bind(this);
-
         this.handleListClickSort = this.handleListClickSort.bind(this);
+        this.setMultiPick = this.setMultiPick.bind(this);
     }
 
     componentDidMount = (pp, ps) => {
@@ -145,11 +142,6 @@ class PlayerSearch extends Component {
             this.setState({ priceSort: 'falling' });
         }
     };
-    /*     handleSEKClick = e => {
-        const { sortBy, priceSort } = this.state;
-
-        console.log(e.target);
-    }; */
 
     handleSortByClick = e => {
         let cName = cName => e.target.className.includes(cName);
@@ -327,6 +319,10 @@ class PlayerSearch extends Component {
         }));
     };
 
+    setMultiPick = newVal => {
+        this.setState(ps => ({ multiPick: typeof newVal === 'boolean' ? newVal : !ps.multiPick }));
+    };
+
     render() {
         const { paginationSettings, posOrClubSelected } = this.state;
         const { players, teamContext, markedMode } = this.props;
@@ -334,10 +330,6 @@ class PlayerSearch extends Component {
         const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
         const { team } = teamContext.state;
         const { captain, viceCaptain } = team;
-
-        const findCaptain = (players, cap) => {
-            if (cap && players) return players.filter(player => player._id === cap)[0];
-        };
 
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
@@ -418,17 +410,10 @@ class PlayerSearch extends Component {
             paginationSettings.pageNumber,
             this.props.teamContext.state.config.mobileSearch
         );
-        //const result = markedMode ? sorted : this.groupByPosition(paginated);
-        //const result = this.groupByPosition(paginated);
-        //const result = paginated
-        // get short club name (according to reuter)
         const clubAbbr = club => {
             if (!club) return '';
             return allClubs.filter(item => item.long === club)[0].short;
         };
-        //console.log(Object.keys(result));
-        //console.log(result);
-        //console.log('search output', result);
 
         return (
             <OuterWrapper className="OuterWrapper PlayerSearch">
@@ -443,7 +428,6 @@ class PlayerSearch extends Component {
                         </CancelBtn>
                     )}
                     {/* FILTER */}
-                    {/* (FILTER) <br />  */}
                     {/* temp */}
                     {buildStage.stageName === 'captain' ? (
                         <CapWrap>
@@ -556,6 +540,21 @@ class PlayerSearch extends Component {
                             >
                                 <strong>Återställ filter</strong>
                             </ButtonReset>
+
+                            <div
+                                style={{
+                                    width: '100%',
+                                    height: '100px',
+                                    backgroundColor: 'white',
+                                    margin: '10px 0',
+                                    textAlign: 'center',
+                                    color: 'black',
+                                    fontSize: '2rem'
+                                }}
+                            >
+                                MultiPick: {String(this.state.multiPick)}
+                                <button onClick={this.setMultiPick}>Toggle</button>
+                            </div>
 
                             {/* RESULT */}
                             {paginated.length ? (

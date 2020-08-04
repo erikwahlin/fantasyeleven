@@ -26,32 +26,10 @@ export const create = (action = 'create', payload) => api.post(`/${action}`, pay
 export const remove = id => api.delete(`/remove/${id}`);
 export const update = (id, payload) => api.put(`/update/${id}`, payload);
 
-const rounds = {
-    updateRound: round => api.put(`/updateRound`, round)
-};
-
-const result = {};
-
-const players = {
-    getPlayers: () => api.get(`/getPlayers`),
-    addPlayer: player => api.post(`/addPlayer`, player),
-    updatePlayer: player => api.put(`/updatePlayer`, player),
-    deletePlayer: id => api.delete(`/deletePlayer/${id}`)
-};
-
 const missingAction = crudType =>
     console.log(`Api-fail. No action-name provided for ${crudType}-action.`);
 
 const apis = {
-    /* get,
-    create,
-    remove,
-    update,
-
-    rounds,
-    result,
-    players, */
-
     create: ({ action, payload }) =>
         action ? api.post(`/${action}`, payload) : missingAction('create/post'),
 

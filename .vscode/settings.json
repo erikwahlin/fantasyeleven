@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "editorError.foreground": "#fa83a7",
+        "editorWarning.border": "#ffe600",
+        "editorInfo.border": "#88ff00",
+        "editorHint.border": "#ff5e00",
+        "editorUnnecessaryCode.opacity": "#00000055",
+        "editorUnnecessaryCode.border": "#ffd00033",
+        "editorBracketMatch.background": "#9dff0041",
+        "editorBracketMatch.border": "#ceff7e6c"
+    }
+}

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Tabs, Select, Space } from 'antd';
+import { Tabs, Select } from 'antd';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -28,7 +28,6 @@ export const Wrapper = styled.div`
     }
 
     & .ant-tabs-bar {
-    
         ${p =>
             (p.tabPos === 'top' || p.tabPos === 'bottom') &&
             css`

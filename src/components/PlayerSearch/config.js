@@ -21,7 +21,8 @@ const INITIAL_STATE = {
     },
 
     result: [],
-    playerModal: false
+    playerModal: false,
+    multiPick: false
 };
 
 export default INITIAL_STATE;

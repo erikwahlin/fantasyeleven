@@ -1,7 +1,6 @@
 import React from 'react';
-import Navigation from '../Navigation';
 import pitchImg from '../../media/pitch.png';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import ScrollAnimation from 'react-animate-on-scroll';
 
 const Wrapper = styled.div`
@@ -20,10 +19,6 @@ const PitchWrap = styled.div`
     @media all and (max-width: 913px) {
         display: none;
     }
-    /*     @media all and (max-width: 480px) {
-        width: 100vw;
-        height: 90vw;
-    } */
 `;
 
 const PitchImg = styled.img`
@@ -34,21 +29,6 @@ const PitchImg = styled.img`
 
 const InfoText = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
-`;
-
-const How = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 44%;
-    width: 70%;
-
-    @media all and (max-width: 913px) {
-        justify-content: center;
-        align-items: center;
-        height: 70%;
-    }
 `;
 
 const Ptag = styled.p`
@@ -62,13 +42,7 @@ const Ptag = styled.p`
         line-height: 1.7em;
     }
 `;
-const AboutPage = styled.div`
-    overflow: hidden;
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100vh;
-    justify-content: center;
-`;
+
 const About = ({ location }) => (
     <ScrollAnimation animateIn="fadeIn">
         <Wrapper>

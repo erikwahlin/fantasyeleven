@@ -1,44 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { withOverview } from '../OverviewState';
 
-import {
-    ContentWrap,
-    OuterWrapper,
-    InnerWrapper,
-    PitchWrap,
-    PitchImg,
-    ResultWrap,
-    Stake,
-    Revenue
-} from '../overview.styles';
-
-import { Collapse, Select, List } from 'antd';
+import { Collapse, List } from 'antd';
 const { Panel } = Collapse;
-const { Option } = Select;
-
-const InfoTitle = styled.h2`
-    margin: 0;
-    margin-bottom: 0.2rem;
-
-    @media all and (max-width: 899px) {
-        /* prev 480 */
-        font-size: 14px;
-    }
-
-    @media all and (max-width: 350px) {
-        font-size: 4vw;
-    }
-`;
 
 const CustomCollapse = styled(Collapse)`
     width: 100%;
-    max-width:576px;
+    max-width: 576px;
     margin: 20px auto;
 `;
 
 const Rounds = ({ overviewContext }) => {
-    const { user, playedRounds, roundInView } = overviewContext.state;
+    const { playedRounds, roundInView } = overviewContext.state;
     const { setRoundInView } = overviewContext.setters;
 
     const [collapseKey, setCollapseKey] = useState(false);
@@ -51,7 +25,11 @@ const Rounds = ({ overviewContext }) => {
             onChange={() => setCollapseKey(!collapseKey)}
             expandIconPosition="right"
         >
-            <Panel header={`Visar omgång ${roundInView.alias}`} key="1" style={{ fontSize: '1.1em', fontWeight: '500' }}>
+            <Panel
+                header={`Visar omgång ${roundInView.alias}`}
+                key="1"
+                style={{ fontSize: '1.1em', fontWeight: '500' }}
+            >
                 <List
                     itemLayout="vertical"
                     dataSource={playedRounds}
