@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withTeam } from '../NewTeam/ctx';
 import styled from 'styled-components';
 import { WrapperRow, ButtonStandard } from '../Elements';
 import { Drawer } from 'antd';
@@ -22,6 +23,8 @@ const MenuBtn = styled.div`
     padding: 15px 20px;
     margin: 0;
     cursor: pointer;
+
+    ${p => p.searchOpen && `display: none`};
 `;
 
 const MenuIcon = styled(GiHamburgerMenu)`
@@ -58,6 +61,8 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
         setVisible(false);
     };
 
+    //const { searchOpen } = teamContext.state.config;
+
     return (
         <Wrapper
             pathname={location.pathname}
@@ -81,4 +86,4 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
     );
 };
 
-export default DrawerNav;
+export default withTeam(DrawerNav);

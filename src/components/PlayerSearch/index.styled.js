@@ -59,7 +59,6 @@ export const InnerWrapper = styled.div`
 
 export const CancelBtn = styled.button`
     position: fixed;
-    right: 0;
     font-size: 1.5em;
     background: rgba(0, 0, 0, 0.5);
     color: white;
@@ -67,7 +66,13 @@ export const CancelBtn = styled.button`
     border: none;
     outline: none;
     z-index: 3;
-    border-radius: 10px 0 0 10px;
+    border-radius: 0 0 10px 10px;
+    right: 223px;
+
+    @media all and (max-width: 500px) {
+        right: 50vw;
+        transform: translateX(27px);
+    }
 
     & > svg {
         width: 30px;
@@ -158,7 +163,7 @@ export const AltButtonCol = styled(ButtonContainer)`
     display: flex;
     flex-direction: column;
 
-    & > [class='alt-label'] {
+    & > [class*='label'] {
         flex: 1;
         color: white;
         background: #005c07;
@@ -190,7 +195,7 @@ export const AltButtonRow = styled(ButtonContainer)`
 `;
 
 export const AltButton = styled(StyledBtn)`
-    background: rgba(226, 221, 221, 0.5);
+    background: ${p => (p.mobileSearch ? 'lightgrey' : 'rgba(226, 221, 221, 0.5)')};
     font-family: Avenir;
 
     ${p =>
@@ -198,7 +203,6 @@ export const AltButton = styled(StyledBtn)`
         ` 
     background: #e2dddd;
         box-shadow: none;
-        /* color: #005c07; */
         font-weight: bold;
     `};
 `;

@@ -1,4 +1,7 @@
 import React from 'react';
+
+import fastClickCopy from './constants/react-fast-click-copy'; // temp* copied from repo cuz import probs
+
 import ReactDOM from 'react-dom';
 import 'normalize.css';
 
@@ -8,6 +11,8 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './components/App';
 import Firebase, { FirebaseContext } from './components/Firebase';
+
+fastClickCopy();
 
 ReactDOM.render(
     <FirebaseContext.Provider value={new Firebase()}>

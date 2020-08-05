@@ -333,17 +333,19 @@ class PlayerSearch extends Component {
         } = this.state;
         const { players, teamContext, markedMode } = this.props;
         const { closePlayerSearch } = teamContext.setters;
-        const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
-        const { team } = teamContext.state;
+        const { team, config } = teamContext.state;
+        const { mobileSearch, searchOpen, switchers, buildStage } = config;
         const { captain, viceCaptain } = team;
 
-        let resultLabel = markedMode
-            ? toSwe(switchers.marked.pos, 'positions', 'plur')
-            : filterPos.value
-            ? filterPos.value
-            : filterClub.value
-            ? filterClub.value
-            : '';
+        let resultLabel = ['Spelare'];
+
+        if (markedMode) resultLabel = toSwe(switchers.marked.pos, 'positions', 'plur');
+        else if (filterPos.value || filterClub.value) {
+            resultLabel = [filterPos, filterClub]
+                .filter(item => item.value)
+                .map(item => item.label.substring(0, 5))
+                .join('/');
+        }
 
         if (!players) return <p>Didn't find any players</p>;
 
@@ -449,6 +451,7 @@ class PlayerSearch extends Component {
                         <>
                             {/* <Title className="SearchPlayer-Title unmarkable">Sök spelare</Title> */}
                             <AltButtonCol>
+                                <p className="section-label">Filter</p>
                                 <DropDown
                                     className="filter-pos dropdown playerserach unmarkable"
                                     options={posOptions}
@@ -517,8 +520,7 @@ class PlayerSearch extends Component {
                                 <SearchFieldWrapper>
                                     <Input
                                         type="text"
-                                        name="name"
-                                        className="FilterByName unmarkable"
+                                        className="FilterByName"
                                         onChange={this.setFilter_name}
                                         placeholder="Sök spelare"
                                         value={searchTerm}
@@ -528,12 +530,13 @@ class PlayerSearch extends Component {
                             </AltButtonCol>
 
                             <AltButtonCol>
-                                <p className="alt-label">Sortera efter</p>
+                                <p className="section-label">Sortera utifrån</p>
                                 <AltButtonRow className="alt-button-row playersearch">
                                     <AltButton
                                         className="sort-by-button unmarkable"
                                         onClick={() => this.setState({ sortBy: 'price' })}
                                         active={sortBy === 'price'}
+                                        mobileSearch={mobileSearch}
                                     >
                                         Pris
                                     </AltButton>
@@ -541,6 +544,7 @@ class PlayerSearch extends Component {
                                         className="sort-by-button unmarkable"
                                         onClick={() => this.setState({ sortBy: 'popularity' })}
                                         active={sortBy === 'popularity'}
+                                        mobileSearch={mobileSearch}
                                     >
                                         Popularitet
                                     </AltButton>
@@ -549,16 +553,18 @@ class PlayerSearch extends Component {
                                 <AltButtonRow className="alt-button-row playersearch">
                                     <AltButton
                                         className="sort-desc unmarkable"
-                                        onClick={() => this.handleSort('desc')}
+                                        onClick={() => this.setState({ sortDirection: 'desc' })}
                                         active={sortDirection === 'desc'}
+                                        mobileSearch={mobileSearch}
                                     >
                                         Fallande
                                     </AltButton>
                                     <AltButton
                                         className="sort-asc unmarkable"
                                         sortDirection={sortDirection}
-                                        onClick={() => this.handleSort('asc')}
+                                        onClick={() => this.setState({ sortDirection: 'asc' })}
                                         active={sortDirection === 'asc'}
+                                        mobileSearch={mobileSearch}
                                     >
                                         Stigande
                                     </AltButton>
@@ -604,14 +610,16 @@ class PlayerSearch extends Component {
 
                                     <LabelRow className="LabelRow unmarkable">
                                         <div className="labelPosition">
-                                            <p> {resultLabel}</p>
+                                            <p> {resultLabel} </p>
                                         </div>
+
                                         <div
                                             onClick={e => this.handleListClickSort(e, 'popularity')}
                                             className="tooltip labelPercentage"
                                         >
                                             %<span className="tooltiptext">Popularitet</span>
                                         </div>
+
                                         <div
                                             onClick={e => this.handleListClickSort(e, 'price')}
                                             className="tooltip labelPrice"
