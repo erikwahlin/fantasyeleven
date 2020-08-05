@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Popover } from 'antd';
 import { withTeam } from '../ctx';
 import { toSwe, countPlayers, clone, mathRandInc } from '../../../constants/helperFuncs';
 import { positions, formations } from '../../../constants/gamePreset';
@@ -6,6 +7,9 @@ import { positions, formations } from '../../../constants/gamePreset';
 import { Wrapper, Section, Key, Val, Button, AddPlayerIcon } from './template';
 
 const PitchInfo = ({ teamContext }) => {
+    const [autoFillOpen, setAutofillOpen] = useState(false);
+    const [autoFillMax, setAutoFillMax] = useState(100);
+
     const { team, config } = teamContext.state;
     const { value, players } = team;
     const { buildStage, limit, mobileSearch, allPlayers } = config;
@@ -84,12 +88,40 @@ const PitchInfo = ({ teamContext }) => {
             </Section>
 
             <Section className="Section">
-                <Button
-                    onClick={emptyPitch ? autoFill : clearPlayers}
-                    className="Button autofill clearplayers"
+                <Popover
+                    content={
+                        <div>
+                            <p>max-summa (kr)</p>
+                            <input
+                                type="number"
+                                max="200"
+                                placeholder="total max-summa (kr)"
+                                value={autoFillMax}
+                                onChange={e => setAutoFillMax(e.target.value)}
+                            />{' '}
+                            <button
+                                onClick={() => {
+                                    setAutofillOpen(false);
+                                    autoFill();
+                                }}
+                            >
+                                Kör
+                            </button>{' '}
+                            <button onClick={() => setAutofillOpen(false)}>Stäng</button>
+                        </div>
+                    }
+                    trigger="click"
+                    visible={autoFillOpen}
+                    width={500}
+                    /* onVisibleChange={this.handleVisibleChange} */
                 >
-                    {emptyPitch ? 'Autofyll' : 'Nollställ'}
-                </Button>
+                    <Button
+                        onClick={emptyPitch ? () => setAutofillOpen(!autoFillOpen) : clearPlayers}
+                        className="Button autofill clearplayers"
+                    >
+                        {emptyPitch ? 'Autofyll' : 'Nollställ'}
+                    </Button>
+                </Popover>
             </Section>
 
             {mobileSearch && playerCount > 0 && (

@@ -350,40 +350,39 @@ class Plupp extends Component {
 
         this.setCap = this.setCap.bind(this);
 
-        this.capPopContent = () => {
-            const { player, teamContext, pluppIndex } = this.props;
-            const { captain, viceCaptain } = teamContext.state.team;
-            const playerID = player ? player._id : null;
-            const capID = captain ? captain._id : null,
-                viceCapID = viceCaptain ? viceCaptain._id : null;
-
-            const isCap = playerID && capID === playerID;
-            const isVice = playerID && viceCapID === playerID;
-
-            return (
-                <div
-                    className="capPopWrapper unmarkable"
-                    style={{ textAlign: 'center', width: '150px' }}
-                >
-                    <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
-                        Kapten
-                    </CapPopBtn>
-
-                    <CapPopBtn
-                        onClick={() => !isVice && this.setCap('viceCaptain')}
-                        picked={isVice}
-                    >
-                        Vice kapten
-                    </CapPopBtn>
-
-                    <a onClick={this.capPopToggle}>Stäng</a>
-                </div>
-            );
-        };
+        this.capPopContent = this.capPopContent.bind(this);
     }
     // on update
     componentDidUpdate = (pp, ps) => {
         this.syncWithSwitchers(pp, ps);
+    };
+
+    capPopContent = () => {
+        const { player, teamContext, pluppIndex } = this.props;
+        const { captain, viceCaptain } = teamContext.state.team;
+        const playerID = player ? player._id : null;
+        const capID = captain ? captain._id : null,
+            viceCapID = viceCaptain ? viceCaptain._id : null;
+
+        const isCap = playerID && capID === playerID;
+        const isVice = playerID && viceCapID === playerID;
+
+        return (
+            <div
+                className="capPopWrapper unmarkable"
+                style={{ textAlign: 'center', width: '150px' }}
+            >
+                <CapPopBtn onClick={() => !isCap && this.setCap('captain')} picked={isCap}>
+                    Kapten
+                </CapPopBtn>
+
+                <CapPopBtn onClick={() => !isVice && this.setCap('viceCaptain')} picked={isVice}>
+                    Vice kapten
+                </CapPopBtn>
+
+                <a onClick={this.capPopToggle}>Stäng</a>
+            </div>
+        );
     };
 
     // check if plupp should be marked
