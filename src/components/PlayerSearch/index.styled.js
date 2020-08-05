@@ -39,7 +39,7 @@ export const InnerWrapper = styled.div`
         css`
             display: block;
             position: fixed;
-            z-index: 1;
+            z-index: 3;
             opacity: ${p.searchOpen ? '1' : '0'};
             right: ${p.searchOpen ? '0' : '-110vw'};
             top: 0;
@@ -58,21 +58,20 @@ export const InnerWrapper = styled.div`
 `;
 
 export const CancelBtn = styled.button`
-    width: 30px;
-    height: 30px;
-    position: absolute;
+    position: fixed;
     right: 0;
     font-size: 1.5em;
-    padding: 0;
-    background: none;
+    background: rgba(0, 0, 0, 0.5);
     color: white;
-    margin: 12px;
+    padding: 12px 12px 0;
     border: none;
     outline: none;
+    z-index: 3;
+    border-radius: 10px 0 0 10px;
 
     & > svg {
-        width: 100%;
-        height: 100%;
+        width: 30px;
+        height: 30px;
         cursor: pointer;
     }
 `;
@@ -136,7 +135,6 @@ export const Input = styled.input`
 
 export const ButtonContainer = styled.div`
     width: 100%;
-    height: 40px;
     font-family: 'Avenir';
     font-size: 1.1em;
     border: none;
@@ -159,24 +157,46 @@ export const ButtonContainer = styled.div`
     }
 `;
 export const StyledBtn = styled.button`
-    height: 40px;
     font-family: 'Avenir';
-    font-size: 1em;
+    height: 40px;
     border: none;
     outline: none;
     color: black;
     background: #e2dddd;
     cursor: pointer;
     padding: 3px;
-    &:hover {
-        background: rgba(226, 221, 221, 0.5);
-    }
 `;
-export const ButtonDes = styled(StyledBtn)``;
-export const ButtonAsc = styled(StyledBtn)``;
+
+export const ButtonDes = styled(StyledBtn)`
+    box-shadow: inset 0 0 2px #000000;
+    background: rgba(226, 221, 221, 0.5);
+
+    ${p =>
+        p.priceSort === 'falling' &&
+        ` 
+    background: #e2dddd;
+        box-shadow: none;
+        color: #005c07;
+    `};
+`;
+
+export const ButtonAsc = styled(StyledBtn)`
+    box-shadow: inset 0 0 2px #000000;
+    background: rgba(226, 221, 221, 0.5);
+
+    ${p =>
+        p.priceSort === 'rising' &&
+        `    
+    background: #e2dddd;
+        box-shadow: none;
+        color: #005c07;
+    `};
+`;
+
 export const ButtonReset = styled(StyledBtn)`
     margin-bottom: 12px;
     width: 100%;
+    min-height: 40px;
 `;
 
 export const ResultContainer = styled.div`
@@ -262,23 +282,26 @@ export const CapWrap = styled.div`
     margin-top: 7rem;
 `;
 
-export const MultiPick = styled.div`
+export const MultiPick = styled(StyledBtn)`
     width: 100%;
     backgroundcolor: white;
     margin: 10px 0;
     color: black;
 
     display: flex;
-    justifycontent: space-between;
-    alignitems: center;
+    flex-direaction: row;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
     background: #e2dddd;
 
     & > [class='label'] {
         flex: 1;
+        text-align: left;
         font-family: 'Avenir';
         font-size: 1.1em;
-        font-weight: ${p => (p.multiPick ? 'bold' : 'normal')};
+        /* font-weight: ${p => (p.multiPick ? 'bold' : 'normal')}; */
+        ${p => p.multiPick && `color: #005c07`};
         margin: 0;
     }
 

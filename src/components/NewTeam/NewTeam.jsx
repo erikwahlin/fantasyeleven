@@ -31,28 +31,18 @@ const routeToSignupMsg = userMsg({
 
 const ContentWrap = styled.div`
     margin-top: 50px !important;
-    @media screen and (min-width: 900px) {
-        /* display: grid;
-        grid-template-rows: 100%;
-        grid-gap: 0px 75px;
-        grid-template-columns: auto 550px 300px auto; */
-        /* @media screen and (min-width: 1000px) {
-            grid-template-columns: auto 650px 300px auto;
-        } */
+    width: 100%;
+    height: 100%;
 
+    @media screen and (min-width: 900px) {
         margin: 0;
         display: flex;
     }
 
-    width: 100%;
-    height: 100%;
-
-    @media all and (max-width: 899px) {
-        /* prev 480 */
-
+    /* @media all and (max-width: 899px) {
         width: 100%;
         height: 100%;
-    }
+    } */
 
     @media all and (max-width: 480px) {
         height: auto;
@@ -1014,7 +1004,13 @@ class NewTeam extends Component {
     };
 
     render() {
-        const { searchablePlayers, switchers, mobileSearch, buildStage } = this.state.config;
+        const {
+            searchablePlayers,
+            switchers,
+            mobileSearch,
+            searchOpen,
+            buildStage
+        } = this.state.config;
 
         const markedMode = switchers.marked && !switchers.target ? true : false;
 
@@ -1047,6 +1043,7 @@ class NewTeam extends Component {
                     className="ContentWrap"
                     markedMode={markedMode}
                     mobileSearch={mobileSearch}
+                    searchOpen={searchOpen}
                 >
                     <BuildStages buildStage={buildStage} />
                     <PlayerSearch players={searchablePlayers} markedMode={this.checkMarkedMode()} />

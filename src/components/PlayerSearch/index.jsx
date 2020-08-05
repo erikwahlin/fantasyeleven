@@ -510,15 +510,7 @@ class PlayerSearch extends Component {
                             <ButtonContainer className="ButtonContainer playersearch">
                                 <ButtonDes
                                     className="SortFalling unmarkable"
-                                    style={
-                                        this.state.priceSort === 'falling'
-                                            ? {
-                                                  fontWeight: 'bold',
-                                                  backgroundColor: 'rgba(226, 221, 221, 0.5)',
-                                                  boxShadow: 'inset 0 0 2px #000000'
-                                              }
-                                            : { fontWeight: '500' }
-                                    }
+                                    priceSort={this.state.priceSort}
                                     value="falling"
                                     onClick={this.handleSort}
                                 >
@@ -526,15 +518,7 @@ class PlayerSearch extends Component {
                                 </ButtonDes>
                                 <ButtonAsc
                                     className="SortRising unmarkable"
-                                    style={
-                                        this.state.priceSort === 'rising'
-                                            ? {
-                                                  fontWeight: 'bold',
-                                                  backgroundColor: 'rgba(226, 221, 221, 0.5)',
-                                                  boxShadow: 'inset 0 0 2px #000000'
-                                              }
-                                            : { fontWeight: '500' }
-                                    }
+                                    priceSort={this.state.priceSort}
                                     value="rising"
                                     onClick={this.handleSort}
                                 >
@@ -546,27 +530,14 @@ class PlayerSearch extends Component {
                                 onClick={this.resetSettings}
                                 className="ResetFilter unmarkable"
                             >
-                                <strong>Återställ filter</strong>
+                                Återställ filter
                             </ButtonReset>
-
-                            <MultiPick className="multi-pick" multiPick={this.state.multiPick}>
-                                <p className="label">Välj flera</p>
-                                <Switch
-                                    className="multi-pick-switch"
-                                    checkedChildren={<CheckOutlined />}
-                                    unCheckedChildren={<CloseOutlined />}
-                                    checked={this.state.multiPick}
-                                    onChange={this.setMultiPick}
-                                />
-                            </MultiPick>
 
                             {/* RESULT */}
                             {paginated.length ? (
                                 <ResultContainer className="ResultContainer">
                                     <Paginate
-                                        mobileSearch={
-                                            this.props.teamContext.state.config.mobileSearch
-                                        }
+                                        mobileSearch={mobileSearch}
                                         className="Paginate"
                                         goToPage={this.goToPage}
                                         settings={paginationSettings}
@@ -575,6 +546,22 @@ class PlayerSearch extends Component {
                                             filtered.length / paginationSettings.pageSize
                                         )}
                                     />
+
+                                    {mobileSearch && (
+                                        <MultiPick
+                                            className="multi-pick"
+                                            multiPick={this.state.multiPick}
+                                            onClick={this.setMultiPick}
+                                        >
+                                            <p className="label">Välj flera</p>
+                                            <Switch
+                                                className="multi-pick-switch"
+                                                checkedChildren={<CheckOutlined />}
+                                                unCheckedChildren={<CloseOutlined />}
+                                                checked={this.state.multiPick}
+                                            />
+                                        </MultiPick>
+                                    )}
 
                                     <LabelRow className="LabelRow unmarkable">
                                         <div className="labelPosition">
