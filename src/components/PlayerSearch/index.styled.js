@@ -8,7 +8,7 @@ export const OuterWrapper = styled.div`
 
     @media all and (max-width: 899px) {
         position: fixed;
-        z-index: 1;
+        z-index: 3;
         opacity: 1;
         left: 110vw;
         top: 0;
@@ -66,7 +66,7 @@ export const CancelBtn = styled.button`
     padding: 0;
     background: none;
     color: white;
-    margin: 5px;
+    margin: 12px;
     border: none;
     outline: none;
 
@@ -103,8 +103,13 @@ export const Title = styled.h2`
     font-size: 2em;
     line-height: 30px; /* in line with titles above pitch */
     margin: 0;
-    margin-bottom: 12px;
+    padding-bottom: 12px;
     font-weight: 600;
+
+    @media all and (max-width: 899px) {
+        padding: 12px 0;
+        background: black;
+    }
 `;
 
 export const Input = styled.input`
@@ -255,4 +260,28 @@ export const PlayerPrice = styled.div`
 
 export const CapWrap = styled.div`
     margin-top: 7rem;
+`;
+
+export const MultiPick = styled.div`
+    width: 100%;
+    backgroundcolor: white;
+    margin: 10px 0;
+    color: black;
+    fontsize: 1.2rem;
+    display: flex;
+    justifycontent: space-between;
+    alignitems: center;
+    padding: 10px;
+    background: #e2dddd;
+
+    & > [class='label'] {
+        flex: 1;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    & > [aria-checked='true'] {
+        background-color: #005c07;
+    }
 `;

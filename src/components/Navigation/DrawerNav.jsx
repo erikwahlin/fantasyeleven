@@ -15,7 +15,7 @@ const Wrapper = styled(WrapperRow)`
 `;
 
 const MenuBtn = styled.div`
-    background: none;
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     width: 70px;
     height: 62px;
@@ -53,7 +53,8 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
     const showDrawer = () => {
         setVisible(true);
     };
-    const onClose = () => {
+
+    const close = () => {
         setVisible(false);
     };
 
@@ -70,9 +71,9 @@ const DrawerNav = ({ user, location, children: links, ...props }) => {
                 drawerStyle={{ background: 'rgba(0, 0, 0, 0.9)' }}
                 placement="right"
                 closable={false}
-                onClose={onClose}
+                onClose={close}
                 visible={visible}
-                onClick={onClose}
+                onClick={close}
             >
                 {links}
             </DrawerStyled>

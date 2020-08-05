@@ -857,7 +857,6 @@ class NewTeam extends Component {
     addPlayer = clickedPlayer => {
         // use clone of clicked player
         const player = clone(clickedPlayer);
-        const { position: pos, club, uid } = player;
 
         const updater = prevState => {
             // use clones of curr state

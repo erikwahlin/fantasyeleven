@@ -25,6 +25,8 @@ import ViceCap from '../../media/ViceCap.svg';
 
 import { GiCancel } from 'react-icons/gi';
 import { FiSearch } from 'react-icons/fi';
+import { Switch } from 'antd';
+import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 import {
     OuterWrapper,
@@ -44,7 +46,8 @@ import {
     ButtonReset,
     SearchFieldWrapper,
     ArrowWrapper,
-    CapWrap
+    CapWrap,
+    MultiPick
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -97,7 +100,12 @@ class PlayerSearch extends Component {
     playerClickHandler = player => {
         const { position: pos } = player;
         const { markedMode, teamContext } = this.props;
+        const { team } = teamContext.state;
         const { addPlayer, setSwitchers, switchPlayers, closePlayerSearch } = teamContext.setters;
+
+        const pitchPlayers = Object.values(team.players.pitch).reduce((res, next) => {
+            return res.concat(next);
+        }, []);
 
         // if a plupp is already marked, prepare switch
         if (markedMode) {
@@ -121,7 +129,7 @@ class PlayerSearch extends Component {
             addPlayer(player);
         }
 
-        closePlayerSearch();
+        if (!this.state.multiPick || pitchPlayers.length >= 10) closePlayerSearch(); // 10 players = full, because of pre state-update
     };
 
     // reset filter & order
@@ -541,20 +549,16 @@ class PlayerSearch extends Component {
                                 <strong>Återställ filter</strong>
                             </ButtonReset>
 
-                            <div
-                                style={{
-                                    width: '100%',
-                                    height: '100px',
-                                    backgroundColor: 'white',
-                                    margin: '10px 0',
-                                    textAlign: 'center',
-                                    color: 'black',
-                                    fontSize: '2rem'
-                                }}
-                            >
-                                MultiPick: {String(this.state.multiPick)}
-                                <button onClick={this.setMultiPick}>Toggle</button>
-                            </div>
+                            <MultiPick className="multi-pick">
+                                <p className="label">Välj flera</p>
+                                <Switch
+                                    className="multi-pick-switch"
+                                    checkedChildren={<CheckOutlined />}
+                                    unCheckedChildren={<CloseOutlined />}
+                                    defaultChecked={false}
+                                    onChange={this.setMultiPick}
+                                />
+                            </MultiPick>
 
                             {/* RESULT */}
                             {paginated.length ? (
