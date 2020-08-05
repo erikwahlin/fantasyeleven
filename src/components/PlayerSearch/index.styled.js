@@ -267,7 +267,7 @@ export const MultiPick = styled.div`
     backgroundcolor: white;
     margin: 10px 0;
     color: black;
-    fontsize: 1.2rem;
+
     display: flex;
     justifycontent: space-between;
     alignitems: center;
@@ -276,8 +276,9 @@ export const MultiPick = styled.div`
 
     & > [class='label'] {
         flex: 1;
-        font-size: 1rem;
-        font-weight: 700;
+        font-family: 'Avenir';
+        font-size: 1.1em;
+        font-weight: ${p => (p.multiPick ? 'bold' : 'normal')};
         margin: 0;
     }
 

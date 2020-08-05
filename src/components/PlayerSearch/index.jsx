@@ -129,7 +129,7 @@ class PlayerSearch extends Component {
             addPlayer(player);
         }
 
-        if (!this.state.multiPick || pitchPlayers.length >= 10) closePlayerSearch(); // 10 players = full, because of pre state-update
+        if (!this.state.multiPick || pitchPlayers.length >= 10) closePlayerSearch(); // 10 players = full pitch, because of pre state-update
     };
 
     // reset filter & order
@@ -549,13 +549,13 @@ class PlayerSearch extends Component {
                                 <strong>Återställ filter</strong>
                             </ButtonReset>
 
-                            <MultiPick className="multi-pick">
+                            <MultiPick className="multi-pick" multiPick={this.state.multiPick}>
                                 <p className="label">Välj flera</p>
                                 <Switch
                                     className="multi-pick-switch"
                                     checkedChildren={<CheckOutlined />}
                                     unCheckedChildren={<CloseOutlined />}
-                                    defaultChecked={false}
+                                    checked={this.state.multiPick}
                                     onChange={this.setMultiPick}
                                 />
                             </MultiPick>
