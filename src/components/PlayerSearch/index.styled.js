@@ -89,7 +89,7 @@ export const SearchFieldWrapper = styled.div`
 
 export const ArrowWrapper = styled.div`
     position: relative;
-    & > img {
+    & > [class='arrow-icon'] {
         position: absolute;
         right: 20px;
         top: 20px !important;
@@ -133,29 +133,6 @@ export const Input = styled.input`
     }
 `;
 
-export const ButtonContainer = styled.div`
-    width: 100%;
-    font-family: 'Avenir';
-    font-size: 1.1em;
-    border: none;
-    padding: 0;
-    display: flex;
-    margin-bottom: 6px;
-
-    & > button {
-        margin: 0;
-        padding: 0;
-
-        &:nth-child(1) {
-            margin-right: 2px;
-        }
-        &:nth-child(2) {
-            margin-left: 2px;
-        }
-        min-width: 40%;
-        flex: 1;
-    }
-`;
 export const StyledBtn = styled.button`
     font-family: 'Avenir';
     height: 40px;
@@ -167,29 +144,62 @@ export const StyledBtn = styled.button`
     padding: 3px;
 `;
 
-export const ButtonDes = styled(StyledBtn)`
-    box-shadow: inset 0 0 2px #000000;
+export const ButtonContainer = styled.div`
+    width: 100%;
+    font-family: 'Avenir';
+    font-size: 1.1em;
+    border: none;
+    padding: 0;
+    display: flex;
+    margin-bottom: 8px;
+`;
+
+export const AltButtonCol = styled(ButtonContainer)`
+    display: flex;
+    flex-direction: column;
+
+    & > [class='alt-label'] {
+        flex: 1;
+        color: white;
+        background: #005c07;
+
+        margin: 0;
+        padding: 0 12px;
+        font-family: Avenir;
+        font-weight: 700;
+        font-size: 1em;
+        min-height: 30px;
+        line-height: 30px;
+    }
+`;
+
+export const AltButtonRow = styled(ButtonContainer)`
+    & > button {
+        margin: 0;
+        padding: 0;
+
+        /* &:nth-child(1) {
+            margin-right: 2px;
+        }
+        &:nth-child(2) {
+            margin-left: 2px;
+        } */
+        min-width: 40%;
+        flex: 1;
+    }
+`;
+
+export const AltButton = styled(StyledBtn)`
     background: rgba(226, 221, 221, 0.5);
+    font-family: Avenir;
 
     ${p =>
-        p.priceSort === 'falling' &&
+        p.active &&
         ` 
     background: #e2dddd;
         box-shadow: none;
-        color: #005c07;
-    `};
-`;
-
-export const ButtonAsc = styled(StyledBtn)`
-    box-shadow: inset 0 0 2px #000000;
-    background: rgba(226, 221, 221, 0.5);
-
-    ${p =>
-        p.priceSort === 'rising' &&
-        `    
-    background: #e2dddd;
-        box-shadow: none;
-        color: #005c07;
+        /* color: #005c07; */
+        font-weight: bold;
     `};
 `;
 
@@ -308,4 +318,13 @@ export const MultiPick = styled(StyledBtn)`
     & > [aria-checked='true'] {
         background-color: #005c07;
     }
+`;
+
+export const ColorTag = styled.div`
+    width: 30px;
+    height: 30px;
+    border-radius: ${p => p.radius || '50%'};
+    color: ${p => p.color || 'black'};
+
+    ${p => p.style && `${p.style}`};
 `;

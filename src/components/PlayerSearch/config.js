@@ -9,11 +9,12 @@ export const config = {
 };
 
 const INITIAL_STATE = {
-    posOrClubSelected: { value: '', label: 'Position/klubb', eng: 'All players' },
-    maxPriceSelected: { value: 'none', label: 'Maxpris', number: null },
+    filterPos: { value: null, label: 'Alla positioner' },
+    filterClub: { value: null, label: 'Alla klubbar' },
+    filterMaxPrice: { value: null, label: 'Alla prisklasser' },
     searchTerm: '',
     sortBy: 'price',
-    priceSort: 'falling',
+    sortDirection: 'desc',
 
     paginationSettings: {
         pageNumber: 1,

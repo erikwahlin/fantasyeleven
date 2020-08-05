@@ -19,7 +19,8 @@ import CaptainCard from '../CaptainCard/CaptainCard';
 import 'react-dropdown/style.css';
 import './dropdown.css';
 import './styles.css';
-import Arrow from '../../media/arrowG.svg';
+import arrowDown from '../../media/arrowDown.svg';
+import arrowUp from '../../media/arrowUp.svg';
 import Cap from '../../media/Cap.svg';
 import ViceCap from '../../media/ViceCap.svg';
 
@@ -36,9 +37,9 @@ import {
     PlayerPrice,
     Player,
     Input,
-    ButtonContainer,
-    ButtonDes,
-    ButtonAsc,
+    AltButtonCol,
+    AltButtonRow,
+    AltButton,
     ResultContainer,
     ResultBox,
     LabelRow,
@@ -47,7 +48,8 @@ import {
     SearchFieldWrapper,
     ArrowWrapper,
     CapWrap,
-    MultiPick
+    MultiPick,
+    ColorTag
 } from './index.styled';
 
 class PlayerSearch extends Component {
@@ -60,16 +62,17 @@ class PlayerSearch extends Component {
 
         this.goToFirstPage = this.goToFirstPage.bind(this);
         this.resetSettings = this.resetSettings.bind(this);
-        this.setFilter_posClub = this.setFilter_posClub.bind(this);
+        this.setFilter_pos = this.setFilter_pos.bind(this);
+        this.setFilter_club = this.setFilter_club.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.goToPage = this.goToPage.bind(this);
         this.applyFilter_maxPrice = this.applyFilter_maxPrice.bind(this);
         this.applyFilter_name = this.applyFilter_name.bind(this);
+        this.applyFilter_club = this.applyFilter_club.bind(this);
         this.playerClickHandler = this.playerClickHandler.bind(this);
         this.groupByPosition = this.groupByPosition.bind(this);
         this.togglePlayerModal = this.togglePlayerModal.bind(this);
         this.checkIfSlider = this.checkIfSlider.bind(this);
-        this.handleSortByClick = this.handleSortByClick.bind(this);
         this.handleListClickSort = this.handleListClickSort.bind(this);
         this.setMultiPick = this.setMultiPick.bind(this);
     }
@@ -140,42 +143,24 @@ class PlayerSearch extends Component {
     };
 
     handleListClickSort = (e, type) => {
-        const { sortBy, priceSort } = this.state;
+        const { sortBy, sortDirection } = this.state;
+
         if (sortBy !== type) {
             this.setState({ sortBy: type });
         }
-        if (priceSort === 'falling') {
-            this.setState({ priceSort: 'rising' });
-        } else if (priceSort === 'rising') {
-            this.setState({ priceSort: 'falling' });
-        }
-    };
-
-    handleSortByClick = e => {
-        let cName = cName => e.target.className.includes(cName);
-        if (cName('popularity')) {
-            this.setState({ sortBy: 'popularity' });
-        }
-        if (cName('price')) {
-            this.setState({ sortBy: 'price' });
+        if (sortDirection === 'desc') {
+            this.setState({ sortDirection: 'asc' });
+        } else if (sortDirection === 'asc') {
+            this.setState({ sortDirection: 'desc' });
         }
     };
 
     // sort by (player price) rising/falling
-    handleSort = e => {
-        const { sortBy } = this.state;
-        //first check wheter price or pupularity is clicked.
-        //then sort it by falling of rising.
-        // dont update if new val === old val
-        if (sortBy === 'price') {
-            if (this.state.priceSort === e.target.value) return;
+    handleSort = newDirection => {
+        const { sortDirection, sortBy } = this.state;
 
-            this.setState({ priceSort: e.target.value });
-        }
-        if (sortBy === 'popularity') {
-            if (this.state.priceSort === e.target.value) return;
-
-            this.setState({ priceSort: e.target.value });
+        if (newDirection !== sortDirection) {
+            this.setState({ sortDirection: newDirection });
         }
     };
 
@@ -186,18 +171,22 @@ class PlayerSearch extends Component {
      **************/
 
     // set filter: pos/club
-    setFilter_posClub = selected => {
+    setFilter_pos = selected => {
         // clone for mutation
-        const res = clone(selected);
-
-        // substr to get valid data
-        const splitVal = res.value.indexOf('__');
-        res.value = res.value.substring(0, splitVal);
-
-        res.eng = res.value === 'position' ? toEng(res.label, 'positioner', 'sing') : res.label;
+        let res = clone(selected);
 
         // update state
-        this.setState({ posOrClubSelected: res }, () => {
+        this.setState({ filterPos: res }, () => {
+            this.goToFirstPage();
+        });
+    };
+
+    setFilter_club = selected => {
+        // clone for mutation
+        let res = clone(selected);
+
+        // update state
+        this.setState({ filterClub: res }, () => {
             this.goToFirstPage();
         });
     };
@@ -216,7 +205,7 @@ class PlayerSearch extends Component {
             res.label !== 'Alla prisklasser' ? parseInt(res.value.substring(0, splitVal)) : null; */
 
         // update state
-        this.setState({ maxPriceSelected: res }, () => {
+        this.setState({ filterMaxPrice: res }, () => {
             this.goToFirstPage();
         });
     };
@@ -234,22 +223,29 @@ class PlayerSearch extends Component {
      ****************/
 
     // return players according to pos/club-filter
-    applyFilter_posClub = playerList => {
+    applyFilter_pos = playerList => {
+        const { filterPos } = this.state;
         // if no active posClub-filter or plupp is marked, bail
-        const noFilter = this.state.posOrClubSelected.value === '' ? true : false;
-
-        if (noFilter || this.props.markedMode) return playerList;
+        if (!filterPos.value || this.props.markedMode) return playerList;
 
         // else, filter
-        return playerList.filter(
-            player =>
-                player[this.state.posOrClubSelected.value] === this.state.posOrClubSelected.eng
-        );
+        return playerList.filter(player => toSwe(player.position, 'positions') === filterPos.value);
+    };
+
+    // return players according to pos/club-filter
+    applyFilter_club = playerList => {
+        const { filterClub } = this.state;
+
+        // if no active posClub-filter or plupp is marked, bail
+        if (!filterClub.value || this.props.markedMode) return playerList;
+
+        // else, filter
+        return playerList.filter(player => player.club === filterClub.value);
     };
 
     // return players according to max-price-filter
     applyFilter_maxPrice = playerList => {
-        const maxPrice = this.state.maxPriceSelected.value;
+        const maxPrice = this.state.filterMaxPrice.value;
         const noFilter =
             isNaN(maxPrice) ||
             !maxPrice ||
@@ -278,18 +274,12 @@ class PlayerSearch extends Component {
      *
      * APPLY SORT-SETTINGS
      **********************/
-    sortByPopularity = playerList => {
-        const falling = this.state.priceSort === 'falling';
+    applySort = playerList => {
+        const { sortBy: sortProp, sortDirection } = this.state;
 
         return playerList.sort((a, b) =>
-            falling ? b.popularity - a.popularity : a.popularity - b.popularity
+            sortDirection === 'desc' ? b[sortProp] - a[sortProp] : a[sortProp] - b[sortProp]
         );
-    };
-
-    sortByPrice = playerList => {
-        const falling = this.state.priceSort === 'falling' && this.state.sortBy === 'price';
-
-        return playerList.sort((a, b) => (falling ? b.price - a.price : a.price - b.price));
     };
 
     // group players by position
@@ -332,7 +322,15 @@ class PlayerSearch extends Component {
     };
 
     render() {
-        const { paginationSettings, posOrClubSelected } = this.state;
+        const {
+            paginationSettings,
+            filterPos,
+            filterClub,
+            filterMaxPrice,
+            searchTerm,
+            sortBy,
+            sortDirection
+        } = this.state;
         const { players, teamContext, markedMode } = this.props;
         const { closePlayerSearch } = teamContext.setters;
         const { mobileSearch, searchOpen, switchers, buildStage } = teamContext.state.config;
@@ -341,65 +339,60 @@ class PlayerSearch extends Component {
 
         let resultLabel = markedMode
             ? toSwe(switchers.marked.pos, 'positions', 'plur')
-            : posOrClubSelected.label;
+            : filterPos.value
+            ? filterPos.value
+            : filterClub.value
+            ? filterClub.value
+            : '';
 
         if (!players) return <p>Didn't find any players</p>;
 
-        const clubs = [...new Set(players.map(item => item.club))];
-        const priceTags = [...new Set(players.map(item => item.price))];
+        // filter options
+        const posOptions = [
+            { value: '', label: 'Alla positioner' },
 
-        const filterOptions = [
-            //options for dropDown
-            { value: '', label: 'Alla spelare' },
-            {
-                type: 'group',
-                name: '- Positioner - ',
-                items: [
-                    ...preset.positions.map((position, nth) => {
-                        return {
-                            value: `position__${nth}`,
-                            label: toSwe(position, 'positions', 'plur')
-                        };
-                    })
-                ]
-            },
-            {
-                type: 'group',
-                name: '- Klubbar -',
-                items: [
-                    ...clubs.map((club, nth) => {
-                        return { value: `club__${nth}`, label: club };
-                    })
-                ]
-            }
+            ...preset.positions.map(pos => ({
+                value: toSwe(pos, 'positions'),
+                label: toSwe(pos, 'positions', 'plur')
+            }))
+        ];
+
+        const clubOptions = [
+            { value: null, label: 'Alla klubbar' },
+            ...allClubs.map(club => ({ value: club.long, label: club.long }))
+        ];
+
+        const priceOptions = [
+            { value: null, label: 'Alla prisklasser' },
+            ...[...new Set(players.map(item => Math.round(item.price)))]
+                .sort((a, b) => b - a)
+                .map(price => ({ value: Number(price), label: `max ${price} kr` }))
         ];
 
         //options for dropdown.
-        const maxPriceDefaultOption = this.state.maxPriceSelected;
+        const maxPriceDefaultOption = this.state.filterMaxPrice;
 
-        const priceOptions = [
+        /* const priceOptions = [
             { value: 'maxPrice', label: 'Alla prisklasser' },
             ...priceTags
                 .sort((a, b) => b - a)
                 .map((price, nth) => {
                     return { value: `${parseInt(price)}`, label: `max ${price} kr` };
                 }) //append kr to price.
-        ];
+        ]; */
 
         //default option for dropdown - All players are shown.
         const posOrClubdefaultOption = this.state.posOrClubSelected;
 
         const filtered = this.applyFilter_maxPrice(
-            this.applyFilter_posClub(this.applyFilter_name(players))
+            this.applyFilter_pos(this.applyFilter_club(this.applyFilter_name(players)))
         );
 
         // Apply order-config
         //const sorted = this.applySortBy(filtered);
         //return either sorted by price or popularity
-        const sorted =
-            this.state.sortBy === 'popularity'
-                ? this.sortByPopularity(filtered)
-                : this.sortByPrice(filtered);
+        const sorted = this.applySort(filtered);
+
         // WIP-test. split into result-sections based on sort
         const paginate = (playersList, pageSize, pageNumber, mobileSearch) => {
             //stores the amount of players / page in variable;
@@ -418,6 +411,7 @@ class PlayerSearch extends Component {
             paginationSettings.pageNumber,
             this.props.teamContext.state.config.mobileSearch
         );
+
         const clubAbbr = club => {
             if (!club) return '';
             return allClubs.filter(item => item.long === club)[0].short;
@@ -453,84 +447,129 @@ class PlayerSearch extends Component {
                         </CapWrap>
                     ) : (
                         <>
-                            <Title className="SearchPlayer-Title unmarkable">Sök spelare</Title>
-                            <ArrowWrapper>
+                            {/* <Title className="SearchPlayer-Title unmarkable">Sök spelare</Title> */}
+                            <AltButtonCol>
                                 <DropDown
-                                    className="FilterByPosClub dropdown playerserach unmarkable"
-                                    options={filterOptions}
-                                    onChange={this.setFilter_posClub}
-                                    value={posOrClubdefaultOption}
+                                    className="filter-pos dropdown playerserach unmarkable"
+                                    options={posOptions}
+                                    onChange={this.setFilter_pos}
+                                    value={filterPos}
+                                    arrowClosed={
+                                        <img
+                                            className="dropdown-arrow"
+                                            src={arrowDown}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
+                                    arrowOpen={
+                                        <img
+                                            className="dopdown-arrow arrow-open"
+                                            src={arrowUp}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
                                 />
-                                <img src={Arrow} alt="arrow" />
-                            </ArrowWrapper>
-                            <ArrowWrapper>
+                                {/*  <img className="arrow-icon" src={Arrow} alt="arrow" /> */}
+
+                                {/* club filter */}
+                                <DropDown
+                                    className="filter-club dropdown playerserach unmarkable"
+                                    options={clubOptions}
+                                    onChange={this.setFilter_club}
+                                    value={filterClub}
+                                    arrowClosed={
+                                        <img
+                                            className="dropdown-arrow"
+                                            src={arrowDown}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
+                                    arrowOpen={
+                                        <img
+                                            className="dopdown-arrow arrow-open"
+                                            src={arrowUp}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
+                                />
+
                                 <DropDown
                                     className="FilterByMaxPrice dropdown playerserach unmarkable"
                                     onChange={this.setFilter_maxPrice}
                                     value={maxPriceDefaultOption}
                                     options={priceOptions}
+                                    value={filterMaxPrice}
+                                    arrowClosed={
+                                        <img
+                                            className="dropdown-arrow"
+                                            src={arrowDown}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
+                                    arrowOpen={
+                                        <img
+                                            className="dopdown-arrow arrow-open"
+                                            src={arrowUp}
+                                            alt="dropdown-arrow-icon"
+                                        />
+                                    }
                                 />
-                                <img src={Arrow} alt="arrow" />
-                            </ArrowWrapper>
-                            <SearchFieldWrapper>
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    className="FilterByName unmarkable"
-                                    onChange={this.setFilter_name}
-                                    placeholder="Sök spelare"
-                                    onFocus={e => (e.target.placeholder = '')}
-                                    onBlur={e => (e.target.placeholder = 'Sök spelare')}
-                                ></Input>
-                                <FiSearch />
-                            </SearchFieldWrapper>
+                                <SearchFieldWrapper>
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        className="FilterByName unmarkable"
+                                        onChange={this.setFilter_name}
+                                        placeholder="Sök spelare"
+                                        value={searchTerm}
+                                    ></Input>
+                                    <FiSearch />
+                                </SearchFieldWrapper>
+                            </AltButtonCol>
 
-                            <h2 className="FilterTitle unmarkable">
-                                Sortera efter:
-                                <span
-                                    className={`${
-                                        this.state.sortBy === 'price' ? 'clicked' : ''
-                                    } clickable price`}
-                                    onClick={this.handleSortByClick}
-                                >
-                                    {' '}
-                                    pris{' '}
-                                </span>
-                                -
-                                <span
-                                    className={`${
-                                        this.state.sortBy === 'popularity' ? 'clicked' : ''
-                                    } clickable popularity`}
-                                    onClick={this.handleSortByClick}
-                                >
-                                    {' '}
-                                    popularitet
-                                </span>
-                            </h2>
-                            <ButtonContainer className="ButtonContainer playersearch">
-                                <ButtonDes
-                                    className="SortFalling unmarkable"
-                                    priceSort={this.state.priceSort}
-                                    value="falling"
-                                    onClick={this.handleSort}
-                                >
-                                    Fallande
-                                </ButtonDes>
-                                <ButtonAsc
-                                    className="SortRising unmarkable"
-                                    priceSort={this.state.priceSort}
-                                    value="rising"
-                                    onClick={this.handleSort}
-                                >
-                                    Stigande
-                                </ButtonAsc>
-                            </ButtonContainer>
+                            <AltButtonCol>
+                                <p className="alt-label">Sortera efter</p>
+                                <AltButtonRow className="alt-button-row playersearch">
+                                    <AltButton
+                                        className="sort-by-button unmarkable"
+                                        onClick={() => this.setState({ sortBy: 'price' })}
+                                        active={sortBy === 'price'}
+                                    >
+                                        Pris
+                                    </AltButton>
+                                    <AltButton
+                                        className="sort-by-button unmarkable"
+                                        onClick={() => this.setState({ sortBy: 'popularity' })}
+                                        active={sortBy === 'popularity'}
+                                    >
+                                        Popularitet
+                                    </AltButton>
+                                </AltButtonRow>
+
+                                <AltButtonRow className="alt-button-row playersearch">
+                                    <AltButton
+                                        className="sort-desc unmarkable"
+                                        onClick={() => this.handleSort('desc')}
+                                        active={sortDirection === 'desc'}
+                                    >
+                                        Fallande
+                                    </AltButton>
+                                    <AltButton
+                                        className="sort-asc unmarkable"
+                                        sortDirection={sortDirection}
+                                        onClick={() => this.handleSort('asc')}
+                                        active={sortDirection === 'asc'}
+                                    >
+                                        Stigande
+                                    </AltButton>
+                                </AltButtonRow>
+                            </AltButtonCol>
 
                             <ButtonReset
                                 onClick={this.resetSettings}
                                 className="ResetFilter unmarkable"
                             >
-                                Återställ filter
+                                Nollställ filter
                             </ButtonReset>
 
                             {/* RESULT */}
@@ -654,7 +693,9 @@ class PlayerSearch extends Component {
                                     benchPlayers={teamContext.state.team.players.bench} // array of benchplayers from state
                                     pitchPlayers={teamContext.state.team.players.pitch}
                                     buildStagePage={buildStage.stageName}
-                                    posOrClub={posOrClubSelected}
+                                    posOrClub={
+                                        filterPos ? filterPos : filterClub ? filterClub : null
+                                    }
                                 />
                             )}
                         </>

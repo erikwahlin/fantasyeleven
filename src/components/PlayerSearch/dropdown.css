@@ -1,17 +1,17 @@
 .Dropdown-root {
     position: relative;
     width: 100%;
-    margin-bottom: 16px !important;
+    /* margin-bottom: 8px !important; */
     font-family: 'Avenir';
     font-size: 1.3em !important;
     font-weight: 500;
-    height: 40px;
+    /* height: 40px; */
 }
 
 .Dropdown-control {
     position: relative;
     overflow: hidden;
-    background-color:#E2DDDD !important;
+    background-color: #e2dddd !important;
     border: none;
     box-sizing: border-box;
     color: #000000 !important;
@@ -25,27 +25,18 @@
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
-.Dropdown-arrow {
-    border-color: #E2DDDD !important;
-    border-style: solid;
-    border-width: 10px 10px 0;
-    content: '';
-    display: block;
-    height: 0;
-    margin-top: -ceil(2.5);
+.Dropdown-arrow-wrapper {
     position: absolute;
-    right: 25px;
-    top: 20px;
-    width: 0;
-}
-
-.is-open .Dropdown-arrow {
-    border-color: rgba(35, 51, 77, 1);
-    border-width: 0 5px 5px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .Dropdown-menu {
-    background-color: #E2DDDD !important;
+    background-color: #e2dddd !important;
     border: none;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
