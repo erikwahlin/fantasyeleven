@@ -8,6 +8,20 @@ import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
+export const mathRandInc = props => {
+    let min, max;
+
+    if (typeof props === 'number') {
+        min = 0;
+        max = props;
+    } else {
+        min = Math.ceil(props.min);
+        max = Math.floor(props.max);
+    }
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export const timestamp = (tag = null) => {
     const d = new Date();
     const date = d.toLocaleDateString(),

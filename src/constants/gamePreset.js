@@ -15,6 +15,42 @@ export const positionOrder = {
 
 export const origins = ['pitch', 'bench', 'list'];
 
+export const formations = [
+    [1, 3, 4, 3],
+    [1, 3, 5, 2],
+
+    [1, 4, 3, 3],
+    [1, 4, 4, 2],
+    [1, 4, 5, 1],
+
+    [1, 5, 2, 3],
+    [1, 5, 3, 2],
+    [1, 5, 4, 1]
+];
+
+export const formationLimits = {
+    tot: { min: 15, max: 15 },
+    pitch: {
+        Goalkeeper: { min: 1, max: 1 },
+        Defender: { min: 3, max: 5 },
+        Midfielder: { min: 2, max: 5 },
+        Forward: { min: 1, max: 3 },
+        tot: 11
+    },
+    bench: {
+        Goalkeeper: { min: 1, max: 1 },
+        Defender: { min: 1, max: 1 },
+        Midfielder: { min: 1, max: 1 },
+        Forward: { min: 1, max: 1 },
+        tot: 4
+    },
+    club: { max: 3 },
+    value: {
+        pitch: Infinity,
+        bench: 30
+    }
+};
+
 export const maxPlayers = {
     pitch: 11,
     bench: 4

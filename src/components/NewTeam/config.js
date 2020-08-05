@@ -1,6 +1,7 @@
 import clubs from '../../constants/clubs';
 import players from '../../constants/players';
-import { timestamp } from '../../constants/helperFuncs';
+import { timestamp, clone } from '../../constants/helperFuncs';
+import { formationLimits } from '../../constants/gamePreset';
 /* const players = (async () => {
     let res = null;
     getPlayers(data => {
@@ -88,28 +89,7 @@ const INITIAL_STATE = {
         allPlayers: [],
         searchablePlayers: [],
 
-        limit: {
-            tot: { min: 15, max: 15 },
-            pitch: {
-                Goalkeeper: { min: 1, max: 1 },
-                Defender: { min: 3, max: 5 },
-                Midfielder: { min: 2, max: 5 },
-                Forward: { min: 1, max: 3 },
-                tot: 11
-            },
-            bench: {
-                Goalkeeper: { min: 1, max: 1 },
-                Defender: { min: 1, max: 1 },
-                Midfielder: { min: 1, max: 1 },
-                Forward: { min: 1, max: 1 },
-                tot: 4
-            },
-            club: { max: 3 },
-            value: {
-                pitch: Infinity,
-                bench: 30
-            }
-        },
+        limit: clone(formationLimits),
 
         //positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
 
