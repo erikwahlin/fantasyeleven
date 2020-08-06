@@ -73,6 +73,7 @@ const INITIAL_STATE = {
     },
 
     config: {
+        loading: true, //cuz it takes long for loading to kick in
         buildStage: {
             stageName: 'pitch',
             stageIndex: 0

@@ -91,14 +91,14 @@ const PitchInfo = ({ teamContext }) => {
                 <Popover
                     content={
                         <div>
-                            <p>max-summa (kr)</p>
+                            <p>högsta totalpris (kr)</p>
                             <input
                                 type="number"
                                 max="200"
                                 placeholder="total max-summa (kr)"
                                 value={autoFillMax}
                                 onChange={e => setAutoFillMax(e.target.value)}
-                            />{' '}
+                            />
                             <button
                                 onClick={() => {
                                     setAutofillOpen(false);
@@ -106,7 +106,7 @@ const PitchInfo = ({ teamContext }) => {
                                 }}
                             >
                                 Kör
-                            </button>{' '}
+                            </button>
                             <button onClick={() => setAutofillOpen(false)}>Stäng</button>
                         </div>
                     }
@@ -116,7 +116,11 @@ const PitchInfo = ({ teamContext }) => {
                     /* onVisibleChange={this.handleVisibleChange} */
                 >
                     <Button
-                        onClick={emptyPitch ? () => setAutofillOpen(!autoFillOpen) : clearPlayers}
+                        onClick={
+                            emptyPitch
+                                ? autoFill /*() =>  setAutofillOpen(!autoFillOpen) */
+                                : clearPlayers
+                        }
                         className="Button autofill clearplayers"
                     >
                         {emptyPitch ? 'Autofyll' : 'Nollställ'}

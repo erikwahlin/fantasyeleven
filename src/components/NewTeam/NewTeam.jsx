@@ -23,6 +23,8 @@ import { withRouter } from 'react-router-dom';
 
 import apis from '../../constants/api';
 
+import Loader from '../Loader';
+
 const routeToSignupMsg = userMsg({
     message: 'Klicka här för att skapa ett konto och lämna in ditt lag!',
     type: 'info',
@@ -228,10 +230,11 @@ class NewTeam extends Component {
             ? this.mongoSave()
             : this.clientSave();
 
-    load = () =>
-        /* this.clientLoad(); // */ this.state.user && this.state.appOnline
-            ? this.mongoLoad()
-            : this.clientLoad();
+    load = () => {
+        this.setState(ps => ({ config: { ...ps.config, loading: true } }));
+
+        this.state.user && this.state.appOnline ? this.mongoLoad() : this.clientLoad();
+    };
 
     // MONGO
     mongoLoad = async () => {
@@ -258,6 +261,8 @@ class NewTeam extends Component {
                     }),
                     () => {
                         console.log('Loaded team from mongo.');
+                        this.setState(ps => ({ config: { ...ps.config, loading: false } }));
+
                         this.updateTeam();
                     }
                 );
@@ -284,8 +289,12 @@ class NewTeam extends Component {
             .create({ action: 'createUser', payload: newUser })
             .then(res => {
                 console.log('Created new team in mongo.');
+                this.setState(ps => ({ config: { ...ps.config, loading: false } }));
             })
-            .catch(err => console.log('Failed to create new team in mongo', err));
+            .catch(err => {
+                console.log('Failed to create new team in mongo', err);
+                this.setState(ps => ({ config: { ...ps.config, loading: false } }));
+            });
     };
 
     mongoSave = async () => {
@@ -434,10 +443,12 @@ class NewTeam extends Component {
         if (data) {
             console.log('Loaded team from Client storage.');
             return this.setState({ team: data }, () => {
+                this.setState(ps => ({ config: { ...ps.config, loading: false } }));
                 this.updateTeam(callback);
             });
         }
         console.log('No team was loaded, starting fresh.');
+        this.setState(ps => ({ config: { ...ps.config, loading: false } }));
     };
 
     clientSave = (team = this.state.team) =>
@@ -1009,7 +1020,8 @@ class NewTeam extends Component {
             switchers,
             mobileSearch,
             searchOpen,
-            buildStage
+            buildStage,
+            loading
         } = this.state.config;
 
         const markedMode = switchers.marked && !switchers.target ? true : false;
@@ -1038,6 +1050,8 @@ class NewTeam extends Component {
 					closeMenu={this.togglePlayerSearch}
 					extraComponent={<div>ej</div>}
 				> */}
+
+                <Loader isLoading={loading} content="Loading team" position="bottom" />
 
                 <ContentWrap
                     className="ContentWrap"
